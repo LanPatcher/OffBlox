@@ -1,0 +1,176 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "ruleId": "C6385",
+          "message": {
+            "text": "Reading invalid data from 'outCls'."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/qt_hider.cpp"
+                },
+                "region": {
+                  "startLine": 316,
+                  "startColumn": 9,
+                  "endLine": 316,
+                  "endColumn": 71
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "RobloxStudioPatcher::ClassNameStartsWithQt5",
+                  "decoratedName": "?ClassNameStartsWithQt5@RobloxStudioPatcher@@YA_NPAUHWND__@@PA_WH@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/qt_hider.cpp"
+                          },
+                          "region": {
+                            "startLine": 314,
+                            "startColumn": 13
+                          }
+                        },
+                        "message": {
+                          "text": "'outCls' is an In/Out argument to 'GetClassNameW' (declared at c:\\program files (x86)\\windows kits\\10\\include\\10.0.22621.0\\um\\winuser.h:10164)"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/qt_hider.cpp"
+                          },
+                          "region": {
+                            "startLine": 314,
+                            "startColumn": 13
+                          }
+                        },
+                        "message": {
+                          "text": "'outCls' is an In/Out argument to 'GetClassNameW' (declared at c:\\program files (x86)\\windows kits\\10\\include\\10.0.22621.0\\um\\winuser.h:10164)"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/qt_hider.cpp"
+                          },
+                          "region": {
+                            "startLine": 315,
+                            "startColumn": 15
+                          }
+                        },
+                        "message": {
+                          "text": "Skip this branch, (assume 'n<=0' is false)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/qt_hider.cpp"
+                          },
+                          "region": {
+                            "startLine": 316,
+                            "startColumn": 9
+                          }
+                        },
+                        "message": {
+                          "text": "Invalid read from 'outCls', (outside its readable range)"
+                        }
+                      },
+                      "kinds": [
+                        "usage"
+                      ],
+                      "importance": "essential"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.41.34120.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/qt_hider.cpp"
+          },
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ],
+          "hashes": {
+            "sha-256": "4a862a8dd2ee30d7758b19b6e2c36b4b330a301f3f495487c7979eb07a9295a2"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/qt_hider.h"
+          },
+          "hashes": {
+            "sha-256": "b6398b3219b44c866c523d82626fe08309dbb709c78c0bb84ab16922021e258f"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/patcher.h"
+          },
+          "hashes": {
+            "sha-256": "e6f85065ea022809414c7f3763a61d536ea4f73e3ef1415a86c8a92d95ec1328"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/qt_widget_hider.h"
+          },
+          "hashes": {
+            "sha-256": "3367ab63c0afcccc7b214ce2fa38701b9aafe5862e1ef71d5762483e0137f5a9"
+          }
+        }
+      ]
+    }
+  ]
+}

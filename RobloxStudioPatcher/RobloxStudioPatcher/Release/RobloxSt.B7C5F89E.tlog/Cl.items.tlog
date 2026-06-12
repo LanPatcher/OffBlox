@@ -1,0 +1,9 @@
+C:\Users\catoa\Desktop\OffBlox\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\dllmain.cpp;C:\Users\catoa\Desktop\OffBlox\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\Release\dllmain.obj
+C:\Users\catoa\Desktop\OffBlox\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\iat_hook.cpp;C:\Users\catoa\Desktop\OffBlox\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\Release\iat_hook.obj
+C:\Users\catoa\Desktop\OffBlox\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\qt_hider.cpp;C:\Users\catoa\Desktop\OffBlox\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\Release\qt_hider.obj
+C:\Users\catoa\Desktop\OffBlox\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\qt_widget_hider.cpp;C:\Users\catoa\Desktop\OffBlox\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\Release\qt_widget_hider.obj
+C:\Users\catoa\Desktop\OffBlox\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\name_patcher.cpp;C:\Users\catoa\Desktop\OffBlox\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\Release\name_patcher.obj
+C:\Users\catoa\Desktop\OffBlox\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\identity_patch.cpp;C:\Users\catoa\Desktop\OffBlox\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\Release\identity_patch.obj
+C:\Users\catoa\Desktop\OffBlox\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\udp_relay.cpp;C:\Users\catoa\Desktop\OffBlox\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\Release\udp_relay.obj
+C:\Users\catoa\Desktop\OffBlox\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\studio_print.cpp;C:\Users\catoa\Desktop\OffBlox\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\Release\studio_print.obj
+C:\Users\catoa\Desktop\OffBlox\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\script_start_hook.cpp;C:\Users\catoa\Desktop\OffBlox\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\Release\script_start_hook.obj

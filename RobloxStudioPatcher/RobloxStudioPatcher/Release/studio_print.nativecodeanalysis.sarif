@@ -1,0 +1,51 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.41.34120.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/studio_print.cpp"
+          },
+          "roles": [
+            "analysisTarget"
+          ],
+          "hashes": {
+            "sha-256": "71bf6b8de213ad7f8e400864919cfc6b6a49ba95dfc52bd22c73f3b590b28698"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/studio_print.h"
+          },
+          "hashes": {
+            "sha-256": "a5e611294462be0480f33c5f4f3b6ad933e98f8e61856b70779561e7aac0d864"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/patcher.h"
+          },
+          "hashes": {
+            "sha-256": "e6f85065ea022809414c7f3763a61d536ea4f73e3ef1415a86c8a92d95ec1328"
+          }
+        }
+      ]
+    }
+  ]
+}

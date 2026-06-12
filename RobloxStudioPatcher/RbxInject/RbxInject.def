@@ -1,0 +1,8 @@
+; Module-definition for RbxInject.dll
+;
+; Exports a single dummy Patch() function so stud_pe has a concrete symbol
+; to point its added import at. The real work happens in DllMain.
+
+LIBRARY RbxInject
+EXPORTS
+    Patch @1

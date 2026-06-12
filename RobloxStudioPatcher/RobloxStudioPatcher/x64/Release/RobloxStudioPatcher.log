@@ -1,0 +1,9 @@
+﻿  qt_hider.cpp
+  qt_widget_hider.cpp
+     Creating library C:\Users\catoa\Desktop\Other\Roblox\FilteringDisabled\RobloxStudioPatcher\x64\Release\RobloxStudioPatcher.lib and object C:\Users\catoa\Desktop\Other\Roblox\FilteringDisabled\RobloxStudioPatcher\x64\Release\RobloxStudioPatcher.exp
+  Generating code
+  19 of 627 functions ( 3.0%) were compiled, the rest were copied from previous compilation.
+    6 functions were new in current compilation
+    7 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  RobloxStudioPatcher.vcxproj -> C:\Users\catoa\Desktop\Other\Roblox\FilteringDisabled\RobloxStudioPatcher\x64\Release\RobloxStudioPatcher.dll

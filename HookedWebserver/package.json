@@ -1,0 +1,12 @@
+{
+  "name": "hookedwebserver",
+  "version": "1.0.0",
+  "description": "Adaptive self-hosting Roblox backend server — multiple instances, auto-restart watchdog",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}

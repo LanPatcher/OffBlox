@@ -1,0 +1,121 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "ruleId": "C6031",
+          "message": {
+            "text": "Return value ignored: 'ReadFile'."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/dllmain.cpp"
+                },
+                "region": {
+                  "startLine": 120,
+                  "startColumn": 9,
+                  "endLine": 120,
+                  "endColumn": 76
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "RobloxStudioPatcher::ReadTextFileTrimmed",
+                  "decoratedName": "?ReadTextFileTrimmed@RobloxStudioPatcher@@YA?AV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@ABV23@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.41.34120.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/dllmain.cpp"
+          },
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ],
+          "hashes": {
+            "sha-256": "c979d184376cd6ee6c968beedc14c390da54f1316e179b0c1bc0736500f9151a"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/patcher.h"
+          },
+          "hashes": {
+            "sha-256": "e6f85065ea022809414c7f3763a61d536ea4f73e3ef1415a86c8a92d95ec1328"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/qt_hider.h"
+          },
+          "hashes": {
+            "sha-256": "b6398b3219b44c866c523d82626fe08309dbb709c78c0bb84ab16922021e258f"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/username_patch.h"
+          },
+          "hashes": {
+            "sha-256": "4221b97d9c03278c0cd13961a4250fef029fc5bb3aea12104713cec52a5fa741"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/name_patcher.h"
+          },
+          "hashes": {
+            "sha-256": "7333689fd1d442ed285a5c1bd9529a88458060ba1fc26ee49da82132a10b93a9"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/raknet_relay.h"
+          },
+          "hashes": {
+            "sha-256": "e8ec18355f9dbced28181c0cb3141065b364a58662f03ae373fb42643320b88c"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/udp_relay.h"
+          },
+          "hashes": {
+            "sha-256": "bd2601e1a366af5fbeec76c6e6aec5ef2ebe72a462f4813e6c4968f894d85c10"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/studio_print.h"
+          },
+          "hashes": {
+            "sha-256": "a5e611294462be0480f33c5f4f3b6ad933e98f8e61856b70779561e7aac0d864"
+          }
+        }
+      ]
+    }
+  ]
+}

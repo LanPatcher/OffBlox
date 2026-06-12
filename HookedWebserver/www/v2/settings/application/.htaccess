@@ -1,0 +1,6 @@
+# Same fix as the GUAC endpoint: don't 301 to the trailing-slash version,
+# because Studio's settings/fflag fetcher will also hang on the redirect.
+DirectorySlash Off
+
+RewriteEngine On
+RewriteRule ^PCStudioApp/?$ PCStudioApp/index.php [L]

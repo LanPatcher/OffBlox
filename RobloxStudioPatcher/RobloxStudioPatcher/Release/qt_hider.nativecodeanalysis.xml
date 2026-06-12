@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\catoa\Desktop\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\</FILEPATH>
+      <FILENAME>qt_hider.cpp</FILENAME>
+      <LINE>316</LINE>
+      <COLUMN>8</COLUMN>
+    </SFA>
+    <DEFECTCODE>6385</DEFECTCODE>
+    <DESCRIPTION>Reading invalid data from 'outCls'.</DESCRIPTION>
+    <FUNCTION>RobloxStudioPatcher::ClassNameStartsWithQt5</FUNCTION>
+    <DECORATED>?ClassNameStartsWithQt5@RobloxStudioPatcher@@YA_NPAUHWND__@@PA_WH@Z</DECORATED>
+    <FUNCLINE>312</FUNCLINE>
+    <PROBABILITY>1</PROBABILITY>
+    <RANK>4</RANK>
+    <CATEGORY>
+      <RULECATEGORY>mspft</RULECATEGORY>
+    </CATEGORY>
+    <PATH>
+      <SFA>
+        <FILEPATH>C:\Users\catoa\Desktop\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\</FILEPATH>
+        <FILENAME>qt_hider.cpp</FILENAME>
+        <LINE>314</LINE>
+        <COLUMN>12</COLUMN>
+        <KEYEVENT>
+          <ID>1</ID>
+          <KIND>declaration</KIND>
+          <IMPORTANCE>Full</IMPORTANCE>
+          <MESSAGE>'outCls' is an In/Out argument to 'GetClassNameW' (declared at c:\program files (x86)\windows kits\10\include\10.0.22621.0\um\winuser.h:10164)</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\catoa\Desktop\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\</FILEPATH>
+        <FILENAME>qt_hider.cpp</FILENAME>
+        <LINE>314</LINE>
+        <COLUMN>12</COLUMN>
+        <KEYEVENT>
+          <ID>2</ID>
+          <KIND>declaration</KIND>
+          <IMPORTANCE>Full</IMPORTANCE>
+          <MESSAGE>'outCls' is an In/Out argument to 'GetClassNameW' (declared at c:\program files (x86)\windows kits\10\include\10.0.22621.0\um\winuser.h:10164)</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\catoa\Desktop\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\</FILEPATH>
+        <FILENAME>qt_hider.cpp</FILENAME>
+        <LINE>315</LINE>
+        <COLUMN>14</COLUMN>
+        <KEYEVENT>
+          <ID>3</ID>
+          <KIND>branch</KIND>
+          <IMPORTANCE>Full</IMPORTANCE>
+          <MESSAGE>Skip this branch, (assume 'n&lt;=0' is false)</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\catoa\Desktop\OffBloxMain\RobloxStudioPatcher\RobloxStudioPatcher\</FILEPATH>
+        <FILENAME>qt_hider.cpp</FILENAME>
+        <LINE>316</LINE>
+        <COLUMN>8</COLUMN>
+        <KEYEVENT>
+          <ID>4</ID>
+          <KIND>usage</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>Invalid read from 'outCls', (outside its readable range)</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+    </PATH>
+  </DEFECT>
+</DEFECTS>

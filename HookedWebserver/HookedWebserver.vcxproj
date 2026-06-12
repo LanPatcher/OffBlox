@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- ================================================================
+       HookedWebserver.vcxproj
+       Target: x86 DLL, Windows XP SP3+ compatible
+       Toolset: v140_xp (VS2015 XP) -- change to v120_xp for VS2013
+       ================================================================ -->
+
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}</ProjectGuid>
+    <RootNamespace>HookedWebserver</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+
+  <!-- ================================================================
+       RELEASE configuration
+       ================================================================ -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <!-- v140_xp = VS2015 with XP targeting; swap to v120_xp for VS2013 -->
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+
+  <!-- ================================================================
+       DEBUG configuration
+       ================================================================ -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props"
+            Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')"
+            Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props"
+            Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')"
+            Label="LocalAppDataPlatform" />
+  </ImportGroup>
+
+  <PropertyGroup Label="UserMacros" />
+
+  <!-- ================================================================
+       RELEASE build settings
+       ================================================================ -->
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <!-- Preprocessor -->
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_WIN32_WINNT=0x0501;WINVER=0x0501;_USRDLL;HOOKEDWEBSERVER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- Optimization: full speed -->
+      <Optimization>Full</Optimization>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <!-- Static CRT -- no MSVCRT.dll dependency on target machine -->
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <!-- Warning level -->
+      <WarningLevel>Level3</WarningLevel>
+      <!-- 32-bit only, no SSE2 (XP era hardware) -->
+      <EnableEnhancedInstructionSet>NoExtensions</EnableEnhancedInstructionSet>
+      <!-- Disable buffer security check (avoids __security_check_cookie dep) -->
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <!-- Precompiled headers: off (single .cpp file) -->
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <!-- C++ standard: default (compatible with VS2013/2015) -->
+      <LanguageStandard>Default</LanguageStandard>
+      <AdditionalOptions>/arch:IA32 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <ModuleDefinitionFile>HookedWebserver.def</ModuleDefinitionFile>
+      <AdditionalDependencies>ws2_32.lib;crypt32.lib;secur32.lib;shlwapi.lib;advapi32.lib;kernel32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <!-- Target XP SP3 minimum -->
+      <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
+      <OutputFile>$(OutDir)HookedWebserver.dll</OutputFile>
+    </Link>
+    <!-- Copy DLL next to the .vcxproj after build -->
+    <PostBuildEvent>
+      <Command>copy /Y "$(OutDir)HookedWebserver.dll" "$(ProjectDir)HookedWebserver.dll"
+echo [PostBuild] HookedWebserver.dll copied to project directory.</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+
+  <!-- ================================================================
+       DEBUG build settings
+       ================================================================ -->
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_WIN32_WINNT=0x0501;WINVER=0x0501;_USRDLL;HOOKEDWEBSERVER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalOptions>/arch:IA32 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <ModuleDefinitionFile>HookedWebserver.def</ModuleDefinitionFile>
+      <AdditionalDependencies>ws2_32.lib;crypt32.lib;secur32.lib;shlwapi.lib;advapi32.lib;kernel32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <MinimumRequiredVersion>5.01</MinimumRequiredVersion>
+      <OutputFile>$(OutDir)HookedWebserver.dll</OutputFile>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <!-- ================================================================
+       Output directories
+       ================================================================ -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)bin\Release\</OutDir>
+    <IntDir>$(SolutionDir)obj\Release\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)bin\Debug\</OutDir>
+    <IntDir>$(SolutionDir)obj\Debug\</IntDir>
+  </PropertyGroup>
+
+  <!-- ================================================================
+       Source files
+       ================================================================ -->
+  <ItemGroup>
+    <ClCompile Include="src\HookedWebserver.cpp" />
+  </ItemGroup>
+
+  <!-- ================================================================
+       Header / resource files (informational, not compiled)
+       ================================================================ -->
+  <ItemGroup>
+    <None Include="HookedWebserver.def" />
+    <None Include="config.json" />
+    <None Include="Build.bat" />
+    <None Include="Install.bat" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+
+</Project>

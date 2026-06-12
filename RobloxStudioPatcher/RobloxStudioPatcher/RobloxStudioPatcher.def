@@ -1,0 +1,12 @@
+; Module-definition file for RobloxStudioPatcher.dll
+;
+; Exports a single dummy function "Patch" so that stud_pe (and any other PE
+; editor) has something concrete to point an import at. The real work all
+; happens in DllMain on DLL_PROCESS_ATTACH; the host EXE doesn't need to
+; actually call Patch() for the mod to take effect.
+;
+; If you want a second symbol for some reason, add another EXPORTS line.
+
+LIBRARY RobloxStudioPatcher
+EXPORTS
+    Patch @1

@@ -1,0 +1,6 @@
+LIBRARY "HookedWebserver"
+EXPORTS
+    HWS_Start       @1
+    HWS_Stop        @2
+    HWS_IsServer    @3
+    HWS_GetPort     @4

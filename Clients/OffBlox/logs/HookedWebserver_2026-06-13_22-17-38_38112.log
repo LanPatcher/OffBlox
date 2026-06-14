@@ -1,0 +1,92 @@
+[2026-06-13 22:17:38] === HookedWebserver startup ===
+[2026-06-13 22:17:38] DLL directory: C:\Users\catoa\Desktop\OffBloxMain\Clients\OffBlox\
+[2026-06-13 22:17:38] Username: HearMeRoar  UserId: 14463315
+[2026-06-13 22:17:38] HTTP port: 80  HTTPS port: 443
+[2026-06-13 22:17:38] Winsock initialized
+[2026-06-13 22:17:38] Sign key: loaded OK
+[2026-06-13 22:17:38] SSL: PEM cert+key loaded OK (PKCS#8 key, no PFX needed)
+[2026-06-13 22:17:38] SSL/TLS: loaded OK
+[2026-06-13 22:17:38] Server ACTIVE — listening on HTTP:80 and HTTPS:443
+[2026-06-13 22:17:38] Startup complete.
+[2026-06-13 22:17:38] Roblox cookie probe (users/authenticated): HTTP 200 -> valid
+[2026-06-13 22:17:38] Roblox cookie: loaded & valid
+[2026-06-13 22:17:38] >> GET /v2/settings/application/PCStudioApp
+[2026-06-13 22:17:38] << /v2/settings/application/PCStudioApp -> {"applicationSettings":{}}
+[2026-06-13 22:17:38] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:17:38] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:17:38] >> POST /studio/pbe
+[2026-06-13 22:17:38] << /studio/pbe -> {}
+[2026-06-13 22:17:39] >> GET /oauth/.well-known/openid-configuration
+[2026-06-13 22:17:39] << /oauth/.well-known/openid-configuration -> {"issuer":"http://localhost/oauth/","authorization_endpoint":"http://localhost/oauth/v1/authorize","token_endpoint":"http://localhost/oauth/v1/token","introspection_endpoint":"http://localhost/oauth/v1/token/introspect","revocation_endpoint":"http://localhost/oauth/v1/token/revoke","resources_endpoint":"http://localhost/oauth/v1/token/resources","userinfo_endpoint":"http://localhost/oauth/v1/userinfo","jwks_uri":"http://localhost/oauth/v1/certs","registration_endpoint":"http://localhost/dashboard/credentials","service_documentation":"http://localhost/docs/reference/cloud","scopes_supported":["openid","profile","email","verification","credentials","age","premium","roles","attributes"],"response_types_supported":["none","code"],"subject_types_supported":["public"],"id_token_signing_alg_values_supported":["ES256"],"claims_supported":["sub","type","iss","aud","exp","iat","nonce","name","nickname","preferred_username","created_at","profile","picture","email","email_ve
+[2026-06-13 22:17:39] >> GET /universal-app-configuration/v1/behaviors/studio/content
+[2026-06-13 22:17:39] << /universal-app-configuration/v1/behaviors/studio/content -> {}
+[2026-06-13 22:17:39] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:17:39] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:17:41] >> GET /v2/settings/application/PCStudioApp
+[2026-06-13 22:17:41] << /v2/settings/application/PCStudioApp -> {"applicationSettings":{}}
+[2026-06-13 22:17:41] >> POST /studio/pbe
+[2026-06-13 22:17:41] << /studio/pbe -> {}
+[2026-06-13 22:17:41] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:17:41] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:17:41] >> POST /studio/pbe
+[2026-06-13 22:17:41] << /studio/pbe -> {}
+[2026-06-13 22:17:41] >> GET /oauth/.well-known/openid-configuration
+[2026-06-13 22:17:41] << /oauth/.well-known/openid-configuration -> {"issuer":"http://localhost/oauth/","authorization_endpoint":"http://localhost/oauth/v1/authorize","token_endpoint":"http://localhost/oauth/v1/token","introspection_endpoint":"http://localhost/oauth/v1/token/introspect","revocation_endpoint":"http://localhost/oauth/v1/token/revoke","resources_endpoint":"http://localhost/oauth/v1/token/resources","userinfo_endpoint":"http://localhost/oauth/v1/userinfo","jwks_uri":"http://localhost/oauth/v1/certs","registration_endpoint":"http://localhost/dashboard/credentials","service_documentation":"http://localhost/docs/reference/cloud","scopes_supported":["openid","profile","email","verification","credentials","age","premium","roles","attributes"],"response_types_supported":["none","code"],"subject_types_supported":["public"],"id_token_signing_alg_values_supported":["ES256"],"claims_supported":["sub","type","iss","aud","exp","iat","nonce","name","nickname","preferred_username","created_at","profile","picture","email","email_ve
+[2026-06-13 22:17:41] >> GET /studio/e.png?studioSid=53C004E1-5F21-497A-ACC9-E7EFA5E45254&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414261607&userID=&placeID=&category=Game&evt=GraphicsFeatureLevel&label=Win32%20D3D11%2E1&value=0&SD.Platform.ID=C38230EBD57D4AF9AD129DF0BC0D3397&SD.Platform.CT=1781414259953&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent
+[2026-06-13 22:17:41] >> GET /studio/e.png?studioSid=53C004E1-5F21-497A-ACC9-E7EFA5E45254&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414261607&userID=&placeID=&category=Game&evt=GraphicsFeatureLevelEx&label=Win32%20148%2E10%2E0%2E26200%20D3D11%2E1&value=0&SD.Platform.ID=C38230EBD57D4AF9AD129DF0BC0D3397&SD.Platform.CT=1781414259953&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent
+[2026-06-13 22:17:41] << /studio/e.png -> {}
+[2026-06-13 22:17:41] << /studio/e.png -> {}
+[2026-06-13 22:17:41] >> GET /universal-app-configuration/v1/behaviors/studio/content
+[2026-06-13 22:17:42] << /universal-app-configuration/v1/behaviors/studio/content -> {}
+[2026-06-13 22:17:42] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:17:42] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:17:42] >> GET /oauth/v1/authorize?response_type=code&code_challenge=41AMf3dsx9k_C925gmliSgoHcBSKP8rW60ZsFsjBTnE&code_challenge_method=S256&client_id=7968549422692352298&redirect_uri=roblox-studio-auth%3A%2F&scope=openid+credentials+profile+age+roles+premium&nonce=id-roblox&prompt=login+select_account&state=eyJyYW5kb21fc3RyaW5nIjoiYV9Cc3N2cXpHYVgwX2EzTldqaldJQl82Xzl5bGxhSjJTUHB2eVVPb2FmTSIsInBpZCI6IjM4MTEyIn0%3D
+[2026-06-13 22:17:42] << /oauth/v1/authorize -> 
+[2026-06-13 22:17:43] >> POST /oauth/v1/token
+[2026-06-13 22:17:43] << /oauth/v1/token -> {"access_token":"hardcoded_access_token","token_type":"Bearer","expires_in":1800,"refresh_token":"hardcoded_refresh_token","scope":"openid credentials profile age roles premium","id_token":"eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImhhcmRjb2RlZC1rZXktMSJ9.eyJzdWIiOiIxNDQ2MzMxNSIsInR5cGUiOiJVc2VyIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdC9vYXV0aC8iLCJhdWQiOiI3OTY4NTQ5NDIyNjkyMzUyMjk4IiwiZXhwIjoxNzgxNDE2MDU4LCJpYXQiOjE3ODE0MTQyNTgsIm5vbmNlIjoiaWQtcm9ibG94IiwibmFtZSI6IkhlYXJNZVJvYXIiLCJuaWNrbmFtZSI6IkRldiIsInByZWZlcnJlZF91c2VybmFtZSI6IkhlYXJNZVJvYXIiLCJjcmVhdGVkX2F0IjoxNjgwMDAwMDAwLCJwcm9maWxlIjoiaHR0cHM6Ly93d3cucm9ibG94LmNvbS91c2Vycy8xNDQ2MzMxNS9wcm9maWxlIiwicGljdHVyZSI6Imh0dHBzOi8vd3d3LnJvYmxveC5jb20vaGVhZHNob3QtdGh1bWJuYWlsL2ltYWdlP3VzZXJJZD0xNDQ2MzMxNSZ3aWR0aD00MjAmaGVpZ2h0PTQyMCIsImVtYWlsIjoiZGV2QHJvYmxveC5leGFtcGxlIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInZlcmlmaWVkIjp0cnVlLCJhZ2VfYnJhY2tldCI6IjE4KyIsInByZW1pdW0iOnRydWUsInJvbGVzIjpbIkRldmVsb3BlciJdLCJpbnRlcm5hbF91c2VyIjpmYWxzZSwiYXR0cmlidXRlcyI6e3
+[2026-06-13 22:17:43] >> POST /studio/pbe
+[2026-06-13 22:17:43] << /studio/pbe -> {}
+[2026-06-13 22:17:44] >> GET /studio/e.png?studioSid=D57BB32D-A0A4-4D3F-8DE4-445730C25B78&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414264283&userID=&placeID=&category=Game&evt=GraphicsFeatureLevel&label=Win32%20D3D11%2E1&value=0&SD.Platform.ID=C9038D411DE44DDDB9A5E24FE6C2E418&SD.Platform.CT=1781414262432&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent
+[2026-06-13 22:17:44] >> GET /studio/e.png?studioSid=D57BB32D-A0A4-4D3F-8DE4-445730C25B78&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414264283&userID=&placeID=&category=Game&evt=GraphicsFeatureLevelEx&label=Win32%20148%2E10%2E0%2E26200%20D3D11%2E1&value=0&SD.Platform.ID=C9038D411DE44DDDB9A5E24FE6C2E418&SD.Platform.CT=1781414262432&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent
+[2026-06-13 22:17:44] << /studio/e.png -> {}
+[2026-06-13 22:17:44] << /studio/e.png -> {}
+[2026-06-13 22:17:45] >> POST /studio/pbe
+[2026-06-13 22:17:45] >> POST /studio/pbe
+[2026-06-13 22:17:45] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:17:45] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:17:45] << /studio/pbe -> {}
+[2026-06-13 22:17:45] << /studio/pbe -> {}
+[2026-06-13 22:17:45] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-13 22:17:45] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:17:45] >> GET /oauth/v1/authorize?response_type=code&code_challenge=6rhMfQEZEqHN02frRC8GtAetCTI-qGDpg9xyUfMFNrQ&code_challenge_method=S256&client_id=7968549422692352298&redirect_uri=roblox-studio-auth%3A%2F&scope=openid+credentials+profile+age+roles+premium&nonce=id-roblox&prompt=login+select_account&state=eyJyYW5kb21fc3RyaW5nIjoiZFBUUkVveXFRaFFIZVI4cUEtR3Bhd00tMWFlRnY2QkVBOGRoN3pZNXBXOCIsInBpZCI6IjMzNzMyIn0%3D
+[2026-06-13 22:17:45] << /oauth/v1/authorize -> 
+[2026-06-13 22:17:45] >> POST /oauth/v1/token
+[2026-06-13 22:17:45] << /oauth/v1/token -> {"access_token":"hardcoded_access_token","token_type":"Bearer","expires_in":1800,"refresh_token":"hardcoded_refresh_token","scope":"openid credentials profile age roles premium","id_token":"eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImhhcmRjb2RlZC1rZXktMSJ9.eyJzdWIiOiIxNDQ2MzMxNSIsInR5cGUiOiJVc2VyIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdC9vYXV0aC8iLCJhdWQiOiI3OTY4NTQ5NDIyNjkyMzUyMjk4IiwiZXhwIjoxNzgxNDE2MDYwLCJpYXQiOjE3ODE0MTQyNjAsIm5vbmNlIjoiaWQtcm9ibG94IiwibmFtZSI6IkhlYXJNZVJvYXIiLCJuaWNrbmFtZSI6IkRldiIsInByZWZlcnJlZF91c2VybmFtZSI6IkhlYXJNZVJvYXIiLCJjcmVhdGVkX2F0IjoxNjgwMDAwMDAwLCJwcm9maWxlIjoiaHR0cHM6Ly93d3cucm9ibG94LmNvbS91c2Vycy8xNDQ2MzMxNS9wcm9maWxlIiwicGljdHVyZSI6Imh0dHBzOi8vd3d3LnJvYmxveC5jb20vaGVhZHNob3QtdGh1bWJuYWlsL2ltYWdlP3VzZXJJZD0xNDQ2MzMxNSZ3aWR0aD00MjAmaGVpZ2h0PTQyMCIsImVtYWlsIjoiZGV2QHJvYmxveC5leGFtcGxlIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInZlcmlmaWVkIjp0cnVlLCJhZ2VfYnJhY2tldCI6IjE4KyIsInByZW1pdW0iOnRydWUsInJvbGVzIjpbIkRldmVsb3BlciJdLCJpbnRlcm5hbF91c2VyIjpmYWxzZSwiYXR0cmlidXRlcyI6e3
+[2026-06-13 22:17:45] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:17:45] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:17:45] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-13 22:17:45] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:17:46] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:17:46] >> POST /studio/pbe
+[2026-06-13 22:17:46] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:17:46] << /studio/pbe -> {}
+[2026-06-13 22:17:46] >> POST /studio/pbe
+[2026-06-13 22:17:46] << /studio/pbe -> {}
+[2026-06-13 22:17:47] >> POST /studio/pbe
+[2026-06-13 22:17:47] >> POST /studio/pbe
+[2026-06-13 22:17:47] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:17:47] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:17:47] << /studio/pbe -> {}
+[2026-06-13 22:17:47] << /studio/pbe -> {}
+[2026-06-13 22:17:47] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-13 22:17:47] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:17:47] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:17:47] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:17:47] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-13 22:17:47] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:17:47] >> POST /studio/pbe
+[2026-06-13 22:17:47] << /studio/pbe -> {}
+[2026-06-13 22:17:47] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:17:47] >> POST /studio/pbe
+[2026-06-13 22:17:47] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:17:47] << /studio/pbe -> {}

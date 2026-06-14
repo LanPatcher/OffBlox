@@ -1,0 +1,397 @@
+[dllmain] SafeInit pid=18672
+[name_patcher] new format='HearMeRoar' at 6D31D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6D31D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=06FF0000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=40684
+[name_patcher] new format='HearMeRoar' at 6DC2D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6DC2D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=072D0000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=43800
+[name_patcher] new format='HearMeRoar' at 6D7CD638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6D7CD638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=073C0000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=16864
+[name_patcher] new format='HearMeRoar' at 6D7CD638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6D7CD638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=07410000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=40456
+[name_patcher] new format='HearMeRoar' at 6E53D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6E53D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=076E0000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=21092
+[name_patcher] new format='HearMeRoar' at 6E07D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6E07D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=06B50000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=25856
+[name_patcher] new format='HearMeRoar' at 6E07D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6E07D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=074B0000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=2700
+[name_patcher] new format='HearMeRoar' at 6E07D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6E07D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=07B10000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=23944
+[name_patcher] new format='HearMeRoar' at 6DDAD638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6DDAD638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=07B20000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=29152
+[name_patcher] new format='HearMeRoar' at 6E07D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6E07D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=076E0000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=10180
+[name_patcher] new format='HearMeRoar' at 6E07D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6E07D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=072F0000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=40440
+[name_patcher] new format='HearMeRoar' at 6E07D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6E07D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=07B10000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=18608
+[name_patcher] new format='HearMeRoar' at 6E07D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6E07D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=07710000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=31096
+[name_patcher] new format='HearMeRoar' at 6E07D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6E07D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=07250000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=22300
+[name_patcher] new format='HearMeRoar' at 6E07D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6E07D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=072E0000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=35148
+[name_patcher] new format='HearMeRoar' at 6CBDD638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6CBDD638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=1)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=06DF0000 WSARecv=76B01440
+[dllmain] StartServer: installing script-start hook
+[script_start_hook] no-op (Lua-launch VA not yet identified)
+[script_start_hook] event created
+[identity] SCAN-ONLY (no patch applied): UserId site=02343CAD (callByte=E8 ok=1)  AccountAge site=00000000 (callByte=00 ok=0)
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=36444
+[name_patcher] new format='HearMeRoar' at 6CBDD638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6CBDD638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=1 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSASendTo: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=00000000 WSASendTo=092D0000 WSARecvFrom=00000000 WSARecv=00000000
+[dllmain] StartClient launch confirmed - activating Qt hider
+[udp_relay] SEND magic to 127.0.0.1:25565 username='HearMeRoar'
+[hider] Qt symbols: find=6585FE90 className=64EF6FE0 -> OK
+[dllmain] SafeInit pid=21276
+[name_patcher] new format='HearMeRoar' at 6CBDD638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6CBDD638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=071F0000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=9276
+[name_patcher] new format='HearMeRoar' at 6CBDD638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6CBDD638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=07320000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=23520
+[name_patcher] new format='HearMeRoar' at 6CBED638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6CBED638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=07540000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=2552
+[name_patcher] new format='HearMeRoar' at 6CBDD638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6CBDD638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=1)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=07100000 WSARecv=76B01440
+[dllmain] StartServer: installing script-start hook
+[script_start_hook] no-op (Lua-launch VA not yet identified)
+[script_start_hook] event created
+[identity] SCAN-ONLY (no patch applied): UserId site=02343CAD (callByte=E8 ok=1)  AccountAge site=00000000 (callByte=00 ok=0)
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=36872
+[name_patcher] new format='HearMeRoar' at 6CBDD638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6CBDD638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=1 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSASendTo: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=00000000 WSASendTo=07260000 WSARecvFrom=00000000 WSARecv=00000000
+[dllmain] StartClient launch confirmed - activating Qt hider
+[udp_relay] SEND magic to 127.0.0.1:25565 username='HearMeRoar'
+[udp_relay] RECV magic from ::ffff:127.0.0.1:64203 username='HearMeRoar' userId=0 accountAge=3650 haveId=1, patching now
+[name_patcher] new format='HearMeRoar' at 6CBDD638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=6CBDD638 does not point to 'Player%d' - skipping
+[name_patcher] surgical: candidates=1 patched=0
+[name_patcher] relayed identity: userId=0 accountAge=3650
+[identity] live values: userId=0 (have=0) accountAge=3650
+[udp_relay] POSTed appearance for 'HearMeRoar' (1096 chars) -> https://127.0.0.1:443 ok=1
+[hider] Qt symbols: find=6585FE90 className=64EF6FE0 -> OK
+[dllmain] SafeInit pid=10540
+[name_patcher] new format='HearMeRoar' at 6CBDD638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6CBDD638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=1)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=07180000 WSARecv=76B01440
+[dllmain] StartServer: installing script-start hook
+[script_start_hook] no-op (Lua-launch VA not yet identified)
+[script_start_hook] event created
+[identity] SCAN-ONLY (no patch applied): UserId site=02343CAD (callByte=E8 ok=1)  AccountAge site=00000000 (callByte=00 ok=0)
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=33932
+[name_patcher] new format='HearMeRoar' at 6CBDD638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6CBDD638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=1 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSASendTo: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=00000000 WSASendTo=07B20000 WSARecvFrom=00000000 WSARecv=00000000
+[dllmain] StartClient launch confirmed - activating Qt hider
+[udp_relay] SEND magic to 127.0.0.1:25565 username='HearMeRoar'
+[udp_relay] RECV magic from ::ffff:127.0.0.1:60282 username='HearMeRoar' userId=0 accountAge=3650 haveId=1, patching now
+[name_patcher] new format='HearMeRoar' at 6CBDD638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=6CBDD638 does not point to 'Player%d' - skipping
+[name_patcher] surgical: candidates=1 patched=0
+[name_patcher] relayed identity: userId=0 accountAge=3650
+[identity] live values: userId=0 (have=0) accountAge=3650
+[udp_relay] POSTed appearance for 'HearMeRoar' (1096 chars) -> https://127.0.0.1:443 ok=1
+[hider] Qt symbols: find=6585FE90 className=64EF6FE0 -> OK
+[dllmain] SafeInit pid=40104
+[name_patcher] new format='HearMeRoar' at 6E07D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 0234510B imm=04EBADA8 -> 'Player%d' MATCH
+[name_patcher] patched 02345110: imm 04EBADA8 -> 6E07D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=07B10000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=15984
+[name_patcher] new format='HearMeRoar' at 6875D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 01E7510B imm=049EADA8 -> 'Player%d' MATCH
+[name_patcher] patched 01E75110: imm 049EADA8 -> 6875D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=06D70000 WSARecv=76B01440
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=38112
+[name_patcher] new format='HearMeRoar' at 6360D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 01E7510B imm=049EADA8 -> 'Player%d' MATCH
+[name_patcher] patched 01E75110: imm 049EADA8 -> 6360D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=1)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=06BC0000 WSARecv=76B01440
+[dllmain] StartServer: installing script-start hook
+[script_start_hook] no-op (Lua-launch VA not yet identified)
+[script_start_hook] event created
+[identity] SCAN-ONLY (no patch applied): UserId site=01E73CAD (callByte=E8 ok=1)  AccountAge site=00000000 (callByte=00 ok=0)
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=33732
+[name_patcher] new format='HearMeRoar' at 6360D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 01E7510B imm=049EADA8 -> 'Player%d' MATCH
+[name_patcher] patched 01E75110: imm 049EADA8 -> 6360D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=1 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSASendTo: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=00000000 WSASendTo=073E0000 WSARecvFrom=00000000 WSARecv=00000000
+[dllmain] StartClient launch confirmed - activating Qt hider
+[dllmain] SafeInit pid=7692
+[name_patcher] new format='HearMeRoar' at 6360D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 01E7510B imm=049EADA8 -> 'Player%d' MATCH
+[name_patcher] patched 01E75110: imm 049EADA8 -> 6360D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=1)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=07250000 WSARecv=76B01440
+[dllmain] StartServer: installing script-start hook
+[script_start_hook] no-op (Lua-launch VA not yet identified)
+[script_start_hook] event created
+[identity] SCAN-ONLY (no patch applied): UserId site=01E73CAD (callByte=E8 ok=1)  AccountAge site=00000000 (callByte=00 ok=0)
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=15316
+[name_patcher] new format='HearMeRoar' at 6360D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 01E7510B imm=049EADA8 -> 'Player%d' MATCH
+[name_patcher] patched 01E75110: imm 049EADA8 -> 6360D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=0 server=1)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSARecvFrom: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=76B0B5A0 WSASendTo=76B27EB0 WSARecvFrom=07650000 WSARecv=76B01440
+[dllmain] StartServer: installing script-start hook
+[script_start_hook] no-op (Lua-launch VA not yet identified)
+[script_start_hook] event opened
+[identity] SCAN-ONLY (no patch applied): UserId site=01E73CAD (callByte=E8 ok=1)  AccountAge site=00000000 (callByte=00 ok=0)
+[dllmain] not a StartClient launch - skipping Qt hider (relay + username server already active)
+[dllmain] SafeInit pid=42912
+[name_patcher] new format='HearMeRoar' at 6360D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 01E7510B imm=049EADA8 -> 'Player%d' MATCH
+[name_patcher] patched 01E75110: imm 049EADA8 -> 6360D638
+[name_patcher] surgical: candidates=1 patched=1
+[udp_relay] installing IAT hooks (client=1 server=0)
+[udp_relay] username='HearMeRoar' (10 chars)
+[udp_relay] WSASendTo: IAT miss, inline hook installed
+[udp_relay] hooks: sendto=76B0ADF0 recvfrom=00000000 WSASendTo=06E10000 WSARecvFrom=00000000 WSARecv=00000000
+[dllmain] StartClient launch confirmed - activating Qt hider
+[udp_relay] SEND magic to 127.0.0.1:25565 username='HearMeRoar'
+[udp_relay] RECV magic from ::ffff:127.0.0.1:51103 username='HearMeRoar' userId=0 accountAge=3650 haveId=1, patching now
+[name_patcher] new format='HearMeRoar' at 6360D638
+[name_patcher] surgical patch entry (new EXE build pattern)
+[name_patcher] candidate at 01E7510B imm=6360D638 does not point to 'Player%d' - skipping
+[name_patcher] surgical: candidates=1 patched=0
+[name_patcher] relayed identity: userId=0 accountAge=3650
+[identity] live values: userId=0 (have=0) accountAge=3650
+[udp_relay] POSTed appearance for 'HearMeRoar' (1096 chars) -> https://127.0.0.1:443 ok=1
+[hider] Qt symbols: find=64A0FE90 className=640A6FE0 -> OK

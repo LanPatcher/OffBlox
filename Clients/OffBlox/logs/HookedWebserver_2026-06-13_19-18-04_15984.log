@@ -1,0 +1,54 @@
+[2026-06-13 19:18:04] === HookedWebserver startup ===
+[2026-06-13 19:18:04] DLL directory: C:\Users\catoa\Desktop\OffBloxMain\Clients\OffBlox\
+[2026-06-13 19:18:04] Username: HearMeRoar  UserId: 14463315
+[2026-06-13 19:18:04] HTTP port: 80  HTTPS port: 443
+[2026-06-13 19:18:04] Winsock initialized
+[2026-06-13 19:18:04] Sign key: loaded OK
+[2026-06-13 19:18:04] SSL: PEM cert+key loaded OK (PKCS#8 key, no PFX needed)
+[2026-06-13 19:18:04] SSL/TLS: loaded OK
+[2026-06-13 19:18:04] Server ACTIVE — listening on HTTP:80 and HTTPS:443
+[2026-06-13 19:18:04] Startup complete.
+[2026-06-13 19:18:05] Roblox cookie probe (users/authenticated): HTTP 200 -> valid
+[2026-06-13 19:18:05] Roblox cookie: loaded & valid
+[2026-06-13 19:18:06] >> GET /v2/settings/application/PCStudioApp
+[2026-06-13 19:18:06] << /v2/settings/application/PCStudioApp -> {"applicationSettings":{}}
+[2026-06-13 19:18:06] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 19:18:06] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 19:18:06] >> POST /studio/pbe
+[2026-06-13 19:18:06] << /studio/pbe -> {}
+[2026-06-13 19:18:07] >> GET /oauth/.well-known/openid-configuration
+[2026-06-13 19:18:07] << /oauth/.well-known/openid-configuration -> {"issuer":"http://localhost/oauth/","authorization_endpoint":"http://localhost/oauth/v1/authorize","token_endpoint":"http://localhost/oauth/v1/token","introspection_endpoint":"http://localhost/oauth/v1/token/introspect","revocation_endpoint":"http://localhost/oauth/v1/token/revoke","resources_endpoint":"http://localhost/oauth/v1/token/resources","userinfo_endpoint":"http://localhost/oauth/v1/userinfo","jwks_uri":"http://localhost/oauth/v1/certs","registration_endpoint":"http://localhost/dashboard/credentials","service_documentation":"http://localhost/docs/reference/cloud","scopes_supported":["openid","profile","email","verification","credentials","age","premium","roles","attributes"],"response_types_supported":["none","code"],"subject_types_supported":["public"],"id_token_signing_alg_values_supported":["ES256"],"claims_supported":["sub","type","iss","aud","exp","iat","nonce","name","nickname","preferred_username","created_at","profile","picture","email","email_ve
+[2026-06-13 19:18:07] >> GET /universal-app-configuration/v1/behaviors/studio/content
+[2026-06-13 19:18:07] << /universal-app-configuration/v1/behaviors/studio/content -> {}
+[2026-06-13 19:18:08] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 19:18:08] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 19:18:09] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 19:18:09] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 19:18:09] >> POST /studio/pbe
+[2026-06-13 19:18:09] << /studio/pbe -> {}
+[2026-06-13 19:18:09] >> GET /studio/e.png?studioSid=5B739A89-4109-478A-AF75-11E29B82EC3C&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781403489338&userID=&placeID=&category=Error&evt=Crash&label=none&value=0&SD.Platform.ID=9C04C7115EB0449D8DE8008319A5ECF5&SD.Platform.CT=1781403488137&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent
+[2026-06-13 19:18:09] << /studio/e.png -> {}
+[2026-06-13 19:18:13] >> GET /studio/e.png?studioSid=5B739A89-4109-478A-AF75-11E29B82EC3C&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781403492859&userID=&placeID=&category=Game&evt=GraphicsFeatureLevel&label=Win32%20D3D11%2E1&value=0&SD.Platform.ID=9C04C7115EB0449D8DE8008319A5ECF5&SD.Platform.CT=1781403488137&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent
+[2026-06-13 19:18:13] >> GET /studio/e.png?studioSid=5B739A89-4109-478A-AF75-11E29B82EC3C&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781403492859&userID=&placeID=&category=Game&evt=GraphicsFeatureLevelEx&label=Win32%20148%2E10%2E0%2E26200%20D3D11%2E1&value=0&SD.Platform.ID=9C04C7115EB0449D8DE8008319A5ECF5&SD.Platform.CT=1781403488137&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent
+[2026-06-13 19:18:13] << /studio/e.png -> {}
+[2026-06-13 19:18:13] << /studio/e.png -> {}
+[2026-06-13 19:18:14] >> POST /studio/pbe
+[2026-06-13 19:18:14] >> POST /studio/pbe
+[2026-06-13 19:18:14] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 19:18:14] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 19:18:14] << /studio/pbe -> {}
+[2026-06-13 19:18:14] << /studio/pbe -> {}
+[2026-06-13 19:18:14] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 19:18:14] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-13 19:18:14] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 19:18:14] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 19:18:14] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-13 19:18:14] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 19:18:14] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 19:18:14] >> POST /studio/pbe
+[2026-06-13 19:18:14] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 19:18:14] << /studio/pbe -> {}
+[2026-06-13 19:18:15] >> POST /studio/pbe
+[2026-06-13 19:18:15] << /studio/pbe -> {}
+[2026-06-13 19:18:16] >> POST /studio/pbe
+[2026-06-13 19:18:16] << /studio/pbe -> {}

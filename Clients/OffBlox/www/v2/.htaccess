@@ -1,0 +1,9 @@
+RewriteEngine on
+
+# groups/roles endpoint
+RewriteRule ^users/([^/]+)/groups/roles/?$ /v2/groups_roles.php [L,QSA]
+
+#remove extension php
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteCond %{REQUEST_FILENAME}\.php -f 
+RewriteRule ^(.*)$ $1.php

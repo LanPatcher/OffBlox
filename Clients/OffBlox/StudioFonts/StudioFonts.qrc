@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/Features/Resources/StudioFonts/">
+        <file>SourceSansPro-ExtraLight.ttf</file>
+        <file>SourceSansPro-Light.ttf</file>
+        <file>SourceSansPro-Regular.ttf</file>
+        <file>SourceSansPro-Semibold.ttf</file>
+        <file>SourceSansPro-Bold.ttf</file>
+        <file>SourceSansPro-Black.ttf</file>
+    </qresource>
+</RCC>

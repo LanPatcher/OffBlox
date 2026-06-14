@@ -1,0 +1,1167 @@
+[2026-06-13 22:17:50] === HookedWebserver startup ===
+[2026-06-13 22:17:50] DLL directory: C:\Users\catoa\Desktop\OffBloxMain\Clients\OffBlox\
+[2026-06-13 22:17:50] Username: HearMeRoar  UserId: 14463315
+[2026-06-13 22:17:50] HTTP port: 80  HTTPS port: 443
+[2026-06-13 22:17:50] Winsock initialized
+[2026-06-13 22:17:50] Sign key: loaded OK
+[2026-06-13 22:17:50] SSL: PEM cert+key loaded OK (PKCS#8 key, no PFX needed)
+[2026-06-13 22:17:50] SSL/TLS: loaded OK
+[2026-06-13 22:17:50] Server ACTIVE — listening on HTTP:80 and HTTPS:443
+[2026-06-13 22:17:50] Startup complete.
+[2026-06-13 22:17:50] Roblox cookie probe (users/authenticated): HTTP 200 -> valid
+[2026-06-13 22:17:50] Roblox cookie: loaded & valid
+[2026-06-13 22:17:50] >> GET /v2/settings/application/PCStudioApp
+[2026-06-13 22:17:50] << /v2/settings/application/PCStudioApp -> {"applicationSettings":{}}
+[2026-06-13 22:17:50] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:17:50] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:17:51] >> POST /studio/pbe
+[2026-06-13 22:17:51] << /studio/pbe -> {}
+[2026-06-13 22:17:51] >> GET /oauth/.well-known/openid-configuration
+[2026-06-13 22:17:51] << /oauth/.well-known/openid-configuration -> {"issuer":"http://localhost/oauth/","authorization_endpoint":"http://localhost/oauth/v1/authorize","token_endpoint":"http://localhost/oauth/v1/token","introspection_endpoint":"http://localhost/oauth/v1/token/introspect","revocation_endpoint":"http://localhost/oauth/v1/token/revoke","resources_endpoint":"http://localhost/oauth/v1/token/resources","userinfo_endpoint":"http://localhost/oauth/v1/userinfo","jwks_uri":"http://localhost/oauth/v1/certs","registration_endpoint":"http://localhost/dashboard/credentials","service_documentation":"http://localhost/docs/reference/cloud","scopes_supported":["openid","profile","email","verification","credentials","age","premium","roles","attributes"],"response_types_supported":["none","code"],"subject_types_supported":["public"],"id_token_signing_alg_values_supported":["ES256"],"claims_supported":["sub","type","iss","aud","exp","iat","nonce","name","nickname","preferred_username","created_at","profile","picture","email","email_ve
+[2026-06-13 22:17:51] >> GET /universal-app-configuration/v1/behaviors/studio/content
+[2026-06-13 22:17:51] << /universal-app-configuration/v1/behaviors/studio/content -> {}
+[2026-06-13 22:17:51] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:17:51] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:17:52] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:17:52] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:17:53] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414272838&userID=&placeID=&category=Error&evt=Crash&label=none&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent
+[2026-06-13 22:17:53] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:17:53] << /studio/e.png -> {}
+[2026-06-13 22:17:53] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:17:53] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414273080&userID=&placeID=&category=Error&evt=Crash&label=none&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent
+[2026-06-13 22:17:53] << /studio/e.png -> {}
+[2026-06-13 22:17:53] >> POST /studio/pbe
+[2026-06-13 22:17:53] << /studio/pbe -> {}
+[2026-06-13 22:17:54] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414274167&userID=&placeID=&category=Game&evt=GraphicsFeatureLevel&label=Win32%20D3D11%2E1&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent
+[2026-06-13 22:17:54] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414274167&userID=&placeID=&category=Game&evt=GraphicsFeatureLevelEx&label=Win32%20148%2E10%2E0%2E26200%20D3D11%2E1&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent
+[2026-06-13 22:17:54] << /studio/e.png -> {}
+[2026-06-13 22:17:54] << /studio/e.png -> {}
+[2026-06-13 22:17:55] >> GET /oauth/v1/authorize?response_type=code&code_challenge=8vM5oxTFKOWtxKsIHzQSDw27f3LyC8uysGBDMqWAUTw&code_challenge_method=S256&client_id=7968549422692352298&redirect_uri=roblox-studio-auth%3A%2F&scope=openid+credentials+profile+age+roles+premium&nonce=id-roblox&prompt=login+select_account&state=eyJyYW5kb21fc3RyaW5nIjoiQlhjalNtQS1uNXZEQi1nMzVmZFJyNDZiRE5CZ0VMbE4xYm9zN0doVktQbyIsInBpZCI6Ijc2OTIifQ%3D%3D
+[2026-06-13 22:17:55] << /oauth/v1/authorize -> 
+[2026-06-13 22:17:55] >> POST /oauth/v1/token
+[2026-06-13 22:17:55] << /oauth/v1/token -> {"access_token":"hardcoded_access_token","token_type":"Bearer","expires_in":1800,"refresh_token":"hardcoded_refresh_token","scope":"openid credentials profile age roles premium","id_token":"eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImhhcmRjb2RlZC1rZXktMSJ9.eyJzdWIiOiIxNDQ2MzMxNSIsInR5cGUiOiJVc2VyIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdC9vYXV0aC8iLCJhdWQiOiI3OTY4NTQ5NDIyNjkyMzUyMjk4IiwiZXhwIjoxNzgxNDE2MDcwLCJpYXQiOjE3ODE0MTQyNzAsIm5vbmNlIjoiaWQtcm9ibG94IiwibmFtZSI6IkhlYXJNZVJvYXIiLCJuaWNrbmFtZSI6IkRldiIsInByZWZlcnJlZF91c2VybmFtZSI6IkhlYXJNZVJvYXIiLCJjcmVhdGVkX2F0IjoxNjgwMDAwMDAwLCJwcm9maWxlIjoiaHR0cHM6Ly93d3cucm9ibG94LmNvbS91c2Vycy8xNDQ2MzMxNS9wcm9maWxlIiwicGljdHVyZSI6Imh0dHBzOi8vd3d3LnJvYmxveC5jb20vaGVhZHNob3QtdGh1bWJuYWlsL2ltYWdlP3VzZXJJZD0xNDQ2MzMxNSZ3aWR0aD00MjAmaGVpZ2h0PTQyMCIsImVtYWlsIjoiZGV2QHJvYmxveC5leGFtcGxlIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInZlcmlmaWVkIjp0cnVlLCJhZ2VfYnJhY2tldCI6IjE4KyIsInByZW1pdW0iOnRydWUsInJvbGVzIjpbIkRldmVsb3BlciJdLCJpbnRlcm5hbF91c2VyIjpmYWxzZSwiYXR0cmlidXRlcyI6e3
+[2026-06-13 22:17:56] >> GET /studio-login/v1/login
+[2026-06-13 22:17:56] << /studio-login/v1/login -> {"user":{"AccountAgeInDays":1324354,"UserId":14463315,"Username":"HearMeRoar","AgeBracket":0,"Roles":["Soothsayer","BetaTester"],"Email":{"value":"d****@dummy.com","isVerified":true},"IsBanned":false,"DisplayName":"HearMeRoar"},"userAgreements":[]}
+[2026-06-13 22:17:56] >> GET /my/settings/json
+[2026-06-13 22:17:56] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414276106&userID=14463315&placeID=&category=Action&evt=Play&label=Studio%20%2D%20Server&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=755936102AF04525B3E5349627D2868A&SD.UserSession.CT=1781414274233&SD.UserSession.MD.Type=LoggedOut
+[2026-06-13 22:17:56] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414276106&userID=14463315&placeID=&category=Studio&evt=Start&label=IDE%20%03&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=755936102AF04525B3E5349627D2868A&SD.UserSession.CT=1781414274233&SD.UserSession.MD.Type=LoggedOut
+[2026-06-13 22:17:56] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414276106&userID=14463315&placeID=&category=Studio&evt=Version&label=0%2E578%2E0%2E5780566&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=755936102AF04525B3E5349627D2868A&SD.UserSession.CT=1781414274233&SD.UserSession.MD.Type=LoggedOut
+[2026-06-13 22:17:56] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414276106&userID=14463315&placeID=&category=Studio&evt=OS&label=Windows%2011&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=755936102AF04525B3E5349627D2868A&SD.UserSession.CT=1781414274233&SD.UserSession.MD.Type=LoggedOut
+[2026-06-13 22:17:56] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414276106&userID=14463315&placeID=&category=Counters&evt=RibbonBar&label=Launches&value=1&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=755936102AF04525B3E5349627D2868A&SD.UserSession.CT=1781414274233&SD.UserSession.MD.Type=LoggedOut
+[2026-06-13 22:17:56] << /my/settings/json -> {"UserId":14463315,"UserName":"HearMeRoar","DisplayName":"HearMeRoar","RobuxBalance":9999999999,"IsEmailVerified":true,"IsPremiumUser":true,"AgeBracket":0,"CountryCode":"US","Roles":["Developer","Soothsayer"],"AccountAgeInDays":1324354}
+[2026-06-13 22:17:56] << /studio/e.png -> {}
+[2026-06-13 22:17:56] << /studio/e.png -> {}
+[2026-06-13 22:17:56] << /studio/e.png -> {}
+[2026-06-13 22:17:56] << /studio/e.png -> {}
+[2026-06-13 22:17:56] << /studio/e.png -> {}
+[2026-06-13 22:17:56] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414276464&userID=14463315&placeID=&category=Game&evt=LightingObjects&label=none&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=755936102AF04525B3E5349627D2868A&SD.UserSession.CT=1781414274233&SD.UserSession.MD.Type=LoggedOut
+[2026-06-13 22:17:56] << /studio/e.png -> {}
+[2026-06-13 22:17:56] >> GET /v1/universes/multiget?ids=9000000000048&ids=9000000000098&ids=9000000000068&ids=9000000000016&ids=9000000000088&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000020&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&ids=9000000000060&ids=9000000000024
+[2026-06-13 22:17:56] >> POST /product-experimentation-platform/v1/projects/1/values
+[2026-06-13 22:17:56] << /product-experimentation-platform/v1/projects/1/values -> {"assignments":[]}
+[2026-06-13 22:17:57] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414277306&userID=14463315&placeID=&category=Game&evt=ComputerCameraMove&label=ComputerCameraMoveModeDefault&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=755936102AF04525B3E5349627D2868A&SD.UserSession.CT=1781414274233&SD.UserSession.MD.Type=LoggedOut
+[2026-06-13 22:17:57] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414277306&userID=14463315&placeID=&category=Game&evt=ComputerMovement&label=ComputerMovementModeDefault&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=755936102AF04525B3E5349627D2868A&SD.UserSession.CT=1781414274233&SD.UserSession.MD.Type=LoggedOut
+[2026-06-13 22:17:57] << /studio/e.png -> {}
+[2026-06-13 22:17:57] << /studio/e.png -> {}
+[2026-06-13 22:17:58] >> GET /studio-open-place/v1/openplace?placeId=9000000000065
+[2026-06-13 22:17:58] << /studio-open-place/v1/openplace -> {"universe":{"Id":9000000000064,"RootPlaceId":9000000000065,"Name":"New MM2","Description":"","IsArchived":false,"CreatorType":"User","CreatorTargetId":14463315,"PrivacyType":"Private","Created":"2022-01-01T00:00:00.000+00:00","Updated":"2022-01-01T00:00:00.000+00:00"},"teamCreateEnabled":false,"place":{"Creator":{"CreatorType":"User","CreatorTargetId":14463315}}}
+[2026-06-13 22:17:59] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414278760&userID=14463315&placeID=9000000000065&category=Game&evt=ComputerCameraMove&label=ComputerCameraMoveModeDefault&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=755936102AF04525B3E5349627D2868A&SD.UserSession.CT=1781414274233&SD.UserSession.MD.Type=LoggedOut
+[2026-06-13 22:17:59] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414278760&userID=14463315&placeID=9000000000065&category=Game&evt=ComputerMovement&label=ComputerMovementModeDefault&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=755936102AF04525B3E5349627D2868A&SD.UserSession.CT=1781414274233&SD.UserSession.MD.Type=LoggedOut
+[2026-06-13 22:17:59] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414278764&userID=14463315&placeID=9000000000065&category=Game&evt=PlaceID&label=0&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=755936102AF04525B3E5349627D2868A&SD.UserSession.CT=1781414274233&SD.UserSession.MD.Type=LoggedOut
+[2026-06-13 22:17:59] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414278764&userID=14463315&placeID=9000000000065&category=Game&evt=DevTouchCameraMove&label=TouchCameraMoveModeUser&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=755936102AF04525B3E5349627D2868A&SD.UserSession.CT=1781414274233&SD.UserSession.MD.Type=LoggedOut
+[2026-06-13 22:17:59] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414278764&userID=14463315&placeID=9000000000065&category=Game&evt=DevTouchMovement&label=TouchMovementModeUser&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=755936102AF04525B3E5349627D2868A&SD.UserSession.CT=1781414274233&SD.UserSession.MD.Type=LoggedOut
+[2026-06-13 22:17:59] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414278764&userID=14463315&placeID=9000000000065&category=Game&evt=DevComputerCameraMove&label=ComputerCameraMoveModeUser&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=755936102AF04525B3E5349627D2868A&SD.UserSession.CT=1781414274233&SD.UserSession.MD.Type=LoggedOut
+[2026-06-13 22:17:59] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414278764&userID=14463315&placeID=9000000000065&category=Game&evt=DevComputerMovement&label=ComputerMovementModeUser&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=755936102AF04525B3E5349627D2868A&SD.UserSession.CT=1781414274233&SD.UserSession.MD.Type=LoggedOut
+[2026-06-13 22:17:59] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414278764&userID=14463315&placeID=9000000000065&category=Game&evt=DevComputerEnableMouseLock&label=True&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=755936102AF04525B3E5349627D2868A&SD.UserSession.CT=1781414274233&SD.UserSession.MD.Type=LoggedOut
+[2026-06-13 22:17:59] << /studio/e.png -> {}
+[2026-06-13 22:17:59] << /studio/e.png -> {}
+[2026-06-13 22:17:59] << /studio/e.png -> {}
+[2026-06-13 22:17:59] << /studio/e.png -> {}
+[2026-06-13 22:17:59] << /studio/e.png -> {}
+[2026-06-13 22:17:59] << /studio/e.png -> {}
+[2026-06-13 22:17:59] << /studio/e.png -> {}
+[2026-06-13 22:17:59] << /studio/e.png -> {}
+[2026-06-13 22:17:59] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414278764&userID=14463315&placeID=9000000000065&category=Game&evt=DevCameraOcclusion&label=DevCameraOcclusionZoom&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=755936102AF04525B3E5349627D2868A&SD.UserSession.CT=1781414274233&SD.UserSession.MD.Type=LoggedOut
+[2026-06-13 22:17:59] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414278919&userID=14463315&placeID=9000000000065&category=Studio&evt=OpenPlaceSuccess&label=none&value=1082&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=755936102AF04525B3E5349627D2868A&SD.UserSession.CT=1781414274233&SD.UserSession.MD.Type=LoggedOut
+[2026-06-13 22:17:59] >> GET /studio-user-settings/v1/user/studiodata/BetaFeatureInformation
+[2026-06-13 22:17:59] >> GET /studio-user-settings/v1/user/studiodata/InstalledPluginsAsJson_V001
+[2026-06-13 22:17:59] >> GET /studio-user-settings/plugin-permissions?permissionType=HttpService&exclusiveStartId=0&pageSize=100
+[2026-06-13 22:17:59] >> GET /studio-user-settings/plugin-permissions?permissionType=ScriptInjection&exclusiveStartId=0&pageSize=100
+[2026-06-13 22:17:59] >> GET /v1/universes/multiget/teamcreate?ids=9000000000048&ids=9000000000098&ids=9000000000068&ids=9000000000016&ids=9000000000088&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000020&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&ids=9000000000060&ids=9000000000024
+[2026-06-13 22:17:59] << /studio/e.png -> {}
+[2026-06-13 22:17:59] << /studio/e.png -> {}
+[2026-06-13 22:17:59] << /studio-user-settings/v1/user/studiodata/BetaFeatureInformation -> {}
+[2026-06-13 22:17:59] << /studio-user-settings/v1/user/studiodata/InstalledPluginsAsJson_V001 -> {}
+[2026-06-13 22:17:59] << /studio-user-settings/plugin-permissions -> {}
+[2026-06-13 22:17:59] << /studio-user-settings/plugin-permissions -> {}
+[2026-06-13 22:17:59] TeamCreate stub (disabled): GET /v1/universes/multiget/teamcreate
+[2026-06-13 22:17:59] << /v1/universes/multiget/teamcreate -> {"data":[{"universeId":9000000000048,"isEnabled":false,"teamCreateEnabled":false},{"universeId":9000000000098,"isEnabled":false,"teamCreateEnabled":false},{"universeId":9000000000068,"isEnabled":false,"teamCreateEnabled":false},{"universeId":9000000000016,"isEnabled":false,"teamCreateEnabled":false},{"universeId":9000000000088,"isEnabled":false,"teamCreateEnabled":false},{"universeId":9000000000064,"isEnabled":false,"teamCreateEnabled":false},{"universeId":9000000000092,"isEnabled":false,"teamCreateEnabled":false},{"universeId":9000000000096,"isEnabled":false,"teamCreateEnabled":false},{"universeId":9000000000080,"isEnabled":false,"teamCreateEnabled":false},{"universeId":9000000000018,"isEnabled":false,"teamCreateEnabled":false},{"universeId":9000000000040,"isEnabled":false,"teamCreateEnabled":false},{"universeId":9000000000030,"isEnabled":false,"teamCreateEnabled":false},{"universeId":9000000000070,"isEnabled":false,"teamCreateEnabled":false},{"universeId":90000000000
+[2026-06-13 22:17:59] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414279284&userID=14463315&placeID=9000000000065&category=Studio&evt=RamUsage%2EOpenPlace&label=1002&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=B97EFC1A58D345548DEB1A3190F3DE70&SD.UserSession.CT=1781414279026&SD.UserSession.MD.Type=LoggedIn&SD.MainViewSession.ID=A46B8ED31E074EBFAE8F08E671428CEA&SD.MainViewSession.CT=1781414279026&SD.MainViewSession.MD.Type=StartServer&SD.MainViewSession.MD.PlaceId=9000000000065
+[2026-06-13 22:17:59] << /studio/e.png -> {}
+[2026-06-13 22:18:00] >> PATCH /studio-user-settings/v1/user/studiodata/BetaFeatureInformation
+[2026-06-13 22:18:00] >> GET /v1/games/icons?universeIds=9000000000048,9000000000098,9000000000068,9000000000016,9000000000088,9000000000064,9000000000092,9000000000096,9000000000080,9000000000018,9000000000040,9000000000030,9000000000070,9000000000034,9000000000020,9000000000002,9000000000026,9000000000052,9000000000022,9000000000050,9000000000062,9000000000044,9000000000060,9000000000024&size=256x256&format=png&returnPolicy=AutoGenerated
+[2026-06-13 22:18:00] << /studio-user-settings/v1/user/studiodata/BetaFeatureInformation -> {}
+[2026-06-13 22:18:00] << /v1/games/icons -> {"data":[{"targetId":9000000000048,"state":"Completed","imageUrl":"http://localhost/Png.png"},{"targetId":9000000000098,"state":"Completed","imageUrl":"http://localhost/Png.png"},{"targetId":9000000000068,"state":"Completed","imageUrl":"http://localhost/Png.png"},{"targetId":9000000000016,"state":"Completed","imageUrl":"http://localhost/Png.png"},{"targetId":9000000000088,"state":"Completed","imageUrl":"http://localhost/Png.png"},{"targetId":9000000000064,"state":"Completed","imageUrl":"http://localhost/Png.png"},{"targetId":9000000000092,"state":"Completed","imageUrl":"http://localhost/Png.png"},{"targetId":9000000000096,"state":"Completed","imageUrl":"http://localhost/Png.png"},{"targetId":9000000000080,"state":"Completed","imageUrl":"http://localhost/Png.png"},{"targetId":9000000000018,"state":"Completed","imageUrl":"http://localhost/Png.png"},{"targetId":9000000000040,"state":"Completed","imageUrl":"http://localhost/Png.png"},{"targetId":9000000000030,"state":"Completed","imageUrl":
+[2026-06-13 22:18:00] >> GET /v1/game-start-info?universeId=9000000000064
+[2026-06-13 22:18:00] >> GET /v2/universes/9000000000064/configuration
+[2026-06-13 22:18:00] >> POST /v1/autolocalization/games/9000000000064/autolocalizationtable
+[2026-06-13 22:18:00] << /v1/game-start-info -> {"gameServerUserGroupPolicies":[],"universePolicies":{"allowedExternalLinkReferences":[]},"name":"New MM2","universeDisplayName":"New MM2","creatorId":14463315,"creatorName":"HearMeRoar","universeId":9000000000064,"placeId":9000000000065}
+[2026-06-13 22:18:00] << /v2/universes/9000000000064/configuration -> {"allowPrivateServers":true,"privateServerPrice":null,"id":9000000000064,"name":"New MM2","universeAvatarType":"MorphToR15","universeScaleType":"AllScales","universeAnimationType":"PlayerChoice","universeCollisionType":"OuterBox","universeBodyType":"Standard","universeJointPositioningType":"ArtistIntent","universeAvatarAssetOverrides":[],"universeAvatarMinScales":{"height":0.9,"width":0.7,"head":0.95,"proportion":0,"bodyType":0},"universeAvatarMaxScales":{"height":1.05,"width":1,"head":1,"proportion":1,"bodyType":1},"isArchived":false,"isFriendsOnly":false,"genre":"All","playableDevices":["Computer","Phone","Tablet"],"isForSale":false,"price":0,"isStudioAccessToApisAllowed":true,"privacyType":"Public"}
+[2026-06-13 22:18:00] << /v1/autolocalization/games/9000000000064/autolocalizationtable -> {"tableId":"","locale":"en_us","entries":[]}
+[2026-06-13 22:18:00] >> POST /studio/pbe
+[2026-06-13 22:18:00] << /studio/pbe -> {}
+[2026-06-13 22:18:01] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414281284&userID=14463315&placeID=9000000000065&category=Game&evt=CustomParticleEmitter&label=none&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=B97EFC1A58D345548DEB1A3190F3DE70&SD.UserSession.CT=1781414279026&SD.UserSession.MD.Type=LoggedIn&SD.MainViewSession.ID=A46B8ED31E074EBFAE8F08E671428CEA&SD.MainViewSession.CT=1781414279026&SD.MainViewSession.MD.Type=StartServer&SD.MainViewSession.MD.PlaceId=9000000000065
+[2026-06-13 22:18:01] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414281284&userID=14463315&placeID=9000000000065&category=Game&evt=UsingMeshPart&label=none&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=B97EFC1A58D345548DEB1A3190F3DE70&SD.UserSession.CT=1781414279026&SD.UserSession.MD.Type=LoggedIn&SD.MainViewSession.ID=A46B8ED31E074EBFAE8F08E671428CEA&SD.MainViewSession.CT=1781414279026&SD.MainViewSession.MD.Type=StartServer&SD.MainViewSession.MD.PlaceId=9000000000065
+[2026-06-13 22:18:01] >> GET /v1/asset?ID=144008269
+[2026-06-13 22:18:01] >> GET /v1/asset?ID=144008272
+[2026-06-13 22:18:01] >> GET /asset/?id=5634448510
+[2026-06-13 22:18:01] >> GET /v1/asset?id=105273324
+[2026-06-13 22:18:01] >> GET /v1/asset?id=104560954
+[2026-06-13 22:18:01] >> GET /v1/asset?id=104562155
+[2026-06-13 22:18:01] << /studio/e.png -> {}
+[2026-06-13 22:18:01] << /studio/e.png -> {}
+[2026-06-13 22:18:01] << /v1/asset -> {"errors":[{"code":400,"message":"Missing id"}]}
+[2026-06-13 22:18:01] << /v1/asset -> {"errors":[{"code":400,"message":"Missing id"}]}
+[2026-06-13 22:18:01] Asset 104562155 fetched OK (14152 bytes)
+[2026-06-13 22:18:01] Asset 105273324 fetched OK (5993 bytes)
+[2026-06-13 22:18:01] Asset 104560954 fetched OK (4657 bytes)
+[2026-06-13 22:18:01] >> GET /v1/asset?id=93043504
+[2026-06-13 22:18:01] >> GET /v1/asset?id=104605494
+[2026-06-13 22:18:01] >> GET /v1/asset?id=103842566
+[2026-06-13 22:18:01] >> GET /v1/asset?id=78496487
+[2026-06-13 22:18:01] Asset 5634448510 fetched OK (35132 bytes)
+[2026-06-13 22:18:02] Asset 103842566 fetched OK (17753 bytes)
+[2026-06-13 22:18:02] Asset 93043504 fetched OK (10222 bytes)
+[2026-06-13 22:18:02] Asset 104605494 fetched OK (38304 bytes)
+[2026-06-13 22:18:02] Asset 78496487 fetched OK (111176 bytes)
+[2026-06-13 22:18:02] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414281296&userID=14463315&placeID=9000000000065&category=Game&evt=SurfaceGui&label=none&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=B97EFC1A58D345548DEB1A3190F3DE70&SD.UserSession.CT=1781414279026&SD.UserSession.MD.Type=LoggedIn&SD.MainViewSession.ID=A46B8ED31E074EBFAE8F08E671428CEA&SD.MainViewSession.CT=1781414279026&SD.MainViewSession.MD.Type=StartServer&SD.MainViewSession.MD.PlaceId=9000000000065
+[2026-06-13 22:18:02] >> GET /asset/?id=153647554
+[2026-06-13 22:18:02] >> GET /asset/?id=153647529
+[2026-06-13 22:18:02] >> GET /asset/?id=153647516
+[2026-06-13 22:18:02] << /studio/e.png -> {}
+[2026-06-13 22:18:02] >> GET /asset/?id=153647563
+[2026-06-13 22:18:02] >> GET /asset/?id=169310273
+[2026-06-13 22:18:02] >> GET /asset/?id=153647514
+[2026-06-13 22:18:02] Asset 153647529 fetched OK (7166 bytes)
+[2026-06-13 22:18:02] >> GET /v1/asset?id=153647529
+[2026-06-13 22:18:02] Asset 153647516 fetched OK (7674 bytes)
+[2026-06-13 22:18:02] Asset 153647554 fetched OK (9927 bytes)
+[2026-06-13 22:18:02] >> GET /v1/asset?id=153647514
+[2026-06-13 22:18:02] Asset 153647563 fetched OK (10143 bytes)
+[2026-06-13 22:18:02] Asset 153647514 fetched OK (12398 bytes)
+[2026-06-13 22:18:02] Asset 169310273 fetched OK (10686 bytes)
+[2026-06-13 22:18:02] Asset 153647529 fetched OK (7166 bytes)
+[2026-06-13 22:18:02] Asset 153647514 fetched OK (12398 bytes)
+[2026-06-13 22:18:02] >> GET /v1/asset?ID=147722227
+[2026-06-13 22:18:02] << /v1/asset -> {"errors":[{"code":400,"message":"Missing id"}]}
+[2026-06-13 22:18:02] >> GET /v1/asset?ID=144011185
+[2026-06-13 22:18:02] >> GET /asset/?id=296102734
+[2026-06-13 22:18:02] << /v1/asset -> {"errors":[{"code":400,"message":"Missing id"}]}
+[2026-06-13 22:18:02] >> GET /v1/asset?id=131323304
+[2026-06-13 22:18:02] >> GET /v1/asset?id=142247768
+[2026-06-13 22:18:02] >> GET /v1/asset?id=160060487
+[2026-06-13 22:18:02] >> GET /v1/asset?id=131886985
+[2026-06-13 22:18:02] Asset 296102734 fetched OK (8828 bytes)
+[2026-06-13 22:18:02] Asset 131323304 fetched OK (12694 bytes)
+[2026-06-13 22:18:02] >> GET /asset/?id=5500190500
+[2026-06-13 22:18:02] >> GET /asset/?id=403292408
+[2026-06-13 22:18:02] >> GET /v1/asset?id=21433696
+[2026-06-13 22:18:02] Asset 142247768 fetched OK (9592 bytes)
+[2026-06-13 22:18:02] Asset 131886985 fetched OK (7346 bytes)
+[2026-06-13 22:18:02] Asset 160060487 fetched OK (8219 bytes)
+[2026-06-13 22:18:02] Asset 403292408 fetched OK (7904 bytes)
+[2026-06-13 22:18:02] >> GET /v1/asset?id=21433711
+[2026-06-13 22:18:03] Asset 5500190500 fetched OK (18567 bytes)
+[2026-06-13 22:18:03] Asset 21433696 fetched OK (9244 bytes)
+[2026-06-13 22:18:03] >> GET /asset/?id=911865819
+[2026-06-13 22:18:03] Asset 21433711 fetched OK (8231 bytes)
+[2026-06-13 22:18:03] >> GET /v1/asset?id=62337944
+[2026-06-13 22:18:03] >> GET /v1/asset?id=157771891
+[2026-06-13 22:18:03] >> GET /v1/asset?id=132222106
+[2026-06-13 22:18:03] >> GET /v1/asset?id=253442600
+[2026-06-13 22:18:03] Asset 911865819 fetched OK (8772 bytes)
+[2026-06-13 22:18:03] >> GET /v1/asset?id=138081500
+[2026-06-13 22:18:03] >> GET /asset/?id=911864050
+[2026-06-13 22:18:03] Asset 62337944 fetched OK (10932 bytes)
+[2026-06-13 22:18:03] Asset 157771891 fetched OK (6018 bytes)
+[2026-06-13 22:18:03] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=911864050
+[2026-06-13 22:18:03] Asset 911864050: fetch failed, falling back to redirect
+[2026-06-13 22:18:03] Asset 132222106 fetched OK (44642 bytes)
+[2026-06-13 22:18:03] >> GET /v1/asset?id=11113679
+[2026-06-13 22:18:03] Asset 138081500 fetched OK (5183 bytes)
+[2026-06-13 22:18:03] Asset 253442600 fetched OK (53478 bytes)
+[2026-06-13 22:18:03] >> GET /v1/asset?id=16720281
+[2026-06-13 22:18:03] >> GET /v1/asset?id=16720502
+[2026-06-13 22:18:03] Asset 11113679 fetched OK (9561 bytes)
+[2026-06-13 22:18:03] >> GET /v1/asset?id=16720508
+[2026-06-13 22:18:03] Asset 16720281 fetched OK (10562 bytes)
+[2026-06-13 22:18:03] >> GET /asset/?id=1044630916
+[2026-06-13 22:18:03] >> GET /v1/asset?ID=94132726
+[2026-06-13 22:18:03] >> GET /v1/asset?ID=97103817
+[2026-06-13 22:18:03] >> GET /asset/?id=4675514851
+[2026-06-13 22:18:03] Asset 16720508 fetched OK (7320 bytes)
+[2026-06-13 22:18:03] << /v1/asset -> {"errors":[{"code":400,"message":"Missing id"}]}
+[2026-06-13 22:18:03] Asset 16720502 fetched OK (7565 bytes)
+[2026-06-13 22:18:03] << /v1/asset -> {"errors":[{"code":400,"message":"Missing id"}]}
+[2026-06-13 22:18:03] >> GET /v1/asset?id=179287602
+[2026-06-13 22:18:03] Asset 4675514851 fetched OK (32204 bytes)
+[2026-06-13 22:18:03] Asset 1044630916 fetched OK (10873 bytes)
+[2026-06-13 22:18:03] >> GET /asset/?id=4641964351
+[2026-06-13 22:18:03] Asset 179287602 fetched OK (6309 bytes)
+[2026-06-13 22:18:03] >> GET /asset/?id=4641965219
+[2026-06-13 22:18:03] >> GET /asset/?id=4681153217
+[2026-06-13 22:18:03] >> GET /asset/?id=4681126360
+[2026-06-13 22:18:03] >> GET /asset/?id=2648563122
+[2026-06-13 22:18:03] Asset 4641964351 fetched OK (12586 bytes)
+[2026-06-13 22:18:04] >> GET /v1/asset?id=18716629
+[2026-06-13 22:18:04] >> GET /asset/?id=911865258
+[2026-06-13 22:18:04] Asset 4641965219 fetched OK (5997 bytes)
+[2026-06-13 22:18:04] Asset 4681153217 fetched OK (20307 bytes)
+[2026-06-13 22:18:04] Asset 2648563122 fetched OK (71995 bytes)
+[2026-06-13 22:18:04] Asset 4681126360 fetched OK (18489 bytes)
+[2026-06-13 22:18:04] >> GET /asset/?id=18473826
+[2026-06-13 22:18:04] Asset 911865258 fetched OK (7347 bytes)
+[2026-06-13 22:18:04] Asset 18716629 fetched OK (11309 bytes)
+[2026-06-13 22:18:04] >> GET /asset/?id=145080998
+[2026-06-13 22:18:04] >> GET /v1/asset?id=4753414199
+[2026-06-13 22:18:04] >> GET /v1/asset?id=10722059
+[2026-06-13 22:18:04] Asset 18473826 fetched OK (20979 bytes)
+[2026-06-13 22:18:04] >> GET /v1/asset?id=21391806
+[2026-06-13 22:18:04] >> GET /v1/asset?id=21391849
+[2026-06-13 22:18:04] >> GET /asset/?id=2493923976
+[2026-06-13 22:18:04] >> GET /asset/?id=2493924096
+[2026-06-13 22:18:04] Asset 145080998 fetched OK (15308 bytes)
+[2026-06-13 22:18:04] Asset 4753414199 fetched OK (35132 bytes)
+[2026-06-13 22:18:04] Asset 10722059 fetched OK (18992 bytes)
+[2026-06-13 22:18:04] Asset 21391806 fetched OK (16200 bytes)
+[2026-06-13 22:18:04] Asset 21391849 fetched OK (11449 bytes)
+[2026-06-13 22:18:04] >> GET /asset/?id=12222200
+[2026-06-13 22:18:04] Asset 2493923976 fetched OK (25545 bytes)
+[2026-06-13 22:18:04] Asset 2493924096 fetched OK (22562 bytes)
+[2026-06-13 22:18:04] >> GET /v1/asset?id=10209803
+[2026-06-13 22:18:04] >> GET /asset/?id=6336569579
+[2026-06-13 22:18:04] >> GET /asset/?id=6968135315
+[2026-06-13 22:18:04] Asset 12222200 fetched OK (3126 bytes)
+[2026-06-13 22:18:04] Asset 10209803 fetched OK (46746 bytes)
+[2026-06-13 22:18:04] Asset 6336569579 fetched OK (35132 bytes)
+[2026-06-13 22:18:04] >> GET /asset/?id=4966068844
+[2026-06-13 22:18:04] >> GET /v1/asset?id=156286438
+[2026-06-13 22:18:04] >> GET /v1/asset?id=179235828
+[2026-06-13 22:18:04] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414282014&userID=14463315&placeID=9000000000065&category=Game&evt=PostEffect&label=none&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=B97EFC1A58D345548DEB1A3190F3DE70&SD.UserSession.CT=1781414279026&SD.UserSession.MD.Type=LoggedIn&SD.MainViewSession.ID=A46B8ED31E074EBFAE8F08E671428CEA&SD.MainViewSession.CT=1781414279026&SD.MainViewSession.MD.Type=StartServer&SD.MainViewSession.MD.PlaceId=9000000000065
+[2026-06-13 22:18:04] Asset 6968135315 fetched OK (7782 bytes)
+[2026-06-13 22:18:04] << /studio/e.png -> {}
+[2026-06-13 22:18:04] Asset 156286438 fetched OK (11629 bytes)
+[2026-06-13 22:18:04] >> GET /v1/asset?id=13326026&serverplaceid=0
+[2026-06-13 22:18:04] Asset 4966068844 fetched OK (14816 bytes)
+[2026-06-13 22:18:04] Asset 179235828 fetched OK (5434 bytes)
+[2026-06-13 22:18:05] Asset 13326026 fetched OK (629 bytes)
+[2026-06-13 22:18:05] >> GET /v1/universes/9000000000064/configuration
+[2026-06-13 22:18:05] << /v1/universes/9000000000064/configuration -> {"allowPrivateServers":true,"privateServerPrice":null,"id":9000000000064,"name":"New MM2","universeAvatarType":"MorphToR15","universeScaleType":"AllScales","universeAnimationType":"PlayerChoice","universeCollisionType":"OuterBox","universeBodyType":"Standard","universeJointPositioningType":"ArtistIntent","universeAvatarAssetOverrides":[],"universeAvatarMinScales":{"height":0.9,"width":0.7,"head":0.95,"proportion":0,"bodyType":0},"universeAvatarMaxScales":{"height":1.05,"width":1,"head":1,"proportion":1,"bodyType":1},"isArchived":false,"isFriendsOnly":false,"genre":"All","playableDevices":["Computer","Phone","Tablet"],"isForSale":false,"price":0,"isStudioAccessToApisAllowed":true,"privacyType":"Public"}
+[2026-06-13 22:18:05] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414285174&userID=14463315&placeID=9000000000065&category=Game&evt=ServerStartTime&label=none&value=6583&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=B97EFC1A58D345548DEB1A3190F3DE70&SD.UserSession.CT=1781414279026&SD.UserSession.MD.Type=LoggedIn&SD.MainViewSession.ID=A46B8ED31E074EBFAE8F08E671428CEA&SD.MainViewSession.CT=1781414279026&SD.MainViewSession.MD.Type=StartServer&SD.MainViewSession.MD.PlaceId=9000000000065
+[2026-06-13 22:18:05] << /studio/e.png -> {}
+[2026-06-13 22:18:05] >> GET /v1/asset/?id=4834963944&modulePlaceId=9000000000065
+[2026-06-13 22:18:05] >> GET /v1/asset?id=0
+[2026-06-13 22:18:05] >> GET /v1/asset/?id=5543277991&modulePlaceId=9000000000065
+[2026-06-13 22:18:05] >> GET /v1/asset/?id=4656102360&modulePlaceId=9000000000065
+[2026-06-13 22:18:05] >> GET /v1/persistence/sorted/list?scope=global&key=KillData&pageSize=10&direction=dsc&minValue=1
+[2026-06-13 22:18:05] >> GET /studio/e.png?studioSid=6C8741DA-FB53-4D7B-83E0-B3D883F8397F&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414285421&userID=14463315&placeID=9000000000065&category=Game&evt=DataStorePersistence&label=none&value=0&SD.Platform.ID=2947FAACBCB744288DEA920E3D858C27&SD.Platform.CT=1781414272190&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=DF49CD75EB674796A3C15EA18F586129&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414274233&SD.UserSession.ID=B97EFC1A58D345548DEB1A3190F3DE70&SD.UserSession.CT=1781414279026&SD.UserSession.MD.Type=LoggedIn&SD.MainViewSession.ID=A46B8ED31E074EBFAE8F08E671428CEA&SD.MainViewSession.CT=1781414279026&SD.MainViewSession.MD.Type=StartServer&SD.MainViewSession.MD.PlaceId=9000000000065
+[2026-06-13 22:18:05] >> GET /v1/asset/?id=6972600074&modulePlaceId=9000000000065
+[2026-06-13 22:18:05] >> GET /v1/universes/9000000000064/configuration
+[2026-06-13 22:18:05] DS-v1: M=GET type=sorted rest=/list ds=KillData scope=global target= usnParam=no bodylen=0 body=[]
+[2026-06-13 22:18:05] << /studio/e.png -> {}
+[2026-06-13 22:18:05] << /v1/universes/9000000000064/configuration -> {"allowPrivateServers":true,"privateServerPrice":null,"id":9000000000064,"name":"New MM2","universeAvatarType":"MorphToR15","universeScaleType":"AllScales","universeAnimationType":"PlayerChoice","universeCollisionType":"OuterBox","universeBodyType":"Standard","universeJointPositioningType":"ArtistIntent","universeAvatarAssetOverrides":[],"universeAvatarMinScales":{"height":0.9,"width":0.7,"head":0.95,"proportion":0,"bodyType":0},"universeAvatarMaxScales":{"height":1.05,"width":1,"head":1,"proportion":1,"bodyType":1},"isArchived":false,"isFriendsOnly":false,"genre":"All","playableDevices":["Computer","Phone","Tablet"],"isForSale":false,"price":0,"isStudioAccessToApisAllowed":true,"privacyType":"Public"}
+[2026-06-13 22:18:05] << /v1/persistence/sorted/list -> {"entries":[{"target":"TimePlayed62884268","value":20,"usn":"1"}],"lastEvaluatedKey":null}
+[2026-06-13 22:18:05] FetchUrl: HTTP 404 for https://assetdelivery.roblox.com/v1/asset/?id=0
+[2026-06-13 22:18:05] Asset 0: fetch failed, falling back to redirect
+[2026-06-13 22:18:05] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=4834963944
+[2026-06-13 22:18:05] Asset 4834963944: fetch failed, falling back to redirect
+[2026-06-13 22:18:05] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=4656102360
+[2026-06-13 22:18:05] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=6972600074
+[2026-06-13 22:18:05] Asset 4656102360: fetch failed, falling back to redirect
+[2026-06-13 22:18:05] Asset 6972600074: fetch failed, falling back to redirect
+[2026-06-13 22:18:05] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=5543277991
+[2026-06-13 22:18:05] Asset 5543277991: fetch failed, falling back to redirect
+[2026-06-13 22:18:06] >> GET /v1/asset?id=36869983
+[2026-06-13 22:18:06] >> GET /asset/?id=11238241427
+[2026-06-13 22:18:06] >> GET /v1/asset?id=346658692
+[2026-06-13 22:18:06] >> GET /asset/?id=2700395042
+[2026-06-13 22:18:06] >> GET /asset/?id=6512406104
+[2026-06-13 22:18:06] >> GET /v1/asset?id=8246987666
+[2026-06-13 22:18:06] >> GET /asset/?id=1028077058
+[2026-06-13 22:18:06] >> GET /asset/?id=1084970835
+[2026-06-13 22:18:06] Asset 11238241427 fetched OK (20223 bytes)
+[2026-06-13 22:18:06] Asset 36869983 fetched OK (383604 bytes)
+[2026-06-13 22:18:06] Asset 346658692 fetched OK (5579 bytes)
+[2026-06-13 22:18:06] Asset 1028077058 fetched OK (35340 bytes)
+[2026-06-13 22:18:06] Asset 1084970835 fetched OK (36400 bytes)
+[2026-06-13 22:18:06] >> GET /v1/asset?id=301811459
+[2026-06-13 22:18:06] >> GET /asset/?id=242995810
+[2026-06-13 22:18:06] >> GET /asset/?id=603193846
+[2026-06-13 22:18:06] >> GET /asset/?id=446111271
+[2026-06-13 22:18:06] >> GET /v1/asset?id=2794653290
+[2026-06-13 22:18:06] Asset 2700395042 fetched OK (3819 bytes)
+[2026-06-13 22:18:06] Asset 301811459 fetched OK (118596 bytes)
+[2026-06-13 22:18:06] Asset 2794653290 fetched OK (13769 bytes)
+[2026-06-13 22:18:06] Asset 603193846 fetched OK (707 bytes)
+[2026-06-13 22:18:06] Asset 446111271 fetched OK (5237 bytes)
+[2026-06-13 22:18:06] Asset 6512406104 fetched OK (267027 bytes)
+[2026-06-13 22:18:06] Asset 8246987666 fetched OK (84987 bytes)
+[2026-06-13 22:18:06] >> GET /v1/asset?id=2794653282
+[2026-06-13 22:18:07] >> GET /v1/asset?id=2794653322
+[2026-06-13 22:18:07] >> GET /v1/asset?id=2794653267
+[2026-06-13 22:18:07] >> GET /v1/asset?id=2794653273
+[2026-06-13 22:18:07] >> GET /v1/asset?id=2794653339
+[2026-06-13 22:18:07] Asset 2794653282 fetched OK (9737 bytes)
+[2026-06-13 22:18:07] >> GET /v1/asset?id=2794653345
+[2026-06-13 22:18:07] Asset 2794653322 fetched OK (13769 bytes)
+[2026-06-13 22:18:07] >> GET /v1/asset?id=2794653352
+[2026-06-13 22:18:07] Asset 2794653267 fetched OK (44297 bytes)
+[2026-06-13 22:18:07] Asset 2794653273 fetched OK (19289 bytes)
+[2026-06-13 22:18:07] Asset 2794653339 fetched OK (2689 bytes)
+[2026-06-13 22:18:07] Asset 2794653352 fetched OK (24049 bytes)
+[2026-06-13 22:18:07] Asset 2794653345 fetched OK (10065 bytes)
+[2026-06-13 22:18:07] >> GET /v1/asset?id=2794653307
+[2026-06-13 22:18:07] >> GET /v1/asset?id=2794653300
+[2026-06-13 22:18:07] Asset 242995810 fetched OK (1019006 bytes)
+[2026-06-13 22:18:07] >> GET /v1/asset?id=2794653358
+[2026-06-13 22:18:07] >> GET /v1/asset?id=2794653364
+[2026-06-13 22:18:07] >> GET /v1/asset?id=2794653372
+[2026-06-13 22:18:07] Asset 2794653307 fetched OK (9737 bytes)
+[2026-06-13 22:18:07] >> GET /v1/asset?id=2794653328
+[2026-06-13 22:18:07] Asset 2794653300 fetched OK (19289 bytes)
+[2026-06-13 22:18:07] >> GET /v1/asset?id=2794653421
+[2026-06-13 22:18:07] Asset 2794653364 fetched OK (10065 bytes)
+[2026-06-13 22:18:07] Asset 2794653358 fetched OK (2689 bytes)
+[2026-06-13 22:18:07] Asset 2794653372 fetched OK (24049 bytes)
+[2026-06-13 22:18:07] Asset 2794653328 fetched OK (84033 bytes)
+[2026-06-13 22:18:07] Asset 2794653421 fetched OK (1129 bytes)
+[2026-06-13 22:18:07] >> GET /v1/asset?id=1699715602
+[2026-06-13 22:18:07] >> GET /v1/asset?id=1699715557
+[2026-06-13 22:18:07] >> GET /v1/asset?id=1699715576
+[2026-06-13 22:18:07] Asset 1699715602 fetched OK (4729 bytes)
+[2026-06-13 22:18:07] >> GET /v1/asset?id=1699715550
+[2026-06-13 22:18:07] >> GET /v1/asset?id=1699715652
+[2026-06-13 22:18:07] >> GET /v1/asset?id=1699715541
+[2026-06-13 22:18:07] Asset 1699715557 fetched OK (5953 bytes)
+[2026-06-13 22:18:07] >> GET /v1/asset?id=1699715610
+[2026-06-13 22:18:07] >> GET /v1/asset?id=1699715627
+[2026-06-13 22:18:07] Asset 1699715576 fetched OK (12097 bytes)
+[2026-06-13 22:18:08] Asset 1699715610 fetched OK (13737 bytes)
+[2026-06-13 22:18:08] Asset 1699715550 fetched OK (12097 bytes)
+[2026-06-13 22:18:08] Asset 1699715652 fetched OK (5529 bytes)
+[2026-06-13 22:18:08] Asset 1699715541 fetched OK (12105 bytes)
+[2026-06-13 22:18:08] Asset 1699715627 fetched OK (4729 bytes)
+[2026-06-13 22:18:08] >> GET /v1/asset?id=1699715641
+[2026-06-13 22:18:08] >> GET /v1/asset?id=1699715616
+[2026-06-13 22:18:08] >> GET /v1/asset?id=1699715537
+[2026-06-13 22:18:08] Asset 1699715641 fetched OK (13681 bytes)
+[2026-06-13 22:18:08] Asset 1699715616 fetched OK (13681 bytes)
+[2026-06-13 22:18:08] Asset 1699715537 fetched OK (5953 bytes)
+[2026-06-13 22:18:08] >> GET /v1/asset?id=1699715562
+[2026-06-13 22:18:08] >> GET /v1/asset?id=1699715593
+[2026-06-13 22:18:08] >> GET /v1/asset?id=1699715632
+[2026-06-13 22:18:08] >> GET /v1/asset?id=363697252
+[2026-06-13 22:18:08] >> GET /asset/?id=7547288171
+[2026-06-13 22:18:08] Asset 1699715562 fetched OK (12105 bytes)
+[2026-06-13 22:18:08] Asset 1699715632 fetched OK (13737 bytes)
+[2026-06-13 22:18:08] Asset 1699715593 fetched OK (5529 bytes)
+[2026-06-13 22:18:08] Asset 7547288171 fetched OK (262 bytes)
+[2026-06-13 22:18:08] Asset 363697252 fetched OK (19634 bytes)
+[2026-06-13 22:18:08] >> GET /asset/?id=7547288171
+[2026-06-13 22:18:08] >> GET /asset/?id=7547288171
+[2026-06-13 22:18:08] >> GET /asset/?id=7546645118
+[2026-06-13 22:18:08] Asset 7547288171 fetched OK (262 bytes)
+[2026-06-13 22:18:08] Asset 7547288171 fetched OK (262 bytes)
+[2026-06-13 22:18:08] >> GET /asset/?id=7546653951
+[2026-06-13 22:18:08] >> GET /asset/?id=7546653951
+[2026-06-13 22:18:08] >> GET /asset/?id=7546654144
+[2026-06-13 22:18:08] >> GET /asset/?id=7547303225
+[2026-06-13 22:18:08] >> GET /asset/?id=7547303225
+[2026-06-13 22:18:08] Asset 7546645118 fetched OK (162 bytes)
+[2026-06-13 22:18:08] Asset 7546653951 fetched OK (226 bytes)
+[2026-06-13 22:18:08] Asset 7546653951 fetched OK (226 bytes)
+[2026-06-13 22:18:08] Asset 7546654144 fetched OK (162 bytes)
+[2026-06-13 22:18:08] Asset 7547303225 fetched OK (262 bytes)
+[2026-06-13 22:18:08] Asset 7547303225 fetched OK (262 bytes)
+[2026-06-13 22:18:09] >> GET /asset/?id=7547303225
+[2026-06-13 22:18:09] >> GET /asset/?id=7547298786
+[2026-06-13 22:18:09] >> GET /asset/?id=1159034197
+[2026-06-13 22:18:09] Asset 7547303225 fetched OK (262 bytes)
+[2026-06-13 22:18:09] Asset 7547298786 fetched OK (162 bytes)
+[2026-06-13 22:18:09] >> GET /asset/?id=7547332968
+[2026-06-13 22:18:09] >> GET /asset/?id=7547332968
+[2026-06-13 22:18:09] >> GET /asset/?id=7547332968
+[2026-06-13 22:18:09] >> GET /asset/?id=7547169285
+[2026-06-13 22:18:09] >> GET /asset/?id=7547169285
+[2026-06-13 22:18:09] Asset 1159034197 fetched OK (2409 bytes)
+[2026-06-13 22:18:09] Asset 7547169285 fetched OK (226 bytes)
+[2026-06-13 22:18:09] Asset 7547332968 fetched OK (262 bytes)
+[2026-06-13 22:18:09] Asset 7547332968 fetched OK (262 bytes)
+[2026-06-13 22:18:09] Asset 7547332968 fetched OK (262 bytes)
+[2026-06-13 22:18:09] >> GET /asset/?id=7547169285
+[2026-06-13 22:18:09] >> GET /asset/?id=5833680519
+[2026-06-13 22:18:09] Asset 7547169285 fetched OK (226 bytes)
+[2026-06-13 22:18:09] Asset 5833680519 fetched OK (2977 bytes)
+[2026-06-13 22:18:09] Asset 7547169285 fetched OK (226 bytes)
+[2026-06-13 22:18:09] >> GET /asset/?id=1098804465
+[2026-06-13 22:18:09] >> GET /asset/?id=7547162198
+[2026-06-13 22:18:09] >> GET /asset/?id=7547162198
+[2026-06-13 22:18:09] >> GET /asset/?id=7547162198
+[2026-06-13 22:18:09] >> GET /asset/?id=5833652741
+[2026-06-13 22:18:09] >> GET /v1/asset?id=121944805
+[2026-06-13 22:18:09] Asset 1098804465 fetched OK (9001 bytes)
+[2026-06-13 22:18:09] >> GET /v1/asset?id=121944778
+[2026-06-13 22:18:09] >> GET /asset/?id=5832748675
+[2026-06-13 22:18:09] Asset 5833652741 fetched OK (1869 bytes)
+[2026-06-13 22:18:09] Asset 7547162198 fetched OK (262 bytes)
+[2026-06-13 22:18:09] Asset 7547162198 fetched OK (262 bytes)
+[2026-06-13 22:18:09] Asset 7547162198 fetched OK (262 bytes)
+[2026-06-13 22:18:09] Asset 121944805 fetched OK (58860 bytes)
+[2026-06-13 22:18:09] Asset 121944778 fetched OK (165421 bytes)
+[2026-06-13 22:18:09] >> GET /asset/?id=7547295153
+[2026-06-13 22:18:09] Asset 5832748675 fetched OK (4169 bytes)
+[2026-06-13 22:18:10] >> GET /asset/?id=7547295153
+[2026-06-13 22:18:10] >> GET /asset/?id=7547295153
+[2026-06-13 22:18:10] >> GET /asset/?id=1161870181
+[2026-06-13 22:18:10] >> GET /asset/?id=7547291361
+[2026-06-13 22:18:10] >> GET /asset/?id=7547291361
+[2026-06-13 22:18:10] Asset 7547295153 fetched OK (226 bytes)
+[2026-06-13 22:18:10] >> GET /asset/?id=7547291361
+[2026-06-13 22:18:10] >> GET /asset/?id=7546650097
+[2026-06-13 22:18:10] Asset 7547295153 fetched OK (226 bytes)
+[2026-06-13 22:18:10] Asset 7547295153 fetched OK (226 bytes)
+[2026-06-13 22:18:10] Asset 7547291361 fetched OK (226 bytes)
+[2026-06-13 22:18:10] Asset 7547291361 fetched OK (226 bytes)
+[2026-06-13 22:18:10] Asset 7547291361 fetched OK (226 bytes)
+[2026-06-13 22:18:10] >> GET /asset/?id=7546650097
+[2026-06-13 22:18:10] Asset 7546650097 fetched OK (226 bytes)
+[2026-06-13 22:18:10] >> GET /asset/?id=7546650097
+[2026-06-13 22:18:10] Asset 1161870181 fetched OK (7481 bytes)
+[2026-06-13 22:18:10] >> GET /asset/?id=1098787253
+[2026-06-13 22:18:10] Asset 7546650097 fetched OK (226 bytes)
+[2026-06-13 22:18:10] >> GET /asset/?id=1161418263
+[2026-06-13 22:18:10] >> GET /asset/?id=1161402220
+[2026-06-13 22:18:10] >> GET /asset/?id=934351601
+[2026-06-13 22:18:10] >> GET /asset/?id=95356090
+[2026-06-13 22:18:10] Asset 7546650097 fetched OK (226 bytes)
+[2026-06-13 22:18:10] Asset 1098787253 fetched OK (6521 bytes)
+[2026-06-13 22:18:10] Asset 1161418263 fetched OK (6033 bytes)
+[2026-06-13 22:18:10] Asset 1161402220 fetched OK (3305 bytes)
+[2026-06-13 22:18:10] Asset 934351601 fetched OK (190105 bytes)
+[2026-06-13 22:18:10] >> GET /v1/asset?id=9650458518
+[2026-06-13 22:18:10] Asset 95356090 fetched OK (401316 bytes)
+[2026-06-13 22:18:10] >> GET /asset/?id=1098804601
+[2026-06-13 22:18:10] >> GET /asset/?id=7547101130
+[2026-06-13 22:18:10] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=9650458518
+[2026-06-13 22:18:10] Asset 9650458518: fetch failed, falling back to redirect
+[2026-06-13 22:18:10] >> GET /asset/?id=7547101130
+[2026-06-13 22:18:10] >> GET /asset/?id=7547101130
+[2026-06-13 22:18:10] >> GET /v1/asset?id=1161280455
+[2026-06-13 22:18:10] >> GET /asset/?id=6330536940
+[2026-06-13 22:18:11] Asset 7547101130 fetched OK (226 bytes)
+[2026-06-13 22:18:11] Asset 7547101130 fetched OK (226 bytes)
+[2026-06-13 22:18:11] Asset 1098804601 fetched OK (9001 bytes)
+[2026-06-13 22:18:11] >> GET /asset/?id=6318866494
+[2026-06-13 22:18:11] >> GET /asset/?id=520992855
+[2026-06-13 22:18:11] Asset 7547101130 fetched OK (226 bytes)
+[2026-06-13 22:18:11] Asset 1161280455 fetched OK (96384 bytes)
+[2026-06-13 22:18:11] Asset 6318866494 fetched OK (6241 bytes)
+[2026-06-13 22:18:11] >> GET /asset/?id=935953496
+[2026-06-13 22:18:11] >> GET /asset/?id=7547298114
+[2026-06-13 22:18:11] >> GET /asset/?id=7547298114
+[2026-06-13 22:18:11] Asset 520992855 fetched OK (506207 bytes)
+[2026-06-13 22:18:11] >> GET /asset/?id=7547298114
+[2026-06-13 22:18:11] >> GET /asset/?id=7547298323
+[2026-06-13 22:18:11] Asset 935953496 fetched OK (10803 bytes)
+[2026-06-13 22:18:11] Asset 7547298114 fetched OK (226 bytes)
+[2026-06-13 22:18:11] Asset 7547298114 fetched OK (226 bytes)
+[2026-06-13 22:18:11] >> GET /asset/?id=1099253354
+[2026-06-13 22:18:11] Asset 7547298114 fetched OK (226 bytes)
+[2026-06-13 22:18:11] Asset 7547298323 fetched OK (162 bytes)
+[2026-06-13 22:18:11] >> GET /asset/?id=10060400103
+[2026-06-13 22:18:11] Asset 1099253354 fetched OK (13689 bytes)
+[2026-06-13 22:18:11] >> GET /asset/?id=7547177270
+[2026-06-13 22:18:11] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=10060400103
+[2026-06-13 22:18:11] Asset 10060400103: fetch failed, falling back to redirect
+[2026-06-13 22:18:11] >> GET /asset/?id=7547177270
+[2026-06-13 22:18:11] >> GET /asset/?id=7547177270
+[2026-06-13 22:18:11] >> GET /v1/asset?id=29268434
+[2026-06-13 22:18:11] >> GET /asset/?id=9545534561
+[2026-06-13 22:18:11] Asset 7547177270 fetched OK (226 bytes)
+[2026-06-13 22:18:11] Asset 7547177270 fetched OK (226 bytes)
+[2026-06-13 22:18:11] Asset 7547177270 fetched OK (226 bytes)
+[2026-06-13 22:18:11] Asset 6330536940 fetched OK (1142175 bytes)
+[2026-06-13 22:18:11] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=9545534561
+[2026-06-13 22:18:11] Asset 9545534561: fetch failed, falling back to redirect
+[2026-06-13 22:18:11] >> GET /asset/?id=3132923779
+[2026-06-13 22:18:11] Asset 29268434 fetched OK (17441 bytes)
+[2026-06-13 22:18:11] >> GET /asset/?id=559676009
+[2026-06-13 22:18:12] >> GET /asset/?id=9476538312
+[2026-06-13 22:18:12] Asset 559676009 fetched OK (162865 bytes)
+[2026-06-13 22:18:12] >> GET /asset/?id=6689725889
+[2026-06-13 22:18:12] >> GET /v1/asset?id=10304934505
+[2026-06-13 22:18:12] >> GET /v1/asset?id=1161280440
+[2026-06-13 22:18:12] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=9476538312
+[2026-06-13 22:18:12] >> GET /asset/?id=1100389136
+[2026-06-13 22:18:12] Asset 9476538312: fetch failed, falling back to redirect
+[2026-06-13 22:18:12] >> GET /v1/asset?id=1095675567
+[2026-06-13 22:18:12] Asset 1161280440 fetched OK (16992 bytes)
+[2026-06-13 22:18:12] >> GET /v1/asset?id=1161280413
+[2026-06-13 22:18:12] Asset 1095675567 fetched OK (38940 bytes)
+[2026-06-13 22:18:12] >> GET /v1/asset?id=1161280464
+[2026-06-13 22:18:12] Asset 6689725889 fetched OK (263269 bytes)
+[2026-06-13 22:18:12] Asset 1161280413 fetched OK (18773 bytes)
+[2026-06-13 22:18:12] Asset 3132923779 fetched OK (126153 bytes)
+[2026-06-13 22:18:12] Asset 1161280464 fetched OK (31186 bytes)
+[2026-06-13 22:18:12] Asset 10304934505 fetched OK (8361 bytes)
+[2026-06-13 22:18:12] >> GET /asset/?id=1161916418
+[2026-06-13 22:18:12] Asset 1100389136 fetched OK (10057 bytes)
+[2026-06-13 22:18:12] >> GET /asset/?id=1097444550
+[2026-06-13 22:18:12] >> GET /asset/?id=1098760307
+[2026-06-13 22:18:12] >> GET /v1/asset?id=9672330419
+[2026-06-13 22:18:12] >> GET /asset/?id=6320115229
+[2026-06-13 22:18:12] >> GET /asset/?id=5814395217
+[2026-06-13 22:18:12] >> GET /asset/?id=7546652947
+[2026-06-13 22:18:12] >> GET /asset/?id=7546652947
+[2026-06-13 22:18:12] Asset 1097444550 fetched OK (5657 bytes)
+[2026-06-13 22:18:12] Asset 1161916418 fetched OK (15693 bytes)
+[2026-06-13 22:18:12] Asset 7546652947 fetched OK (226 bytes)
+[2026-06-13 22:18:12] Asset 7546652947 fetched OK (226 bytes)
+[2026-06-13 22:18:12] Asset 1098760307 fetched OK (3665 bytes)
+[2026-06-13 22:18:13] >> GET /asset/?id=7546652947
+[2026-06-13 22:18:13] Asset 5814395217 fetched OK (6033 bytes)
+[2026-06-13 22:18:13] >> GET /v1/asset?id=10294526258
+[2026-06-13 22:18:13] >> GET /v1/asset?id=477780809
+[2026-06-13 22:18:13] >> GET /v1/asset?id=513539512
+[2026-06-13 22:18:13] Asset 6320115229 fetched OK (68745 bytes)
+[2026-06-13 22:18:13] Asset 7546652947 fetched OK (226 bytes)
+[2026-06-13 22:18:13] >> GET /v1/asset?id=514513717
+[2026-06-13 22:18:13] Asset 477780809 fetched OK (45414 bytes)
+[2026-06-13 22:18:13] Asset 9672330419 fetched OK (65477 bytes)
+[2026-06-13 22:18:13] >> GET /v1/asset?id=514513720
+[2026-06-13 22:18:13] Asset 513539512 fetched OK (10213 bytes)
+[2026-06-13 22:18:13] Asset 514513717 fetched OK (6760 bytes)
+[2026-06-13 22:18:13] >> GET /asset/?id=10241609255
+[2026-06-13 22:18:13] >> GET /asset/?id=8302964090
+[2026-06-13 22:18:13] Asset 514513720 fetched OK (4814 bytes)
+[2026-06-13 22:18:13] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=10241609255
+[2026-06-13 22:18:13] Asset 10241609255: fetch failed, falling back to redirect
+[2026-06-13 22:18:13] >> GET /asset/?id=4033800861
+[2026-06-13 22:18:13] >> GET /asset/?id=9470154020
+[2026-06-13 22:18:13] >> GET /asset/?id=9650545162
+[2026-06-13 22:18:13] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=9470154020
+[2026-06-13 22:18:13] Asset 9470154020: fetch failed, falling back to redirect
+[2026-06-13 22:18:13] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=9650545162
+[2026-06-13 22:18:13] >> GET /v1/asset?id=9650428507
+[2026-06-13 22:18:13] Asset 9650545162: fetch failed, falling back to redirect
+[2026-06-13 22:18:13] >> GET /v1/asset?id=10304934316
+[2026-06-13 22:18:13] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=9650428507
+[2026-06-13 22:18:13] Asset 10294526258 fetched OK (117337 bytes)
+[2026-06-13 22:18:13] Asset 9650428507: fetch failed, falling back to redirect
+[2026-06-13 22:18:13] >> GET /v1/asset?id=10304934193
+[2026-06-13 22:18:13] >> GET /asset/?id=10241781197
+[2026-06-13 22:18:13] >> GET /asset/?id=8310911339
+[2026-06-13 22:18:13] Asset 8302964090 fetched OK (54145 bytes)
+[2026-06-13 22:18:13] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=10241781197
+[2026-06-13 22:18:13] Asset 10241781197: fetch failed, falling back to redirect
+[2026-06-13 22:18:13] >> GET /v1/asset?id=10304934011
+[2026-06-13 22:18:13] >> GET /v1/asset?id=10304934121
+[2026-06-13 22:18:14] >> GET /v1/asset?id=6993802997
+[2026-06-13 22:18:14] Asset 10304934316 fetched OK (26926 bytes)
+[2026-06-13 22:18:14] Asset 10304934193 fetched OK (6028 bytes)
+[2026-06-13 22:18:14] >> GET /asset/?id=8294639655
+[2026-06-13 22:18:14] Asset 4033800861 fetched OK (116061 bytes)
+[2026-06-13 22:18:14] Asset 10304934011 fetched OK (7893 bytes)
+[2026-06-13 22:18:14] >> GET /v1/asset?id=9493967073
+[2026-06-13 22:18:14] >> GET /asset/?id=7230480507
+[2026-06-13 22:18:14] >> GET /asset/?id=7240770494
+[2026-06-13 22:18:14] Asset 8310911339 fetched OK (160357 bytes)
+[2026-06-13 22:18:14] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=9493967073
+[2026-06-13 22:18:14] Asset 9493967073: fetch failed, falling back to redirect
+[2026-06-13 22:18:14] Asset 10304934121 fetched OK (8015 bytes)
+[2026-06-13 22:18:14] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=7240770494
+[2026-06-13 22:18:14] Asset 7240770494: fetch failed, falling back to redirect
+[2026-06-13 22:18:14] Asset 8294639655 fetched OK (1084033 bytes)
+[2026-06-13 22:18:14] >> GET /asset/?id=6125828567
+[2026-06-13 22:18:14] Asset 6993802997 fetched OK (200518 bytes)
+[2026-06-13 22:18:14] >> GET /asset/?id=6789972010
+[2026-06-13 22:18:14] >> GET /asset/?id=1542889074
+[2026-06-13 22:18:14] >> GET /asset/?id=1542889049
+[2026-06-13 22:18:14] >> GET /v1/asset?id=425251978
+[2026-06-13 22:18:14] >> GET /v1/asset?id=151760030
+[2026-06-13 22:18:14] >> GET /asset/?id=5437248274
+[2026-06-13 22:18:14] Asset 7230480507 fetched OK (213061 bytes)
+[2026-06-13 22:18:15] Asset 151760030 fetched OK (391423 bytes)
+[2026-06-13 22:18:15] Asset 425251978 fetched OK (190816 bytes)
+[2026-06-13 22:18:15] Asset 6125828567 fetched OK (161297 bytes)
+[2026-06-13 22:18:15] Asset 6789972010 fetched OK (158318 bytes)
+[2026-06-13 22:18:15] >> GET /asset/?id=425953875
+[2026-06-13 22:18:15] Asset 1542889074 fetched OK (93218 bytes)
+[2026-06-13 22:18:15] Asset 1542889049 fetched OK (156185 bytes)
+[2026-06-13 22:18:15] >> GET /v1/asset?id=212302951
+[2026-06-13 22:18:15] >> GET /v1/asset?id=588332279
+[2026-06-13 22:18:15] Asset 5437248274 fetched OK (124060 bytes)
+[2026-06-13 22:18:15] >> GET /asset/?id=12248652835
+[2026-06-13 22:18:15] >> GET /asset/?id=6600901997
+[2026-06-13 22:18:15] Asset 212302951 fetched OK (493415 bytes)
+[2026-06-13 22:18:15] >> GET /asset/?id=588338584
+[2026-06-13 22:18:15] >> GET /v1/asset?id=6993517262
+[2026-06-13 22:18:15] Asset 588332279 fetched OK (120449 bytes)
+[2026-06-13 22:18:15] Asset 12248652835 fetched OK (463312 bytes)
+[2026-06-13 22:18:15] >> GET /v1/asset?id=571636745
+[2026-06-13 22:18:15] Asset 6600901997 fetched OK (65213 bytes)
+[2026-06-13 22:18:15] >> GET /asset/?id=5906191771
+[2026-06-13 22:18:15] >> GET /asset/?id=5906193894
+[2026-06-13 22:18:15] Asset 425953875 fetched OK (137803 bytes)
+[2026-06-13 22:18:15] >> GET /asset/?id=313561541
+[2026-06-13 22:18:15] >> GET /asset/?id=3201320164
+[2026-06-13 22:18:16] >> GET /asset/?id=3215044318
+[2026-06-13 22:18:16] Asset 5906193894 fetched OK (96813 bytes)
+[2026-06-13 22:18:16] Asset 571636745 fetched OK (25273 bytes)
+[2026-06-13 22:18:16] Asset 6993517262 fetched OK (54932 bytes)
+[2026-06-13 22:18:16] Asset 588338584 fetched OK (126821 bytes)
+[2026-06-13 22:18:16] >> GET /v1/asset?id=202773960
+[2026-06-13 22:18:16] >> GET /v1/asset?id=79401392
+[2026-06-13 22:18:16] Asset 313561541 fetched OK (246774 bytes)
+[2026-06-13 22:18:16] >> GET /v1/asset?id=281722334
+[2026-06-13 22:18:16] Asset 3201320164 fetched OK (15077 bytes)
+[2026-06-13 22:18:16] Asset 202773960 fetched OK (72564 bytes)
+[2026-06-13 22:18:16] >> GET /asset/?id=163172808
+[2026-06-13 22:18:16] Asset 3215044318 fetched OK (17454 bytes)
+[2026-06-13 22:18:16] Asset 79401392 fetched OK (387082 bytes)
+[2026-06-13 22:18:16] Asset 281722334 fetched OK (87268 bytes)
+[2026-06-13 22:18:16] >> GET /asset/?id=179035664
+[2026-06-13 22:18:16] Asset 5906191771 fetched OK (635986 bytes)
+[2026-06-13 22:18:16] >> GET /asset/?id=425953895
+[2026-06-13 22:18:16] >> GET /v1/asset?id=161313071
+[2026-06-13 22:18:16] >> GET /asset/?id=3183404232
+[2026-06-13 22:18:16] >> GET /asset/?id=121944778
+[2026-06-13 22:18:16] >> GET /asset/?id=425953902
+[2026-06-13 22:18:16] Asset 121944778 fetched OK (165421 bytes)
+[2026-06-13 22:18:16] Asset 425953902 fetched OK (155501 bytes)
+[2026-06-13 22:18:17] >> GET /asset/?id=588338722
+[2026-06-13 22:18:17] >> GET /asset/?id=425953900
+[2026-06-13 22:18:17] Asset 163172808 fetched OK (223399 bytes)
+[2026-06-13 22:18:17] >> GET /asset/?id=12928323969
+[2026-06-13 22:18:17] Asset 588338722 fetched OK (141851 bytes)
+[2026-06-13 22:18:17] Asset 179035664 fetched OK (64395 bytes)
+[2026-06-13 22:18:17] Asset 425953895 fetched OK (121737 bytes)
+[2026-06-13 22:18:17] Asset 425953900 fetched OK (113083 bytes)
+[2026-06-13 22:18:17] Asset 161313071 fetched OK (116575 bytes)
+[2026-06-13 22:18:17] >> GET /v1/asset?id=212303049
+[2026-06-13 22:18:17] >> GET /asset/?id=545604317
+[2026-06-13 22:18:17] >> GET /asset/?id=2552859818
+[2026-06-13 22:18:17] >> GET /asset/?id=161495171
+[2026-06-13 22:18:17] >> GET /asset/?id=3215055524
+[2026-06-13 22:18:17] >> GET /v1/asset?id=425953884
+[2026-06-13 22:18:17] Asset 212303049 fetched OK (74612 bytes)
+[2026-06-13 22:18:17] Asset 3183404232 fetched OK (663572 bytes)
+[2026-06-13 22:18:17] >> GET /asset/?id=588332899
+[2026-06-13 22:18:17] Asset 3215055524 fetched OK (16965 bytes)
+[2026-06-13 22:18:18] Asset 12928323969 fetched OK (311211 bytes)
+[2026-06-13 22:18:18] >> GET /v1/asset?id=159546779
+[2026-06-13 22:18:18] Asset 2552859818 fetched OK (169520 bytes)
+[2026-06-13 22:18:18] Asset 545604317 fetched OK (154985 bytes)
+[2026-06-13 22:18:18] Asset 161495171 fetched OK (71023 bytes)
+[2026-06-13 22:18:18] >> GET /v1/asset?id=588332100
+[2026-06-13 22:18:18] >> GET /asset/?id=5226091425
+[2026-06-13 22:18:18] >> GET /asset/?id=168119698
+[2026-06-13 22:18:18] >> GET /asset/?id=5226094005
+[2026-06-13 22:18:18] Asset 425953884 fetched OK (100269 bytes)
+[2026-06-13 22:18:18] >> GET /v1/asset?id=84302759
+[2026-06-13 22:18:18] Asset 588332899 fetched OK (161004 bytes)
+[2026-06-13 22:18:18] Asset 168119698 fetched OK (477313 bytes)
+[2026-06-13 22:18:18] Asset 84302759 fetched OK (67124 bytes)
+[2026-06-13 22:18:18] Asset 159546779 fetched OK (8247 bytes)
+[2026-06-13 22:18:18] >> GET /v1/asset?id=84302661
+[2026-06-13 22:18:18] >> GET /v1/asset?id=191784815
+[2026-06-13 22:18:18] >> GET /v1/asset?id=361630114
+[2026-06-13 22:18:18] >> GET /v1/asset?id=361629844
+[2026-06-13 22:18:18] >> GET /asset/?id=3214733708
+[2026-06-13 22:18:18] Asset 84302661 fetched OK (216773 bytes)
+[2026-06-13 22:18:18] Asset 5226094005 fetched OK (21879 bytes)
+[2026-06-13 22:18:18] Asset 5226091425 fetched OK (66432 bytes)
+[2026-06-13 22:18:18] Asset 588332100 fetched OK (113539 bytes)
+[2026-06-13 22:18:18] Asset 361629844 fetched OK (195411 bytes)
+[2026-06-13 22:18:19] >> GET /v1/asset?id=311711104
+[2026-06-13 22:18:19] Asset 361630114 fetched OK (4003 bytes)
+[2026-06-13 22:18:19] >> GET /asset/?id=3183577898
+[2026-06-13 22:18:19] >> GET /asset/?id=1626714161
+[2026-06-13 22:18:19] >> GET /asset/?id=3183578044
+[2026-06-13 22:18:19] >> GET /asset/?id=4340562436
+[2026-06-13 22:18:19] Asset 3214733708 fetched OK (19794 bytes)
+[2026-06-13 22:18:19] Asset 191784815 fetched OK (45749 bytes)
+[2026-06-13 22:18:19] >> GET /asset/?id=4340478995
+[2026-06-13 22:18:19] Asset 1626714161 fetched OK (282271 bytes)
+[2026-06-13 22:18:19] >> GET /v1/asset?id=5873157781
+[2026-06-13 22:18:19] >> GET /asset/?id=5873155115
+[2026-06-13 22:18:19] Asset 3183577898 fetched OK (140564 bytes)
+[2026-06-13 22:18:19] >> GET /asset/?id=4820890642
+[2026-06-13 22:18:19] Asset 3183578044 fetched OK (40452 bytes)
+[2026-06-13 22:18:19] Asset 5873155115 fetched OK (139957 bytes)
+[2026-06-13 22:18:19] >> GET /asset/?id=4217622949
+[2026-06-13 22:18:19] Asset 311711104 fetched OK (201358 bytes)
+[2026-06-13 22:18:19] Asset 4820890642 fetched OK (32206 bytes)
+[2026-06-13 22:18:19] >> GET /v1/asset?id=6237991982
+[2026-06-13 22:18:19] Asset 4340562436 fetched OK (695284 bytes)
+[2026-06-13 22:18:19] >> GET /asset/?id=6124173614
+[2026-06-13 22:18:19] Asset 4340478995 fetched OK (454937 bytes)
+[2026-06-13 22:18:20] >> GET /asset/?id=588023680
+[2026-06-13 22:18:20] >> GET /asset/?id=586145214
+[2026-06-13 22:18:20] Asset 6124173614 fetched OK (196309 bytes)
+[2026-06-13 22:18:20] Asset 5873157781 fetched OK (614858 bytes)
+[2026-06-13 22:18:20] >> GET /asset/?id=212302951
+[2026-06-13 22:18:20] >> GET /asset/?id=1349873645
+[2026-06-13 22:18:20] >> GET /v1/asset?id=192527236
+[2026-06-13 22:18:20] Asset 212302951 fetched OK (493415 bytes)
+[2026-06-13 22:18:20] >> GET /asset/?id=6074789360
+[2026-06-13 22:18:20] Asset 588023680 fetched OK (116635 bytes)
+[2026-06-13 22:18:20] Asset 6237991982 fetched OK (931243 bytes)
+[2026-06-13 22:18:20] >> GET /asset/?id=6085025295
+[2026-06-13 22:18:20] Asset 4217622949 fetched OK (419462 bytes)
+[2026-06-13 22:18:20] Asset 6074789360 fetched OK (678338 bytes)
+[2026-06-13 22:18:20] >> GET /asset/?id=586145306
+[2026-06-13 22:18:20] Asset 586145214 fetched OK (160435 bytes)
+[2026-06-13 22:18:20] Asset 1349873645 fetched OK (25208 bytes)
+[2026-06-13 22:18:20] >> GET /asset/?id=2592803428
+[2026-06-13 22:18:20] >> GET /asset/?id=6120599023
+[2026-06-13 22:18:20] >> GET /asset/?id=6120598882
+[2026-06-13 22:18:20] >> GET /asset/?id=4526408012
+[2026-06-13 22:18:21] >> GET /asset/?id=4526407845
+[2026-06-13 22:18:21] Asset 6085025295 fetched OK (69629 bytes)
+[2026-06-13 22:18:21] Asset 192527236 fetched OK (70701 bytes)
+[2026-06-13 22:18:21] Asset 586145306 fetched OK (153382 bytes)
+[2026-06-13 22:18:21] >> GET /asset/?id=3214638835
+[2026-06-13 22:18:21] >> GET /asset/?id=159758190
+[2026-06-13 22:18:21] Asset 2592803428 fetched OK (181883 bytes)
+[2026-06-13 22:18:21] Asset 6120598882 fetched OK (84621 bytes)
+[2026-06-13 22:18:21] >> GET /asset/?id=311358906
+[2026-06-13 22:18:21] Asset 3214638835 fetched OK (17127 bytes)
+[2026-06-13 22:18:21] Asset 4526407845 fetched OK (195797 bytes)
+[2026-06-13 22:18:21] >> GET /asset/?id=8303415717
+[2026-06-13 22:18:21] >> GET /asset/?id=8303414505
+[2026-06-13 22:18:21] Asset 6120599023 fetched OK (681004 bytes)
+[2026-06-13 22:18:21] >> GET /asset/?id=155356565
+[2026-06-13 22:18:21] >> GET /asset/?id=314421009
+[2026-06-13 22:18:21] Asset 4526408012 fetched OK (684654 bytes)
+[2026-06-13 22:18:21] Asset 155356565 fetched OK (92670 bytes)
+[2026-06-13 22:18:21] >> GET /asset/?id=314921929
+[2026-06-13 22:18:22] >> GET /v1/asset?id=157019835
+[2026-06-13 22:18:22] Asset 8303414505 fetched OK (112221 bytes)
+[2026-06-13 22:18:22] Asset 159758190 fetched OK (390555 bytes)
+[2026-06-13 22:18:22] >> GET /asset/?id=311701292
+[2026-06-13 22:18:22] Asset 311358906 fetched OK (293534 bytes)
+[2026-06-13 22:18:22] Asset 157019835 fetched OK (334133 bytes)
+[2026-06-13 22:18:22] >> GET /asset/?id=3201377729
+[2026-06-13 22:18:22] Asset 8303415717 fetched OK (682190 bytes)
+[2026-06-13 22:18:22] >> GET /asset/?id=172762850
+[2026-06-13 22:18:22] >> GET /v1/asset?id=197196512
+[2026-06-13 22:18:22] >> GET /asset/?id=12942152157
+[2026-06-13 22:18:22] Asset 314921929 fetched OK (275979 bytes)
+[2026-06-13 22:18:22] Asset 314421009 fetched OK (378313 bytes)
+[2026-06-13 22:18:22] Asset 3201377729 fetched OK (33132 bytes)
+[2026-06-13 22:18:22] Asset 197196512 fetched OK (816850 bytes)
+[2026-06-13 22:18:22] >> GET /asset/?id=243372276
+[2026-06-13 22:18:22] >> GET /v1/asset?id=183053133
+[2026-06-13 22:18:22] >> GET /asset/?id=3201362642
+[2026-06-13 22:18:22] >> GET /asset/?id=288136894
+[2026-06-13 22:18:22] Asset 311701292 fetched OK (310336 bytes)
+[2026-06-13 22:18:23] >> GET /v1/asset?id=313894904
+[2026-06-13 22:18:23] Asset 172762850 fetched OK (180926 bytes)
+[2026-06-13 22:18:23] Asset 3201362642 fetched OK (12987 bytes)
+[2026-06-13 22:18:23] Asset 12942152157 fetched OK (437589 bytes)
+[2026-06-13 22:18:23] >> GET /v1/asset?id=283709822
+[2026-06-13 22:18:23] Asset 243372276 fetched OK (243865 bytes)
+[2026-06-13 22:18:23] >> GET /v1/asset?id=105334003
+[2026-06-13 22:18:23] >> GET /v1/asset?id=105333894
+[2026-06-13 22:18:23] Asset 283709822 fetched OK (457980 bytes)
+[2026-06-13 22:18:23] >> GET /asset/?id=3171194830
+[2026-06-13 22:18:23] >> GET /asset/?id=91790701
+[2026-06-13 22:18:23] Asset 105334003 fetched OK (54829 bytes)
+[2026-06-13 22:18:23] Asset 105333894 fetched OK (499275 bytes)
+[2026-06-13 22:18:23] Asset 288136894 fetched OK (236080 bytes)
+[2026-06-13 22:18:23] >> GET /asset/?id=2518167440
+[2026-06-13 22:18:23] Asset 183053133 fetched OK (309955 bytes)
+[2026-06-13 22:18:23] Asset 313894904 fetched OK (186305 bytes)
+[2026-06-13 22:18:23] >> GET /v1/asset?id=179155055
+[2026-06-13 22:18:23] >> GET /asset/?id=5225960419
+[2026-06-13 22:18:23] >> GET /asset/?id=5225958244
+[2026-06-13 22:18:23] Asset 179155055 fetched OK (556826 bytes)
+[2026-06-13 22:18:23] >> GET /v1/asset?id=178240361
+[2026-06-13 22:18:23] >> GET /v1/asset?id=69486519
+[2026-06-13 22:18:24] Asset 91790701 fetched OK (13352 bytes)
+[2026-06-13 22:18:24] Asset 3171194830 fetched OK (62817 bytes)
+[2026-06-13 22:18:24] Asset 2518167440 fetched OK (26800 bytes)
+[2026-06-13 22:18:24] >> GET /v1/asset?id=69486593
+[2026-06-13 22:18:24] >> GET /v1/asset?id=155195316
+[2026-06-13 22:18:24] >> GET /asset/?id=250006854
+[2026-06-13 22:18:24] Asset 5225958244 fetched OK (41033 bytes)
+[2026-06-13 22:18:24] >> GET /asset/?id=5435950345
+[2026-06-13 22:18:24] Asset 69486519 fetched OK (92460 bytes)
+[2026-06-13 22:18:24] Asset 5225960419 fetched OK (54711 bytes)
+[2026-06-13 22:18:24] Asset 5435950345 fetched OK (104259 bytes)
+[2026-06-13 22:18:24] >> GET /asset/?id=6789969785
+[2026-06-13 22:18:24] Asset 69486593 fetched OK (320547 bytes)
+[2026-06-13 22:18:24] >> GET /v1/asset?id=157904876
+[2026-06-13 22:18:24] >> GET /v1/asset?id=6789965952
+[2026-06-13 22:18:24] Asset 178240361 fetched OK (388332 bytes)
+[2026-06-13 22:18:24] >> GET /v1/asset?id=96073627
+[2026-06-13 22:18:24] Asset 155195316 fetched OK (86397 bytes)
+[2026-06-13 22:18:24] >> GET /v1/asset?id=96079756
+[2026-06-13 22:18:24] Asset 250006854 fetched OK (326437 bytes)
+[2026-06-13 22:18:24] Asset 6789965952 fetched OK (137393 bytes)
+[2026-06-13 22:18:24] >> GET /asset/?id=3167029738
+[2026-06-13 22:18:25] >> GET /v1/asset?id=62275962
+[2026-06-13 22:18:25] Asset 6789969785 fetched OK (38794 bytes)
+[2026-06-13 22:18:25] >> GET /asset/?id=3167033529
+[2026-06-13 22:18:25] >> GET /asset/?id=473621310
+[2026-06-13 22:18:25] Asset 62275962 fetched OK (275237 bytes)
+[2026-06-13 22:18:25] Asset 96073627 fetched OK (73135 bytes)
+[2026-06-13 22:18:25] Asset 157904876 fetched OK (339915 bytes)
+[2026-06-13 22:18:25] >> GET /v1/asset?id=192567360
+[2026-06-13 22:18:25] >> GET /v1/asset?id=192367012
+[2026-06-13 22:18:25] Asset 96079756 fetched OK (371015 bytes)
+[2026-06-13 22:18:25] >> GET /v1/asset?id=161369273
+[2026-06-13 22:18:25] Asset 3167029738 fetched OK (104426 bytes)
+[2026-06-13 22:18:25] >> GET /v1/asset?id=139609495
+[2026-06-13 22:18:25] Asset 3167033529 fetched OK (70706 bytes)
+[2026-06-13 22:18:25] >> GET /v1/asset?id=139609457
+[2026-06-13 22:18:25] Asset 139609495 fetched OK (74807 bytes)
+[2026-06-13 22:18:25] Asset 473621310 fetched OK (46589 bytes)
+[2026-06-13 22:18:25] >> GET /asset/?id=4728494788
+[2026-06-13 22:18:25] Asset 139609457 fetched OK (417861 bytes)
+[2026-06-13 22:18:25] >> GET /asset/?id=4730813852
+[2026-06-13 22:18:26] >> GET /v1/asset?id=144012208
+[2026-06-13 22:18:26] >> GET /asset/?id=3201362412
+[2026-06-13 22:18:26] Asset 192567360 fetched OK (111744 bytes)
+[2026-06-13 22:18:26] Asset 161369273 fetched OK (876048 bytes)
+[2026-06-13 22:18:26] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=144012208
+[2026-06-13 22:18:26] Asset 144012208: fetch failed, falling back to redirect
+[2026-06-13 22:18:26] >> GET /asset/?id=3201354176
+[2026-06-13 22:18:26] Asset 192367012 fetched OK (1415485 bytes)
+[2026-06-13 22:18:26] >> GET /v1/asset?id=159653725
+[2026-06-13 22:18:26] >> GET /v1/asset?id=192482160
+[2026-06-13 22:18:26] Asset 4730813852 fetched OK (86237 bytes)
+[2026-06-13 22:18:26] >> GET /v1/asset?id=178208194
+[2026-06-13 22:18:26] >> GET /v1/asset?id=6789968034
+[2026-06-13 22:18:26] >> GET /asset/?id=159435782
+[2026-06-13 22:18:26] Asset 3201362412 fetched OK (148774 bytes)
+[2026-06-13 22:18:26] Asset 4728494788 fetched OK (546725 bytes)
+[2026-06-13 22:18:26] Asset 192482160 fetched OK (92445 bytes)
+[2026-06-13 22:18:26] Asset 3201354176 fetched OK (91125 bytes)
+[2026-06-13 22:18:26] Asset 159653725 fetched OK (158845 bytes)
+[2026-06-13 22:18:26] >> GET /v1/asset?id=297605911
+[2026-06-13 22:18:26] >> GET /v1/asset?id=297605974
+[2026-06-13 22:18:26] >> GET /asset/?id=198766824
+[2026-06-13 22:18:26] >> GET /v1/asset?id=64131051
+[2026-06-13 22:18:27] >> GET /v1/asset?id=64131019
+[2026-06-13 22:18:27] Asset 297605911 fetched OK (50597 bytes)
+[2026-06-13 22:18:27] Asset 6789968034 fetched OK (32587 bytes)
+[2026-06-13 22:18:27] Asset 178208194 fetched OK (189183 bytes)
+[2026-06-13 22:18:27] Asset 64131019 fetched OK (52224 bytes)
+[2026-06-13 22:18:27] >> GET /asset/?id=235343795
+[2026-06-13 22:18:27] >> GET /v1/asset?id=5745675385
+[2026-06-13 22:18:27] Asset 159435782 fetched OK (381223 bytes)
+[2026-06-13 22:18:27] >> GET /v1/asset?id=168119736
+[2026-06-13 22:18:27] >> GET /v1/asset?id=168119698
+[2026-06-13 22:18:27] Asset 297605974 fetched OK (492388 bytes)
+[2026-06-13 22:18:27] Asset 168119698 fetched OK (477313 bytes)
+[2026-06-13 22:18:27] Asset 64131051 fetched OK (44880 bytes)
+[2026-06-13 22:18:27] Asset 168119736 fetched OK (62229 bytes)
+[2026-06-13 22:18:27] Asset 198766824 fetched OK (85377 bytes)
+[2026-06-13 22:18:27] >> GET /v1/asset?id=5580148723
+[2026-06-13 22:18:27] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=5580148723
+[2026-06-13 22:18:27] Asset 5580148723: fetch failed, falling back to redirect
+[2026-06-13 22:18:27] >> GET /v1/asset?id=155199285
+[2026-06-13 22:18:27] >> GET /asset/?id=306913560
+[2026-06-13 22:18:27] >> GET /asset/?id=161205828
+[2026-06-13 22:18:27] >> GET /v1/asset?id=117500241
+[2026-06-13 22:18:27] >> GET /v1/asset?id=3248392136
+[2026-06-13 22:18:27] Asset 117500241 fetched OK (504097 bytes)
+[2026-06-13 22:18:27] >> GET /v1/asset?id=117500388
+[2026-06-13 22:18:27] Asset 235343795 fetched OK (128436 bytes)
+[2026-06-13 22:18:27] Asset 5745675385 fetched OK (122058 bytes)
+[2026-06-13 22:18:28] >> GET /asset/?id=155572642
+[2026-06-13 22:18:28] >> GET /asset/?id=163625649
+[2026-06-13 22:18:28] >> GET /asset/?id=12944308970
+[2026-06-13 22:18:28] Asset 306913560 fetched OK (157601 bytes)
+[2026-06-13 22:18:28] Asset 155199285 fetched OK (127101 bytes)
+[2026-06-13 22:18:28] Asset 3248392136 fetched OK (13249 bytes)
+[2026-06-13 22:18:28] Asset 161205828 fetched OK (361543 bytes)
+[2026-06-13 22:18:28] >> GET /asset/?id=12944323126
+[2026-06-13 22:18:28] >> GET /asset/?id=2599622211
+[2026-06-13 22:18:28] >> GET /v1/asset?id=92634666
+[2026-06-13 22:18:28] Asset 155572642 fetched OK (270201 bytes)
+[2026-06-13 22:18:28] Asset 117500388 fetched OK (75321 bytes)
+[2026-06-13 22:18:28] >> GET /v1/asset?id=92634383
+[2026-06-13 22:18:28] >> GET /v1/asset?id=6884811673
+[2026-06-13 22:18:28] Asset 2599622211 fetched OK (115745 bytes)
+[2026-06-13 22:18:28] >> GET /asset/?id=5278766434
+[2026-06-13 22:18:28] Asset 163625649 fetched OK (867546 bytes)
+[2026-06-13 22:18:29] Asset 12944323126 fetched OK (24005 bytes)
+[2026-06-13 22:18:29] Asset 92634383 fetched OK (57041 bytes)
+[2026-06-13 22:18:29] Asset 12944308970 fetched OK (304005 bytes)
+[2026-06-13 22:18:29] >> GET /asset/?id=162718300
+[2026-06-13 22:18:29] >> GET /asset/?id=6388305400
+[2026-06-13 22:18:29] Asset 92634666 fetched OK (107076 bytes)
+[2026-06-13 22:18:29] >> GET /asset/?id=6789967665
+[2026-06-13 22:18:29] >> GET /asset/?id=473620934
+[2026-06-13 22:18:29] >> GET /v1/asset?id=162871241
+[2026-06-13 22:18:29] Asset 5278766434 fetched OK (75539 bytes)
+[2026-06-13 22:18:29] Asset 6884811673 fetched OK (51999 bytes)
+[2026-06-13 22:18:29] >> GET /v1/asset?id=162871196
+[2026-06-13 22:18:29] Asset 6388305400 fetched OK (111661 bytes)
+[2026-06-13 22:18:29] Asset 162871241 fetched OK (8907 bytes)
+[2026-06-13 22:18:29] >> GET /asset/?id=480394966
+[2026-06-13 22:18:29] >> GET /asset/?id=7547171356
+[2026-06-13 22:18:29] Asset 162718300 fetched OK (98876 bytes)
+[2026-06-13 22:18:29] >> GET /asset/?id=7547171356
+[2026-06-13 22:18:29] >> GET /asset/?id=7547171356
+[2026-06-13 22:18:29] Asset 6789967665 fetched OK (147458 bytes)
+[2026-06-13 22:18:29] Asset 473620934 fetched OK (56794 bytes)
+[2026-06-13 22:18:29] Asset 162871196 fetched OK (166895 bytes)
+[2026-06-13 22:18:30] >> GET /v1/asset?id=531204054
+[2026-06-13 22:18:30] Asset 480394966 fetched OK (22398 bytes)
+[2026-06-13 22:18:30] Asset 7547171356 fetched OK (226 bytes)
+[2026-06-13 22:18:30] >> GET /asset/?id=473621215
+[2026-06-13 22:18:30] Asset 7547171356 fetched OK (226 bytes)
+[2026-06-13 22:18:30] >> GET /asset/?id=473621067
+[2026-06-13 22:18:30] Asset 7547171356 fetched OK (226 bytes)
+[2026-06-13 22:18:30] Asset 531204054 fetched OK (41042 bytes)
+[2026-06-13 22:18:30] Asset 473621215 fetched OK (53256 bytes)
+[2026-06-13 22:18:30] Asset 473621067 fetched OK (62261 bytes)
+[2026-06-13 22:18:30] >> GET /asset/?id=473621136
+[2026-06-13 22:18:30] >> GET /asset/?id=3214733545
+[2026-06-13 22:18:30] >> GET /asset/?id=3201381633
+[2026-06-13 22:18:30] >> GET /v1/asset?id=161420087
+[2026-06-13 22:18:30] >> GET /asset/?id=473621021
+[2026-06-13 22:18:30] >> GET /v1/asset?id=164669251
+[2026-06-13 22:18:30] Asset 161420087 fetched OK (446219 bytes)
+[2026-06-13 22:18:30] >> GET /v1/asset?id=25298496
+[2026-06-13 22:18:30] >> GET /asset/?id=473621164
+[2026-06-13 22:18:30] Asset 473621021 fetched OK (60193 bytes)
+[2026-06-13 22:18:30] Asset 3201381633 fetched OK (96993 bytes)
+[2026-06-13 22:18:30] Asset 25298496 fetched OK (177646 bytes)
+[2026-06-13 22:18:30] >> GET /asset/?id=3201399725
+[2026-06-13 22:18:30] >> GET /asset/?id=473621267
+[2026-06-13 22:18:30] >> GET /asset/?id=473623765
+[2026-06-13 22:18:30] Asset 473621136 fetched OK (54323 bytes)
+[2026-06-13 22:18:30] Asset 473621164 fetched OK (55899 bytes)
+[2026-06-13 22:18:30] >> GET /v1/asset?id=6932358523
+[2026-06-13 22:18:30] Asset 164669251 fetched OK (46541 bytes)
+[2026-06-13 22:18:30] Asset 3214733545 fetched OK (210824 bytes)
+[2026-06-13 22:18:31] >> GET /v1/asset?id=92634298
+[2026-06-13 22:18:31] >> GET /asset/?id=5435899358
+[2026-06-13 22:18:31] >> GET /asset/?id=5435878453
+[2026-06-13 22:18:31] >> GET /asset/?id=5435915831
+[2026-06-13 22:18:31] Asset 3201399725 fetched OK (28121 bytes)
+[2026-06-13 22:18:31] Asset 473621267 fetched OK (39353 bytes)
+[2026-06-13 22:18:31] Asset 92634298 fetched OK (56842 bytes)
+[2026-06-13 22:18:31] Asset 473623765 fetched OK (46364 bytes)
+[2026-06-13 22:18:31] >> GET /v1/asset?id=571636868
+[2026-06-13 22:18:31] Asset 5435899358 fetched OK (131739 bytes)
+[2026-06-13 22:18:31] >> GET /asset/?id=5435976404
+[2026-06-13 22:18:31] Asset 5435915831 fetched OK (201263 bytes)
+[2026-06-13 22:18:31] >> GET /asset/?id=5437272405
+[2026-06-13 22:18:31] >> GET /asset/?id=3215004119
+[2026-06-13 22:18:31] Asset 6932358523 fetched OK (110129 bytes)
+[2026-06-13 22:18:31] >> GET /asset/?id=3201368759
+[2026-06-13 22:18:31] >> GET /asset/?id=3215003986
+[2026-06-13 22:18:31] >> GET /asset/?id=5437299417
+[2026-06-13 22:18:31] Asset 571636868 fetched OK (19971 bytes)
+[2026-06-13 22:18:31] Asset 5435878453 fetched OK (201582 bytes)
+[2026-06-13 22:18:31] Asset 3215004119 fetched OK (78177 bytes)
+[2026-06-13 22:18:32] Asset 5435976404 fetched OK (101351 bytes)
+[2026-06-13 22:18:32] Asset 3215003986 fetched OK (91348 bytes)
+[2026-06-13 22:18:32] >> GET /asset/?id=306917565
+[2026-06-13 22:18:32] >> GET /v1/asset?id=173912996
+[2026-06-13 22:18:32] >> GET /asset/?id=5437313646
+[2026-06-13 22:18:32] Asset 5437272405 fetched OK (147317 bytes)
+[2026-06-13 22:18:32] >> GET /asset/?id=12955224969
+[2026-06-13 22:18:32] Asset 3201368759 fetched OK (93549 bytes)
+[2026-06-13 22:18:32] >> GET /asset/?id=12955203569
+[2026-06-13 22:18:32] >> GET /asset/?id=3171168641
+[2026-06-13 22:18:32] Asset 5437299417 fetched OK (195173 bytes)
+[2026-06-13 22:18:32] >> GET /v1/asset?id=238314382
+[2026-06-13 22:18:32] Asset 173912996 fetched OK (109776 bytes)
+[2026-06-13 22:18:32] Asset 238314382 fetched OK (542651 bytes)
+[2026-06-13 22:18:32] >> GET /asset/?id=3171161741
+[2026-06-13 22:18:32] Asset 306917565 fetched OK (161251 bytes)
+[2026-06-13 22:18:32] >> GET /asset/?id=3201382291
+[2026-06-13 22:18:32] Asset 5437313646 fetched OK (132323 bytes)
+[2026-06-13 22:18:32] Asset 12955203569 fetched OK (78413 bytes)
+[2026-06-13 22:18:32] >> GET /asset/?id=11830940122
+[2026-06-13 22:18:33] Asset 12955224969 fetched OK (334909 bytes)
+[2026-06-13 22:18:33] >> GET /asset/?id=238314431
+[2026-06-13 22:18:33] >> GET /v1/asset?id=6237994207
+[2026-06-13 22:18:33] >> GET /asset/?id=1688984476
+[2026-06-13 22:18:33] Asset 3171168641 fetched OK (124762 bytes)
+[2026-06-13 22:18:33] Asset 11830940122 fetched OK (526741 bytes)
+[2026-06-13 22:18:33] Asset 3201382291 fetched OK (24607 bytes)
+[2026-06-13 22:18:33] >> GET /v1/asset?id=181689885
+[2026-06-13 22:18:33] Asset 3171161741 fetched OK (105223 bytes)
+[2026-06-13 22:18:33] >> GET /asset/?id=6789953905
+[2026-06-13 22:18:33] >> GET /v1/asset?id=8876969238
+[2026-06-13 22:18:33] >> GET /v1/asset?id=8877076574
+[2026-06-13 22:18:33] >> GET /asset/?id=4659573175
+[2026-06-13 22:18:33] Asset 238314431 fetched OK (76952 bytes)
+[2026-06-13 22:18:33] Asset 1688984476 fetched OK (155604 bytes)
+[2026-06-13 22:18:33] >> GET /v1/asset?id=319941358
+[2026-06-13 22:18:34] Asset 8876969238 fetched OK (179916 bytes)
+[2026-06-13 22:18:34] Asset 6237994207 fetched OK (818199 bytes)
+[2026-06-13 22:18:34] Asset 181689885 fetched OK (309095 bytes)
+[2026-06-13 22:18:34] >> GET /v1/asset?id=319829476
+[2026-06-13 22:18:34] Asset 6789953905 fetched OK (37552 bytes)
+[2026-06-13 22:18:34] >> GET /v1/asset?id=319971762
+[2026-06-13 22:18:34] >> GET /v1/asset?id=8877024485
+[2026-06-13 22:18:34] >> GET /v1/asset?id=319826887
+[2026-06-13 22:18:34] Asset 4659573175 fetched OK (477454 bytes)
+[2026-06-13 22:18:34] >> GET /asset/?id=3201321268
+[2026-06-13 22:18:34] Asset 8877076574 fetched OK (336245 bytes)
+[2026-06-13 22:18:34] Asset 319941358 fetched OK (94567 bytes)
+[2026-06-13 22:18:34] >> GET /asset/?id=5355747943
+[2026-06-13 22:18:34] >> GET /asset/?id=5355753728
+[2026-06-13 22:18:34] Asset 319829476 fetched OK (213149 bytes)
+[2026-06-13 22:18:34] >> GET /v1/asset?id=8877159900
+[2026-06-13 22:18:34] Asset 3201321268 fetched OK (17106 bytes)
+[2026-06-13 22:18:34] Asset 319971762 fetched OK (194121 bytes)
+[2026-06-13 22:18:35] >> GET /v1/asset?id=6932360857
+[2026-06-13 22:18:35] Asset 319826887 fetched OK (140106 bytes)
+[2026-06-13 22:18:35] >> GET /v1/asset?id=319833732
+[2026-06-13 22:18:35] Asset 8877024485 fetched OK (374915 bytes)
+[2026-06-13 22:18:35] >> GET /asset/?id=238542777
+[2026-06-13 22:18:35] Asset 5355753728 fetched OK (109365 bytes)
+[2026-06-13 22:18:35] >> GET /v1/asset?id=8877207706
+[2026-06-13 22:18:35] >> GET /asset/?id=13104255441
+[2026-06-13 22:18:35] Asset 5355747943 fetched OK (137504 bytes)
+[2026-06-13 22:18:35] >> GET /asset/?id=161576918
+[2026-06-13 22:18:35] Asset 6932360857 fetched OK (143306 bytes)
+[2026-06-13 22:18:35] Asset 8877159900 fetched OK (264082 bytes)
+[2026-06-13 22:18:35] >> GET /asset/?id=163047258
+[2026-06-13 22:18:35] Asset 13104255441 fetched OK (27121 bytes)
+[2026-06-13 22:18:35] >> GET /asset/?id=3201377528
+[2026-06-13 22:18:35] Asset 319833732 fetched OK (139349 bytes)
+[2026-06-13 22:18:35] >> GET /asset/?id=163524163
+[2026-06-13 22:18:35] Asset 238542777 fetched OK (401850 bytes)
+[2026-06-13 22:18:35] >> GET /asset/?id=163174917
+[2026-06-13 22:18:36] >> GET /asset/?id=160971237
+[2026-06-13 22:18:36] Asset 161576918 fetched OK (234640 bytes)
+[2026-06-13 22:18:36] Asset 8877207706 fetched OK (315697 bytes)
+[2026-06-13 22:18:36] >> GET /v1/asset?id=8877430432
+[2026-06-13 22:18:36] Asset 163524163 fetched OK (185779 bytes)
+[2026-06-13 22:18:36] Asset 163047258 fetched OK (169713 bytes)
+[2026-06-13 22:18:36] >> GET /v1/asset?id=571636158
+[2026-06-13 22:18:36] Asset 3201377528 fetched OK (226089 bytes)
+[2026-06-13 22:18:36] >> GET /v1/asset?id=8877378535
+[2026-06-13 22:18:36] >> GET /asset/?id=12978785209
+[2026-06-13 22:18:36] >> GET /asset/?id=192294097
+[2026-06-13 22:18:36] >> GET /v1/asset?id=8877793805
+[2026-06-13 22:18:36] Asset 571636158 fetched OK (26949 bytes)
+[2026-06-13 22:18:36] Asset 163174917 fetched OK (292993 bytes)
+[2026-06-13 22:18:36] Asset 160971237 fetched OK (168543 bytes)
+[2026-06-13 22:18:36] >> GET /asset/?id=13104258099
+[2026-06-13 22:18:36] >> GET /asset/?id=12935208652
+[2026-06-13 22:18:36] >> GET /asset/?id=162812733
+[2026-06-13 22:18:37] Asset 12978785209 fetched OK (164053 bytes)
+[2026-06-13 22:18:37] Asset 13104258099 fetched OK (27932 bytes)
+[2026-06-13 22:18:37] Asset 8877378535 fetched OK (403929 bytes)
+[2026-06-13 22:18:37] Asset 8877430432 fetched OK (496728 bytes)
+[2026-06-13 22:18:37] Asset 8877793805 fetched OK (364457 bytes)
+[2026-06-13 22:18:37] Asset 162812733 fetched OK (303401 bytes)
+[2026-06-13 22:18:37] Asset 192294097 fetched OK (188921 bytes)
+[2026-06-13 22:18:37] >> GET /asset/?id=11802561076
+[2026-06-13 22:18:37] >> GET /v1/asset?id=159707533
+[2026-06-13 22:18:37] Asset 12935208652 fetched OK (528440 bytes)
+[2026-06-13 22:18:37] >> GET /v1/asset?id=159991281
+[2026-06-13 22:18:37] >> GET /asset/?id=3201391998
+[2026-06-13 22:18:37] >> GET /v1/asset?id=156263287
+[2026-06-13 22:18:37] >> GET /asset/?id=3183403283
+[2026-06-13 22:18:37] >> GET /v1/asset?id=172596465
+[2026-06-13 22:18:37] Asset 156263287 fetched OK (248161 bytes)
+[2026-06-13 22:18:37] Asset 172596465 fetched OK (431394 bytes)
+[2026-06-13 22:18:37] >> GET /v1/asset?id=161309663
+[2026-06-13 22:18:37] Asset 159991281 fetched OK (265335 bytes)
+[2026-06-13 22:18:37] >> GET /v1/asset?id=159963965
+[2026-06-13 22:18:37] >> GET /v1/asset?id=160024546
+[2026-06-13 22:18:37] Asset 3201391998 fetched OK (32844 bytes)
+[2026-06-13 22:18:37] Asset 159707533 fetched OK (248457 bytes)
+[2026-06-13 22:18:37] >> GET /v1/asset?id=126534866
+[2026-06-13 22:18:38] Asset 159963965 fetched OK (20944 bytes)
+[2026-06-13 22:18:38] Asset 11802561076 fetched OK (559932 bytes)
+[2026-06-13 22:18:38] Asset 126534866 fetched OK (161955 bytes)
+[2026-06-13 22:18:38] >> GET /v1/asset?id=95356090
+[2026-06-13 22:18:38] >> POST /studio/pbe
+[2026-06-13 22:18:38] Asset 3183403283 fetched OK (701858 bytes)
+[2026-06-13 22:18:38] << /studio/pbe -> {}
+[2026-06-13 22:18:38] >> GET /v2/settings/application/PCStudioApp
+[2026-06-13 22:18:38] << /v2/settings/application/PCStudioApp -> {"applicationSettings":{}}
+[2026-06-13 22:18:38] >> GET /asset/?id=4659577665
+[2026-06-13 22:18:38] Asset 95356090 fetched OK (401316 bytes)
+[2026-06-13 22:18:38] >> GET /v1/asset?id=6789964726
+[2026-06-13 22:18:38] >> GET /asset/?id=6789965150
+[2026-06-13 22:18:38] >> GET /asset/?id=1106696354
+[2026-06-13 22:18:38] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:18:38] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:18:38] Asset 6789964726 fetched OK (32785 bytes)
+[2026-06-13 22:18:38] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:18:38] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:18:38] Asset 161309663 fetched OK (923590 bytes)
+[2026-06-13 22:18:38] >> GET /v1/asset?id=118269783
+[2026-06-13 22:18:38] Asset 160024546 fetched OK (348344 bytes)
+[2026-06-13 22:18:38] >> GET /asset/?id=5225902475
+[2026-06-13 22:18:38] >> POST /studio/pbe
+[2026-06-13 22:18:38] << /studio/pbe -> {}
+[2026-06-13 22:18:38] >> POST /studio/pbe
+[2026-06-13 22:18:38] << /studio/pbe -> {}
+[2026-06-13 22:18:38] Asset 118269783 fetched OK (526372 bytes)
+[2026-06-13 22:18:38] >> GET /v1/asset?id=198413638
+[2026-06-13 22:18:38] >> GET /oauth/.well-known/openid-configuration
+[2026-06-13 22:18:38] << /oauth/.well-known/openid-configuration -> {"issuer":"http://localhost/oauth/","authorization_endpoint":"http://localhost/oauth/v1/authorize","token_endpoint":"http://localhost/oauth/v1/token","introspection_endpoint":"http://localhost/oauth/v1/token/introspect","revocation_endpoint":"http://localhost/oauth/v1/token/revoke","resources_endpoint":"http://localhost/oauth/v1/token/resources","userinfo_endpoint":"http://localhost/oauth/v1/userinfo","jwks_uri":"http://localhost/oauth/v1/certs","registration_endpoint":"http://localhost/dashboard/credentials","service_documentation":"http://localhost/docs/reference/cloud","scopes_supported":["openid","profile","email","verification","credentials","age","premium","roles","attributes"],"response_types_supported":["none","code"],"subject_types_supported":["public"],"id_token_signing_alg_values_supported":["ES256"],"claims_supported":["sub","type","iss","aud","exp","iat","nonce","name","nickname","preferred_username","created_at","profile","picture","email","email_ve
+[2026-06-13 22:18:39] >> GET /v1/asset?id=160219396
+[2026-06-13 22:18:39] Asset 6789965150 fetched OK (163992 bytes)
+[2026-06-13 22:18:39] Asset 198413638 fetched OK (239695 bytes)
+[2026-06-13 22:18:39] Asset 1106696354 fetched OK (101630 bytes)
+[2026-06-13 22:18:39] Asset 4659577665 fetched OK (428077 bytes)
+[2026-06-13 22:18:39] >> GET /asset/?id=545392975
+[2026-06-13 22:18:39] Asset 160219396 fetched OK (178969 bytes)
+[2026-06-13 22:18:39] >> GET /universal-app-configuration/v1/behaviors/studio/content
+[2026-06-13 22:18:39] << /universal-app-configuration/v1/behaviors/studio/content -> {}
+[2026-06-13 22:18:39] >> GET /v1/asset?id=160274812
+[2026-06-13 22:18:39] >> GET /v1/asset?id=159899596
+[2026-06-13 22:18:39] Asset 5225902475 fetched OK (32167 bytes)
+[2026-06-13 22:18:39] >> GET /v1/asset?id=159670413
+[2026-06-13 22:18:39] >> GET /v1/asset?id=190406390
+[2026-06-13 22:18:39] >> GET /asset/?id=7164849213
+[2026-06-13 22:18:39] Asset 160274812 fetched OK (79996 bytes)
+[2026-06-13 22:18:39] >> GET /v1/asset?id=161642996
+[2026-06-13 22:18:39] Asset 159670413 fetched OK (228158 bytes)
+[2026-06-13 22:18:39] >> GET /asset/?id=162911948
+[2026-06-13 22:18:39] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:18:39] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:18:39] Asset 161642996 fetched OK (257593 bytes)
+[2026-06-13 22:18:39] >> GET /v1/asset?id=241077941
+[2026-06-13 22:18:39] Asset 545392975 fetched OK (70121 bytes)
+[2026-06-13 22:18:39] >> GET /asset/?id=6789965503
+[2026-06-13 22:18:39] Asset 241077941 fetched OK (856081 bytes)
+[2026-06-13 22:18:39] >> GET /v1/asset?id=51941734
+[2026-06-13 22:18:39] Asset 6789965503 fetched OK (139036 bytes)
+[2026-06-13 22:18:39] Asset 7164849213 fetched OK (53537 bytes)
+[2026-06-13 22:18:39] Asset 159899596 fetched OK (117736 bytes)
+[2026-06-13 22:18:39] >> GET /v1/asset?id=51682254
+[2026-06-13 22:18:40] Asset 190406390 fetched OK (77440 bytes)
+[2026-06-13 22:18:40] >> GET /asset/?id=48737841
+[2026-06-13 22:18:40] >> GET /v1/asset?id=161254231
+[2026-06-13 22:18:40] >> GET /v1/asset?id=130099641
+[2026-06-13 22:18:40] Asset 162911948 fetched OK (285479 bytes)
+[2026-06-13 22:18:40] >> GET /asset/?id=209727730
+[2026-06-13 22:18:40] >> GET /asset/?id=3171220436
+[2026-06-13 22:18:40] Asset 51682254 fetched OK (486820 bytes)
+[2026-06-13 22:18:40] Asset 130099641 fetched OK (301529 bytes)
+[2026-06-13 22:18:40] >> POST /studio/pbe
+[2026-06-13 22:18:40] << /studio/pbe -> {}
+[2026-06-13 22:18:40] Asset 209727730 fetched OK (40221 bytes)
+[2026-06-13 22:18:40] Asset 51941734 fetched OK (113652 bytes)
+[2026-06-13 22:18:40] Asset 48737841 fetched OK (148005 bytes)
+[2026-06-13 22:18:40] >> GET /asset/?id=306916804
+[2026-06-13 22:18:40] >> GET /v1/asset?id=450686548
+[2026-06-13 22:18:40] >> GET /v1/asset?id=178259396

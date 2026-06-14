@@ -1,0 +1,55 @@
+[2026-06-13 22:18:37] === HookedWebserver startup ===
+[2026-06-13 22:18:37] DLL directory: C:\Users\catoa\Desktop\OffBloxMain\Clients\OffBlox\
+[2026-06-13 22:18:37] Username: HearMeRoar  UserId: 14463315
+[2026-06-13 22:18:37] HTTP port: 80  HTTPS port: 443
+[2026-06-13 22:18:37] Winsock initialized
+[2026-06-13 22:18:37] Sign key: loaded OK
+[2026-06-13 22:18:37] SSL: PEM cert+key loaded OK (PKCS#8 key, no PFX needed)
+[2026-06-13 22:18:38] SSL/TLS: loaded OK
+[2026-06-13 22:18:38] Server WATCHDOG — another instance owns port 80, monitoring...
+[2026-06-13 22:18:38] Startup complete.
+[2026-06-13 22:18:38] Roblox cookie probe (users/authenticated): HTTP 200 -> valid
+[2026-06-13 22:18:38] Roblox cookie: loaded & valid
+[2026-06-13 22:22:41] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:22:41] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-13 22:22:42] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:22:42] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:22:42] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:22:42] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-13 22:22:42] >> GET /studio/e.png?studioSid=E18009C6-6056-45D6-A536-FDE38AA6DB9E&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414562767&userID=14463315&placeID=9000000000065&category=Game&evt=ComputerCameraMovementModeMS&label=Default&value=244737&SD.Platform.ID=5DC0E8833F3044C39825BE99732F8E84&SD.Platform.CT=1781414319536&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=0EEA74702D24416D86A3B30006682D09&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414321316&SD.UserSession.ID=F0A5EAA86B314D1C8A3508DFC66D1085&SD.UserSession.CT=1781414328502&SD.UserSession.MD.Type=LoggedIn&SD.MainViewSession.ID=3EF9E8E5665C4DE8A157CBD89883B5DA&SD.MainViewSession.CT=1781414328502&SD.MainViewSession.MD.Type=StartServer&SD.MainViewSession.MD.PlaceId=9000000000065
+[2026-06-13 22:22:42] >> GET /studio/e.png?studioSid=E18009C6-6056-45D6-A536-FDE38AA6DB9E&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414562767&userID=14463315&placeID=9000000000065&category=Game&evt=ComputerMovementModeMS&label=Default&value=244737&SD.Platform.ID=5DC0E8833F3044C39825BE99732F8E84&SD.Platform.CT=1781414319536&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=0EEA74702D24416D86A3B30006682D09&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414321316&SD.UserSession.ID=F0A5EAA86B314D1C8A3508DFC66D1085&SD.UserSession.CT=1781414328502&SD.UserSession.MD.Type=LoggedIn&SD.MainViewSession.ID=3EF9E8E5665C4DE8A157CBD89883B5DA&SD.MainViewSession.CT=1781414328502&SD.MainViewSession.MD.Type=StartServer&SD.MainViewSession.MD.PlaceId=9000000000065
+[2026-06-13 22:22:43] << /studio/e.png -> {}
+[2026-06-13 22:22:43] << /studio/e.png -> {}
+[2026-06-13 22:22:43] >> POST /developer-event-ingest/v1/send-batch
+[2026-06-13 22:22:43] 404 POST /developer-event-ingest/v1/send-batch
+[2026-06-13 22:22:43] << /developer-event-ingest/v1/send-batch -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-13 22:22:44] >> GET /studio/e.png?studioSid=E18009C6-6056-45D6-A536-FDE38AA6DB9E&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414563756&userID=14463315&placeID=9000000000065&category=Game&evt=ComputerCameraMovementModeMS&label=Default&value=987&SD.Platform.ID=5DC0E8833F3044C39825BE99732F8E84&SD.Platform.CT=1781414319536&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=0EEA74702D24416D86A3B30006682D09&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414321316&SD.UserSession.ID=F0A5EAA86B314D1C8A3508DFC66D1085&SD.UserSession.CT=1781414328502&SD.UserSession.MD.Type=LoggedIn&SD.MainViewSession.ID=A74F559527544CB7B404BC11F8713440&SD.MainViewSession.CT=1781414563739&SD.MainViewSession.MD.Type=StartPage&SD.MainViewSession.MD.PlaceId=9000000000065
+[2026-06-13 22:22:44] >> GET /studio/e.png?studioSid=E18009C6-6056-45D6-A536-FDE38AA6DB9E&clientID=1983CBC1-BFEF-4E46-A6E5-7574E69AA5BC&timestamp=1781414563756&userID=14463315&placeID=9000000000065&category=Game&evt=ComputerMovementModeMS&label=Default&value=987&SD.Platform.ID=5DC0E8833F3044C39825BE99732F8E84&SD.Platform.CT=1781414319536&SD.StudioSession.MD.Type=StartServer&SD.StudioSession.ID=0EEA74702D24416D86A3B30006682D09&SD.Platform.MD.DebugVersion=FFlagStudioFlushDeferredEventsBlock%2C%20FFlagFixMissingStudioStartupSummaryEvent%2C%20FFlagFixWinStudioMissingStartEvent&SD.StudioSession.CT=1781414321316&SD.UserSession.ID=F0A5EAA86B314D1C8A3508DFC66D1085&SD.UserSession.CT=1781414328502&SD.UserSession.MD.Type=LoggedIn&SD.MainViewSession.ID=A74F559527544CB7B404BC11F8713440&SD.MainViewSession.CT=1781414563739&SD.MainViewSession.MD.Type=StartPage&SD.MainViewSession.MD.PlaceId=9000000000065
+[2026-06-13 22:22:44] << /studio/e.png -> {}
+[2026-06-13 22:22:44] << /studio/e.png -> {}
+[2026-06-13 22:22:44] >> POST /studio/pbe
+[2026-06-13 22:22:44] >> POST /studio/pbe
+[2026-06-13 22:22:44] >> POST /studio/pbe
+[2026-06-13 22:22:44] >> PATCH /studio-user-settings/v1/user/studiodata/CloudEditKey_placeId9000000000065
+[2026-06-13 22:22:44] << /studio/pbe -> {}
+[2026-06-13 22:22:44] << /studio/pbe -> {}
+[2026-06-13 22:22:44] << /studio/pbe -> {}
+[2026-06-13 22:22:44] << /studio-user-settings/v1/user/studiodata/CloudEditKey_placeId9000000000065 -> {}
+[2026-06-13 22:22:44] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:22:44] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:22:44] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-13 22:22:44] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:22:44] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:22:44] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:22:44] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-13 22:22:44] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:22:44] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C%2D3AE1%2D4028%2D9F10%2D7C62520BD94F
+[2026-06-13 22:22:44] >> POST /studio/pbe
+[2026-06-13 22:22:44] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-13 22:22:44] << /studio/pbe -> {}
+[2026-06-13 22:22:45] >> POST /studio/pbe
+[2026-06-13 22:22:45] >> POST /studio/pbe
+[2026-06-13 22:22:45] << /studio/pbe -> {}
+[2026-06-13 22:22:45] << /studio/pbe -> {}
+[2026-06-13 22:22:46] >> POST /studio/pbe
+[2026-06-13 22:22:46] << /studio/pbe -> {}

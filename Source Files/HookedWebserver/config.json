@@ -1,0 +1,34 @@
+{
+  "port": 80,
+  "httpsPort": 443,
+  "host": "0.0.0.0",
+  "watchdogIntervalMs": 5000,
+  "watchdogRetries": 3,
+  "logRequests": true,
+  "dataDir": "./data",
+  "wwwDir": "./www",
+
+  "hardcodedUser": {
+    "sub": "701953216",
+    "name": "k643h20e48tNParker22",
+    "nickname": "Dev",
+    "preferred_username": "k643h20e48tNParker22",
+    "created_at": 1680000000,
+    "profile": "https://www.roblox.com/users/701953216/profile",
+    "picture": "https://www.roblox.com/headshot-thumbnail/image?userId=701953216&width=420&height=420",
+    "email": "dev@roblox.example",
+    "email_verified": true,
+    "verified": true,
+    "age_bracket": "18+",
+    "premium": true,
+    "roles": ["Developer"],
+    "internal_user": false,
+    "attributes": {}
+  },
+
+  "studioVersion": {
+    "version": "0.691.0.6910867",
+    "clientVersionUpload": "version-f0b439683245446c",
+    "bootstrapperVersion": "1.0.0.0"
+  }
+}

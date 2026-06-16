@@ -1,0 +1,276 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "ruleId": "C6387",
+          "message": {
+            "text": "'hWs2' could be '0':  this does not adhere to the specification for the function 'GetProcAddress'. "
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/udp_relay.cpp"
+                },
+                "region": {
+                  "startLine": 353,
+                  "startColumn": 30
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "RobloxStudioPatcher::StartUdpRelay",
+                  "decoratedName": "?StartUdpRelay@RobloxStudioPatcher@@YA_NXZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/udp_relay.cpp"
+                          },
+                          "region": {
+                            "startLine": 304,
+                            "startColumn": 20
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/udp_relay.cpp"
+                          },
+                          "region": {
+                            "startLine": 305,
+                            "startColumn": 20
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/udp_relay.cpp"
+                          },
+                          "region": {
+                            "startLine": 307,
+                            "startColumn": 13
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/udp_relay.cpp"
+                          },
+                          "region": {
+                            "startLine": 310,
+                            "startColumn": 21
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/udp_relay.cpp"
+                          },
+                          "region": {
+                            "startLine": 311,
+                            "startColumn": 20
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/udp_relay.cpp"
+                          },
+                          "region": {
+                            "startLine": 314,
+                            "startColumn": 17
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/udp_relay.cpp"
+                          },
+                          "region": {
+                            "startLine": 316,
+                            "startColumn": 14
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/udp_relay.cpp"
+                          },
+                          "region": {
+                            "startLine": 318,
+                            "startColumn": 13
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/udp_relay.cpp"
+                          },
+                          "region": {
+                            "startLine": 352,
+                            "startColumn": 21
+                          }
+                        },
+                        "message": {
+                          "text": "'hWs2' may be NULL"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ],
+                      "importance": "essential"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/udp_relay.cpp"
+                          },
+                          "region": {
+                            "startLine": 353,
+                            "startColumn": 30
+                          }
+                        },
+                        "message": {
+                          "text": "'hWs2' is an In/Out argument to 'GetProcAddress' (declared at c:\\program files (x86)\\windows kits\\10\\include\\10.0.22621.0\\um\\libloaderapi.h:309)"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/udp_relay.cpp"
+                          },
+                          "region": {
+                            "startLine": 353,
+                            "startColumn": 30
+                          }
+                        },
+                        "message": {
+                          "text": "'hWs2' should not be NULL, because this is not consistent with the SAL annotation on 'GetProcAddress'"
+                        }
+                      },
+                      "kinds": [
+                        "usage"
+                      ],
+                      "importance": "essential"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.41.34120.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/udp_relay.cpp"
+          },
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ],
+          "hashes": {
+            "sha-256": "e3d0d05d567cb9269c00c271912fbc53077372fac3a52bee25d0ebfe96bab1a8"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/udp_relay.h"
+          },
+          "hashes": {
+            "sha-256": "bd2601e1a366af5fbeec76c6e6aec5ef2ebe72a462f4813e6c4968f894d85c10"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/patcher.h"
+          },
+          "hashes": {
+            "sha-256": "e6f85065ea022809414c7f3763a61d536ea4f73e3ef1415a86c8a92d95ec1328"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/iat_hook.h"
+          },
+          "hashes": {
+            "sha-256": "a2fe66fe77339b33694d932c43920986faf26069029ed95fd058acda8fbce7ee"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/name_patcher.h"
+          },
+          "hashes": {
+            "sha-256": "7333689fd1d442ed285a5c1bd9529a88458060ba1fc26ee49da82132a10b93a9"
+          }
+        }
+      ]
+    }
+  ]
+}

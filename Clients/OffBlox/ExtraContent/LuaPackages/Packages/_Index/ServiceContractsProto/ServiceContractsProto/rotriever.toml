@@ -1,0 +1,43 @@
+[package]
+name = "ServiceContractsProto"
+version = "1.0.1542+20260604"
+readme = "README.md"
+content_root = "protos/gen/luau"
+files = [
+    "README.md",
+    "init.lua",
+    "proto/*",
+    "google/**/*",
+    "roblox/apppageplatform/badges/v1beta1/**/*",
+    "roblox/apppageplatform/badges/v1beta1/*",
+    "roblox/apppageplatform/shared/v1beta1/**/*",
+    "roblox/apppageplatform/shared/v1beta1/*",
+    "roblox/apppageplatform/experiencedetails/v1beta1/**/*",
+    "roblox/apppageplatform/experiencedetails/v1beta1/*",
+    "roblox/apppageplatform/prompts/v1beta1/**/*",
+    "roblox/apppageplatform/prompts/v1beta1/*",
+    "roblox/apppageplatform/experienceevents/v1beta1/**/*",
+    "roblox/apppageplatform/experienceevents/v1beta1/*",
+    "roblox/apppageplatform/marketplacecatalog/v1beta1/**/*",
+    "roblox/apppageplatform/marketplacecatalog/v1beta1/*",
+    "roblox/apppageplatform/charts/v1beta1/**/*",
+    "roblox/apppageplatform/charts/v1beta1/*",
+    "roblox/apppageplatform/devstore/v1beta1/**/*",
+    "roblox/apppageplatform/devstore/v1beta1/*",
+    "roblox/apppageplatform/home/v1beta1/**/*",
+    "roblox/apppageplatform/home/v1beta1/*",
+    "roblox/apppageplatform/search/v1beta1/**/*",
+    "roblox/apppageplatform/search/v1beta1/*",
+    "roblox/apppageplatform/*",
+]
+publish = true
+authors = [
+    "Roblox",
+    "Peter Turner <pturner@roblox.com>",
+]
+description = "Generated luau code from service contracts"
+repository = "https://github.rbx.com/Roblox/service-contracts"
+keywords = [
+    "service-contracts",
+    "proto",
+]

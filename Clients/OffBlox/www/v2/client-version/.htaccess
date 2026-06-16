@@ -1,0 +1,8 @@
+# Studio's UpdateRequest fetcher hits /v2/client-version/WindowsStudio64
+# without a trailing slash. Without this, Apache either 301s (which the
+# fetcher doesn't follow) or shows the folder's auto-index HTML, and
+# Studio responds to the unparseable HTML by popping the "out of date" dialog.
+DirectorySlash Off
+
+RewriteEngine On
+RewriteRule ^WindowsStudio64/?$ WindowsStudio64/index.php [L]

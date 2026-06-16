@@ -1,0 +1,567 @@
+[2026-06-15 19:39:25] === HookedWebserver startup ===
+[2026-06-15 19:39:25] DLL directory: C:\Users\catoa\Desktop\Roblox Downloads\OffBloxModern\Clients\OffBlox\
+[2026-06-15 19:39:25] Username: HearMeRoar  UserId: 14463315
+[2026-06-15 19:39:25] HTTP port: 80  HTTPS port: 443
+[2026-06-15 19:39:25] Winsock initialized
+[2026-06-15 19:39:25] Sign key: loaded OK
+[2026-06-15 19:39:25] SSL: PEM cert+key loaded OK (PKCS#8 key, no PFX needed)
+[2026-06-15 19:39:25] SSL/TLS: loaded OK
+[2026-06-15 19:39:25] Server ACTIVE — listening on HTTP:80 and HTTPS:443
+[2026-06-15 19:39:25] Startup complete.
+[2026-06-15 19:39:25] Roblox cookie probe (users/authenticated): HTTP 200 -> valid
+[2026-06-15 19:39:25] Roblox cookie: loaded & valid
+[2026-06-15 19:39:27] >> GET /guac-v2/v1/bundles/studio
+[2026-06-15 19:39:27] >> GET /v2/client-version/WindowsStudio64
+[2026-06-15 19:39:27] >> GET /v2/settings/application/PCStudioApp
+[2026-06-15 19:39:27] << /guac-v2/v1/bundles/studio -> {"version":"1","bundle":{"name":"studio","configurations":{"Feature_DisableOldCookieManagementSticky":"0;100","Feature_UnifiedCookieProtocolEnabled":"0;100","Feature_UnifiedCookieProtocolEnabledSticky":"0;100","Feature_AccessCookiesWithUrlEnabledSticky":"0;100"},"experiments":{}}}
+[2026-06-15 19:39:27] << /v2/client-version/WindowsStudio64 -> {"version":"0.578.0.5780566","clientVersionUpload":"version-f0b439683245446c","bootstrapperVersion":"1.0.0.0","nextClientVersion":"0.578.0.5780566","nextClientVersionUpload":"version-f0b439683245446c","flagOnly":true}
+[2026-06-15 19:39:27] >> GET /oauth/.well-known/openid-configuration
+[2026-06-15 19:39:27] >> POST /studio/pbe
+[2026-06-15 19:39:27] << /oauth/.well-known/openid-configuration -> {"issuer":"http://localhost/oauth/","authorization_endpoint":"http://localhost/oauth/v1/authorize","token_endpoint":"http://localhost/oauth/v1/token","introspection_endpoint":"http://localhost/oauth/v1/token/introspect","revocation_endpoint":"http://localhost/oauth/v1/token/revoke","resources_endpoint":"http://localhost/oauth/v1/token/resources","userinfo_endpoint":"http://localhost/oauth/v1/userinfo","jwks_uri":"http://localhost/oauth/v1/certs","registration_endpoint":"http://localhost/dashboard/credentials","service_documentation":"http://localhost/docs/reference/cloud","scopes_supported":["openid","profile","email","verification","credentials","age","premium","roles","attributes"],"response_types_supported":["none","code"],"subject_types_supported":["public"],"id_token_signing_alg_values_supported":["ES256"],"claims_supported":["sub","type","iss","aud","exp","iat","nonce","name","nickname","preferred_username","created_at","profile","picture","email","email_ve
+[2026-06-15 19:39:27] << /studio/pbe -> {}
+[2026-06-15 19:39:27] >> POST /product-experimentation-platform/v1/projects/1/values
+[2026-06-15 19:39:27] >> POST /studio/pbe
+[2026-06-15 19:39:27] << /product-experimentation-platform/v1/projects/1/values -> {"assignments":[]}
+[2026-06-15 19:39:27] << /studio/pbe -> {}
+[2026-06-15 19:39:28] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:39:28] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:39:28] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:39:28] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:39:28] >> GET /oauth/v1/authorize?response_type=code&code_challenge=yFZhRZPKm03ytaHZG_vL80LYbNzjrQ4aqD2O3TmQDTA&code_challenge_method=S256&client_id&redirect_uri=roblox-studio-auth%3A%2F&scope=openid+credentials+profile+age+roles+premium+verification&nonce=id-roblox&state=eyJwaWQiOiIyMDE0MCIsImV2ZW50X2hhbmRsZXJfbmFtZSI6IkV4dGVybmFsTG9naW5GbG93IiwiZGF0YSI6IjRYNFV4bjZEaDVKUUlkTEpJTjI5ZkdNZDhnbUZzYmEwcjdzOV9PckRsajAifQ%3D%3D
+[2026-06-15 19:39:28] /authorize: client_id='roblox_studio_client' nonce='id-roblox' redirect_uri='roblox-studio-auth:/'
+[2026-06-15 19:39:29] >> POST /oauth/v1/token
+[2026-06-15 19:39:29] /v1/token body: [grant_type=authorization_code&code=hardcoded_auth_code_2023&code_verifier=272I8KOX4j73B-e--xa6Ew-RGTXd-nHrPvMDk1OjI7I&client_id=]
+[2026-06-15 19:39:29] /v1/token qs client_id: [(missing)]
+[2026-06-15 19:39:29] << /oauth/v1/token -> {"access_token":"hardcoded_access_token","token_type":"Bearer","expires_in":1800,"refresh_token":"hardcoded_refresh_token","scope":"openid credentials profile age roles premium","id_token":"eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImhhcmRjb2RlZC1rZXktMSJ9.eyJzdWIiOiIxNDQ2MzMxNSIsInR5cGUiOiJVc2VyIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdC9vYXV0aC8iLCJhdWQiOiJyb2Jsb3hfc3R1ZGlvX2NsaWVudCIsImV4cCI6MTc4MTU3OTM2NCwiaWF0IjoxNzgxNTc3NTY0LCJub25jZSI6ImlkLXJvYmxveCIsIm5hbWUiOiJIZWFyTWVSb2FyIiwibmlja25hbWUiOiJEZXYiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJIZWFyTWVSb2FyIiwiY3JlYXRlZF9hdCI6MTY4MDAwMDAwMCwicHJvZmlsZSI6Imh0dHBzOi8vd3d3LnJvYmxveC5jb20vdXNlcnMvMTQ0NjMzMTUvcHJvZmlsZSIsInBpY3R1cmUiOiJodHRwczovL3d3dy5yb2Jsb3guY29tL2hlYWRzaG90LXRodW1ibmFpbC9pbWFnZT91c2VySWQ9MTQ0NjMzMTUmd2lkdGg9NDIwJmhlaWdodD00MjAiLCJlbWFpbCI6ImRldkByb2Jsb3guZXhhbXBsZSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJ2ZXJpZmllZCI6dHJ1ZSwiYWdlX2JyYWNrZXQiOiIxOCsiLCJwcmVtaXVtIjp0cnVlLCJyb2xlcyI6WyJEZXZlbG9wZXIiXSwiaW50ZXJuYWxfdXNlciI6ZmFsc2UsImF0dHJpYnV0ZXMiOn
+[2026-06-15 19:39:30] >> GET /v1/not-approved
+[2026-06-15 19:39:30] << /v1/not-approved -> {}
+[2026-06-15 19:39:30] >> POST /validate-machine
+[2026-06-15 19:39:30] << /validate-machine -> {}
+[2026-06-15 19:39:30] >> GET /oauth/v1/userinfo
+[2026-06-15 19:39:30] << /oauth/v1/userinfo -> {"sub":"14463315","type":"User","iss":"http://localhost/oauth/","aud":"roblox_studio_client","exp":1781581170,"iat":1781577570,"nonce":"id-roblox","name":"HearMeRoar","nickname":"Dev","preferred_username":"HearMeRoar","created_at":1680000000,"email":"dev@roblox.example","email_verified":true,"verified":true,"age_bracket":"18+","premium":true,"roles":["Developer"],"internal_user":false,"attributes":{}}
+[2026-06-15 19:39:30] >> POST /product-experimentation-platform/v1/projects/1/values
+[2026-06-15 19:39:30] >> POST /product-experimentation-platform/v1/projects/1/values
+[2026-06-15 19:39:30] << /product-experimentation-platform/v1/projects/1/values -> {"assignments":[]}
+[2026-06-15 19:39:30] << /product-experimentation-platform/v1/projects/1/values -> {"assignments":[]}
+[2026-06-15 19:39:30] >> POST /product-experimentation-platform/v1/projects/1/values
+[2026-06-15 19:39:30] >> POST /user-heartbeats-api/action-report
+[2026-06-15 19:39:30] << /product-experimentation-platform/v1/projects/1/values -> {"assignments":[]}
+[2026-06-15 19:39:30] << /user-heartbeats-api/action-report -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-15 19:39:30] >> GET /userhub/?id=
+[2026-06-15 19:39:30] 404 GET /userhub/
+[2026-06-15 19:39:30] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:39:31] >> GET /studio-user-data-api/beta-feature-metadata
+[2026-06-15 19:39:31] >> GET /studio-user-data-api/beta-feature?pageSize=1000000000
+[2026-06-15 19:39:31] >> GET /studio-user-data-api/plugin-metadata?pageSize=1000000000
+[2026-06-15 19:39:31] >> GET /studio-user-settings/plugin-permissions/v2/plugins?permissionType=ScriptInjection&cursor&pageSize=100
+[2026-06-15 19:39:31] >> GET /studio-user-settings/plugin-permissions/v2/plugins?permissionType=HttpService&cursor&pageSize=100
+[2026-06-15 19:39:31] >> GET /v2/user-channel?binaryType=WindowsStudio64
+[2026-06-15 19:39:31] << /studio-user-data-api/beta-feature-metadata -> {}
+[2026-06-15 19:39:31] << /studio-user-data-api/beta-feature -> {}
+[2026-06-15 19:39:31] << /studio-user-data-api/plugin-metadata -> {}
+[2026-06-15 19:39:31] << /studio-user-settings/plugin-permissions/v2/plugins -> {}
+[2026-06-15 19:39:31] << /studio-user-settings/plugin-permissions/v2/plugins -> {}
+[2026-06-15 19:39:31] << /v2/user-channel -> {}
+[2026-06-15 19:39:31] >> GET /access-management/v1/feature-access?featureNames=ShowIllegalContentReport&nameSpace=studio%2FSafetyFeatures
+[2026-06-15 19:39:31] >> GET /v1/universes/multiget?ids=9000000000098&ids=9000000000048&ids=9000000000068&ids=9000000000016&ids=9000000000088&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000020&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&ids=9000000000060&ids=9000000000024
+[2026-06-15 19:39:31] >> GET /my/settings/json
+[2026-06-15 19:39:31] << /access-management/v1/feature-access -> {"featureAccess":[],"data":[]}
+[2026-06-15 19:39:31] << /my/settings/json -> {"UserId":14463315,"UserName":"HearMeRoar","DisplayName":"HearMeRoar","RobuxBalance":9999999999,"IsEmailVerified":true,"IsPremiumUser":true,"AgeBracket":0,"CountryCode":"US","Roles":["Developer","Soothsayer"],"AccountAgeInDays":1324354}
+[2026-06-15 19:39:31] >> GET /userhub/?id=
+[2026-06-15 19:39:31] 404 GET /userhub/
+[2026-06-15 19:39:31] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:39:31] >> GET /v1/universes/multiget/teamcreate?ids=9000000000098&ids=9000000000048&ids=9000000000068&ids=9000000000016&ids=9000000000088&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000020&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&ids=9000000000060&ids=9000000000024
+[2026-06-15 19:39:31] TeamCreate stub (disabled): GET /v1/universes/multiget/teamcreate
+[2026-06-15 19:39:31] << /v1/universes/multiget/teamcreate -> {"data":[{"id":9000000000098,"isEnabled":false},{"id":9000000000048,"isEnabled":false},{"id":9000000000068,"isEnabled":false},{"id":9000000000016,"isEnabled":false},{"id":9000000000088,"isEnabled":false},{"id":9000000000064,"isEnabled":false},{"id":9000000000092,"isEnabled":false},{"id":9000000000096,"isEnabled":false},{"id":9000000000080,"isEnabled":false},{"id":9000000000018,"isEnabled":false},{"id":9000000000040,"isEnabled":false},{"id":9000000000030,"isEnabled":false},{"id":9000000000070,"isEnabled":false},{"id":9000000000034,"isEnabled":false},{"id":9000000000020,"isEnabled":false},{"id":9000000000002,"isEnabled":false},{"id":9000000000026,"isEnabled":false},{"id":9000000000052,"isEnabled":false},{"id":9000000000022,"isEnabled":false},{"id":9000000000050,"isEnabled":false},{"id":9000000000062,"isEnabled":false},{"id":9000000000044,"isEnabled":false},{"id":9000000000060,"isEnabled":false},{"id":9000000000024,"isEnabled":false}]}
+[2026-06-15 19:39:31] >> POST /v1/users
+[2026-06-15 19:39:31] << /v1/users -> {"data":[{"id":14463315,"name":"HearMeRoar","displayName":"HearMeRoar"}]}
+[2026-06-15 19:39:31] >> GET /v1/gametemplates?searchKey=Templates&pageSize=30&search=All&isTemplates=true
+[2026-06-15 19:39:31] << /v1/gametemplates -> {"data":[{"gameTemplateType":"Generic","hasTutorials":false,"universe":{"id":28220420,"name":"Baseplate","description":"Start from a clean baseplate.","isArchived":false,"rootPlaceId":95206881,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2017-04-26T00:00:00Z","updated":"2017-04-26T00:00:00Z","isFriendsOnly":false,"audiences":[1,3,4]}}]}
+[2026-06-15 19:39:32] >> GET /doc-site/v2/feeds?surfaceType=StudioStart
+[2026-06-15 19:39:32] << /doc-site/v2/feeds -> {"data":{"feedItems":[]}}
+[2026-06-15 19:39:32] >> GET /v2/universes/9000000000098/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:32] >> POST /v1/batch
+[2026-06-15 19:39:32] << /v2/universes/9000000000098/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000099,"universeId":9000000000098,"name":"Youtube Tycoon","description":""}]}
+[2026-06-15 19:39:32] << /v1/batch -> {"data":[]}
+[2026-06-15 19:39:32] >> GET /v2/universes/9000000000048/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:32] << /v2/universes/9000000000048/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000049,"universeId":9000000000048,"name":"Pokemon Brick Bronze","description":""}]}
+[2026-06-15 19:39:32] >> GET /v2/universes/9000000000068/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:32] << /v2/universes/9000000000068/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000069,"universeId":9000000000068,"name":"Weight Lifting Simulator 2","description":""}]}
+[2026-06-15 19:39:33] >> GET /v2/universes/9000000000016/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:33] << /v2/universes/9000000000016/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000017,"universeId":9000000000016,"name":"Prison Life V2.0","description":""}]}
+[2026-06-15 19:39:33] >> GET /v2/universes/9000000000088/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:33] << /v2/universes/9000000000088/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000089,"universeId":9000000000088,"name":"Muffin Kombat","description":""}]}
+[2026-06-15 19:39:33] >> GET /v2/universes/9000000000064/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:33] << /v2/universes/9000000000064/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000065,"universeId":9000000000064,"name":"New MM2","description":""}]}
+[2026-06-15 19:39:33] >> GET /v2/universes/9000000000092/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:33] << /v2/universes/9000000000092/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000093,"universeId":9000000000092,"name":"Meepcity","description":""}]}
+[2026-06-15 19:39:33] >> GET /userhub/?id=
+[2026-06-15 19:39:33] 404 GET /userhub/
+[2026-06-15 19:39:33] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:39:33] >> GET /v2/universes/9000000000096/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:33] << /v2/universes/9000000000096/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000097,"universeId":9000000000096,"name":"Tower of hell","description":""}]}
+[2026-06-15 19:39:34] >> GET /v2/universes/9000000000080/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:34] << /v2/universes/9000000000080/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000081,"universeId":9000000000080,"name":"Work at a pizza place","description":""}]}
+[2026-06-15 19:39:34] >> GET /v2/universes/9000000000018/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:34] << /v2/universes/9000000000018/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000019,"universeId":9000000000018,"name":"Natural Disaster Survival","description":""}]}
+[2026-06-15 19:39:34] >> GET /v2/universes/9000000000040/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:34] << /v2/universes/9000000000040/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000041,"universeId":9000000000040,"name":"Epic Minigames","description":""}]}
+[2026-06-15 19:39:34] >> GET /v2/universes/9000000000030/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:34] << /v2/universes/9000000000030/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000031,"universeId":9000000000030,"name":"Twisted Murderer","description":""}]}
+[2026-06-15 19:39:34] >> GET /v2/universes/9000000000070/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:34] << /v2/universes/9000000000070/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000071,"universeId":9000000000070,"name":"Speed run 4","description":""}]}
+[2026-06-15 19:39:35] >> GET /v2/universes/9000000000034/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:35] << /v2/universes/9000000000034/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000035,"universeId":9000000000034,"name":"Assassin","description":""}]}
+[2026-06-15 19:39:35] >> GET /v2/universes/9000000000020/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:35] << /v2/universes/9000000000020/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000021,"universeId":9000000000020,"name":"Flood Escape 1.6.5","description":""}]}
+[2026-06-15 19:39:35] >> GET /v2/universes/9000000000002/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:35] << /v2/universes/9000000000002/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000003,"universeId":9000000000002,"name":"Theme park tycoon 2","description":""}]}
+[2026-06-15 19:39:35] >> GET /v2/universes/9000000000026/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:35] << /v2/universes/9000000000026/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000027,"universeId":9000000000026,"name":"Jailbreak","description":""}]}
+[2026-06-15 19:39:35] >> GET /v2/universes/9000000000052/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:35] << /v2/universes/9000000000052/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000053,"universeId":9000000000052,"name":"Whatever Floats Your Boat","description":""}]}
+[2026-06-15 19:39:36] >> GET /v2/universes/9000000000022/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:36] << /v2/universes/9000000000022/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000023,"universeId":9000000000022,"name":"Robot 64","description":""}]}
+[2026-06-15 19:39:36] >> GET /v2/universes/9000000000050/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:36] << /v2/universes/9000000000050/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000051,"universeId":9000000000050,"name":"Polyguns","description":""}]}
+[2026-06-15 19:39:36] >> GET /v2/universes/9000000000062/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:36] << /v2/universes/9000000000062/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000063,"universeId":9000000000062,"name":"Build a boat for treasure","description":""}]}
+[2026-06-15 19:39:36] >> POST /studio/pbe
+[2026-06-15 19:39:36] << /studio/pbe -> {}
+[2026-06-15 19:39:36] >> GET /v2/universes/9000000000044/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:36] >> GET /v2/assets/95206881/details
+[2026-06-15 19:39:36] << /v2/universes/9000000000044/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000045,"universeId":9000000000044,"name":"Miners Haven","description":""}]}
+[2026-06-15 19:39:36] << /v2/assets/95206881/details -> {"TargetId":95206881,"AssetId":95206881,"ProductId":95206881,"assetId":95206881,"id":95206881,"Id":95206881,"TargetPlaceId":95206881,"PlaceId":95206881,"ProductType":"User Product","Name":"Baseplate","Description":"","AssetTypeId":9,"assetTypeId":9,"Creator":{"Id":14463315,"Name":"HearMeRoar","CreatorType":"User","CreatorTargetId":14463315,"HasVerifiedBadge":false,"id":14463315,"type":1,"creatorType":"User","creatorTargetId":14463315},"IconImageAssetId":0,"Created":"2022-05-11T13:27:09.897Z","Updated":"2022-06-19T07:23:39.03Z","created":"2022-05-11T13:27:09.897Z","updated":"2022-06-19T07:23:39.03Z","PriceInRobux":null,"Sales":0,"IsNew":false,"IsForSale":false,"IsPublicDomain":true,"IsLimited":false,"IsLimitedUnique":false,"isPublic":true,"isForSale":false,"isLimited":false,"isLimitedUnique":false,"enableComments":false}
+[2026-06-15 19:39:37] >> GET /v2/universes/9000000000060/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:37] << /v2/universes/9000000000060/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000061,"universeId":9000000000060,"name":"SPTS","description":""}]}
+[2026-06-15 19:39:37] >> GET /v2/universes/9000000000024/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:37] << /v2/universes/9000000000024/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000025,"universeId":9000000000024,"name":"The Streets","description":""}]}
+[2026-06-15 19:39:37] >> GET /v1/universes/multiget?ids=9000000000098&ids=9000000000048&ids=9000000000068&ids=9000000000016&ids=9000000000088&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000020&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&ids=9000000000060&ids=9000000000024&
+[2026-06-15 19:39:37] >> GET /v2/universes/28220420/places?limit=50&SortOrder=Asc
+[2026-06-15 19:39:37] >> GET /studio-open-place/v1/openplace?placeId=95206881
+[2026-06-15 19:39:37] << /v2/universes/28220420/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9991912465,"universeId":9991912465,"name":"Baseplate","description":""}]}
+[2026-06-15 19:39:37] << /studio-open-place/v1/openplace -> {"universe":{"Id":3681567139,"RootPlaceId":9991912465,"Name":"(SE) Baseplate","Description":"Baseplate template with Streaming Enabled","IsArchived":false,"CreatorType":"User","CreatorTargetId":998796,"PrivacyType":"Public","Created":"2022-06-22T17:23:30.077+00:00","Updated":"2023-05-02T22:16:25.23+00:00"},"teamCreateEnabled":false,"place":{"Creator":{"CreatorType":"User","CreatorTargetId":998796}}}
+[2026-06-15 19:39:37] >> GET //v1/games/icons?universeIds=28220420&returnPolicy=Placeholder&format=png&size=256x256
+[2026-06-15 19:39:37] << //v1/games/icons -> {"data":[{"targetId":28220420,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=28220420","version":"TN3"}]}
+[2026-06-15 19:39:37] >> POST /asset-permissions-api/v1/assets/check-permissions
+[2026-06-15 19:39:37] asset-permissions assetId=95206881 -> NoPermission
+[2026-06-15 19:39:37] asset-permissions check done: /asset-permissions-api/v1/assets/check-permissions
+[2026-06-15 19:39:37] << /asset-permissions-api/v1/assets/check-permissions -> {"results":[{"value":{"status":"NoPermission"}}]}
+[2026-06-15 19:39:38] >> GET //v1/games/icons?universeIds=9000000000098,9000000000048,9000000000068,9000000000016,9000000000088,9000000000064,9000000000092,9000000000096,9000000000080,9000000000018,9000000000040,9000000000030,9000000000070,9000000000034,9000000000020,9000000000002,9000000000026,9000000000052,9000000000022,9000000000050,9000000000062,9000000000044,9000000000060,9000000000024&returnPolicy=Autogenerated&format=png&size=256x256
+[2026-06-15 19:39:38] >> GET /teamcreate/v1/MultiGetUniversesActiveSessionMembers?maxUsers=10&ids=9000000000098&ids=9000000000048&ids=9000000000068&ids=9000000000016&ids=9000000000088&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000020&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&ids=9000000000060&ids=9000000000024
+[2026-06-15 19:39:38] >> POST /experience-guidelines-service/v1beta1/multi-age-recommendation
+[2026-06-15 19:39:38] >> GET /v1/universes/multiget/teamcreate?ids=9000000000098&ids=9000000000048&ids=9000000000068&ids=9000000000016&ids=9000000000088&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000020&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&ids=9000000000060&ids=9000000000024&
+[2026-06-15 19:39:38] >> POST /core-content/v1/universe-eligibility/batch
+[2026-06-15 19:39:38] >> POST /experience-releases/v1beta1/experience_releases_api/multi_release_statuses
+[2026-06-15 19:39:38] << //v1/games/icons -> {"data":[{"targetId":9000000000098,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000098","version":"TN3"},{"targetId":9000000000048,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000048","version":"TN3"},{"targetId":9000000000068,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000068","version":"TN3"},{"targetId":9000000000016,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000016","version":"TN3"},{"targetId":9000000000088,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000088","version":"TN3"},{"targetId":9000000000064,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000064","version":"TN3"},{"targetId":9000000000092,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000092","version":"TN3"},{"targetId":9000000000096,"state":"Completed","imageUrl":"http://localhost
+[2026-06-15 19:39:38] TeamCreate stub (disabled): GET /teamcreate/v1/MultiGetUniversesActiveSessionMembers
+[2026-06-15 19:39:38] << /experience-guidelines-service/v1beta1/multi-age-recommendation -> {"eligibilityByCreator":[{"userId":"14463315","userIsEligible":true,"displayText":"Eligible","ineligibilityReason":"INELIGIBILITY_REASON_NONE"}]}
+[2026-06-15 19:39:38] TeamCreate stub (disabled): GET /v1/universes/multiget/teamcreate
+[2026-06-15 19:39:38] << /core-content/v1/universe-eligibility/batch -> {"eligibilityByCreator":[{"userId":"14463315","userIsEligible":true,"displayText":"Eligible","ineligibilityReason":"INELIGIBILITY_REASON_NONE"}]}
+[2026-06-15 19:39:38] << /experience-releases/v1beta1/experience_releases_api/multi_release_statuses -> {"eligibilityByCreator":[{"userId":"14463315","userIsEligible":true,"displayText":"Eligible","ineligibilityReason":"INELIGIBILITY_REASON_NONE"}]}
+[2026-06-15 19:39:38] << /teamcreate/v1/MultiGetUniversesActiveSessionMembers -> {"data":[{"id":9000000000098,"isEnabled":false},{"id":9000000000048,"isEnabled":false},{"id":9000000000068,"isEnabled":false},{"id":9000000000016,"isEnabled":false},{"id":9000000000088,"isEnabled":false},{"id":9000000000064,"isEnabled":false},{"id":9000000000092,"isEnabled":false},{"id":9000000000096,"isEnabled":false},{"id":9000000000080,"isEnabled":false},{"id":9000000000018,"isEnabled":false},{"id":9000000000040,"isEnabled":false},{"id":9000000000030,"isEnabled":false},{"id":9000000000070,"isEnabled":false},{"id":9000000000034,"isEnabled":false},{"id":9000000000020,"isEnabled":false},{"id":9000000000002,"isEnabled":false},{"id":9000000000026,"isEnabled":false},{"id":9000000000052,"isEnabled":false},{"id":9000000000022,"isEnabled":false},{"id":9000000000050,"isEnabled":false},{"id":9000000000062,"isEnabled":false},{"id":9000000000044,"isEnabled":false},{"id":9000000000060,"isEnabled":false},{"id":9000000000024,"isEnabled":false}]}
+[2026-06-15 19:39:38] << /v1/universes/multiget/teamcreate -> {"data":[{"id":9000000000098,"isEnabled":false},{"id":9000000000048,"isEnabled":false},{"id":9000000000068,"isEnabled":false},{"id":9000000000016,"isEnabled":false},{"id":9000000000088,"isEnabled":false},{"id":9000000000064,"isEnabled":false},{"id":9000000000092,"isEnabled":false},{"id":9000000000096,"isEnabled":false},{"id":9000000000080,"isEnabled":false},{"id":9000000000018,"isEnabled":false},{"id":9000000000040,"isEnabled":false},{"id":9000000000030,"isEnabled":false},{"id":9000000000070,"isEnabled":false},{"id":9000000000034,"isEnabled":false},{"id":9000000000020,"isEnabled":false},{"id":9000000000002,"isEnabled":false},{"id":9000000000026,"isEnabled":false},{"id":9000000000052,"isEnabled":false},{"id":9000000000022,"isEnabled":false},{"id":9000000000050,"isEnabled":false},{"id":9000000000062,"isEnabled":false},{"id":9000000000044,"isEnabled":false},{"id":9000000000060,"isEnabled":false},{"id":9000000000024,"isEnabled":false}]}
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000099/safety-status
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000049/safety-status
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000069/safety-status
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000099/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000017/safety-status
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000049/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000069/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000089/safety-status
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000065/safety-status
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000017/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000093/safety-status
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000089/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000065/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000093/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000097/safety-status
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000081/safety-status
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000097/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000019/safety-status
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000081/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000041/safety-status
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000019/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000031/safety-status
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000041/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000071/safety-status
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000035/safety-status
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000031/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000071/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000035/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000021/safety-status
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000003/safety-status
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000021/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000003/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000027/safety-status
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000053/safety-status
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000027/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000053/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000023/safety-status
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000023/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000051/safety-status
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000051/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000063/safety-status
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000063/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000045/safety-status
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000045/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000061/safety-status
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000061/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] >> GET /content-safety/v1/places/9000000000025/safety-status
+[2026-06-15 19:39:38] << /content-safety/v1/places/9000000000025/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-15 19:39:38] >> POST /user-heartbeats-api/action-report
+[2026-06-15 19:39:38] >> POST /private-users-service/v1beta1/getOrCreatePrivateUserId
+[2026-06-15 19:39:38] >> GET /Thumbs/gameicon.ashx?id=28220420
+[2026-06-15 19:39:38] << /user-heartbeats-api/action-report -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-15 19:39:38] << /private-users-service/v1beta1/getOrCreatePrivateUserId -> {"privateUserId":1500014463315,"userIdMode":"USER_ID_MODE_GLOBAL","created":true}
+[2026-06-15 19:39:38] >> GET /Thumbs/gameicon.ashx?id=9000000000098
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000048
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000068
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000016
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000088
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000064
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000092
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000096
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000080
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000018
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000040
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000030
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000070
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000034
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000020
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000002
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000026
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000052
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000022
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000050
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000062
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000044
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000060
+[2026-06-15 19:39:39] >> GET /Thumbs/gameicon.ashx?id=9000000000024
+[2026-06-15 19:39:39] >> GET /assets/user-auth/v1/assets/95206881
+[2026-06-15 19:39:39] << /assets/user-auth/v1/assets/95206881 -> {"path":"assets/95206881","revisionId":"1","revisionCreateTime":"2024-01-01T00:00:00.000Z","assetId":"95206881","displayName":"Baseplate","assetType":"Place","creationContext":{"creator":{"userId":"14463315"}},"moderationResult":{"moderationState":"Approved"},"state":"Active"}
+[2026-06-15 19:39:40] >> GET /v1/asset/?id=95206881&version=1
+[2026-06-15 19:39:41] Asset 95206881 fetched OK (48760 bytes)
+[2026-06-15 19:39:41] >> GET /v1/universes/multiget?ids=9000000000098&ids=9000000000048&ids=9000000000068&ids=9000000000016&ids=9000000000088&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000020&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&ids=9000000000060&ids=9000000000024
+[2026-06-15 19:39:41] >> POST /studio/pbe
+[2026-06-15 19:39:41] >> POST /studio/pbe
+[2026-06-15 19:39:41] << /studio/pbe -> {}
+[2026-06-15 19:39:41] << /studio/pbe -> {}
+[2026-06-15 19:39:41] >> GET /v1/universes/multiget/teamcreate?ids=9000000000098&ids=9000000000048&ids=9000000000068&ids=9000000000016&ids=9000000000088&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000020&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&ids=9000000000060&ids=9000000000024
+[2026-06-15 19:39:41] TeamCreate stub (disabled): GET /v1/universes/multiget/teamcreate
+[2026-06-15 19:39:41] << /v1/universes/multiget/teamcreate -> {"data":[{"id":9000000000098,"isEnabled":false},{"id":9000000000048,"isEnabled":false},{"id":9000000000068,"isEnabled":false},{"id":9000000000016,"isEnabled":false},{"id":9000000000088,"isEnabled":false},{"id":9000000000064,"isEnabled":false},{"id":9000000000092,"isEnabled":false},{"id":9000000000096,"isEnabled":false},{"id":9000000000080,"isEnabled":false},{"id":9000000000018,"isEnabled":false},{"id":9000000000040,"isEnabled":false},{"id":9000000000030,"isEnabled":false},{"id":9000000000070,"isEnabled":false},{"id":9000000000034,"isEnabled":false},{"id":9000000000020,"isEnabled":false},{"id":9000000000002,"isEnabled":false},{"id":9000000000026,"isEnabled":false},{"id":9000000000052,"isEnabled":false},{"id":9000000000022,"isEnabled":false},{"id":9000000000050,"isEnabled":false},{"id":9000000000062,"isEnabled":false},{"id":9000000000044,"isEnabled":false},{"id":9000000000060,"isEnabled":false},{"id":9000000000024,"isEnabled":false}]}
+[2026-06-15 19:39:42] >> POST /v1/batch
+[2026-06-15 19:39:42] << /v1/batch -> {"data":[]}
+[2026-06-15 19:39:43] >> GET /asset/?hash=9648afba5d3d7f66550213469e074213&contentRepresentationPriorityList=W3siZm9ybWF0IjoiUmVzaWR1YWwiLCJtYWpvclZlcnNpb24iOiIyIiwiZmlkZWxpdHkiOiJPcmlnaW5hbCJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-15 19:39:43] >> GET /userhub/?id=
+[2026-06-15 19:39:43] 404 GET /userhub/
+[2026-06-15 19:39:43] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:39:45] >> GET /asset/?hash=9648afba5d3d7f66550213469e074213&contentRepresentationPriorityList=W3siZm9ybWF0IjoiT3JpZ2luYWwiLCJtYWpvclZlcnNpb24iOiJPcmlnaW5hbCIsImZpZGVsaXR5IjoiT3JpZ2luYWwifV0%3D
+[2026-06-15 19:39:57] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:39:57] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:39:57] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:39:57] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:39:57] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:39:57] >> POST /studio/pbe
+[2026-06-15 19:39:57] >> POST /timespent/pbe
+[2026-06-15 19:39:57] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:39:57] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:39:57] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:39:57] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:39:57] << /studio/pbe -> {}
+[2026-06-15 19:39:57] << /timespent/pbe -> {}
+[2026-06-15 19:39:57] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:40:00] >> POST /user-heartbeats-api/pulse
+[2026-06-15 19:40:00] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-15 19:40:14] >> GET /userhub/?id=
+[2026-06-15 19:40:14] 404 GET /userhub/
+[2026-06-15 19:40:14] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:40:27] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:40:27] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:40:27] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:40:27] >> POST /timespent/pbe
+[2026-06-15 19:40:27] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:40:27] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:40:27] << /timespent/pbe -> {}
+[2026-06-15 19:40:27] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:40:27] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:40:27] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:40:28] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:40:28] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:40:30] >> POST /user-heartbeats-api/pulse
+[2026-06-15 19:40:30] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-15 19:40:32] >> GET /userhub/?id=
+[2026-06-15 19:40:32] 404 GET /userhub/
+[2026-06-15 19:40:32] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:40:57] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:40:57] >> POST /timespent/pbe
+[2026-06-15 19:40:57] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:40:57] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:40:57] << /timespent/pbe -> {}
+[2026-06-15 19:40:57] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:41:00] >> POST /user-heartbeats-api/pulse
+[2026-06-15 19:41:00] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-15 19:41:02] >> GET /userhub/?id=
+[2026-06-15 19:41:02] 404 GET /userhub/
+[2026-06-15 19:41:02] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:41:27] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:41:27] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:41:27] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:41:27] >> POST /timespent/pbe
+[2026-06-15 19:41:27] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:41:27] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:41:27] << /timespent/pbe -> {}
+[2026-06-15 19:41:27] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:41:27] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:41:27] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:41:29] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:41:29] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:41:30] >> POST /user-heartbeats-api/pulse
+[2026-06-15 19:41:30] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-15 19:41:32] >> GET /userhub/?id=
+[2026-06-15 19:41:32] 404 GET /userhub/
+[2026-06-15 19:41:32] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:41:57] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:41:57] >> POST /timespent/pbe
+[2026-06-15 19:41:57] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:41:57] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:41:57] << /timespent/pbe -> {}
+[2026-06-15 19:41:57] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:42:00] >> POST /user-heartbeats-api/pulse
+[2026-06-15 19:42:00] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-15 19:42:02] >> GET /userhub/?id=
+[2026-06-15 19:42:02] 404 GET /userhub/
+[2026-06-15 19:42:02] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:42:27] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:42:27] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:42:27] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:42:27] >> POST /timespent/pbe
+[2026-06-15 19:42:27] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:42:27] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:42:27] << /timespent/pbe -> {}
+[2026-06-15 19:42:27] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:42:27] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:42:27] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:42:29] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:42:29] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:42:30] >> POST /user-heartbeats-api/pulse
+[2026-06-15 19:42:30] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-15 19:42:32] >> GET /userhub/?id=
+[2026-06-15 19:42:32] 404 GET /userhub/
+[2026-06-15 19:42:32] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:42:57] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:42:57] >> POST /timespent/pbe
+[2026-06-15 19:42:57] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:42:57] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:42:57] << /timespent/pbe -> {}
+[2026-06-15 19:42:57] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:43:00] >> POST /user-heartbeats-api/pulse
+[2026-06-15 19:43:00] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-15 19:43:03] >> GET /userhub/?id=
+[2026-06-15 19:43:03] 404 GET /userhub/
+[2026-06-15 19:43:03] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:43:27] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:43:27] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:43:27] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:43:27] >> POST /timespent/pbe
+[2026-06-15 19:43:27] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:43:27] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:43:27] << /timespent/pbe -> {}
+[2026-06-15 19:43:27] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:43:27] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:43:27] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:43:29] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:43:29] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:43:30] >> POST /user-heartbeats-api/pulse
+[2026-06-15 19:43:30] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-15 19:43:33] >> GET /userhub/?id=
+[2026-06-15 19:43:33] 404 GET /userhub/
+[2026-06-15 19:43:33] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:43:57] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:43:57] >> POST /timespent/pbe
+[2026-06-15 19:43:57] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:43:57] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:43:57] << /timespent/pbe -> {}
+[2026-06-15 19:43:57] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:44:00] >> POST /user-heartbeats-api/pulse
+[2026-06-15 19:44:00] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-15 19:44:03] >> GET /userhub/?id=
+[2026-06-15 19:44:03] 404 GET /userhub/
+[2026-06-15 19:44:03] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:44:16] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:44:16] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:44:16] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:44:16] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:44:27] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:44:27] >> POST /timespent/pbe
+[2026-06-15 19:44:27] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:44:27] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:44:27] << /timespent/pbe -> {}
+[2026-06-15 19:44:27] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:44:30] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:44:30] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:44:30] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:44:30] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:44:30] >> POST /user-heartbeats-api/pulse
+[2026-06-15 19:44:30] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-15 19:44:33] >> GET /userhub/?id=
+[2026-06-15 19:44:33] 404 GET /userhub/
+[2026-06-15 19:44:33] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:44:42] >> GET /v1/not-approved
+[2026-06-15 19:44:42] << /v1/not-approved -> {}
+[2026-06-15 19:44:53] >> POST /studio/pbe
+[2026-06-15 19:44:53] << /studio/pbe -> {}
+[2026-06-15 19:44:57] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:44:57] >> POST /timespent/pbe
+[2026-06-15 19:44:57] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:44:57] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:44:57] << /timespent/pbe -> {}
+[2026-06-15 19:44:57] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:45:04] >> GET /userhub/?id=
+[2026-06-15 19:45:04] 404 GET /userhub/
+[2026-06-15 19:45:04] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:45:27] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:45:27] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:45:27] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:45:27] >> POST /timespent/pbe
+[2026-06-15 19:45:27] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:45:27] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:45:27] << /timespent/pbe -> {}
+[2026-06-15 19:45:27] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:45:27] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:45:27] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:45:30] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:45:30] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:45:34] >> GET /userhub/?id=
+[2026-06-15 19:45:34] 404 GET /userhub/
+[2026-06-15 19:45:34] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:45:57] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:45:57] >> POST /timespent/pbe
+[2026-06-15 19:45:57] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:45:57] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:45:57] << /timespent/pbe -> {}
+[2026-06-15 19:45:57] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:46:04] >> GET /userhub/?id=
+[2026-06-15 19:46:04] 404 GET /userhub/
+[2026-06-15 19:46:04] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:46:27] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:46:27] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:46:27] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:46:27] >> POST /timespent/pbe
+[2026-06-15 19:46:27] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:46:27] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:46:27] << /timespent/pbe -> {}
+[2026-06-15 19:46:27] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:46:27] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:46:27] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:46:27] >> GET /guac-v2/v1/bundles/studio
+[2026-06-15 19:46:27] >> GET /v2/client-version/WindowsStudio64
+[2026-06-15 19:46:27] >> GET /v2/settings-compressed/application/PCStudioApp.zst
+[2026-06-15 19:46:27] << /guac-v2/v1/bundles/studio -> {"version":"1","bundle":{"name":"studio","configurations":{"Feature_DisableOldCookieManagementSticky":"0;100","Feature_UnifiedCookieProtocolEnabled":"0;100","Feature_UnifiedCookieProtocolEnabledSticky":"0;100","Feature_AccessCookiesWithUrlEnabledSticky":"0;100"},"experiments":{}}}
+[2026-06-15 19:46:27] << /v2/client-version/WindowsStudio64 -> {"version":"0.578.0.5780566","clientVersionUpload":"version-f0b439683245446c","bootstrapperVersion":"1.0.0.0","nextClientVersion":"0.578.0.5780566","nextClientVersionUpload":"version-f0b439683245446c","flagOnly":true}
+[2026-06-15 19:46:30] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:46:30] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:46:34] >> GET /userhub/?id=
+[2026-06-15 19:46:34] 404 GET /userhub/
+[2026-06-15 19:46:34] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:46:57] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:46:57] >> POST /timespent/pbe
+[2026-06-15 19:46:57] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:46:57] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:46:57] << /timespent/pbe -> {}
+[2026-06-15 19:46:57] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:47:05] >> GET /userhub/?id=
+[2026-06-15 19:47:05] 404 GET /userhub/
+[2026-06-15 19:47:05] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:47:27] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:47:27] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:47:27] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:47:27] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:47:27] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:47:27] >> POST /timespent/pbe
+[2026-06-15 19:47:27] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:47:27] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:47:27] << /timespent/pbe -> {}
+[2026-06-15 19:47:27] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:47:31] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:47:31] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:47:35] >> GET /userhub/?id=
+[2026-06-15 19:47:35] 404 GET /userhub/
+[2026-06-15 19:47:35] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:47:57] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:47:57] >> POST /timespent/pbe
+[2026-06-15 19:47:57] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:47:57] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:47:57] << /timespent/pbe -> {}
+[2026-06-15 19:47:57] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:48:05] >> GET /userhub/?id=
+[2026-06-15 19:48:05] 404 GET /userhub/
+[2026-06-15 19:48:05] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:48:27] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:48:27] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:48:27] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:48:27] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:48:27] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:48:27] >> POST /timespent/pbe
+[2026-06-15 19:48:27] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:48:27] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:48:27] << /timespent/pbe -> {}
+[2026-06-15 19:48:27] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:48:31] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:48:31] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:48:35] >> GET /userhub/?id=
+[2026-06-15 19:48:35] 404 GET /userhub/
+[2026-06-15 19:48:35] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-15 19:48:57] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:48:57] >> POST /timespent/pbe
+[2026-06-15 19:48:57] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:48:57] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:48:57] << /timespent/pbe -> {}
+[2026-06-15 19:48:57] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:49:02] >> POST /studio/pbe
+[2026-06-15 19:49:02] << /studio/pbe -> {}
+[2026-06-15 19:49:04] >> POST /studio/pbe
+[2026-06-15 19:49:04] >> POST /studio/pbe
+[2026-06-15 19:49:04] >> PATCH /studio-user-settings/v1/user/studiodata/CloudEditKey_placeId0
+[2026-06-15 19:49:04] << /studio/pbe -> {}
+[2026-06-15 19:49:04] << /studio/pbe -> {}
+[2026-06-15 19:49:04] << /studio-user-settings/v1/user/studiodata/CloudEditKey_placeId0 -> {}
+[2026-06-15 19:49:04] >> GET /v1/not-approved
+[2026-06-15 19:49:04] >> POST /user-heartbeats-api/action-report
+[2026-06-15 19:49:04] << /v1/not-approved -> {}
+[2026-06-15 19:49:04] << /user-heartbeats-api/action-report -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-15 19:49:04] >> POST /studio/pbe
+[2026-06-15 19:49:04] >> POST /studio/pbe
+[2026-06-15 19:49:04] << /studio/pbe -> {}
+[2026-06-15 19:49:04] << /studio/pbe -> {}
+[2026-06-15 19:49:04] >> POST /user-heartbeats-api/action-report
+[2026-06-15 19:49:04] << /user-heartbeats-api/action-report -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-15 19:49:04] >> GET /v1/universes/multiget?ids=9000000000098&ids=9000000000048&ids=9000000000068&ids=9000000000016&ids=9000000000088&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000020&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&ids=9000000000060&ids=9000000000024
+[2026-06-15 19:49:04] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:49:04] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:49:04] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:49:04] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:49:05] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:49:05] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:49:05] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:49:05] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:49:05] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:49:05] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-15 19:49:05] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-15 19:49:05] >> POST /studio/pbe
+[2026-06-15 19:49:05] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:49:05] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-15 19:49:05] << /studio/pbe -> {}
+[2026-06-15 19:49:05] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:49:05] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:49:05] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:49:05] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:49:05] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:49:06] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:49:06] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:49:06] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:49:06] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:49:06] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:49:06] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-15 19:49:06] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-15 19:49:06] << /experience-signals-ingest/public/v1/events/single -> {}

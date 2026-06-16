@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MenuBar>
+    <Menu name="File" text="Studio.Common.Action.File" toolTip="Studio.App.RobloxRibbonMainWindow.OpenSaveManageDoc">
+        <Action name="fileNewAction"/>
+        <Action name="fileOpenAction"/>
+        <Action name="fileOpenRecentAction"/>
+        <SubMenu name="Recent" text="Studio.SystemMenu.Title.Recent">
+            <Expansion name="recentFiles"/>
+        </SubMenu>
+        <Separator/>
+        <Action name="placeCloseAction"/>
+        <Separator/>
+        <Action name="meshImporterAction"/>
+        <Action name="insertIntoFileAction"/>
+        <Action name="exportPlaceAction"/>
+        <Action fflag="DevAssetExport" name="exportPlaceAsGltfAction"/>
+        <Separator/>
+        <Action name="fileSaveAction"/>
+        <Action name="fileSaveAsAction"/>
+        <Action name="savePlaceToRobloxAction"/>
+        <Action name="savePlaceToRobloxWithNotesAction"/>
+        <Action name="savePlaceToRobloxAsAction"/>
+        <Separator/>
+        <Action name="publishToRobloxAction"/>
+        <Action name="publishToRobloxAsAction"/>
+        <Separator/>
+        <Action name="downloadPlaceCopyAction"/>
+        <Separator/>
+        <Action name="gameSettingsAction"/>
+        <Action name="avatarSettingsAction"/>
+        <Action name="creatorConfigAction" />
+        <Separator/>
+        <Action name="settingsAction"/>
+        <Action name="betaFeaturesAction"/>
+        <Action internal="true" name="flagEditorAction"/>
+        <Action fflag="DebugStudioAllowFlagEditor" name="flagEditorAction"/>
+        <Action name="shortcutHelpAction"/>
+        <Separator/>
+        <Action name="fileOpenAutoSavesAction"/>
+        <Separator/>
+        <Action name="aboutRobloxAction"/>
+        <Separator isWindowsOnly="true"/>
+        <Action isWindowsOnly="true" name="fileExitAction"/>
+        <Action fflag="DebugSquishMoveAppMenuEntriesMacOS" name="fileExitAction"/>
+    </Menu>
+    <Menu name="Edit" isEnabledIf="place" isVisibleIf="place" text="Studio.SystemMenu.Title.Edit">
+        <Action name="undoAction"/>
+        <Action name="redoAction"/>
+        <Separator/>
+        <Action name="cutAction"/>
+        <Action name="copyAction"/>
+        <Action name="pasteAction"/>
+        <Action name="pasteIntoAction"/>
+        <Action name="pasteAtOriginalLocationAction"/>
+        <Action name="pasteIntoAtOriginalLocationAction"/>
+        <Action name="duplicateSelectionAction"/>
+        <Action name="deleteSelectedAction"/>
+        <Separator/>
+        <SubMenu name="Group" text="Studio.SystemMenu.Title.Group">
+            <Action name="groupSelectionAction"/>
+            <Action name="groupSelectionFolderAction"/>
+        </SubMenu>
+        <Action name="ungroupSelectionAction"/>
+        <!--TODO: jbousellam: show different text in system menu for Lock actions than Ribbon-->
+        <SubMenu name="Lock" text="Studio.SystemMenu.Title.Lock">
+            <Action name="lockAction"/>
+            <Action name="lockToolAction"/>
+        </SubMenu>
+        <Action name="unlockAllAction"/>
+        <!--TODO: jbousellam: show different text in system menu for Anchor actions than Ribbon-->
+        <SubMenu name="Anchor" text="Studio.SystemMenu.Title.Anchor">
+            <Action name="anchorAction"/>
+            <Action name="anchorToolAction"/>
+        </SubMenu>
+        <Action name="selectAllAction"/>
+        <Separator/>
+        <Action name="convertToPackageAction"/>
+        <Action name="updateToLatestPackageAction"/>
+        <Separator/>
+        <Action name="saveAsDefaultInstanceAction"/>
+        <Action name="resetDefaultInstanceAction"/>
+        <Separator/>
+        <Action name="FORMATALL_ScriptingCmd"/>
+        <Action name="FORMATSEL_ScriptingCmd"/>
+        <Action name="INDENT_ScriptingCmd"/>
+        <Action name="UNINDENT_ScriptingCmd"/>
+    </Menu>
+    <Menu name="View" isEnabledIf="place" isVisibleIf="place" text="Studio.SystemMenu.Title.View">
+        <Action name="zoomInAction"/>
+        <Action name="zoomOutAction"/>
+        <!--Action name="resetZoomAction"/> TODO: STUDIOPLAT-34315: implement the resetZoomAction, add string 'Reset Zoom', and use new localized string-->
+        <Action name="actionFullScreen" isWindowsOnly="true"/>
+        <Separator/>
+        <Action name="viewSelectorAction"/>
+        <Action name="toggleGlobalWindControlDockAction"/>
+        <!--TODO: STUDIOPLAT-34318: update grid actions to not be dependent on each other -->
+        <SubMenu name="Show Grid" isEnabledIf="doc:ide;gst:edit" text="Studio.SystemMenu.Title.ShowGrid">
+            <Action name="toggle3DGridAction"/>
+            <ActionGroup>
+                <!--TODO: STUDIOPLAT-34318: add toggle3DGridAction to the action group or create new action 'gridSizeToZeroAction' and add to group; STUDIOPLAT-34263: STUDIOPLAT-34264: add string 'None' and use new localized string -->
+                <Action name="gridSizeToTwoAction"/>
+                <Action name="gridSizeToFourAction"/>
+                <Action name="gridSizeToSixteenAction"/>
+            </ActionGroup>
+        </SubMenu>
+        <Action name="toggleGridMaterialAction"/>
+        <Action name="toggleWireframeRenderingAction"/>
+        <Action name="toggleUIVisibilityAction"/>
+        <Separator/>
+        <Action name="showWeldsAction"/>
+        <Action name="showConstraintDetailsAction"/>
+        <Action fflag="!SimRemoveConstraintDrawOnTop" name="constraintDrawOnTopAction"/>
+        <Separator/>
+        <Action name="UNFOLDALL_ScriptingCmd"/>
+        <Action name="FOLDALL_ScriptingCmd"/>
+        <Action name="TOGGLECOMMENT_ScriptingCmd"/>
+        <Separator/>
+        <Action name="screenShotAction"/>
+        <Separator/>
+        <Action fflag="!MuteRemoval" name="audioToggleAction"/><!--TODO: STUDIOPLAT-39195 - update audio behavior to persist across DMs, make text and icon context aware -->
+    </Menu>
+    <Menu name="Plugins" isEnabledIf="place" isVisibleIf="place" text="Studio.SystemMenu.Title.Plugins">
+        <Action name="managePluginsAction"/>
+        <!--Action name="addPluginsToTabAction"/> TODO: STUDIOPLAT-34314: implement the addPluginsToTabAction, add string 'Add Plugins to Tab', and use new localized string -->
+        <Action name="openPluginsFolderAction"/>
+        <!--Action name="getPluginsAction"/> TODO: STUDIOPLAT-34314: implement the getPluginsAction, add string 'Get Plugins', and use new localized string -->
+        <Separator/>
+        <Action name="selectionSaveAsPluginAction"/>
+        <Action name="publishAsPluginAction"/>
+        <Separator/>
+        <Expansion name="tools"/>
+        <!--TODO: STUDIOPLAT-34313: System Menu - Plugin - show icons for user plugins in the dynamic system menu -->
+    </Menu>
+    <Menu name="Test" isEnabledIf="place" isVisibleIf="place" text="Studio.SystemMenu.Title.Test">
+        <SubMenu name="StartTestSession" text="Studio.SystemMenu.Title.StartTestSession">
+            <Action name="simulationPlayAction"/>
+            <Action name="simulationPlayFromCameraAction"/>
+            <Action name="simulationRunAction"/>
+            <Action name="startTeamTestAction"/>
+            <Action name="startServerAndPlayersAction" fflag="!StudioCleanupVerbsPartL"/>
+            <Action name="startServerAction" fflag="StudioCleanupVerbsPartL"/>
+        </SubMenu>
+        <Separator/>
+        <Action name="deviceEmulatorToggleAction"/>
+        <Action name="deviceEmulatorToggleControlsWidgetAction"/>
+        <Action name="playerEmulatorToggleAction"/>
+        <Separator/>
+        <SubMenu name="Debug Error" debugOnly="true" text="Studio.SystemMenu.Title.DebugError">
+            <ActionGroup>
+                <Action name="neverBreakOnScriptErrorsAction"/>
+                <Action name="breakOnAllScriptErrorsAction"/>
+                <Action name="breakOnUnhandledScriptErrorsAction"/>
+            </ActionGroup>
+        </SubMenu>
+        <Action name="RELOADSCRIPT_ScriptingCmd"/>
+        <Separator/>
+        <Action name="stepIntoActionV2"/>
+        <Action name="stepOutActionV2"/>
+        <Action name="stepOverActionV2"/>
+        <Separator/>
+        <Action name="simulationToggleAccuratePlaySoloAction"/>
+        <Action name="addClientsAction"/>
+        <Separator/>
+        <Action name="simulationPauseAllAction"/>
+        <Action name="simulationPauseActionV3"/>
+        <Action name="simulationResumeAllAction"/>
+        <Action name="simulationResumeActionV2"/>
+        <Action name="simulationResumeActionV3"/>
+        <Action name="simulationStepForwardAllAction"/>
+        <Action name="simulationStepForwardAction"/>
+        <Separator/>
+        <Action name="simulationResetAction"/>
+        <Action name="cleanupServersAndPlayersAction"/>
+        <Action name="cleanupTeamTestAction"/>
+        <Action name="exitClientAction"/>
+    </Menu>
+    <Menu name="Window" isEnabledIf="place" isVisibleIf="place" text="Studio.SystemMenu.Title.Window">
+        <Action name="luaToolboxAction"/>
+        <Action name="togglePropertiesDockAction"/>
+        <Action name="toggleObjectExplorerDockAction"/>
+        <Action name="toggleOutputWindowDockAction"/>
+        <Action name="togglePlaceVersionHistoryAction"/>
+        <Action name="toggleStudioActivityFeedAction"/>
+        <Action name="toggleAssetManagerDockAction"/>
+        <Action name="toggleBasicObjectsDockAction"/>
+        <Separator/>
+        <SubMenu name="3D" text="Studio.SystemMenu.Title.3D">
+            <Action name="alignToolAction"/>
+            <Action name="collisionGroupsEditorAction"/>
+            <Action name="materialManagerAction"/>
+            <Action name="materialGeneratorAction"/>
+            <Action name="toggleTerrainToolsDockAction"/>
+            <Action fflag="EnableTextureGenerator2" name="textureGeneratorAction"/>
+        </SubMenu>
+        <SubMenu name="Avatar" text="Studio.SystemMenu.Title.Avatar">
+            <Action name="animationEditorAction"/>
+            <Action name="layeredClothingEditorAction"/>
+            <Action fflag="DebugR15MigratorPlugin" name="r15migratorAction"/>
+            <Action name="avatarPreviewerAction"/>
+        </SubMenu>
+        <SubMenu name="Collaboration" text="Studio.SystemMenu.Title.Collaboration">
+            <Action name="toggleStudioAnnotationsAction"/>
+            <Action name="toggleLiveCollaboratorsAction"/>
+            <Action name="openManageCollaborators"/>
+            <Action fflag="!COLLAB5668HideTCWidget2" name="toggleTeamCreateDockAction"/>
+        </SubMenu>
+        <SubMenu name="Debug" text="Studio.SystemMenu.Title.Debug">
+            <Action name="breakpointsDockWidgetActionV2"/>
+            <Action name="callStackDockWidgetActionV2"/>
+            <Action name="watchDockWidgetActionV2"/>
+            <Action internal="true" name="toggleStudioInternalDebuggerDockAction"/>
+        </SubMenu>
+        <SubMenu name="Localization" text="Studio.SystemMenu.Title.Localization">
+            <Action name="toggleLocalizationToolsAction"/>
+        </SubMenu>
+        <SubMenu name="Performance" text="Studio.SystemMenu.Title.Performance">
+            <Action name="toggleDiagnosticsDockAction"/>
+            <Action name="MicroprofilerToggleAction"/>
+            <Action name="testNetworkStatsAction"/>
+            <Action name="testSummaryStatsAction"/>
+            <Action name="testPhysicsStatsAction"/>
+            <Action name="testRenderStatsAction"/>
+            <Action name="testStatsAction"/>
+            <Action fflag="SceneAnalysisServiceEnabled" name="toggleSceneAnalysisAction"/>
+        </SubMenu>
+        <SubMenu name="Script" text="Studio.SystemMenu.Title.Script">
+            <Action name="viewCommandBarAction"/>
+            <Action name="toggleDraftsDockAction"/>
+            <Action name="toggleFindReplaceAllWidgetAction"/>
+            <Action name="objectBrowserAction"/>
+            <Action name="toggleScriptAnalysisDockAction"/>
+            <Action name="toggleScriptPerformanceDockAction"/>
+            <Action name="executeScriptAction"/>
+            <Action name="toggleTagEditorDockAction"/>
+            <Action name="toggleTaskSchedulerDockAction"/>
+        </SubMenu>
+        <SubMenu internal="true" fflag="DebugLoadDenyListedPlugins" name="UI" text="Studio.SystemMenu.Title.UI">
+            <Action name="toggleInspectorAction"/>
+            <Action name="toggleStorybookAction"/>
+        </SubMenu>
+        <Action name="resetViewAction"/>
+        <Separator/>
+        <!--TODO: STUDIOPLAT-34312: implement dynamic place menu [Filename of window n] -->
+    </Menu>
+    <Menu name="Help" text="Studio.Common.Action.Help">
+        <Action name="openDocumentationUrl"/>
+        <Action name="openTutorialsUrl"/>
+        <Action name="openDeveloperForumUrl"/>
+        <Separator/>
+        <Action name="startStudioTour"/>
+        <Separator/>
+        <Action fflag="ReportIllegalContentAction" name="reportIllegalContentAction"/>
+        <!-- Action name="feedbackAction"/> TODO: STUDIOPLAT-34498: implement the feedbackAction, add string 'Feedback', and use new localized string -->
+        <Separator/>
+        <Action fflag="StudioOpenLogsAction" name="openLogsFolderAction"/>
+    </Menu>
+</MenuBar>

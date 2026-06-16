@@ -1,0 +1,12 @@
+{
+    "FFlagStudioEnableDebugger": "False",
+    "FFlagEnableScriptDebugger": "False",
+    "DFFlagLuaDebuggerEnabled": "False",
+    "FFlagLuaDebuggerEnabled": "False",
+    "FFlagLuaDebugger": "False",
+    "FFlagStudioLuaDebugger": "False",
+    "FFlagDebuggerDisabled": "True",
+    "FFlagDebuggerBreakOnError": "False",
+    "FFlagStudioBreakOnError": "False",
+    "FFlagDebuggerBreakInPcall": "False"
+}

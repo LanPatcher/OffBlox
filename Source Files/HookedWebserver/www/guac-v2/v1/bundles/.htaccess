@@ -1,0 +1,8 @@
+# Stop Apache from 301-redirecting /guac-v2/v1/bundles/studio to .../studio/
+# Studio's GUAC fetcher does NOT follow redirects -- the 301 makes it hang.
+DirectorySlash Off
+
+RewriteEngine On
+# When the client asks for the bare "studio" path, serve our index.php directly
+# instead of redirecting. The [L] flag stops further rules from running.
+RewriteRule ^studio/?$ studio/index.php [L]

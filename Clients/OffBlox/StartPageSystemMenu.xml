@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MenuBar>
+    <Menu name="File" text="Studio.Common.Action.File" toolTip="Studio.App.RobloxRibbonMainWindow.OpenSaveManageDoc">
+        <Action name="fileNewAction"/>
+        <Action name="fileOpenAction"/>
+        <Action name="fileOpenRecentAction"/>
+        <SubMenu name="Recent" text="Studio.SystemMenu.Title.Recent">
+            <Expansion name="recentFiles"/>
+        </SubMenu>
+        <Separator/>
+        <Action name="settingsAction"/>
+        <Action name="betaFeaturesAction"/>
+        <Action internal="true" name="flagEditorAction"/>
+        <Action fflag="DebugStudioAllowFlagEditor" name="flagEditorAction"/>
+        <Action name="shortcutHelpAction"/>
+        <Separator/>
+        <Action name="fileOpenAutoSavesAction"/>
+        <Separator/>
+        <Action name="aboutRobloxAction"/>
+        <Separator isWindowsOnly="true"/>
+        <Action isWindowsOnly="true" name="fileExitAction"/>
+        <Action fflag="DebugSquishMoveAppMenuEntriesMacOS" name="fileExitAction"/>
+    </Menu>
+    <Menu name="Plugins" text="Studio.SystemMenu.Title.Plugins">
+        <Action name="managePluginsAction"/>
+        <Action name="openPluginsFolderAction"/>
+        <!--Action name="getPluginsAction"/> TODO: STUDIOPLAT-34314: implement the getPluginsAction, add string 'Get Plugins', and use new localized string -->
+    </Menu>
+    <Menu name="Help" text="Studio.Common.Action.Help">
+        <Action name="openDocumentationUrl"/>
+        <Action name="openTutorialsUrl"/>
+        <Action name="openDeveloperForumUrl"/>
+        <Separator/>
+        <Action name="startStudioTour"/>
+        <Separator/>
+        <Action fflag="ReportIllegalContentAction" name="reportIllegalContentAction"/>
+        <!-- Action name="feedbackAction"/> TODO: STUDIOPLAT-34498: implement the feedbackAction, add string 'Feedback', and use new localized string -->
+        <Separator/>
+        <Action fflag="StudioOpenLogsAction" name="openLogsFolderAction"/>
+    </Menu>
+</MenuBar>

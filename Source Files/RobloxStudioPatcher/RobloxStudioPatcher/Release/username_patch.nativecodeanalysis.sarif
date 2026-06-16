@@ -1,0 +1,59 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.41.34120.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/username_patch.cpp"
+          },
+          "roles": [
+            "analysisTarget"
+          ],
+          "hashes": {
+            "sha-256": "574af103950ce3d490e02b502ba7063ace143c6e9c161cab55b006edd7c7fd9e"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/username_patch.h"
+          },
+          "hashes": {
+            "sha-256": "4221b97d9c03278c0cd13961a4250fef029fc5bb3aea12104713cec52a5fa741"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/patcher.h"
+          },
+          "hashes": {
+            "sha-256": "e6f85065ea022809414c7f3763a61d536ea4f73e3ef1415a86c8a92d95ec1328"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/iat_hook.h"
+          },
+          "hashes": {
+            "sha-256": "a2fe66fe77339b33694d932c43920986faf26069029ed95fd058acda8fbce7ee"
+          }
+        }
+      ]
+    }
+  ]
+}

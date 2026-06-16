@@ -1,0 +1,706 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "ruleId": "C6385",
+          "message": {
+            "text": "Reading invalid data from 'target'."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                },
+                "region": {
+                  "startLine": 268,
+                  "startColumn": 9,
+                  "endLine": 268,
+                  "endColumn": 60
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "RobloxStudioPatcher::InlineHook",
+                  "decoratedName": "?InlineHook@RobloxStudioPatcher@@YA_NPBD0PAXPAPAX@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 206,
+                            "startColumn": 20
+                          }
+                        },
+                        "message": {
+                          "text": "'target' is an Output from 'RobloxStudioPatcher::InsnLen' (declared on line 15)"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 193,
+                            "startColumn": 14
+                          }
+                        },
+                        "message": {
+                          "text": "'target' receives the Return value from 'GetProcAddress' (declared at c:\\program files (x86)\\windows kits\\10\\include\\10.0.22621.0\\um\\libloaderapi.h:309)"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 190,
+                            "startColumn": 35
+                          }
+                        },
+                        "message": {
+                          "text": "Skip this branch, (assume '<branch condition>' is false)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 191,
+                            "startColumn": 17
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 192,
+                            "startColumn": 13
+                          }
+                        },
+                        "message": {
+                          "text": "Skip this branch, (assume '!hDll' is false)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 193,
+                            "startColumn": 14
+                          }
+                        },
+                        "message": {
+                          "text": "'target' receives the Return value from 'GetProcAddress' (declared at c:\\program files (x86)\\windows kits\\10\\include\\10.0.22621.0\\um\\libloaderapi.h:309)"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 194,
+                            "startColumn": 13
+                          }
+                        },
+                        "message": {
+                          "text": "Skip this branch, (assume '!target' is false)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 199,
+                            "startColumn": 22
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 203,
+                            "startColumn": 16
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 204,
+                            "startColumn": 18
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 204,
+                            "startColumn": 32
+                          }
+                        },
+                        "message": {
+                          "text": "Enter this loop, (assume 'i<32&&copied<kJmpSize')"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 206,
+                            "startColumn": 20
+                          }
+                        },
+                        "message": {
+                          "text": "'target' is an Output from 'RobloxStudioPatcher::InsnLen' (declared on line 15)"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 207,
+                            "startColumn": 21
+                          }
+                        },
+                        "message": {
+                          "text": "Skip this branch, (assume 'len==0' is false)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 214,
+                            "startColumn": 20
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 204,
+                            "startColumn": 54
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 204,
+                            "startColumn": 32
+                          }
+                        },
+                        "message": {
+                          "text": "Exit this loop, ('i<32&&copied<kJmpSize' is false)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 216,
+                            "startColumn": 20
+                          }
+                        },
+                        "message": {
+                          "text": "Skip this branch, (assume 'copied<kJmpSize' is false)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 219,
+                            "startColumn": 22
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 220,
+                            "startColumn": 15
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 224,
+                            "startColumn": 13
+                          }
+                        },
+                        "message": {
+                          "text": "Skip this branch, (assume '!trampoline' is false)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 227,
+                            "startColumn": 20
+                          }
+                        },
+                        "message": {
+                          "text": "'target' is an Input to 'memcpy' (declared at c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.41.34120\\include\\vcruntime_string.h:43)"
+                        }
+                      },
+                      "kinds": [
+                        "usage"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 230,
+                            "startColumn": 15
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 237,
+                            "startColumn": 28
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 238,
+                            "startColumn": 62
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 242,
+                            "startColumn": 13
+                          }
+                        },
+                        "message": {
+                          "text": "Skip this branch, (assume 'outOriginal' is false)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 245,
+                            "startColumn": 15
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 246,
+                            "startColumn": 13
+                          }
+                        },
+                        "message": {
+                          "text": "'target' is an In/Out argument to 'VirtualProtect' (declared at c:\\program files (x86)\\windows kits\\10\\include\\10.0.22621.0\\um\\memoryapi.h:67)"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 246,
+                            "startColumn": 13
+                          }
+                        },
+                        "message": {
+                          "text": "Skip this branch, (assume '<branch condition>' is false)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 256,
+                            "startColumn": 14
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 257,
+                            "startColumn": 48
+                          }
+                        }
+                      },
+                      "importance": "unimportant"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 261,
+                            "startColumn": 20
+                          }
+                        },
+                        "message": {
+                          "text": "'target' is an In/Out argument to 'memcpy' (declared at c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.41.34120\\include\\vcruntime_string.h:43)"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 264,
+                            "startColumn": 20
+                          }
+                        },
+                        "message": {
+                          "text": "'copied' may equal 5 (Enter this branch)"
+                        }
+                      },
+                      "kinds": [
+                        "branch"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 265,
+                            "startColumn": 24
+                          }
+                        },
+                        "message": {
+                          "text": "'target' is an In/Out argument to 'memset' (declared at c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.41.34120\\include\\vcruntime_string.h:63)"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 267,
+                            "startColumn": 23
+                          }
+                        },
+                        "message": {
+                          "text": "'target' is an In/Out argument to 'VirtualProtect' (declared at c:\\program files (x86)\\windows kits\\10\\include\\10.0.22621.0\\um\\memoryapi.h:67)"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 268,
+                            "startColumn": 30
+                          }
+                        },
+                        "message": {
+                          "text": "'target' is an Input to 'FlushInstructionCache' (declared at c:\\program files (x86)\\windows kits\\10\\include\\10.0.22621.0\\um\\processthreadsapi.h:859)"
+                        }
+                      },
+                      "kinds": [
+                        "usage"
+                      ]
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+                          },
+                          "region": {
+                            "startLine": 268,
+                            "startColumn": 30
+                          }
+                        },
+                        "message": {
+                          "text": "Invalid read from 'target', (outside its readable range)"
+                        }
+                      },
+                      "kinds": [
+                        "usage"
+                      ],
+                      "importance": "essential"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.41.34120.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///C:/Users/catoa/Desktop/OffBloxMain/RobloxStudioPatcher/RobloxStudioPatcher/iat_hook.cpp"
+          },
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ],
+          "hashes": {
+            "sha-256": "6366f682da327202098be00f94de09fd362b379a363705da4911a0837cdb42ad"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/iat_hook.h"
+          },
+          "hashes": {
+            "sha-256": "a2fe66fe77339b33694d932c43920986faf26069029ed95fd058acda8fbce7ee"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/catoa/desktop/offbloxmain/robloxstudiopatcher/robloxstudiopatcher/patcher.h"
+          },
+          "hashes": {
+            "sha-256": "e6f85065ea022809414c7f3763a61d536ea4f73e3ef1415a86c8a92d95ec1328"
+          }
+        }
+      ]
+    }
+  ]
+}

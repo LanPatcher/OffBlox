@@ -1,0 +1,19 @@
+RewriteEngine on
+
+
+# GET /v1/user/<userId>/is-admin-developer-console-enabled
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]+)/is-admin-developer-console-enabled/?$ is-admin-developer-console-enabled.php?userId=$1 [L,QSA,NC]
+# GET /v1/user/<userId>/canmanage/<assetId>
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]+)/canmanage/([^/]+)/?$ canmanage.php?userId=$1&assetId=$2 [L,QSA,NC]
+# ----------------------------------------------------------------------
+
+
+
+#remove extension php
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteCond %{REQUEST_FILENAME}\.php -f 
+RewriteRule ^(.*)$ $1.php

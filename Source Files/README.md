@@ -1,4 +1,4 @@
-# 🖥️ LAN Roblox Studio (2023)
+# 🖥️ LAN Roblox Studio (2026)
 
 > **⚠️ This is a developer tool, NOT a revival project.**
 > LAN Roblox Studio is a local server environment for running and testing 2023-era Roblox games entirely offline on your LAN. No Roblox accounts are impersonated (Everything is local except for asset grabbing which you use your OWN cookie for.), no live services are targeted, and no online infrastructure is replicated with the intent of replacing Roblox. This project exists purely as a personal dev/testing utility.

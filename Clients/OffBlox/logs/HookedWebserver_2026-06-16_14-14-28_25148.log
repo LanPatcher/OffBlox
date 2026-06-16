@@ -1,0 +1,655 @@
+[2026-06-16 14:14:28] === HookedWebserver startup ===
+[2026-06-16 14:14:28] DLL directory: C:\Users\catoa\Desktop\Roblox Downloads\OffBloxModern\Clients\OffBlox\
+[2026-06-16 14:14:28] Username: HearMeRoar  UserId: 14463315
+[2026-06-16 14:14:28] HTTP port: 80  HTTPS port: 443
+[2026-06-16 14:14:28] Winsock initialized
+[2026-06-16 14:14:28] Sign key: loaded OK
+[2026-06-16 14:14:28] SSL: PEM cert+key loaded OK (PKCS#8 key, no PFX needed)
+[2026-06-16 14:14:28] SSL/TLS: loaded OK
+[2026-06-16 14:14:28] Server WATCHDOG — another instance owns port 80, monitoring...
+[2026-06-16 14:14:28] Startup complete.
+[2026-06-16 14:14:28] Roblox cookie probe (users/authenticated): HTTP 200 -> valid
+[2026-06-16 14:14:28] Roblox cookie: loaded & valid
+[2026-06-16 14:14:40] >> POST /oauth/v1/token/revoke
+[2026-06-16 14:14:40] << /oauth/v1/token/revoke -> {}
+[2026-06-16 14:14:40] >> POST /v2/logout
+[2026-06-16 14:14:40] << /v2/logout -> {}
+[2026-06-16 14:14:41] >> GET /oauth/v1/authorize?response_type=code&code_challenge=mO6-TUfdvaNs4GB6i8Ftlr4wQuoFZvjKhID8oFIr0MQ&code_challenge_method=S256&client_id&redirect_uri=roblox-studio-auth%3A%2F&scope=openid+credentials+profile+age+roles+premium+verification&nonce=id-roblox&state=eyJwaWQiOiIyNTE0OCIsImV2ZW50X2hhbmRsZXJfbmFtZSI6IkV4dGVybmFsTG9naW5GbG93IiwiZGF0YSI6IlJOVHc3VWVmcUVmaFo4d2oxc0EzdW1id1NOTExndUtaS1F5WVgxX0U4dWcifQ%3D%3D
+[2026-06-16 14:14:41] /authorize: client_id='roblox_studio_client' nonce='id-roblox' redirect_uri='roblox-studio-auth:/'
+[2026-06-16 14:14:41] >> POST /oauth/v1/token
+[2026-06-16 14:14:41] /v1/token body: [grant_type=authorization_code&code=hardcoded_auth_code_2023&code_verifier=IDjg2CexE6WeNwrf6FHQUL0sMaZ55kDtsD7x5J5kWq4&client_id=]
+[2026-06-16 14:14:41] /v1/token qs client_id: [(missing)]
+[2026-06-16 14:14:41] << /oauth/v1/token -> {"access_token":"hardcoded_access_token","token_type":"Bearer","expires_in":1800,"refresh_token":"hardcoded_refresh_token","scope":"openid credentials profile age roles premium","id_token":"eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImhhcmRjb2RlZC1rZXktMSJ9.eyJzdWIiOiIxNDQ2MzMxNSIsInR5cGUiOiJVc2VyIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdC9vYXV0aC8iLCJhdWQiOiJyb2Jsb3hfc3R1ZGlvX2NsaWVudCIsImV4cCI6MTc4MTY0NjI3NiwiaWF0IjoxNzgxNjQ0NDc2LCJub25jZSI6ImlkLXJvYmxveCIsIm5hbWUiOiJIZWFyTWVSb2FyIiwibmlja25hbWUiOiJEZXYiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJIZWFyTWVSb2FyIiwiY3JlYXRlZF9hdCI6MTY4MDAwMDAwMCwicHJvZmlsZSI6Imh0dHBzOi8vd3d3LnJvYmxveC5jb20vdXNlcnMvMTQ0NjMzMTUvcHJvZmlsZSIsInBpY3R1cmUiOiJodHRwczovL3d3dy5yb2Jsb3guY29tL2hlYWRzaG90LXRodW1ibmFpbC9pbWFnZT91c2VySWQ9MTQ0NjMzMTUmd2lkdGg9NDIwJmhlaWdodD00MjAiLCJlbWFpbCI6ImRldkByb2Jsb3guZXhhbXBsZSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJ2ZXJpZmllZCI6dHJ1ZSwiYWdlX2JyYWNrZXQiOiIxOCsiLCJwcmVtaXVtIjp0cnVlLCJyb2xlcyI6WyJEZXZlbG9wZXIiXSwiaW50ZXJuYWxfdXNlciI6ZmFsc2UsImF0dHJpYnV0ZXMiOn
+[2026-06-16 14:14:42] >> GET /v1/not-approved
+[2026-06-16 14:14:42] << /v1/not-approved -> {}
+[2026-06-16 14:14:42] >> POST /validate-machine
+[2026-06-16 14:14:42] << /validate-machine -> {}
+[2026-06-16 14:14:42] >> GET /oauth/v1/userinfo
+[2026-06-16 14:14:42] << /oauth/v1/userinfo -> {"sub":"14463315","type":"User","iss":"http://localhost/oauth/","aud":"roblox_studio_client","exp":1781648082,"iat":1781644482,"nonce":"id-roblox","name":"HearMeRoar","nickname":"Dev","preferred_username":"HearMeRoar","created_at":1680000000,"email":"dev@roblox.example","email_verified":true,"verified":true,"age_bracket":"18+","premium":true,"roles":["Developer"],"internal_user":false,"attributes":{}}
+[2026-06-16 14:14:42] >> POST /product-experimentation-platform/v1/projects/1/values
+[2026-06-16 14:14:42] >> POST /product-experimentation-platform/v1/projects/1/values
+[2026-06-16 14:14:42] << /product-experimentation-platform/v1/projects/1/values -> {"assignments":[]}
+[2026-06-16 14:14:42] << /product-experimentation-platform/v1/projects/1/values -> {"assignments":[]}
+[2026-06-16 14:14:43] >> POST /product-experimentation-platform/v1/projects/1/values
+[2026-06-16 14:14:43] >> POST /user-heartbeats-api/action-report
+[2026-06-16 14:14:43] << /product-experimentation-platform/v1/projects/1/values -> {"assignments":[]}
+[2026-06-16 14:14:43] << /user-heartbeats-api/action-report -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 14:14:43] >> GET /userhub/?id=
+[2026-06-16 14:14:43] 404 GET /userhub/
+[2026-06-16 14:14:43] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:14:43] >> GET /studio-user-data-api/beta-feature?pageSize=1000000000
+[2026-06-16 14:14:43] >> GET /studio-user-data-api/beta-feature-metadata
+[2026-06-16 14:14:43] >> GET /studio-user-data-api/plugin-metadata?pageSize=1000000000
+[2026-06-16 14:14:43] >> GET /studio-user-settings/plugin-permissions/v2/plugins?permissionType=ScriptInjection&cursor&pageSize=100
+[2026-06-16 14:14:43] << /studio-user-data-api/beta-feature -> {}
+[2026-06-16 14:14:43] >> GET /studio-user-settings/plugin-permissions/v2/plugins?permissionType=HttpService&cursor&pageSize=100
+[2026-06-16 14:14:43] >> GET /v2/user-channel?binaryType=WindowsStudio64
+[2026-06-16 14:14:43] << /studio-user-data-api/beta-feature-metadata -> {}
+[2026-06-16 14:14:43] << /studio-user-data-api/plugin-metadata -> {}
+[2026-06-16 14:14:43] << /studio-user-settings/plugin-permissions/v2/plugins -> {}
+[2026-06-16 14:14:43] << /studio-user-settings/plugin-permissions/v2/plugins -> {}
+[2026-06-16 14:14:43] << /v2/user-channel -> {}
+[2026-06-16 14:14:43] >> GET /access-management/v1/feature-access?featureNames=ShowIllegalContentReport&nameSpace=studio%2FSafetyFeatures
+[2026-06-16 14:14:43] >> GET /v1/universes/multiget?ids=9000000000020&ids=9000000000124&ids=9000000000088&ids=9000000000048&ids=9000000000046&ids=9000000000098&ids=9000000000068&ids=9000000000016&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044
+[2026-06-16 14:14:43] >> GET /my/settings/json
+[2026-06-16 14:14:43] >> GET /v2/assets/9000000000021/details
+[2026-06-16 14:14:43] >> GET /v1/games/icons?universeIds=9000000000020&returnPolicy=AutoGenerated&size=256x256&format=Png&isCircular=false
+[2026-06-16 14:14:43] << /access-management/v1/feature-access -> {"featureAccess":[],"data":[]}
+[2026-06-16 14:14:43] << /my/settings/json -> {"UserId":14463315,"UserName":"HearMeRoar","DisplayName":"HearMeRoar","RobuxBalance":9999999999,"IsEmailVerified":true,"IsPremiumUser":true,"AgeBracket":0,"CountryCode":"US","Roles":["Developer","Soothsayer"],"AccountAgeInDays":1324354}
+[2026-06-16 14:14:43] << /v2/assets/9000000000021/details -> {"TargetId":9000000000021,"AssetId":9000000000021,"ProductId":9000000000021,"assetId":9000000000021,"id":9000000000021,"Id":9000000000021,"TargetPlaceId":9000000000021,"PlaceId":9000000000021,"ProductType":"User Product","Name":"Flood Escape 1.6.5","Description":"","AssetTypeId":9,"assetTypeId":9,"Creator":{"Id":14463315,"Name":"HearMeRoar","CreatorType":"User","CreatorTargetId":14463315,"HasVerifiedBadge":false,"id":14463315,"type":1,"creatorType":"User","creatorTargetId":14463315},"IconImageAssetId":0,"Created":"2022-05-11T13:27:09.897Z","Updated":"2022-06-19T07:23:39.03Z","created":"2022-05-11T13:27:09.897Z","updated":"2022-06-19T07:23:39.03Z","PriceInRobux":null,"Sales":0,"IsNew":false,"IsForSale":false,"IsPublicDomain":true,"IsLimited":false,"IsLimitedUnique":false,"isPublic":true,"isForSale":false,"isLimited":false,"isLimitedUnique":false,"enableComments":false}
+[2026-06-16 14:14:43] << /v1/games/icons -> {"data":[{"targetId":9000000000020,"state":"Completed","imageUrl":"http://localhost/Png.png"}]}
+[2026-06-16 14:14:43] >> GET /userhub/?id=
+[2026-06-16 14:14:43] 404 GET /userhub/
+[2026-06-16 14:14:43] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:14:43] >> GET /Png.png
+[2026-06-16 14:14:43] >> GET /v1/universes/multiget/teamcreate?ids=9000000000020&ids=9000000000124&ids=9000000000088&ids=9000000000048&ids=9000000000046&ids=9000000000098&ids=9000000000068&ids=9000000000016&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044
+[2026-06-16 14:14:43] TeamCreate stub (disabled): GET /v1/universes/multiget/teamcreate
+[2026-06-16 14:14:43] << /v1/universes/multiget/teamcreate -> {"data":[{"id":9000000000020,"isEnabled":false},{"id":9000000000124,"isEnabled":false},{"id":9000000000088,"isEnabled":false},{"id":9000000000048,"isEnabled":false},{"id":9000000000046,"isEnabled":false},{"id":9000000000098,"isEnabled":false},{"id":9000000000068,"isEnabled":false},{"id":9000000000016,"isEnabled":false},{"id":9000000000064,"isEnabled":false},{"id":9000000000092,"isEnabled":false},{"id":9000000000096,"isEnabled":false},{"id":9000000000080,"isEnabled":false},{"id":9000000000018,"isEnabled":false},{"id":9000000000040,"isEnabled":false},{"id":9000000000030,"isEnabled":false},{"id":9000000000070,"isEnabled":false},{"id":9000000000034,"isEnabled":false},{"id":9000000000002,"isEnabled":false},{"id":9000000000026,"isEnabled":false},{"id":9000000000052,"isEnabled":false},{"id":9000000000022,"isEnabled":false},{"id":9000000000050,"isEnabled":false},{"id":9000000000062,"isEnabled":false},{"id":9000000000044,"isEnabled":false}]}
+[2026-06-16 14:14:43] >> POST /v1/users
+[2026-06-16 14:14:43] << /v1/users -> {"data":[{"hasVerifiedBadge":false,"id":14463315,"name":"HearMeRoar","displayName":"HearMeRoar"}]}
+[2026-06-16 14:14:43] >> GET /studio-open-place/v1/openplace?placeId=9000000000021
+[2026-06-16 14:14:43] << /studio-open-place/v1/openplace -> {"universe":{"Id":9000000000020,"RootPlaceId":9000000000021,"Name":"Flood Escape 1.6.5","Description":"","IsArchived":false,"CreatorType":"User","CreatorTargetId":14463315,"PrivacyType":"Private","Created":"2022-01-01T00:00:00.000+00:00","Updated":"2022-01-01T00:00:00.000+00:00"},"teamCreateEnabled":false,"place":{"Creator":{"CreatorType":"User","CreatorTargetId":14463315}}}
+[2026-06-16 14:14:44] >> POST /asset-permissions-api/v1/assets/check-permissions
+[2026-06-16 14:14:44] asset-permissions assetId=9000000000021 -> HasPermission
+[2026-06-16 14:14:44] asset-permissions check done: /asset-permissions-api/v1/assets/check-permissions
+[2026-06-16 14:14:44] << /asset-permissions-api/v1/assets/check-permissions -> {"results":[{"value":{"status":"HasPermission"}}]}
+[2026-06-16 14:14:44] >> GET /v1/gametemplates?searchKey=Templates&pageSize=30&search=All&isTemplates=true
+[2026-06-16 14:14:44] << /v1/gametemplates -> {"data":[{"gameTemplateType":"Generic","hasTutorials":false,"universe":{"id":28220420,"name":"Baseplate","description":"Start from a clean baseplate.","isArchived":false,"rootPlaceId":95206881,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2017-04-26T00:00:00Z","updated":"2017-04-26T00:00:00Z","isFriendsOnly":false,"audiences":[1,3,4]}}]}
+[2026-06-16 14:14:44] >> GET /doc-site/v2/feeds?surfaceType=StudioStart
+[2026-06-16 14:14:44] << /doc-site/v2/feeds -> {"data":{"feedItems":[]}}
+[2026-06-16 14:14:44] >> GET /v2/universes/9000000000020/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:44] << /v2/universes/9000000000020/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000021,"universeId":9000000000020,"name":"Flood Escape 1.6.5","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:45] >> GET /v2/universes/9000000000124/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:45] << /v2/universes/9000000000124/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000125,"universeId":9000000000124,"name":"testt","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:45] >> GET /v2/universes/9000000000088/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:45] << /v2/universes/9000000000088/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000089,"universeId":9000000000088,"name":"Muffin Kombat","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:45] >> GET /v2/universes/9000000000048/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:45] << /v2/universes/9000000000048/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000049,"universeId":9000000000048,"name":"Pokemon Brick Bronze","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:45] >> GET /v2/universes/9000000000046/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:45] >> POST /v1/batch
+[2026-06-16 14:14:45] << /v2/universes/9000000000046/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000047,"universeId":9000000000046,"name":"Phantom Forces","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:45] << /v1/batch -> {"data":[]}
+[2026-06-16 14:14:45] >> GET /v2/universes/9000000000098/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:45] << /v2/universes/9000000000098/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000099,"universeId":9000000000098,"name":"Youtube Tycoon","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:45] >> GET /userhub/?id=
+[2026-06-16 14:14:45] 404 GET /userhub/
+[2026-06-16 14:14:45] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:14:46] >> GET /v2/universes/9000000000068/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:46] << /v2/universes/9000000000068/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000069,"universeId":9000000000068,"name":"Weight Lifting Simulator 2","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:46] >> GET /v2/universes/9000000000016/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:46] << /v2/universes/9000000000016/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000017,"universeId":9000000000016,"name":"Prison Life V2.0","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:46] >> GET /v2/universes/9000000000064/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:46] << /v2/universes/9000000000064/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000065,"universeId":9000000000064,"name":"New MM2","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:46] >> GET /v2/universes/9000000000092/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:46] << /v2/universes/9000000000092/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000093,"universeId":9000000000092,"name":"Meepcity","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:46] >> GET /v2/universes/9000000000096/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:46] << /v2/universes/9000000000096/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000097,"universeId":9000000000096,"name":"Tower of hell","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:47] >> GET /v2/universes/9000000000080/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:47] << /v2/universes/9000000000080/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000081,"universeId":9000000000080,"name":"Work at a pizza place","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:47] >> GET /v2/universes/9000000000018/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:47] << /v2/universes/9000000000018/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000019,"universeId":9000000000018,"name":"Natural Disaster Survival","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:47] >> GET /v2/universes/9000000000040/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:47] << /v2/universes/9000000000040/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000041,"universeId":9000000000040,"name":"Epic Minigames","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:47] >> GET /v2/universes/9000000000030/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:47] << /v2/universes/9000000000030/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000031,"universeId":9000000000030,"name":"Twisted Murderer","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:47] >> GET /v2/universes/9000000000070/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:47] << /v2/universes/9000000000070/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000071,"universeId":9000000000070,"name":"Speed run 4","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:48] >> GET /v2/universes/9000000000034/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:48] << /v2/universes/9000000000034/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000035,"universeId":9000000000034,"name":"Assassin","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:48] >> GET /v2/universes/9000000000002/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:48] << /v2/universes/9000000000002/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000003,"universeId":9000000000002,"name":"Theme park tycoon 2","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:48] >> GET /v2/universes/9000000000026/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:48] >> POST /user-heartbeats-api/action-report
+[2026-06-16 14:14:48] << /v2/universes/9000000000026/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000027,"universeId":9000000000026,"name":"Jailbreak","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:48] << /user-heartbeats-api/action-report -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 14:14:48] >> GET /v2/universes/9000000000052/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:48] >> POST /private-users-service/v1beta1/getOrCreatePrivateUserId
+[2026-06-16 14:14:48] << /v2/universes/9000000000052/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000053,"universeId":9000000000052,"name":"Whatever Floats Your Boat","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:48] << /private-users-service/v1beta1/getOrCreatePrivateUserId -> {"privateUserId":1500014463315,"userIdMode":"USER_ID_MODE_GLOBAL","created":true}
+[2026-06-16 14:14:49] >> GET /v2/universes/9000000000022/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:49] << /v2/universes/9000000000022/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000023,"universeId":9000000000022,"name":"Robot 64","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:49] >> GET /assets/user-auth/v1/assets/9000000000021
+[2026-06-16 14:14:49] << /assets/user-auth/v1/assets/9000000000021 -> {"path":"assets/9000000000021","revisionId":"1","revisionCreateTime":"2024-01-01T00:00:00.000Z","assetId":"9000000000021","displayName":"Flood Escape 1.6.5","assetType":"Place","creationContext":{"creator":{"userId":"14463315"}},"moderationResult":{"moderationState":"Approved"},"state":"Active"}
+[2026-06-16 14:14:49] >> GET /v2/universes/9000000000050/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:49] << /v2/universes/9000000000050/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000051,"universeId":9000000000050,"name":"Polyguns","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:49] >> GET /v2/universes/9000000000020/configuration
+[2026-06-16 14:14:49] << /v2/universes/9000000000020/configuration -> {"allowPrivateServers":true,"privateServerPrice":null,"id":9000000000020,"name":"Flood Escape 1.6.5","universeAvatarType":"MorphToR6","universeScaleType":"AllScales","universeAnimationType":"PlayerChoice","universeCollisionType":"OuterBox","universeBodyType":"Standard","universeJointPositioningType":"ArtistIntent","universeAvatarAssetOverrides":[],"universeAvatarMinScales":{"height":0.9,"width":0.7,"head":0.95,"proportion":0,"bodyType":0},"universeAvatarMaxScales":{"height":1.05,"width":1,"head":1,"proportion":1,"bodyType":1},"isArchived":false,"isFriendsOnly":false,"genre":"All","playableDevices":["Computer","Phone","Tablet"],"isForSale":false,"price":0,"isStudioAccessToApisAllowed":true,"privacyType":"Public"}
+[2026-06-16 14:14:49] >> GET /v2/universes/9000000000062/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:49] << /v2/universes/9000000000062/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000063,"universeId":9000000000062,"name":"Build a boat for treasure","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:49] >> GET /v2/universes/9000000000044/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:49] << /v2/universes/9000000000044/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9000000000045,"universeId":9000000000044,"name":"Miners Haven","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:49] >> GET /v1/universes/multiget?ids=9000000000020&ids=9000000000124&ids=9000000000088&ids=9000000000048&ids=9000000000046&ids=9000000000098&ids=9000000000068&ids=9000000000016&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&
+[2026-06-16 14:14:50] >> GET /v2/universes/28220420/places?limit=50&SortOrder=Asc
+[2026-06-16 14:14:50] >> GET /v1/asset/?id=9000000000021&version=1
+[2026-06-16 14:14:50] << /v2/universes/28220420/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"maxPlayerCount":null,"socialSlotType":null,"customSocialSlotsCount":null,"allowCopying":null,"currentSavedVersion":1,"isAllGenresAllowed":null,"allowedGearTypes":null,"maxPlayersAllowed":0,"created":"2022-01-01T00:00:00.000Z","updated":"2022-01-01T00:00:00.000Z","id":9991912465,"universeId":9991912465,"name":"Baseplate","description":"","isRootPlace":true}]}
+[2026-06-16 14:14:50] >> GET //v1/games/icons?universeIds=28220420&returnPolicy=Placeholder&format=png&size=256x256
+[2026-06-16 14:14:50] << //v1/games/icons -> {"data":[{"targetId":28220420,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=28220420","version":"TN3"}]}
+[2026-06-16 14:14:50] >> GET /v1/asset?id=174984562&xcachesplit=9000000000020
+[2026-06-16 14:14:50] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=174984562
+[2026-06-16 14:14:50] Asset 174984562: fetch failed, falling back to redirect
+[2026-06-16 14:14:50] >> GET /v1/asset?id=174988344&xcachesplit=9000000000020
+[2026-06-16 14:14:51] >> GET /v1/asset?id=174988382&xcachesplit=9000000000020
+[2026-06-16 14:14:51] >> GET /v1/asset?ID=142446794&xcachesplit=9000000000020
+[2026-06-16 14:14:51] >> GET /v1/asset?ID=142448886&xcachesplit=9000000000020
+[2026-06-16 14:14:51] >> GET /v1/asset?ID=142448870&xcachesplit=9000000000020
+[2026-06-16 14:14:51] >> GET /v1/asset?ID=134012322&xcachesplit=9000000000020
+[2026-06-16 14:14:51] >> GET /v1/asset?ID=139572272&xcachesplit=9000000000020
+[2026-06-16 14:14:51] >> GET /v1/asset?id=175728189&xcachesplit=9000000000020
+[2026-06-16 14:14:51] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=174988344
+[2026-06-16 14:14:51] << /v1/asset -> {"errors":[{"code":400,"message":"Missing id"}]}
+[2026-06-16 14:14:51] << /v1/asset -> {"errors":[{"code":400,"message":"Missing id"}]}
+[2026-06-16 14:14:51] << /v1/asset -> {"errors":[{"code":400,"message":"Missing id"}]}
+[2026-06-16 14:14:51] << /v1/asset -> {"errors":[{"code":400,"message":"Missing id"}]}
+[2026-06-16 14:14:51] << /v1/asset -> {"errors":[{"code":400,"message":"Missing id"}]}
+[2026-06-16 14:14:51] Asset 174988344: fetch failed, falling back to redirect
+[2026-06-16 14:14:51] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=174988382
+[2026-06-16 14:14:51] Asset 174988382: fetch failed, falling back to redirect
+[2026-06-16 14:14:51] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=175728189
+[2026-06-16 14:14:51] Asset 175728189: fetch failed, falling back to redirect
+[2026-06-16 14:14:51] >> GET /v1/asset?id=147451482&xcachesplit=9000000000020
+[2026-06-16 14:14:51] >> GET /asset/?id=177624811&xcachesplit=9000000000020
+[2026-06-16 14:14:51] >> GET //v1/games/icons?universeIds=9000000000020,9000000000124,9000000000088,9000000000048,9000000000046,9000000000098,9000000000068,9000000000016,9000000000064,9000000000092,9000000000096,9000000000080,9000000000018,9000000000040,9000000000030,9000000000070,9000000000034,9000000000002,9000000000026,9000000000052,9000000000022,9000000000050,9000000000062,9000000000044&returnPolicy=Autogenerated&format=png&size=256x256
+[2026-06-16 14:14:51] << //v1/games/icons -> {"data":[{"targetId":9000000000020,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000020","version":"TN3"},{"targetId":9000000000124,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000124","version":"TN3"},{"targetId":9000000000088,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000088","version":"TN3"},{"targetId":9000000000048,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000048","version":"TN3"},{"targetId":9000000000046,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000046","version":"TN3"},{"targetId":9000000000098,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000098","version":"TN3"},{"targetId":9000000000068,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000068","version":"TN3"},{"targetId":9000000000016,"state":"Completed","imageUrl":"http://localhost
+[2026-06-16 14:14:51] >> POST /experience-guidelines-service/v1beta1/multi-age-recommendation
+[2026-06-16 14:14:51] >> POST /core-content/v1/universe-eligibility/batch
+[2026-06-16 14:14:51] << /core-content/v1/universe-eligibility/batch -> {"eligibilityByCreator":[{"userId":"14463315","userIsEligible":true,"displayText":"Eligible","ineligibilityReason":"INELIGIBILITY_REASON_NONE"}]}
+[2026-06-16 14:14:51] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=147451482
+[2026-06-16 14:14:51] Asset 147451482: fetch failed, falling back to redirect
+[2026-06-16 14:14:51] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=177624811
+[2026-06-16 14:14:51] Asset 177624811: fetch failed, falling back to redirect
+[2026-06-16 14:14:51] >> POST /experience-releases/v1beta1/experience_releases_api/multi_release_statuses
+[2026-06-16 14:14:51] << /experience-releases/v1beta1/experience_releases_api/multi_release_statuses -> {"eligibilityByCreator":[{"userId":"14463315","userIsEligible":true,"displayText":"Eligible","ineligibilityReason":"INELIGIBILITY_REASON_NONE"}]}
+[2026-06-16 14:14:52] >> GET /teamcreate/v1/MultiGetUniversesActiveSessionMembers?maxUsers=10&ids=9000000000020&ids=9000000000124&ids=9000000000088&ids=9000000000048&ids=9000000000046&ids=9000000000098&ids=9000000000068&ids=9000000000016&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044
+[2026-06-16 14:14:52] TeamCreate stub (disabled): GET /teamcreate/v1/MultiGetUniversesActiveSessionMembers
+[2026-06-16 14:14:52] << /teamcreate/v1/MultiGetUniversesActiveSessionMembers -> {"data":[{"id":9000000000020,"isEnabled":false},{"id":9000000000124,"isEnabled":false},{"id":9000000000088,"isEnabled":false},{"id":9000000000048,"isEnabled":false},{"id":9000000000046,"isEnabled":false},{"id":9000000000098,"isEnabled":false},{"id":9000000000068,"isEnabled":false},{"id":9000000000016,"isEnabled":false},{"id":9000000000064,"isEnabled":false},{"id":9000000000092,"isEnabled":false},{"id":9000000000096,"isEnabled":false},{"id":9000000000080,"isEnabled":false},{"id":9000000000018,"isEnabled":false},{"id":9000000000040,"isEnabled":false},{"id":9000000000030,"isEnabled":false},{"id":9000000000070,"isEnabled":false},{"id":9000000000034,"isEnabled":false},{"id":9000000000002,"isEnabled":false},{"id":9000000000026,"isEnabled":false},{"id":9000000000052,"isEnabled":false},{"id":9000000000022,"isEnabled":false},{"id":9000000000050,"isEnabled":false},{"id":9000000000062,"isEnabled":false},{"id":9000000000044,"isEnabled":false}]}
+[2026-06-16 14:14:52] >> GET /v1/universes/multiget/teamcreate?ids=9000000000020&ids=9000000000124&ids=9000000000088&ids=9000000000048&ids=9000000000046&ids=9000000000098&ids=9000000000068&ids=9000000000016&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&
+[2026-06-16 14:14:52] TeamCreate stub (disabled): GET /v1/universes/multiget/teamcreate
+[2026-06-16 14:14:52] << /v1/universes/multiget/teamcreate -> {"data":[{"id":9000000000020,"isEnabled":false},{"id":9000000000124,"isEnabled":false},{"id":9000000000088,"isEnabled":false},{"id":9000000000048,"isEnabled":false},{"id":9000000000046,"isEnabled":false},{"id":9000000000098,"isEnabled":false},{"id":9000000000068,"isEnabled":false},{"id":9000000000016,"isEnabled":false},{"id":9000000000064,"isEnabled":false},{"id":9000000000092,"isEnabled":false},{"id":9000000000096,"isEnabled":false},{"id":9000000000080,"isEnabled":false},{"id":9000000000018,"isEnabled":false},{"id":9000000000040,"isEnabled":false},{"id":9000000000030,"isEnabled":false},{"id":9000000000070,"isEnabled":false},{"id":9000000000034,"isEnabled":false},{"id":9000000000002,"isEnabled":false},{"id":9000000000026,"isEnabled":false},{"id":9000000000052,"isEnabled":false},{"id":9000000000022,"isEnabled":false},{"id":9000000000050,"isEnabled":false},{"id":9000000000062,"isEnabled":false},{"id":9000000000044,"isEnabled":false}]}
+[2026-06-16 14:14:52] >> GET /content-safety/v1/places/9000000000021/safety-status
+[2026-06-16 14:14:52] << /content-safety/v1/places/9000000000021/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:52] >> GET /content-safety/v1/places/9000000000125/safety-status
+[2026-06-16 14:14:52] >> POST /v1/batch
+[2026-06-16 14:14:52] << /content-safety/v1/places/9000000000125/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:52] << /v1/batch -> {"data":[]}
+[2026-06-16 14:14:53] >> GET /content-safety/v1/places/9000000000089/safety-status
+[2026-06-16 14:14:53] << /content-safety/v1/places/9000000000089/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:53] >> GET /asset/?hash=9648afba5d3d7f66550213469e074213&contentRepresentationPriorityList=W3siZm9ybWF0IjoiUmVzaWR1YWwiLCJtYWpvclZlcnNpb24iOiIyIiwiZmlkZWxpdHkiOiJPcmlnaW5hbCJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 14:14:53] >> GET /content-safety/v1/places/9000000000049/safety-status
+[2026-06-16 14:14:53] << /content-safety/v1/places/9000000000049/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:53] >> GET /content-safety/v1/places/9000000000047/safety-status
+[2026-06-16 14:14:53] << /content-safety/v1/places/9000000000047/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:53] >> GET /content-safety/v1/places/9000000000099/safety-status
+[2026-06-16 14:14:53] << /content-safety/v1/places/9000000000099/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:53] >> GET /content-safety/v1/places/9000000000069/safety-status
+[2026-06-16 14:14:53] << /content-safety/v1/places/9000000000069/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:54] >> GET /content-safety/v1/places/9000000000017/safety-status
+[2026-06-16 14:14:54] << /content-safety/v1/places/9000000000017/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:54] >> GET /content-safety/v1/places/9000000000065/safety-status
+[2026-06-16 14:14:54] << /content-safety/v1/places/9000000000065/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:54] >> GET /content-safety/v1/places/9000000000093/safety-status
+[2026-06-16 14:14:54] << /content-safety/v1/places/9000000000093/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:54] >> GET /content-safety/v1/places/9000000000097/safety-status
+[2026-06-16 14:14:54] << /content-safety/v1/places/9000000000097/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:55] >> GET /content-safety/v1/places/9000000000081/safety-status
+[2026-06-16 14:14:55] << /content-safety/v1/places/9000000000081/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:55] >> GET /content-safety/v1/places/9000000000019/safety-status
+[2026-06-16 14:14:55] << /content-safety/v1/places/9000000000019/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:55] >> GET /content-safety/v1/places/9000000000041/safety-status
+[2026-06-16 14:14:55] << /content-safety/v1/places/9000000000041/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:55] >> GET /content-safety/v1/places/9000000000031/safety-status
+[2026-06-16 14:14:55] << /content-safety/v1/places/9000000000031/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:55] >> GET /asset/?hash=9648afba5d3d7f66550213469e074213&contentRepresentationPriorityList=W3siZm9ybWF0IjoiT3JpZ2luYWwiLCJtYWpvclZlcnNpb24iOiJPcmlnaW5hbCIsImZpZGVsaXR5IjoiT3JpZ2luYWwifV0%3D
+[2026-06-16 14:14:55] >> GET /content-safety/v1/places/9000000000071/safety-status
+[2026-06-16 14:14:55] << /content-safety/v1/places/9000000000071/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:56] >> GET /content-safety/v1/places/9000000000035/safety-status
+[2026-06-16 14:14:56] << /content-safety/v1/places/9000000000035/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:56] >> GET /userhub/?id=
+[2026-06-16 14:14:56] 404 GET /userhub/
+[2026-06-16 14:14:56] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:14:56] >> GET /content-safety/v1/places/9000000000003/safety-status
+[2026-06-16 14:14:56] << /content-safety/v1/places/9000000000003/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:56] >> GET /v1/universes/multiget?ids=9000000000020&ids=9000000000124&ids=9000000000088&ids=9000000000048&ids=9000000000046&ids=9000000000098&ids=9000000000068&ids=9000000000016&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044
+[2026-06-16 14:14:56] >> GET /content-safety/v1/places/9000000000027/safety-status
+[2026-06-16 14:14:56] << /content-safety/v1/places/9000000000027/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:56] >> POST /asset-permissions-api/v1/assets/check-permissions
+[2026-06-16 14:14:56] asset-permissions assetId=9000000000021 -> HasPermission
+[2026-06-16 14:14:56] asset-permissions check done: /asset-permissions-api/v1/assets/check-permissions
+[2026-06-16 14:14:56] << /asset-permissions-api/v1/assets/check-permissions -> {"results":[{"value":{"status":"HasPermission"}}]}
+[2026-06-16 14:14:56] >> GET /content-safety/v1/places/9000000000053/safety-status
+[2026-06-16 14:14:56] >> GET /content-safety/v1/places/9000000000023/safety-status
+[2026-06-16 14:14:56] >> GET /content-safety/v1/places/9000000000051/safety-status
+[2026-06-16 14:14:56] >> GET /content-safety/v1/places/9000000000063/safety-status
+[2026-06-16 14:14:56] >> GET /content-safety/v1/places/9000000000045/safety-status
+[2026-06-16 14:14:56] >> GET /Thumbs/gameicon.ashx?id=28220420
+[2026-06-16 14:14:56] << /content-safety/v1/places/9000000000053/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:56] >> POST /studio/pbe
+[2026-06-16 14:14:56] << /content-safety/v1/places/9000000000023/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:56] << /content-safety/v1/places/9000000000051/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:56] << /content-safety/v1/places/9000000000063/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:56] << /content-safety/v1/places/9000000000045/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 14:14:56] << /studio/pbe -> {}
+[2026-06-16 14:14:56] >> GET /universes/v1/places/9000000000021/universe
+[2026-06-16 14:14:56] >> GET /v2/assets/9000000000021/details
+[2026-06-16 14:14:57] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:14:57] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:14:57] << /universes/v1/places/9000000000021/universe -> {"id":9000000000020,"universeId":9000000000020,"rootPlaceId":9000000000021,"name":"Flood Escape 1.6.5","description":"owo","isArchived":false,"isActive":true,"privacyType":"Private","creatorType":"User","creatorTargetId":14463315,"creatorName":"HearMeRoar","price":0,"playing":0,"visits":0,"maxPlayers":10,"studioAccessToApisAllowed":true,"genre":"All","isAllGenre":true,"isFavoritedByUser":false,"favoritedCount":0,"created":"2022-05-11T13:27:09.897Z","updated":"2022-05-11T13:27:09.897Z","universeAvatarType":"MorphToR6"}
+[2026-06-16 14:14:57] >> POST /event-subscription/v1/subscribe
+[2026-06-16 14:14:57] << /v2/assets/9000000000021/details -> {"TargetId":9000000000021,"AssetId":9000000000021,"ProductId":9000000000021,"assetId":9000000000021,"id":9000000000021,"Id":9000000000021,"TargetPlaceId":9000000000021,"PlaceId":9000000000021,"ProductType":"User Product","Name":"Flood Escape 1.6.5","Description":"","AssetTypeId":9,"assetTypeId":9,"Creator":{"Id":14463315,"Name":"HearMeRoar","CreatorType":"User","CreatorTargetId":14463315,"HasVerifiedBadge":false,"id":14463315,"type":1,"creatorType":"User","creatorTargetId":14463315},"IconImageAssetId":0,"Created":"2022-05-11T13:27:09.897Z","Updated":"2022-06-19T07:23:39.03Z","created":"2022-05-11T13:27:09.897Z","updated":"2022-06-19T07:23:39.03Z","PriceInRobux":null,"Sales":0,"IsNew":false,"IsForSale":false,"IsPublicDomain":true,"IsLimited":false,"IsLimitedUnique":false,"isPublic":true,"isForSale":false,"isLimited":false,"isLimitedUnique":false,"enableComments":false}
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000020
+[2026-06-16 14:14:57] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:14:57] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:14:57] << /event-subscription/v1/subscribe -> {"ttl_minutes":1440}
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000124
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000088
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000048
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000046
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000098
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000068
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000016
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000064
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000092
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000096
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000080
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000018
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000040
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000030
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000070
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000034
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000002
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000026
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000052
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000022
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000050
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000062
+[2026-06-16 14:14:57] >> GET /Thumbs/gameicon.ashx?id=9000000000044
+[2026-06-16 14:14:57] >> GET /v1/universes/multiget/teamcreate?ids=9000000000020&ids=9000000000124&ids=9000000000088&ids=9000000000048&ids=9000000000046&ids=9000000000098&ids=9000000000068&ids=9000000000016&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044
+[2026-06-16 14:14:57] TeamCreate stub (disabled): GET /v1/universes/multiget/teamcreate
+[2026-06-16 14:14:57] << /v1/universes/multiget/teamcreate -> {"data":[{"id":9000000000020,"isEnabled":false},{"id":9000000000124,"isEnabled":false},{"id":9000000000088,"isEnabled":false},{"id":9000000000048,"isEnabled":false},{"id":9000000000046,"isEnabled":false},{"id":9000000000098,"isEnabled":false},{"id":9000000000068,"isEnabled":false},{"id":9000000000016,"isEnabled":false},{"id":9000000000064,"isEnabled":false},{"id":9000000000092,"isEnabled":false},{"id":9000000000096,"isEnabled":false},{"id":9000000000080,"isEnabled":false},{"id":9000000000018,"isEnabled":false},{"id":9000000000040,"isEnabled":false},{"id":9000000000030,"isEnabled":false},{"id":9000000000070,"isEnabled":false},{"id":9000000000034,"isEnabled":false},{"id":9000000000002,"isEnabled":false},{"id":9000000000026,"isEnabled":false},{"id":9000000000052,"isEnabled":false},{"id":9000000000022,"isEnabled":false},{"id":9000000000050,"isEnabled":false},{"id":9000000000062,"isEnabled":false},{"id":9000000000044,"isEnabled":false}]}
+[2026-06-16 14:14:58] >> GET /v1/universes/9000000000020
+[2026-06-16 14:14:58] << /v1/universes/9000000000020 -> {"id":9000000000020,"universeId":9000000000020,"rootPlaceId":9000000000021,"name":"Flood Escape 1.6.5","description":"owo","isArchived":false,"isActive":true,"privacyType":"Private","creatorType":"User","creatorTargetId":14463315,"creatorName":"HearMeRoar","price":0,"playing":0,"visits":0,"maxPlayers":10,"studioAccessToApisAllowed":true,"genre":"All","isAllGenre":true,"isFavoritedByUser":false,"favoritedCount":0,"created":"2022-05-11T13:27:09.897Z","updated":"2022-05-11T13:27:09.897Z","universeAvatarType":"MorphToR6"}
+[2026-06-16 14:14:58] >> GET /v1/universes/9000000000020/permissions
+[2026-06-16 14:14:58] << /v1/universes/9000000000020/permissions -> {"canManage":true,"canCloudEdit":false,"canPublish":true,"canView":true,"isPublic":false}
+[2026-06-16 14:14:58] >> GET /v1/universes/9000000000020/places?sortOrder=Asc&limit=50
+[2026-06-16 14:14:58] << /v1/universes/9000000000020/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000021,"universeId":9000000000020,"name":"Flood Escape 1.6.5","description":""}]}
+[2026-06-16 14:14:58] >> GET /content-aliases-api/v1/universes/9000000000020/aliases
+[2026-06-16 14:14:58] << /content-aliases-api/v1/universes/9000000000020/aliases -> {"Aliases":[],"NextPageToken":null}
+[2026-06-16 14:14:58] >> GET /v2/assets/9000000000021/details
+[2026-06-16 14:14:58] << /v2/assets/9000000000021/details -> {"TargetId":9000000000021,"AssetId":9000000000021,"ProductId":9000000000021,"assetId":9000000000021,"id":9000000000021,"Id":9000000000021,"TargetPlaceId":9000000000021,"PlaceId":9000000000021,"ProductType":"User Product","Name":"Flood Escape 1.6.5","Description":"","AssetTypeId":9,"assetTypeId":9,"Creator":{"Id":14463315,"Name":"HearMeRoar","CreatorType":"User","CreatorTargetId":14463315,"HasVerifiedBadge":false,"id":14463315,"type":1,"creatorType":"User","creatorTargetId":14463315},"IconImageAssetId":0,"Created":"2022-05-11T13:27:09.897Z","Updated":"2022-06-19T07:23:39.03Z","created":"2022-05-11T13:27:09.897Z","updated":"2022-06-19T07:23:39.03Z","PriceInRobux":null,"Sales":0,"IsNew":false,"IsForSale":false,"IsPublicDomain":true,"IsLimited":false,"IsLimitedUnique":false,"isPublic":true,"isForSale":false,"isLimited":false,"isLimitedUnique":false,"enableComments":false}
+[2026-06-16 14:14:59] >> GET /v2/assets/9000000000021/details
+[2026-06-16 14:14:59] << /v2/assets/9000000000021/details -> {"TargetId":9000000000021,"AssetId":9000000000021,"ProductId":9000000000021,"assetId":9000000000021,"id":9000000000021,"Id":9000000000021,"TargetPlaceId":9000000000021,"PlaceId":9000000000021,"ProductType":"User Product","Name":"Flood Escape 1.6.5","Description":"","AssetTypeId":9,"assetTypeId":9,"Creator":{"Id":14463315,"Name":"HearMeRoar","CreatorType":"User","CreatorTargetId":14463315,"HasVerifiedBadge":false,"id":14463315,"type":1,"creatorType":"User","creatorTargetId":14463315},"IconImageAssetId":0,"Created":"2022-05-11T13:27:09.897Z","Updated":"2022-06-19T07:23:39.03Z","created":"2022-05-11T13:27:09.897Z","updated":"2022-06-19T07:23:39.03Z","PriceInRobux":null,"Sales":0,"IsNew":false,"IsForSale":false,"IsPublicDomain":true,"IsLimited":false,"IsLimitedUnique":false,"isPublic":true,"isForSale":false,"isLimited":false,"isLimitedUnique":false,"enableComments":false}
+[2026-06-16 14:14:59] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:14:59] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:14:59] >> POST /studio/pbe
+[2026-06-16 14:14:59] >> POST /timespent/pbe
+[2026-06-16 14:14:59] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:14:59] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:14:59] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:14:59] << /studio/pbe -> {}
+[2026-06-16 14:14:59] << /timespent/pbe -> {}
+[2026-06-16 14:14:59] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:14:59] >> GET /v1/universes/multiget?ids=9000000000020&ids=9000000000124&ids=9000000000088&ids=9000000000048&ids=9000000000046&ids=9000000000098&ids=9000000000068&ids=9000000000016&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044
+[2026-06-16 14:14:59] >> GET /v1/universes/multiget/teamcreate?ids=9000000000020&ids=9000000000124&ids=9000000000088&ids=9000000000048&ids=9000000000046&ids=9000000000098&ids=9000000000068&ids=9000000000016&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044
+[2026-06-16 14:14:59] TeamCreate stub (disabled): GET /v1/universes/multiget/teamcreate
+[2026-06-16 14:14:59] << /v1/universes/multiget/teamcreate -> {"data":[{"id":9000000000020,"isEnabled":false},{"id":9000000000124,"isEnabled":false},{"id":9000000000088,"isEnabled":false},{"id":9000000000048,"isEnabled":false},{"id":9000000000046,"isEnabled":false},{"id":9000000000098,"isEnabled":false},{"id":9000000000068,"isEnabled":false},{"id":9000000000016,"isEnabled":false},{"id":9000000000064,"isEnabled":false},{"id":9000000000092,"isEnabled":false},{"id":9000000000096,"isEnabled":false},{"id":9000000000080,"isEnabled":false},{"id":9000000000018,"isEnabled":false},{"id":9000000000040,"isEnabled":false},{"id":9000000000030,"isEnabled":false},{"id":9000000000070,"isEnabled":false},{"id":9000000000034,"isEnabled":false},{"id":9000000000002,"isEnabled":false},{"id":9000000000026,"isEnabled":false},{"id":9000000000052,"isEnabled":false},{"id":9000000000022,"isEnabled":false},{"id":9000000000050,"isEnabled":false},{"id":9000000000062,"isEnabled":false},{"id":9000000000044,"isEnabled":false}]}
+[2026-06-16 14:15:13] >> POST /user-heartbeats-api/pulse
+[2026-06-16 14:15:13] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 14:15:22] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:15:22] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:15:22] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:15:22] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:15:26] >> GET /userhub/?id=
+[2026-06-16 14:15:26] 404 GET /userhub/
+[2026-06-16 14:15:26] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:15:29] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:15:29] >> POST /studio/pbe
+[2026-06-16 14:15:29] >> POST /timespent/pbe
+[2026-06-16 14:15:29] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:15:29] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:15:29] << /studio/pbe -> {}
+[2026-06-16 14:15:29] << /timespent/pbe -> {}
+[2026-06-16 14:15:29] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:15:30] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:15:30] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:15:30] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:15:30] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:15:43] >> POST /user-heartbeats-api/pulse
+[2026-06-16 14:15:43] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 14:15:44] >> GET /userhub/?id=
+[2026-06-16 14:15:44] 404 GET /userhub/
+[2026-06-16 14:15:44] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:15:59] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:15:59] >> POST /studio/pbe
+[2026-06-16 14:15:59] >> POST /timespent/pbe
+[2026-06-16 14:15:59] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:15:59] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:15:59] << /studio/pbe -> {}
+[2026-06-16 14:15:59] << /timespent/pbe -> {}
+[2026-06-16 14:15:59] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:16:13] >> POST /user-heartbeats-api/pulse
+[2026-06-16 14:16:13] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 14:16:14] >> GET /userhub/?id=
+[2026-06-16 14:16:14] 404 GET /userhub/
+[2026-06-16 14:16:14] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:16:29] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:16:29] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:16:29] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:16:29] >> POST /studio/pbe
+[2026-06-16 14:16:29] >> POST /timespent/pbe
+[2026-06-16 14:16:29] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:16:29] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:16:29] << /studio/pbe -> {}
+[2026-06-16 14:16:29] << /timespent/pbe -> {}
+[2026-06-16 14:16:29] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:16:29] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:16:29] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:16:30] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:16:30] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:16:43] >> POST /user-heartbeats-api/pulse
+[2026-06-16 14:16:43] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 14:16:44] >> GET /userhub/?id=
+[2026-06-16 14:16:44] 404 GET /userhub/
+[2026-06-16 14:16:44] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:16:59] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:16:59] >> POST /studio/pbe
+[2026-06-16 14:16:59] >> POST /timespent/pbe
+[2026-06-16 14:16:59] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:16:59] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:16:59] << /studio/pbe -> {}
+[2026-06-16 14:16:59] << /timespent/pbe -> {}
+[2026-06-16 14:16:59] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:17:07] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:17:07] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:17:07] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:17:07] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:17:13] >> POST /user-heartbeats-api/pulse
+[2026-06-16 14:17:13] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 14:17:15] >> GET /userhub/?id=
+[2026-06-16 14:17:15] 404 GET /userhub/
+[2026-06-16 14:17:15] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:17:29] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:17:29] >> POST /timespent/pbe
+[2026-06-16 14:17:29] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:17:29] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:17:29] << /timespent/pbe -> {}
+[2026-06-16 14:17:29] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:17:31] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:17:31] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:17:31] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:17:31] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:17:43] >> POST /user-heartbeats-api/pulse
+[2026-06-16 14:17:43] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 14:17:45] >> GET /userhub/?id=
+[2026-06-16 14:17:45] 404 GET /userhub/
+[2026-06-16 14:17:45] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:17:59] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:17:59] >> POST /timespent/pbe
+[2026-06-16 14:17:59] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:17:59] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:17:59] << /timespent/pbe -> {}
+[2026-06-16 14:17:59] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:18:13] >> POST /user-heartbeats-api/pulse
+[2026-06-16 14:18:13] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 14:18:15] >> GET /userhub/?id=
+[2026-06-16 14:18:15] 404 GET /userhub/
+[2026-06-16 14:18:15] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:18:29] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:18:29] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:18:29] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:18:29] >> POST /timespent/pbe
+[2026-06-16 14:18:29] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:18:29] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:18:29] << /timespent/pbe -> {}
+[2026-06-16 14:18:29] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:18:29] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:18:29] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:18:31] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:18:31] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:18:43] >> POST /user-heartbeats-api/pulse
+[2026-06-16 14:18:43] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 14:18:45] >> GET /userhub/?id=
+[2026-06-16 14:18:45] 404 GET /userhub/
+[2026-06-16 14:18:45] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:18:59] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:18:59] >> POST /timespent/pbe
+[2026-06-16 14:18:59] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:18:59] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:18:59] << /timespent/pbe -> {}
+[2026-06-16 14:18:59] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:19:13] >> POST /user-heartbeats-api/pulse
+[2026-06-16 14:19:13] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 14:19:16] >> GET /userhub/?id=
+[2026-06-16 14:19:16] 404 GET /userhub/
+[2026-06-16 14:19:16] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:19:29] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:19:29] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:19:29] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:19:29] >> POST /timespent/pbe
+[2026-06-16 14:19:29] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:19:29] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:19:29] << /timespent/pbe -> {}
+[2026-06-16 14:19:29] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:19:29] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:19:29] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:19:32] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:19:32] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:19:32] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:19:32] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:19:43] >> POST /user-heartbeats-api/pulse
+[2026-06-16 14:19:43] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 14:19:46] >> GET /userhub/?id=
+[2026-06-16 14:19:46] 404 GET /userhub/
+[2026-06-16 14:19:46] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:19:59] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:19:59] >> POST /studio/pbe
+[2026-06-16 14:19:59] >> POST /timespent/pbe
+[2026-06-16 14:19:59] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:19:59] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:19:59] << /studio/pbe -> {}
+[2026-06-16 14:19:59] << /timespent/pbe -> {}
+[2026-06-16 14:19:59] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:20:13] >> POST /user-heartbeats-api/pulse
+[2026-06-16 14:20:13] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 14:20:16] >> GET /userhub/?id=
+[2026-06-16 14:20:16] 404 GET /userhub/
+[2026-06-16 14:20:16] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:20:29] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:20:29] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:20:29] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:20:29] >> POST /timespent/pbe
+[2026-06-16 14:20:29] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:20:29] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:20:29] << /timespent/pbe -> {}
+[2026-06-16 14:20:29] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:20:29] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:20:29] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:20:32] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:20:32] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:20:43] >> POST /user-heartbeats-api/pulse
+[2026-06-16 14:20:43] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 14:20:46] >> GET /userhub/?id=
+[2026-06-16 14:20:46] 404 GET /userhub/
+[2026-06-16 14:20:46] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:20:59] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:20:59] >> POST /timespent/pbe
+[2026-06-16 14:20:59] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:20:59] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:20:59] << /timespent/pbe -> {}
+[2026-06-16 14:20:59] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:21:13] >> POST /user-heartbeats-api/pulse
+[2026-06-16 14:21:13] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 14:21:16] >> GET /userhub/?id=
+[2026-06-16 14:21:16] 404 GET /userhub/
+[2026-06-16 14:21:16] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:21:29] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:21:29] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:21:29] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:21:29] >> POST /timespent/pbe
+[2026-06-16 14:21:29] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:21:29] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:21:29] << /timespent/pbe -> {}
+[2026-06-16 14:21:29] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:21:29] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:21:29] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:21:29] >> GET /guac-v2/v1/bundles/studio
+[2026-06-16 14:21:29] >> GET /v2/client-version/WindowsStudio64
+[2026-06-16 14:21:29] >> GET /v2/settings-compressed/application/PCStudioApp.zst
+[2026-06-16 14:21:29] << /guac-v2/v1/bundles/studio -> {"version":"1","bundle":{"name":"studio","configurations":{"Feature_DisableOldCookieManagementSticky":"0;100","Feature_UnifiedCookieProtocolEnabled":"0;100","Feature_UnifiedCookieProtocolEnabledSticky":"0;100","Feature_AccessCookiesWithUrlEnabledSticky":"0;100"},"experiments":{}}}
+[2026-06-16 14:21:29] << /v2/client-version/WindowsStudio64 -> {"version":"0.578.0.5780566","clientVersionUpload":"version-f0b439683245446c","bootstrapperVersion":"1.0.0.0","nextClientVersion":"0.578.0.5780566","nextClientVersionUpload":"version-f0b439683245446c","flagOnly":true}
+[2026-06-16 14:21:32] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:21:32] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:21:43] >> POST /user-heartbeats-api/pulse
+[2026-06-16 14:21:43] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 14:21:47] >> GET /userhub/?id=
+[2026-06-16 14:21:47] 404 GET /userhub/
+[2026-06-16 14:21:47] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:21:54] >> POST /studio/pbe
+[2026-06-16 14:21:54] << /studio/pbe -> {}
+[2026-06-16 14:21:59] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:21:59] >> POST /timespent/pbe
+[2026-06-16 14:21:59] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:21:59] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:21:59] << /timespent/pbe -> {}
+[2026-06-16 14:21:59] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:22:16] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:22:16] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:22:17] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:22:17] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:22:17] >> GET /userhub/?id=
+[2026-06-16 14:22:17] 404 GET /userhub/
+[2026-06-16 14:22:17] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:22:29] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:22:29] >> POST /timespent/pbe
+[2026-06-16 14:22:29] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:22:29] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:22:29] << /timespent/pbe -> {}
+[2026-06-16 14:22:29] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:22:33] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:22:33] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:22:33] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:22:33] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:22:47] >> GET /userhub/?id=
+[2026-06-16 14:22:47] 404 GET /userhub/
+[2026-06-16 14:22:47] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:22:59] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:22:59] >> POST /timespent/pbe
+[2026-06-16 14:22:59] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:22:59] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:22:59] << /timespent/pbe -> {}
+[2026-06-16 14:22:59] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:23:17] >> GET /userhub/?id=
+[2026-06-16 14:23:17] 404 GET /userhub/
+[2026-06-16 14:23:17] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:23:29] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:23:29] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:23:29] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:23:29] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:23:29] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:23:29] >> POST /timespent/pbe
+[2026-06-16 14:23:29] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:23:29] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:23:29] << /timespent/pbe -> {}
+[2026-06-16 14:23:29] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:23:33] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:23:33] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:23:48] >> GET /userhub/?id=
+[2026-06-16 14:23:48] 404 GET /userhub/
+[2026-06-16 14:23:48] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:23:59] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:23:59] >> POST /timespent/pbe
+[2026-06-16 14:23:59] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:23:59] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:23:59] << /timespent/pbe -> {}
+[2026-06-16 14:23:59] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:24:18] >> GET /userhub/?id=
+[2026-06-16 14:24:18] 404 GET /userhub/
+[2026-06-16 14:24:18] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:24:23] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:24:23] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:24:23] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:24:23] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:24:29] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:24:29] >> POST /timespent/pbe
+[2026-06-16 14:24:29] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:24:29] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:24:29] << /timespent/pbe -> {}
+[2026-06-16 14:24:29] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:24:34] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:24:34] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:24:34] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:24:34] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:24:48] >> GET /userhub/?id=
+[2026-06-16 14:24:48] 404 GET /userhub/
+[2026-06-16 14:24:48] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 14:24:59] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:24:59] >> POST /studio/pbe
+[2026-06-16 14:24:59] >> POST /timespent/pbe
+[2026-06-16 14:24:59] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:24:59] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:24:59] << /studio/pbe -> {}
+[2026-06-16 14:24:59] << /timespent/pbe -> {}
+[2026-06-16 14:24:59] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:25:08] >> PATCH /studio-user-settings/v1/user/studiodata/CloudEditKey_placeId9000000000021
+[2026-06-16 14:25:08] << /studio-user-settings/v1/user/studiodata/CloudEditKey_placeId9000000000021 -> {}
+[2026-06-16 14:25:08] >> GET /v1/not-approved
+[2026-06-16 14:25:08] >> POST /user-heartbeats-api/action-report
+[2026-06-16 14:25:08] << /v1/not-approved -> {}
+[2026-06-16 14:25:08] << /user-heartbeats-api/action-report -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 14:25:08] >> POST /studio/pbe
+[2026-06-16 14:25:08] << /studio/pbe -> {}
+[2026-06-16 14:25:09] >> POST /user-heartbeats-api/action-report
+[2026-06-16 14:25:09] << /user-heartbeats-api/action-report -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 14:25:09] >> GET /v1/universes/multiget?ids=9000000000020&ids=9000000000124&ids=9000000000088&ids=9000000000048&ids=9000000000046&ids=9000000000098&ids=9000000000068&ids=9000000000016&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044
+[2026-06-16 14:25:09] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:25:09] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:25:09] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:25:09] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:25:09] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:25:09] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:25:09] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:25:09] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:25:09] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:25:09] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 14:25:09] >> POST /studio/pbe
+[2026-06-16 14:25:09] >> POST /timespent/pbe
+[2026-06-16 14:25:09] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:25:09] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 14:25:09] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 14:25:09] << /studio/pbe -> {}
+[2026-06-16 14:25:09] << /timespent/pbe -> {}
+[2026-06-16 14:25:09] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:25:10] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:25:10] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:25:10] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:25:10] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:25:10] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:25:10] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:25:10] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:25:10] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:25:11] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:25:11] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:25:11] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:25:11] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:25:11] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:25:11] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 14:25:11] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 14:25:11] << /experience-signals-ingest/public/v1/events/single -> {}

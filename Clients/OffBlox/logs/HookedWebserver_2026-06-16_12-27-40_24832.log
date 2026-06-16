@@ -1,0 +1,1622 @@
+[2026-06-16 12:27:40] === HookedWebserver startup ===
+[2026-06-16 12:27:40] DLL directory: C:\Users\catoa\Desktop\Roblox Downloads\OffBloxModern\Clients\OffBlox\
+[2026-06-16 12:27:40] Username: HearMeRoar  UserId: 14463315
+[2026-06-16 12:27:40] HTTP port: 80  HTTPS port: 443
+[2026-06-16 12:27:40] Winsock initialized
+[2026-06-16 12:27:41] Sign key: loaded OK
+[2026-06-16 12:27:41] SSL: PEM cert+key loaded OK (PKCS#8 key, no PFX needed)
+[2026-06-16 12:27:41] SSL/TLS: loaded OK
+[2026-06-16 12:27:41] Server ACTIVE — listening on HTTP:80 and HTTPS:443
+[2026-06-16 12:27:41] Startup complete.
+[2026-06-16 12:27:41] Roblox cookie probe (users/authenticated): HTTP 200 -> valid
+[2026-06-16 12:27:41] Roblox cookie: loaded & valid
+[2026-06-16 12:27:42] >> GET /guac-v2/v1/bundles/studio
+[2026-06-16 12:27:42] >> GET /v2/client-version/WindowsStudio64
+[2026-06-16 12:27:42] >> GET /v2/settings/application/PCStudioApp
+[2026-06-16 12:27:42] << /guac-v2/v1/bundles/studio -> {"version":"1","bundle":{"name":"studio","configurations":{"Feature_DisableOldCookieManagementSticky":"0;100","Feature_UnifiedCookieProtocolEnabled":"0;100","Feature_UnifiedCookieProtocolEnabledSticky":"0;100","Feature_AccessCookiesWithUrlEnabledSticky":"0;100"},"experiments":{}}}
+[2026-06-16 12:27:42] << /v2/client-version/WindowsStudio64 -> {"version":"0.578.0.5780566","clientVersionUpload":"version-f0b439683245446c","bootstrapperVersion":"1.0.0.0","nextClientVersion":"0.578.0.5780566","nextClientVersionUpload":"version-f0b439683245446c","flagOnly":true}
+[2026-06-16 12:27:43] >> GET /oauth/.well-known/openid-configuration
+[2026-06-16 12:27:43] >> POST /studio/pbe
+[2026-06-16 12:27:43] << /oauth/.well-known/openid-configuration -> {"issuer":"http://localhost/oauth/","authorization_endpoint":"http://localhost/oauth/v1/authorize","token_endpoint":"http://localhost/oauth/v1/token","introspection_endpoint":"http://localhost/oauth/v1/token/introspect","revocation_endpoint":"http://localhost/oauth/v1/token/revoke","resources_endpoint":"http://localhost/oauth/v1/token/resources","userinfo_endpoint":"http://localhost/oauth/v1/userinfo","jwks_uri":"http://localhost/oauth/v1/certs","registration_endpoint":"http://localhost/dashboard/credentials","service_documentation":"http://localhost/docs/reference/cloud","scopes_supported":["openid","profile","email","verification","credentials","age","premium","roles","attributes"],"response_types_supported":["none","code"],"subject_types_supported":["public"],"id_token_signing_alg_values_supported":["ES256"],"claims_supported":["sub","type","iss","aud","exp","iat","nonce","name","nickname","preferred_username","created_at","profile","picture","email","email_ve
+[2026-06-16 12:27:43] << /studio/pbe -> {}
+[2026-06-16 12:27:43] >> POST /product-experimentation-platform/v1/projects/1/values
+[2026-06-16 12:27:43] << /product-experimentation-platform/v1/projects/1/values -> {"assignments":[]}
+[2026-06-16 12:27:43] >> POST /studio/pbe
+[2026-06-16 12:27:43] << /studio/pbe -> {}
+[2026-06-16 12:27:44] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:27:44] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:27:44] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:27:44] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:27:45] >> GET /oauth/v1/authorize?response_type=code&code_challenge=1rHC-a2RQMIOUWLzkGLPC9JGmM6XK-Y16OXyv3O9aJ0&code_challenge_method=S256&client_id&redirect_uri=roblox-studio-auth%3A%2F&scope=openid+credentials+profile+age+roles+premium+verification&nonce=id-roblox&state=eyJwaWQiOiIyNDgzMiIsImV2ZW50X2hhbmRsZXJfbmFtZSI6IkV4dGVybmFsTG9naW5GbG93IiwiZGF0YSI6IjJjdGxEd3JlY0hRR3dULTF0UllYb2daS3JEY3FacjNnQk5xSXctcWVXNkUifQ%3D%3D
+[2026-06-16 12:27:45] /authorize: client_id='roblox_studio_client' nonce='id-roblox' redirect_uri='roblox-studio-auth:/'
+[2026-06-16 12:27:46] >> POST /oauth/v1/token
+[2026-06-16 12:27:46] /v1/token body: [grant_type=authorization_code&code=hardcoded_auth_code_2023&code_verifier=adDqvS6CGhhnr7vQ7mR-CKySmUS1EiS0CCxGwihQF0o&client_id=]
+[2026-06-16 12:27:46] /v1/token qs client_id: [(missing)]
+[2026-06-16 12:27:46] << /oauth/v1/token -> {"access_token":"hardcoded_access_token","token_type":"Bearer","expires_in":1800,"refresh_token":"hardcoded_refresh_token","scope":"openid credentials profile age roles premium","id_token":"eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImhhcmRjb2RlZC1rZXktMSJ9.eyJzdWIiOiIxNDQ2MzMxNSIsInR5cGUiOiJVc2VyIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdC9vYXV0aC8iLCJhdWQiOiJyb2Jsb3hfc3R1ZGlvX2NsaWVudCIsImV4cCI6MTc4MTYzOTg2MSwiaWF0IjoxNzgxNjM4MDYxLCJub25jZSI6ImlkLXJvYmxveCIsIm5hbWUiOiJIZWFyTWVSb2FyIiwibmlja25hbWUiOiJEZXYiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJIZWFyTWVSb2FyIiwiY3JlYXRlZF9hdCI6MTY4MDAwMDAwMCwicHJvZmlsZSI6Imh0dHBzOi8vd3d3LnJvYmxveC5jb20vdXNlcnMvMTQ0NjMzMTUvcHJvZmlsZSIsInBpY3R1cmUiOiJodHRwczovL3d3dy5yb2Jsb3guY29tL2hlYWRzaG90LXRodW1ibmFpbC9pbWFnZT91c2VySWQ9MTQ0NjMzMTUmd2lkdGg9NDIwJmhlaWdodD00MjAiLCJlbWFpbCI6ImRldkByb2Jsb3guZXhhbXBsZSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJ2ZXJpZmllZCI6dHJ1ZSwiYWdlX2JyYWNrZXQiOiIxOCsiLCJwcmVtaXVtIjp0cnVlLCJyb2xlcyI6WyJEZXZlbG9wZXIiXSwiaW50ZXJuYWxfdXNlciI6ZmFsc2UsImF0dHJpYnV0ZXMiOn
+[2026-06-16 12:27:46] >> GET /oauth/v1/userinfo
+[2026-06-16 12:27:46] << /oauth/v1/userinfo -> {"sub":"14463315","type":"User","iss":"http://localhost/oauth/","aud":"roblox_studio_client","exp":1781641666,"iat":1781638066,"nonce":"id-roblox","name":"HearMeRoar","nickname":"Dev","preferred_username":"HearMeRoar","created_at":1680000000,"email":"dev@roblox.example","email_verified":true,"verified":true,"age_bracket":"18+","premium":true,"roles":["Developer"],"internal_user":false,"attributes":{}}
+[2026-06-16 12:27:46] >> POST /validate-machine
+[2026-06-16 12:27:46] << /validate-machine -> {}
+[2026-06-16 12:27:46] >> GET /v1/not-approved
+[2026-06-16 12:27:46] << /v1/not-approved -> {}
+[2026-06-16 12:27:47] >> POST /product-experimentation-platform/v1/projects/1/values
+[2026-06-16 12:27:47] >> POST /product-experimentation-platform/v1/projects/1/values
+[2026-06-16 12:27:47] << /product-experimentation-platform/v1/projects/1/values -> {"assignments":[]}
+[2026-06-16 12:27:47] << /product-experimentation-platform/v1/projects/1/values -> {"assignments":[]}
+[2026-06-16 12:27:47] >> POST /product-experimentation-platform/v1/projects/1/values
+[2026-06-16 12:27:47] >> POST /user-heartbeats-api/action-report
+[2026-06-16 12:27:47] >> GET /userhub/?id=
+[2026-06-16 12:27:47] << /product-experimentation-platform/v1/projects/1/values -> {"assignments":[]}
+[2026-06-16 12:27:47] << /user-heartbeats-api/action-report -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 12:27:47] 404 GET /userhub/
+[2026-06-16 12:27:47] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:27:47] >> GET /studio-user-data-api/beta-feature-metadata
+[2026-06-16 12:27:47] >> GET /studio-user-data-api/beta-feature?pageSize=1000000000
+[2026-06-16 12:27:47] << /studio-user-data-api/beta-feature-metadata -> {}
+[2026-06-16 12:27:47] >> GET /studio-user-data-api/plugin-metadata?pageSize=1000000000
+[2026-06-16 12:27:47] >> GET /studio-user-settings/plugin-permissions/v2/plugins?permissionType=HttpService&cursor&pageSize=100
+[2026-06-16 12:27:47] >> GET /studio-user-settings/plugin-permissions/v2/plugins?permissionType=ScriptInjection&cursor&pageSize=100
+[2026-06-16 12:27:47] << /studio-user-data-api/beta-feature -> {}
+[2026-06-16 12:27:47] >> GET /v2/user-channel?binaryType=WindowsStudio64
+[2026-06-16 12:27:47] >> GET /access-management/v1/feature-access?featureNames=ShowIllegalContentReport&nameSpace=studio%2FSafetyFeatures
+[2026-06-16 12:27:47] << /studio-user-data-api/plugin-metadata -> {}
+[2026-06-16 12:27:47] << /studio-user-settings/plugin-permissions/v2/plugins -> {}
+[2026-06-16 12:27:47] << /studio-user-settings/plugin-permissions/v2/plugins -> {}
+[2026-06-16 12:27:47] << /v2/user-channel -> {}
+[2026-06-16 12:27:47] << /access-management/v1/feature-access -> {"featureAccess":[],"data":[]}
+[2026-06-16 12:27:47] >> GET /v1/universes/multiget?ids=9000000000098&ids=9000000000048&ids=9000000000068&ids=9000000000016&ids=9000000000088&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000020&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&ids=9000000000060&ids=9000000000024
+[2026-06-16 12:27:47] >> GET /my/settings/json
+[2026-06-16 12:27:47] << /my/settings/json -> {"UserId":14463315,"UserName":"HearMeRoar","DisplayName":"HearMeRoar","RobuxBalance":9999999999,"IsEmailVerified":true,"IsPremiumUser":true,"AgeBracket":0,"CountryCode":"US","Roles":["Developer","Soothsayer"],"AccountAgeInDays":1324354}
+[2026-06-16 12:27:47] >> GET /v2/assets/9000000000047/details
+[2026-06-16 12:27:47] << /v2/assets/9000000000047/details -> {"TargetId":9000000000047,"AssetId":9000000000047,"ProductId":9000000000047,"assetId":9000000000047,"id":9000000000047,"Id":9000000000047,"TargetPlaceId":9000000000047,"PlaceId":9000000000047,"ProductType":"User Product","Name":"Phantom Forces","Description":"","AssetTypeId":9,"assetTypeId":9,"Creator":{"Id":14463315,"Name":"HearMeRoar","CreatorType":"User","CreatorTargetId":14463315,"HasVerifiedBadge":false,"id":14463315,"type":1,"creatorType":"User","creatorTargetId":14463315},"IconImageAssetId":0,"Created":"2022-05-11T13:27:09.897Z","Updated":"2022-06-19T07:23:39.03Z","created":"2022-05-11T13:27:09.897Z","updated":"2022-06-19T07:23:39.03Z","PriceInRobux":null,"Sales":0,"IsNew":false,"IsForSale":false,"IsPublicDomain":true,"IsLimited":false,"IsLimitedUnique":false,"isPublic":true,"isForSale":false,"isLimited":false,"isLimitedUnique":false,"enableComments":false}
+[2026-06-16 12:27:47] >> GET /v1/games/icons?universeIds=9000000000046&returnPolicy=AutoGenerated&size=256x256&format=Png&isCircular=false
+[2026-06-16 12:27:47] << /v1/games/icons -> {"data":[{"targetId":9000000000046,"state":"Completed","imageUrl":"http://localhost/Png.png"}]}
+[2026-06-16 12:27:48] >> GET /Png.png
+[2026-06-16 12:27:48] >> GET /v1/universes/multiget/teamcreate?ids=9000000000098&ids=9000000000048&ids=9000000000068&ids=9000000000016&ids=9000000000088&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000020&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&ids=9000000000060&ids=9000000000024
+[2026-06-16 12:27:48] TeamCreate stub (disabled): GET /v1/universes/multiget/teamcreate
+[2026-06-16 12:27:48] << /v1/universes/multiget/teamcreate -> {"data":[{"id":9000000000098,"isEnabled":false},{"id":9000000000048,"isEnabled":false},{"id":9000000000068,"isEnabled":false},{"id":9000000000016,"isEnabled":false},{"id":9000000000088,"isEnabled":false},{"id":9000000000064,"isEnabled":false},{"id":9000000000092,"isEnabled":false},{"id":9000000000096,"isEnabled":false},{"id":9000000000080,"isEnabled":false},{"id":9000000000018,"isEnabled":false},{"id":9000000000040,"isEnabled":false},{"id":9000000000030,"isEnabled":false},{"id":9000000000070,"isEnabled":false},{"id":9000000000034,"isEnabled":false},{"id":9000000000020,"isEnabled":false},{"id":9000000000002,"isEnabled":false},{"id":9000000000026,"isEnabled":false},{"id":9000000000052,"isEnabled":false},{"id":9000000000022,"isEnabled":false},{"id":9000000000050,"isEnabled":false},{"id":9000000000062,"isEnabled":false},{"id":9000000000044,"isEnabled":false},{"id":9000000000060,"isEnabled":false},{"id":9000000000024,"isEnabled":false}]}
+[2026-06-16 12:27:48] >> GET /userhub/?id=
+[2026-06-16 12:27:48] 404 GET /userhub/
+[2026-06-16 12:27:48] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:27:48] >> POST /v1/users
+[2026-06-16 12:27:48] << /v1/users -> {"data":[{"hasVerifiedBadge":false,"id":14463315,"name":"HearMeRoar","displayName":"HearMeRoar"}]}
+[2026-06-16 12:27:48] >> GET /studio-open-place/v1/openplace?placeId=9000000000047
+[2026-06-16 12:27:48] << /studio-open-place/v1/openplace -> {"universe":{"Id":9000000000046,"RootPlaceId":9000000000047,"Name":"Phantom Forces","Description":"","IsArchived":false,"CreatorType":"User","CreatorTargetId":14463315,"PrivacyType":"Private","Created":"2022-01-01T00:00:00.000+00:00","Updated":"2022-01-01T00:00:00.000+00:00"},"teamCreateEnabled":false,"place":{"Creator":{"CreatorType":"User","CreatorTargetId":14463315}}}
+[2026-06-16 12:27:48] >> GET /v1/gametemplates?searchKey=Templates&pageSize=30&search=All&isTemplates=true
+[2026-06-16 12:27:48] << /v1/gametemplates -> {"data":[{"gameTemplateType":"Generic","hasTutorials":false,"universe":{"id":28220420,"name":"Baseplate","description":"Start from a clean baseplate.","isArchived":false,"rootPlaceId":95206881,"privacyType":"Public","creatorType":"User","creatorTargetId":998796,"creatorName":"Templates","created":"2017-04-26T00:00:00Z","updated":"2017-04-26T00:00:00Z","isFriendsOnly":false,"audiences":[1,3,4]}}]}
+[2026-06-16 12:27:48] >> GET /doc-site/v2/feeds?surfaceType=StudioStart
+[2026-06-16 12:27:48] << /doc-site/v2/feeds -> {"data":{"feedItems":[]}}
+[2026-06-16 12:27:49] >> GET /v2/universes/9000000000098/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:49] >> POST /v1/batch
+[2026-06-16 12:27:49] << /v2/universes/9000000000098/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000099,"universeId":9000000000098,"name":"Youtube Tycoon","description":""}]}
+[2026-06-16 12:27:49] << /v1/batch -> {"data":[]}
+[2026-06-16 12:27:49] >> GET /v2/universes/9000000000048/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:49] << /v2/universes/9000000000048/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000049,"universeId":9000000000048,"name":"Pokemon Brick Bronze","description":""}]}
+[2026-06-16 12:27:49] >> GET /v2/universes/9000000000068/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:49] << /v2/universes/9000000000068/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000069,"universeId":9000000000068,"name":"Weight Lifting Simulator 2","description":""}]}
+[2026-06-16 12:27:49] >> GET /v2/universes/9000000000016/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:49] << /v2/universes/9000000000016/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000017,"universeId":9000000000016,"name":"Prison Life V2.0","description":""}]}
+[2026-06-16 12:27:49] >> GET /v2/universes/9000000000088/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:49] << /v2/universes/9000000000088/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000089,"universeId":9000000000088,"name":"Muffin Kombat","description":""}]}
+[2026-06-16 12:27:50] >> GET /v2/universes/9000000000064/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:50] << /v2/universes/9000000000064/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000065,"universeId":9000000000064,"name":"New MM2","description":""}]}
+[2026-06-16 12:27:50] >> GET /v2/universes/9000000000092/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:50] << /v2/universes/9000000000092/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000093,"universeId":9000000000092,"name":"Meepcity","description":""}]}
+[2026-06-16 12:27:50] >> GET /userhub/?id=
+[2026-06-16 12:27:50] 404 GET /userhub/
+[2026-06-16 12:27:50] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:27:50] >> GET /v2/universes/9000000000096/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:50] << /v2/universes/9000000000096/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000097,"universeId":9000000000096,"name":"Tower of hell","description":""}]}
+[2026-06-16 12:27:50] >> GET /v2/universes/9000000000080/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:50] << /v2/universes/9000000000080/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000081,"universeId":9000000000080,"name":"Work at a pizza place","description":""}]}
+[2026-06-16 12:27:50] >> GET /v2/universes/9000000000018/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:50] << /v2/universes/9000000000018/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000019,"universeId":9000000000018,"name":"Natural Disaster Survival","description":""}]}
+[2026-06-16 12:27:51] >> GET /v2/universes/9000000000040/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:51] << /v2/universes/9000000000040/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000041,"universeId":9000000000040,"name":"Epic Minigames","description":""}]}
+[2026-06-16 12:27:51] >> GET /v2/universes/9000000000030/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:51] << /v2/universes/9000000000030/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000031,"universeId":9000000000030,"name":"Twisted Murderer","description":""}]}
+[2026-06-16 12:27:51] >> GET /v2/universes/9000000000070/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:51] << /v2/universes/9000000000070/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000071,"universeId":9000000000070,"name":"Speed run 4","description":""}]}
+[2026-06-16 12:27:51] >> GET /v2/universes/9000000000034/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:51] << /v2/universes/9000000000034/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000035,"universeId":9000000000034,"name":"Assassin","description":""}]}
+[2026-06-16 12:27:52] >> GET /v2/universes/9000000000020/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:52] << /v2/universes/9000000000020/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000021,"universeId":9000000000020,"name":"Flood Escape 1.6.5","description":""}]}
+[2026-06-16 12:27:52] >> GET /v2/universes/9000000000002/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:52] << /v2/universes/9000000000002/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000003,"universeId":9000000000002,"name":"Theme park tycoon 2","description":""}]}
+[2026-06-16 12:27:52] >> GET /v2/universes/9000000000026/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:52] << /v2/universes/9000000000026/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000027,"universeId":9000000000026,"name":"Jailbreak","description":""}]}
+[2026-06-16 12:27:52] >> GET /v2/universes/9000000000052/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:52] << /v2/universes/9000000000052/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000053,"universeId":9000000000052,"name":"Whatever Floats Your Boat","description":""}]}
+[2026-06-16 12:27:52] >> GET /v2/universes/9000000000022/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:52] >> POST /asset-permissions-api/v1/assets/check-permissions
+[2026-06-16 12:27:52] << /v2/universes/9000000000022/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000023,"universeId":9000000000022,"name":"Robot 64","description":""}]}
+[2026-06-16 12:27:52] asset-permissions assetId=9000000000047 -> HasPermission
+[2026-06-16 12:27:52] asset-permissions check done: /asset-permissions-api/v1/assets/check-permissions
+[2026-06-16 12:27:52] << /asset-permissions-api/v1/assets/check-permissions -> {"results":[{"value":{"status":"HasPermission"}}]}
+[2026-06-16 12:27:53] >> GET /
+[2026-06-16 12:27:53] >> GET /v2/universes/9000000000050/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:53] << /v2/universes/9000000000050/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000051,"universeId":9000000000050,"name":"Polyguns","description":""}]}
+[2026-06-16 12:27:53] >> GET /v2/universes/9000000000062/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:53] >> POST /user-heartbeats-api/action-report
+[2026-06-16 12:27:53] << /v2/universes/9000000000062/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000063,"universeId":9000000000062,"name":"Build a boat for treasure","description":""}]}
+[2026-06-16 12:27:53] << /user-heartbeats-api/action-report -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 12:27:53] >> GET /v2/universes/9000000000044/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:53] >> POST /private-users-service/v1beta1/getOrCreatePrivateUserId
+[2026-06-16 12:27:53] << /v2/universes/9000000000044/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000045,"universeId":9000000000044,"name":"Miners Haven","description":""}]}
+[2026-06-16 12:27:53] << /private-users-service/v1beta1/getOrCreatePrivateUserId -> {"privateUserId":1500014463315,"userIdMode":"USER_ID_MODE_GLOBAL","created":true}
+[2026-06-16 12:27:53] >> PRI *
+[2026-06-16 12:27:53] 404 PRI *
+[2026-06-16 12:27:53] << * -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:27:53] >> GET /v2/universes/9000000000060/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:53] >> GET /v2/universes/9000000000024/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:53] << /v2/universes/9000000000060/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000061,"universeId":9000000000060,"name":"SPTS","description":""}]}
+[2026-06-16 12:27:53] >> GET /v1/universes/multiget?ids=9000000000098&ids=9000000000048&ids=9000000000068&ids=9000000000016&ids=9000000000088&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000020&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&ids=9000000000060&ids=9000000000024&
+[2026-06-16 12:27:53] >> GET /v2/universes/28220420/places?limit=50&SortOrder=Asc
+[2026-06-16 12:27:53] >> GET //v1/games/icons?universeIds=28220420&returnPolicy=Placeholder&format=png&size=256x256
+[2026-06-16 12:27:53] >> GET /assets/user-auth/v1/assets/9000000000047
+[2026-06-16 12:27:53] << /v2/universes/9000000000024/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000025,"universeId":9000000000024,"name":"The Streets","description":""}]}
+[2026-06-16 12:27:53] << /v2/universes/28220420/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9991912465,"universeId":9991912465,"name":"Baseplate","description":""}]}
+[2026-06-16 12:27:53] << //v1/games/icons -> {"data":[{"targetId":28220420,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=28220420","version":"TN3"}]}
+[2026-06-16 12:27:53] << /assets/user-auth/v1/assets/9000000000047 -> {"path":"assets/9000000000047","revisionId":"1","revisionCreateTime":"2024-01-01T00:00:00.000Z","assetId":"9000000000047","displayName":"Phantom Forces","assetType":"Place","creationContext":{"creator":{"userId":"14463315"}},"moderationResult":{"moderationState":"Approved"},"state":"Active"}
+[2026-06-16 12:27:54] >> GET /v2/universes/9000000000046/configuration
+[2026-06-16 12:27:54] << /v2/universes/9000000000046/configuration -> {"allowPrivateServers":true,"privateServerPrice":null,"id":9000000000046,"name":"Phantom Forces","universeAvatarType":"MorphToR6","universeScaleType":"AllScales","universeAnimationType":"PlayerChoice","universeCollisionType":"OuterBox","universeBodyType":"Standard","universeJointPositioningType":"ArtistIntent","universeAvatarAssetOverrides":[],"universeAvatarMinScales":{"height":0.9,"width":0.7,"head":0.95,"proportion":0,"bodyType":0},"universeAvatarMaxScales":{"height":1.05,"width":1,"head":1,"proportion":1,"bodyType":1},"isArchived":false,"isFriendsOnly":false,"genre":"All","playableDevices":["Computer","Phone","Tablet"],"isForSale":false,"price":0,"isStudioAccessToApisAllowed":true,"privacyType":"Public"}
+[2026-06-16 12:27:54] >> GET /v1/asset/?id=9000000000047&version=1
+[2026-06-16 12:27:55] >> GET /asset/?id=12602&xcachesplit=9000000000046
+[2026-06-16 12:27:55] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=12602
+[2026-06-16 12:27:55] Asset 12602: fetch failed, falling back to redirect
+[2026-06-16 12:27:55] >> GET /asset/?id=898437418&xcachesplit=9000000000046
+[2026-06-16 12:27:56] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=898437418
+[2026-06-16 12:27:56] Asset 898437418: fetch failed, falling back to redirect
+[2026-06-16 12:27:56] >> GET /asset/?id=889643771&xcachesplit=9000000000046
+[2026-06-16 12:27:56] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=889643771
+[2026-06-16 12:27:56] Asset 889643771: fetch failed, falling back to redirect
+[2026-06-16 12:27:57] >> GET /v1/universes/multiget?ids=9000000000098&ids=9000000000048&ids=9000000000068&ids=9000000000016&ids=9000000000088&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000020&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&ids=9000000000060&ids=9000000000024
+[2026-06-16 12:27:57] >> GET /Thumbs/gameicon.ashx?id=28220420
+[2026-06-16 12:27:57] >> POST /experience-guidelines-service/v1beta1/multi-age-recommendation
+[2026-06-16 12:27:57] >> POST /core-content/v1/universe-eligibility/batch
+[2026-06-16 12:27:57] >> POST /experience-releases/v1beta1/experience_releases_api/multi_release_statuses
+[2026-06-16 12:27:57] << /experience-guidelines-service/v1beta1/multi-age-recommendation -> {"eligibilityByCreator":[{"userId":"14463315","userIsEligible":true,"displayText":"Eligible","ineligibilityReason":"INELIGIBILITY_REASON_NONE"}]}
+[2026-06-16 12:27:57] << /core-content/v1/universe-eligibility/batch -> {"eligibilityByCreator":[{"userId":"14463315","userIsEligible":true,"displayText":"Eligible","ineligibilityReason":"INELIGIBILITY_REASON_NONE"}]}
+[2026-06-16 12:27:57] << /experience-releases/v1beta1/experience_releases_api/multi_release_statuses -> {"eligibilityByCreator":[{"userId":"14463315","userIsEligible":true,"displayText":"Eligible","ineligibilityReason":"INELIGIBILITY_REASON_NONE"}]}
+[2026-06-16 12:27:57] >> GET /teamcreate/v1/MultiGetUniversesActiveSessionMembers?maxUsers=10&ids=9000000000098&ids=9000000000048&ids=9000000000068&ids=9000000000016&ids=9000000000088&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000020&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&ids=9000000000060&ids=9000000000024
+[2026-06-16 12:27:57] >> GET /v1/universes/multiget/teamcreate?ids=9000000000098&ids=9000000000048&ids=9000000000068&ids=9000000000016&ids=9000000000088&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000020&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&ids=9000000000060&ids=9000000000024&
+[2026-06-16 12:27:57] >> GET //v1/games/icons?universeIds=9000000000098,9000000000048,9000000000068,9000000000016,9000000000088,9000000000064,9000000000092,9000000000096,9000000000080,9000000000018,9000000000040,9000000000030,9000000000070,9000000000034,9000000000020,9000000000002,9000000000026,9000000000052,9000000000022,9000000000050,9000000000062,9000000000044,9000000000060,9000000000024&returnPolicy=Autogenerated&format=png&size=256x256
+[2026-06-16 12:27:57] << //v1/games/icons -> {"data":[{"targetId":9000000000098,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000098","version":"TN3"},{"targetId":9000000000048,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000048","version":"TN3"},{"targetId":9000000000068,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000068","version":"TN3"},{"targetId":9000000000016,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000016","version":"TN3"},{"targetId":9000000000088,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000088","version":"TN3"},{"targetId":9000000000064,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000064","version":"TN3"},{"targetId":9000000000092,"state":"Completed","imageUrl":"http://localhost/Thumbs/gameicon.ashx?id=9000000000092","version":"TN3"},{"targetId":9000000000096,"state":"Completed","imageUrl":"http://localhost
+[2026-06-16 12:27:57] >> GET /content-safety/v1/places/9000000000049/safety-status
+[2026-06-16 12:27:57] >> GET /content-safety/v1/places/9000000000069/safety-status
+[2026-06-16 12:27:58] << /content-safety/v1/places/9000000000069/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:57] >> POST /asset-permissions-api/v1/assets/check-permissions
+[2026-06-16 12:27:57] >> POST /studio/pbe
+[2026-06-16 12:27:57] TeamCreate stub (disabled): GET /v1/universes/multiget/teamcreate
+[2026-06-16 12:27:57] >> GET /content-safety/v1/places/9000000000099/safety-status
+[2026-06-16 12:27:58] >> GET /content-safety/v1/places/9000000000017/safety-status
+[2026-06-16 12:27:58] << /content-safety/v1/places/9000000000049/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:57] TeamCreate stub (disabled): GET /teamcreate/v1/MultiGetUniversesActiveSessionMembers
+[2026-06-16 12:27:58] asset-permissions assetId=9000000000047 -> HasPermission
+[2026-06-16 12:27:58] << /studio/pbe -> {}
+[2026-06-16 12:27:58] << /v1/universes/multiget/teamcreate -> {"data":[{"id":9000000000098,"isEnabled":false},{"id":9000000000048,"isEnabled":false},{"id":9000000000068,"isEnabled":false},{"id":9000000000016,"isEnabled":false},{"id":9000000000088,"isEnabled":false},{"id":9000000000064,"isEnabled":false},{"id":9000000000092,"isEnabled":false},{"id":9000000000096,"isEnabled":false},{"id":9000000000080,"isEnabled":false},{"id":9000000000018,"isEnabled":false},{"id":9000000000040,"isEnabled":false},{"id":9000000000030,"isEnabled":false},{"id":9000000000070,"isEnabled":false},{"id":9000000000034,"isEnabled":false},{"id":9000000000020,"isEnabled":false},{"id":9000000000002,"isEnabled":false},{"id":9000000000026,"isEnabled":false},{"id":9000000000052,"isEnabled":false},{"id":9000000000022,"isEnabled":false},{"id":9000000000050,"isEnabled":false},{"id":9000000000062,"isEnabled":false},{"id":9000000000044,"isEnabled":false},{"id":9000000000060,"isEnabled":false},{"id":9000000000024,"isEnabled":false}]}
+[2026-06-16 12:27:58] << /content-safety/v1/places/9000000000099/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:58] << /content-safety/v1/places/9000000000017/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:58] >> GET /content-safety/v1/places/9000000000089/safety-status
+[2026-06-16 12:27:58] << /teamcreate/v1/MultiGetUniversesActiveSessionMembers -> {"data":[{"id":9000000000098,"isEnabled":false},{"id":9000000000048,"isEnabled":false},{"id":9000000000068,"isEnabled":false},{"id":9000000000016,"isEnabled":false},{"id":9000000000088,"isEnabled":false},{"id":9000000000064,"isEnabled":false},{"id":9000000000092,"isEnabled":false},{"id":9000000000096,"isEnabled":false},{"id":9000000000080,"isEnabled":false},{"id":9000000000018,"isEnabled":false},{"id":9000000000040,"isEnabled":false},{"id":9000000000030,"isEnabled":false},{"id":9000000000070,"isEnabled":false},{"id":9000000000034,"isEnabled":false},{"id":9000000000020,"isEnabled":false},{"id":9000000000002,"isEnabled":false},{"id":9000000000026,"isEnabled":false},{"id":9000000000052,"isEnabled":false},{"id":9000000000022,"isEnabled":false},{"id":9000000000050,"isEnabled":false},{"id":9000000000062,"isEnabled":false},{"id":9000000000044,"isEnabled":false},{"id":9000000000060,"isEnabled":false},{"id":9000000000024,"isEnabled":false}]}
+[2026-06-16 12:27:58] asset-permissions check done: /asset-permissions-api/v1/assets/check-permissions
+[2026-06-16 12:27:58] << /content-safety/v1/places/9000000000089/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:58] << /asset-permissions-api/v1/assets/check-permissions -> {"results":[{"value":{"status":"HasPermission"}}]}
+[2026-06-16 12:27:58] >> GET /content-safety/v1/places/9000000000065/safety-status
+[2026-06-16 12:27:58] << /content-safety/v1/places/9000000000065/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:58] >> GET /content-safety/v1/places/9000000000093/safety-status
+[2026-06-16 12:27:58] << /content-safety/v1/places/9000000000093/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:58] >> GET /content-safety/v1/places/9000000000097/safety-status
+[2026-06-16 12:27:58] << /content-safety/v1/places/9000000000097/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:58] >> GET /content-safety/v1/places/9000000000081/safety-status
+[2026-06-16 12:27:58] << /content-safety/v1/places/9000000000081/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:58] >> GET /content-safety/v1/places/9000000000019/safety-status
+[2026-06-16 12:27:58] << /content-safety/v1/places/9000000000019/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:58] >> GET /content-safety/v1/places/9000000000041/safety-status
+[2026-06-16 12:27:58] << /content-safety/v1/places/9000000000041/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:58] >> GET /content-safety/v1/places/9000000000031/safety-status
+[2026-06-16 12:27:58] >> GET /content-safety/v1/places/9000000000071/safety-status
+[2026-06-16 12:27:58] >> GET /content-safety/v1/places/9000000000035/safety-status
+[2026-06-16 12:27:58] >> GET /content-safety/v1/places/9000000000021/safety-status
+[2026-06-16 12:27:58] << /content-safety/v1/places/9000000000031/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:58] >> GET /content-safety/v1/places/9000000000003/safety-status
+[2026-06-16 12:27:58] << /content-safety/v1/places/9000000000071/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:58] << /content-safety/v1/places/9000000000035/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:58] >> GET /content-safety/v1/places/9000000000027/safety-status
+[2026-06-16 12:27:58] << /content-safety/v1/places/9000000000021/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:58] << /content-safety/v1/places/9000000000003/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:58] << /content-safety/v1/places/9000000000027/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:59] >> GET /content-safety/v1/places/9000000000053/safety-status
+[2026-06-16 12:27:59] >> GET /content-safety/v1/places/9000000000023/safety-status
+[2026-06-16 12:27:59] >> GET /content-safety/v1/places/9000000000051/safety-status
+[2026-06-16 12:27:59] << /content-safety/v1/places/9000000000053/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:59] >> GET /content-safety/v1/places/9000000000063/safety-status
+[2026-06-16 12:27:59] << /content-safety/v1/places/9000000000023/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:59] >> GET /content-safety/v1/places/9000000000045/safety-status
+[2026-06-16 12:27:59] << /content-safety/v1/places/9000000000051/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:59] >> GET /content-safety/v1/places/9000000000061/safety-status
+[2026-06-16 12:27:59] >> GET /content-safety/v1/places/9000000000025/safety-status
+[2026-06-16 12:27:59] << /content-safety/v1/places/9000000000063/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:59] >> GET /v1/universes/multiget/teamcreate?ids=9000000000098&ids=9000000000048&ids=9000000000068&ids=9000000000016&ids=9000000000088&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000020&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&ids=9000000000060&ids=9000000000024
+[2026-06-16 12:27:59] << /content-safety/v1/places/9000000000045/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:59] << /content-safety/v1/places/9000000000061/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:59] << /content-safety/v1/places/9000000000025/safety-status -> {"isSequestered":false,"moderationStatus":"Approved"}
+[2026-06-16 12:27:59] TeamCreate stub (disabled): GET /v1/universes/multiget/teamcreate
+[2026-06-16 12:27:59] << /v1/universes/multiget/teamcreate -> {"data":[{"id":9000000000098,"isEnabled":false},{"id":9000000000048,"isEnabled":false},{"id":9000000000068,"isEnabled":false},{"id":9000000000016,"isEnabled":false},{"id":9000000000088,"isEnabled":false},{"id":9000000000064,"isEnabled":false},{"id":9000000000092,"isEnabled":false},{"id":9000000000096,"isEnabled":false},{"id":9000000000080,"isEnabled":false},{"id":9000000000018,"isEnabled":false},{"id":9000000000040,"isEnabled":false},{"id":9000000000030,"isEnabled":false},{"id":9000000000070,"isEnabled":false},{"id":9000000000034,"isEnabled":false},{"id":9000000000020,"isEnabled":false},{"id":9000000000002,"isEnabled":false},{"id":9000000000026,"isEnabled":false},{"id":9000000000052,"isEnabled":false},{"id":9000000000022,"isEnabled":false},{"id":9000000000050,"isEnabled":false},{"id":9000000000062,"isEnabled":false},{"id":9000000000044,"isEnabled":false},{"id":9000000000060,"isEnabled":false},{"id":9000000000024,"isEnabled":false}]}
+[2026-06-16 12:27:59] >> GET /universes/v1/places/9000000000047/universe
+[2026-06-16 12:27:59] >> GET /v2/assets/9000000000047/details
+[2026-06-16 12:27:59] << /universes/v1/places/9000000000047/universe -> {"id":9000000000046,"universeId":9000000000046,"rootPlaceId":9000000000047,"name":"Phantom Forces","description":"ez","isArchived":false,"isActive":true,"privacyType":"Private","creatorType":"User","creatorTargetId":14463315,"creatorName":"HearMeRoar","price":0,"playing":0,"visits":0,"maxPlayers":10,"studioAccessToApisAllowed":true,"genre":"All","isAllGenre":true,"isFavoritedByUser":false,"favoritedCount":0,"created":"2022-05-11T13:27:09.897Z","updated":"2022-05-11T13:27:09.897Z","universeAvatarType":"MorphToR6"}
+[2026-06-16 12:27:59] << /v2/assets/9000000000047/details -> {"TargetId":9000000000047,"AssetId":9000000000047,"ProductId":9000000000047,"assetId":9000000000047,"id":9000000000047,"Id":9000000000047,"TargetPlaceId":9000000000047,"PlaceId":9000000000047,"ProductType":"User Product","Name":"Phantom Forces","Description":"","AssetTypeId":9,"assetTypeId":9,"Creator":{"Id":14463315,"Name":"HearMeRoar","CreatorType":"User","CreatorTargetId":14463315,"HasVerifiedBadge":false,"id":14463315,"type":1,"creatorType":"User","creatorTargetId":14463315},"IconImageAssetId":0,"Created":"2022-05-11T13:27:09.897Z","Updated":"2022-06-19T07:23:39.03Z","created":"2022-05-11T13:27:09.897Z","updated":"2022-06-19T07:23:39.03Z","PriceInRobux":null,"Sales":0,"IsNew":false,"IsForSale":false,"IsPublicDomain":true,"IsLimited":false,"IsLimitedUnique":false,"isPublic":true,"isForSale":false,"isLimited":false,"isLimitedUnique":false,"enableComments":false}
+[2026-06-16 12:27:59] >> GET /Thumbs/gameicon.ashx?id=9000000000098
+[2026-06-16 12:27:59] >> GET /Thumbs/gameicon.ashx?id=9000000000048
+[2026-06-16 12:27:59] >> GET /Thumbs/gameicon.ashx?id=9000000000068
+[2026-06-16 12:28:00] >> GET /Thumbs/gameicon.ashx?id=9000000000016
+[2026-06-16 12:28:00] >> GET /v1/asset?id=12578&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:00] >> GET /Thumbs/gameicon.ashx?id=9000000000088
+[2026-06-16 12:28:00] >> POST /v1/batch
+[2026-06-16 12:28:00] << /v1/batch -> {"data":[]}
+[2026-06-16 12:28:00] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=12578
+[2026-06-16 12:28:00] Asset 12578: fetch failed, falling back to redirect
+[2026-06-16 12:28:00] >> GET /Thumbs/gameicon.ashx?id=9000000000064
+[2026-06-16 12:28:00] >> GET /asset/?hash=9648afba5d3d7f66550213469e074213&contentRepresentationPriorityList=W3siZm9ybWF0IjoiUmVzaWR1YWwiLCJtYWpvclZlcnNpb24iOiIyIiwiZmlkZWxpdHkiOiJPcmlnaW5hbCJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:00] >> GET /Thumbs/gameicon.ashx?id=9000000000092
+[2026-06-16 12:28:01] >> GET /Thumbs/gameicon.ashx?id=9000000000096
+[2026-06-16 12:28:01] >> GET /Thumbs/gameicon.ashx?id=9000000000080
+[2026-06-16 12:28:01] >> GET /Thumbs/gameicon.ashx?id=9000000000018
+[2026-06-16 12:28:01] >> GET /Thumbs/gameicon.ashx?id=9000000000040
+[2026-06-16 12:28:01] >> GET /Thumbs/gameicon.ashx?id=9000000000030
+[2026-06-16 12:28:01] >> GET /Thumbs/gameicon.ashx?id=9000000000070
+[2026-06-16 12:28:01] >> GET /Thumbs/gameicon.ashx?id=9000000000034
+[2026-06-16 12:28:01] >> GET /Thumbs/gameicon.ashx?id=9000000000020
+[2026-06-16 12:28:01] >> GET /Thumbs/gameicon.ashx?id=9000000000002
+[2026-06-16 12:28:01] >> GET /Thumbs/gameicon.ashx?id=9000000000026
+[2026-06-16 12:28:01] >> GET /Thumbs/gameicon.ashx?id=9000000000052
+[2026-06-16 12:28:01] >> GET /Thumbs/gameicon.ashx?id=9000000000022
+[2026-06-16 12:28:01] >> GET /Thumbs/gameicon.ashx?id=9000000000050
+[2026-06-16 12:28:01] >> GET /Thumbs/gameicon.ashx?id=9000000000062
+[2026-06-16 12:28:01] >> GET /Thumbs/gameicon.ashx?id=9000000000044
+[2026-06-16 12:28:01] >> GET /Thumbs/gameicon.ashx?id=9000000000060
+[2026-06-16 12:28:01] >> GET /Thumbs/gameicon.ashx?id=9000000000024
+[2026-06-16 12:28:01] >> GET /v1/universes/9000000000046
+[2026-06-16 12:28:01] >> POST /event-subscription/v1/subscribe
+[2026-06-16 12:28:01] << /v1/universes/9000000000046 -> {"id":9000000000046,"universeId":9000000000046,"rootPlaceId":9000000000047,"name":"Phantom Forces","description":"ez","isArchived":false,"isActive":true,"privacyType":"Private","creatorType":"User","creatorTargetId":14463315,"creatorName":"HearMeRoar","price":0,"playing":0,"visits":0,"maxPlayers":10,"studioAccessToApisAllowed":true,"genre":"All","isAllGenre":true,"isFavoritedByUser":false,"favoritedCount":0,"created":"2022-05-11T13:27:09.897Z","updated":"2022-05-11T13:27:09.897Z","universeAvatarType":"MorphToR6"}
+[2026-06-16 12:28:01] << /event-subscription/v1/subscribe -> {"ttl_minutes":1440}
+[2026-06-16 12:28:01] >> GET /v1/universes/9000000000046/permissions
+[2026-06-16 12:28:01] << /v1/universes/9000000000046/permissions -> {"canManage":true,"canCloudEdit":false,"canPublish":true,"canView":true,"isPublic":false}
+[2026-06-16 12:28:01] >> GET /v1/universes/9000000000046/places?sortOrder=Asc&limit=50
+[2026-06-16 12:28:01] << /v1/universes/9000000000046/places -> {"previousPageCursor":null,"nextPageCursor":null,"data":[{"id":9000000000047,"universeId":9000000000046,"name":"Phantom Forces","description":""}]}
+[2026-06-16 12:28:02] >> GET /content-aliases-api/v1/universes/9000000000046/aliases
+[2026-06-16 12:28:02] << /content-aliases-api/v1/universes/9000000000046/aliases -> {"FinalPage":true,"Aliases":[],"PageSize":50}
+[2026-06-16 12:28:02] >> GET /v2/assets/9000000000047/details
+[2026-06-16 12:28:02] << /v2/assets/9000000000047/details -> {"TargetId":9000000000047,"AssetId":9000000000047,"ProductId":9000000000047,"assetId":9000000000047,"id":9000000000047,"Id":9000000000047,"TargetPlaceId":9000000000047,"PlaceId":9000000000047,"ProductType":"User Product","Name":"Phantom Forces","Description":"","AssetTypeId":9,"assetTypeId":9,"Creator":{"Id":14463315,"Name":"HearMeRoar","CreatorType":"User","CreatorTargetId":14463315,"HasVerifiedBadge":false,"id":14463315,"type":1,"creatorType":"User","creatorTargetId":14463315},"IconImageAssetId":0,"Created":"2022-05-11T13:27:09.897Z","Updated":"2022-06-19T07:23:39.03Z","created":"2022-05-11T13:27:09.897Z","updated":"2022-06-19T07:23:39.03Z","PriceInRobux":null,"Sales":0,"IsNew":false,"IsForSale":false,"IsPublicDomain":true,"IsLimited":false,"IsLimitedUnique":false,"isPublic":true,"isForSale":false,"isLimited":false,"isLimitedUnique":false,"enableComments":false}
+[2026-06-16 12:28:02] >> GET /v2/assets/9000000000047/details
+[2026-06-16 12:28:02] << /v2/assets/9000000000047/details -> {"TargetId":9000000000047,"AssetId":9000000000047,"ProductId":9000000000047,"assetId":9000000000047,"id":9000000000047,"Id":9000000000047,"TargetPlaceId":9000000000047,"PlaceId":9000000000047,"ProductType":"User Product","Name":"Phantom Forces","Description":"","AssetTypeId":9,"assetTypeId":9,"Creator":{"Id":14463315,"Name":"HearMeRoar","CreatorType":"User","CreatorTargetId":14463315,"HasVerifiedBadge":false,"id":14463315,"type":1,"creatorType":"User","creatorTargetId":14463315},"IconImageAssetId":0,"Created":"2022-05-11T13:27:09.897Z","Updated":"2022-06-19T07:23:39.03Z","created":"2022-05-11T13:27:09.897Z","updated":"2022-06-19T07:23:39.03Z","PriceInRobux":null,"Sales":0,"IsNew":false,"IsForSale":false,"IsPublicDomain":true,"IsLimited":false,"IsLimitedUnique":false,"isPublic":true,"isForSale":false,"isLimited":false,"isLimitedUnique":false,"enableComments":false}
+[2026-06-16 12:28:02] >> GET /wiki
+[2026-06-16 12:28:02] 404 GET /wiki
+[2026-06-16 12:28:02] << /wiki -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:28:02] >> GET /userhub/?id=
+[2026-06-16 12:28:02] 404 GET /userhub/
+[2026-06-16 12:28:02] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:28:05] >> GET /v1/asset?id=12578&contentRepresentationPriorityList=W3siZm9ybWF0IjoiT3JpZ2luYWwiLCJtYWpvclZlcnNpb24iOiJPcmlnaW5hbCIsImZpZGVsaXR5IjoiT3JpZ2luYWwifV0%3D
+[2026-06-16 12:28:05] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=12578
+[2026-06-16 12:28:05] Asset 12578: fetch failed, falling back to redirect
+[2026-06-16 12:28:05] >> GET /asset/?hash=9648afba5d3d7f66550213469e074213&contentRepresentationPriorityList=W3siZm9ybWF0IjoiT3JpZ2luYWwiLCJtYWpvclZlcnNpb24iOiJPcmlnaW5hbCIsImZpZGVsaXR5IjoiT3JpZ2luYWwifV0%3D
+[2026-06-16 12:28:05] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:28:05] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:28:05] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:28:05] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:28:06] >> GET /v2/universes/9000000000046/configuration
+[2026-06-16 12:28:06] >> GET /asset/?hash=9648afba5d3d7f66550213469e074213&contentRepresentationPriorityList=W3siZm9ybWF0IjoiUmVzaWR1YWwiLCJtYWpvclZlcnNpb24iOiIyIiwiZmlkZWxpdHkiOiJPcmlnaW5hbCJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:06] << /v2/universes/9000000000046/configuration -> {"allowPrivateServers":true,"privateServerPrice":null,"id":9000000000046,"name":"Phantom Forces","universeAvatarType":"MorphToR6","universeScaleType":"AllScales","universeAnimationType":"PlayerChoice","universeCollisionType":"OuterBox","universeBodyType":"Standard","universeJointPositioningType":"ArtistIntent","universeAvatarAssetOverrides":[],"universeAvatarMinScales":{"height":0.9,"width":0.7,"head":0.95,"proportion":0,"bodyType":0},"universeAvatarMaxScales":{"height":1.05,"width":1,"head":1,"proportion":1,"bodyType":1},"isArchived":false,"isFriendsOnly":false,"genre":"All","playableDevices":["Computer","Phone","Tablet"],"isForSale":false,"price":0,"isStudioAccessToApisAllowed":true,"privacyType":"Public"}
+[2026-06-16 12:28:06] >> GET /asset/?id=12602&xcachesplit=9000000000046
+[2026-06-16 12:28:06] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=12602
+[2026-06-16 12:28:06] Asset 12602: fetch failed, falling back to redirect
+[2026-06-16 12:28:07] >> GET /v1/settings/universe/9000000000046?placeId=9000000000047
+[2026-06-16 12:28:07] >> GET /asset/?id=898437418&xcachesplit=9000000000046
+[2026-06-16 12:28:07] >> GET /asset/?id=889643771&xcachesplit=9000000000046
+[2026-06-16 12:28:07] << /v1/settings/universe/9000000000046 -> {"isVoiceEnabled":true,"isUserOptIn":true,"isUserEligible":true,"isBanned":false,"banReason":0,"bannedUntil":null,"canVerifyAgeForVoice":true,"isVerifiedForVoice":true,"denialReason":0,"isOptInDisabled":false,"hasEverOpted":true,"isAvatarVideoEnabled":true,"isAvatarVideoOptIn":true,"isAvatarVideoOptInDisabled":false,"isAvatarVideoEligible":true,"hasEverOptedAvatarVideo":true,"userHasAvatarCameraAlwaysAvailable":true,"canVerifyPhoneForVoice":true,"seamlessVoiceStatus":1,"allowVoiceDataUsage":true,"seamlessVoiceVariant":""}
+[2026-06-16 12:28:07] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=898437418
+[2026-06-16 12:28:07] Asset 898437418: fetch failed, falling back to redirect
+[2026-06-16 12:28:07] >> POST /product-experimentation-platform/v1/projects/1/values
+[2026-06-16 12:28:07] << /product-experimentation-platform/v1/projects/1/values -> {"assignments":[]}
+[2026-06-16 12:28:07] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=889643771
+[2026-06-16 12:28:07] Asset 889643771: fetch failed, falling back to redirect
+[2026-06-16 12:28:07] >> GET /recipe?maxTargets=15
+[2026-06-16 12:28:07] >> GET /player-hydration-service/v1/players/signed
+[2026-06-16 12:28:07] 404 GET /recipe
+[2026-06-16 12:28:07] 404 GET /player-hydration-service/v1/players/signed
+[2026-06-16 12:28:07] << /recipe -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:28:07] << /player-hydration-service/v1/players/signed -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:28:07] >> GET /v2/users/14463315/groups/roles
+[2026-06-16 12:28:07] >> GET /v2/persistence/9000000000046/datastores/objects/object?datastore=moderation&objectKey=global%2FState_14463315
+[2026-06-16 12:28:07] >> GET /access-management/v1/rcc-user-feature-access?featureNames=CanUseInExperienceChat&userId=14463315&nameSpace=user_comm_safety/UserBehavior&extraParameters=W3sibmFtZSI6InJlYWRGcmVzaERhdGEiLCJ0eXBlIjoiQm9vbGVhbiIsInZhbHVlIjpmYWxzZX1d
+[2026-06-16 12:28:07] << /v2/users/14463315/groups/roles -> {"data":[{"group":{"id":13538101,"name":"GC' Sus Games","memberCount":11,"hasVerifiedBadge":false},"role":{"id":77381526,"name":"Member","rank":1}},{"group":{"id":391929292,"name":"FilteringEnabled=false","memberCount":6,"hasVerifiedBadge":false},"role":{"id":700687000,"name":"Owner","rank":255}},{"group":{"id":4347428,"name":"The State of Mind","memberCount":416796,"hasVerifiedBadge":false},"role":{"id":29322544,"name":"⭐️ Important Member","rank":1}},{"group":{"id":33142130,"name":"Legence Clothes","memberCount":6,"hasVerifiedBadge":false},"role":{"id":101719466,"name":"🎀📝 Love📝","rank":1}},{"group":{"id":13273531,"name":"_RARE NAMES_","memberCount":11049,"hasVerifiedBadge":false},"role":{"id":76113545,"name":"Incredible names","rank":45}},{"group":{"id":5995136,"name":"- Old Roblox Accounts -","memberCount":62907,"hasVerifiedBadge":false},"role":{"id":93679233,"name":"2006 / 2007","rank":170}},{"group":{"id":32818995,"name":"(Project Aincrad SAO)","member
+[2026-06-16 12:28:07] << /access-management/v1/rcc-user-feature-access -> {"featureAccess":[],"data":[]}
+[2026-06-16 12:28:07] >> GET /universe-chat-api/v1/universe-chat-settings?userId=14463315&universeId=9000000000046&rccInstanceId=
+[2026-06-16 12:28:07] 404 GET /universe-chat-api/v1/universe-chat-settings
+[2026-06-16 12:28:07] << /universe-chat-api/v1/universe-chat-settings -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:28:07] >> GET /asset/?id=898437418&xcachesplit=9000000000046
+[2026-06-16 12:28:07] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=898437418
+[2026-06-16 12:28:07] Asset 898437418: fetch failed, falling back to redirect
+[2026-06-16 12:28:07] >> GET /asset/?id=889643771&xcachesplit=9000000000046
+[2026-06-16 12:28:07] >> GET /asset/?id=12602&xcachesplit=9000000000046
+[2026-06-16 12:28:07] >> POST /user-blocking-api/v1/users/rcc/get-user-blocking-data
+[2026-06-16 12:28:07] 404 POST /user-blocking-api/v1/users/rcc/get-user-blocking-data
+[2026-06-16 12:28:07] >> POST /access-management/v2/rcc-user-feature-evaluation
+[2026-06-16 12:28:07] << /user-blocking-api/v1/users/rcc/get-user-blocking-data -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:28:07] >> GET /asset/?id=873063130
+[2026-06-16 12:28:07] 404 POST /access-management/v2/rcc-user-feature-evaluation
+[2026-06-16 12:28:07] << /access-management/v2/rcc-user-feature-evaluation -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:28:07] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=889643771
+[2026-06-16 12:28:07] Asset 889643771: fetch failed, falling back to redirect
+[2026-06-16 12:28:07] >> GET /asset/?id=873073890
+[2026-06-16 12:28:07] >> GET /asset/?id=873073947
+[2026-06-16 12:28:07] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=12602
+[2026-06-16 12:28:07] Asset 12602: fetch failed, falling back to redirect
+[2026-06-16 12:28:07] >> GET /asset/?id=873073999
+[2026-06-16 12:28:07] >> GET /asset/?id=873074075
+[2026-06-16 12:28:07] >> GET /asset/?id=873074053
+[2026-06-16 12:28:07] Asset 873073890 fetched OK (10085 bytes)
+[2026-06-16 12:28:07] Asset 873063130 fetched OK (12316 bytes)
+[2026-06-16 12:28:07] >> GET /asset/?id=873084310
+[2026-06-16 12:28:07] Asset 873073947 fetched OK (9786 bytes)
+[2026-06-16 12:28:07] Asset 873073999 fetched OK (10206 bytes)
+[2026-06-16 12:28:07] Asset 873074075 fetched OK (9516 bytes)
+[2026-06-16 12:28:07] >> GET /asset/?id=873084337
+[2026-06-16 12:28:07] Asset 873074053 fetched OK (9288 bytes)
+[2026-06-16 12:28:07] Asset 873084310 fetched OK (15108 bytes)
+[2026-06-16 12:28:07] Asset 873084337 fetched OK (12174 bytes)
+[2026-06-16 12:28:08] >> GET /asset/?id=873084419
+[2026-06-16 12:28:08] >> GET /asset/?id=873084440
+[2026-06-16 12:28:08] >> GET /asset/?id=619647373
+[2026-06-16 12:28:08] >> GET /asset/?id=619647453
+[2026-06-16 12:28:08] >> GET /asset/?id=873104886
+[2026-06-16 12:28:08] >> GET /asset/?id=873101828
+[2026-06-16 12:28:08] Asset 873084419 fetched OK (13733 bytes)
+[2026-06-16 12:28:08] Asset 873084440 fetched OK (14050 bytes)
+[2026-06-16 12:28:08] >> GET /asset/?id=619649367
+[2026-06-16 12:28:08] Asset 619647373 fetched OK (12137 bytes)
+[2026-06-16 12:28:08] Asset 619647453 fetched OK (11787 bytes)
+[2026-06-16 12:28:08] >> GET /asset/?id=873104834
+[2026-06-16 12:28:08] Asset 873101828 fetched OK (8356 bytes)
+[2026-06-16 12:28:08] Asset 873104886 fetched OK (11349 bytes)
+[2026-06-16 12:28:08] Asset 619649367 fetched OK (9564 bytes)
+[2026-06-16 12:28:08] Asset 873104834 fetched OK (11488 bytes)
+[2026-06-16 12:28:08] >> GET /asset/?id=873084394
+[2026-06-16 12:28:08] >> GET /asset/?id=873084366
+[2026-06-16 12:28:08] >> GET /asset/?id=619649245
+[2026-06-16 12:28:08] >> GET /asset/?id=619647649
+[2026-06-16 12:28:08] Asset 873084394 fetched OK (12978 bytes)
+[2026-06-16 12:28:08] >> GET /asset/?id=873101789
+[2026-06-16 12:28:08] Asset 873084366 fetched OK (14564 bytes)
+[2026-06-16 12:28:08] >> GET /asset/?id=873121858
+[2026-06-16 12:28:08] Asset 619649245 fetched OK (8728 bytes)
+[2026-06-16 12:28:08] >> GET /v1/asset?id=297397960
+[2026-06-16 12:28:08] >> GET /v1/asset?id=845646902
+[2026-06-16 12:28:08] Asset 873101789 fetched OK (8733 bytes)
+[2026-06-16 12:28:08] Asset 619647649 fetched OK (9565 bytes)
+[2026-06-16 12:28:08] Asset 873121858 fetched OK (8606 bytes)
+[2026-06-16 12:28:08] >> GET /v1/asset?id=845646919
+[2026-06-16 12:28:08] Asset 297397960 fetched OK (96474 bytes)
+[2026-06-16 12:28:08] >> GET /asset/?id=873119811
+[2026-06-16 12:28:08] >> POST /v1/batch
+[2026-06-16 12:28:08] << /v1/batch -> {"data":[]}
+[2026-06-16 12:28:08] >> GET /v1/asset?id=822354668&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:08] Asset 873119811 fetched OK (8836 bytes)
+[2026-06-16 12:28:08] Asset 845646902 fetched OK (110961 bytes)
+[2026-06-16 12:28:08] >> GET /asset/?id=866649671&xcachesplit=9000000000046
+[2026-06-16 12:28:08] >> GET /asset/?id=873104940
+[2026-06-16 12:28:08] Asset 845646919 fetched OK (22472 bytes)
+[2026-06-16 12:28:08] >> GET /asset/?id=873104808
+[2026-06-16 12:28:08] Asset 873104940 fetched OK (11087 bytes)
+[2026-06-16 12:28:08] >> GET /asset/?id=873119845
+[2026-06-16 12:28:08] Asset 866649671 fetched OK (146300 bytes)
+[2026-06-16 12:28:08] Asset 873104808 fetched OK (11132 bytes)
+[2026-06-16 12:28:09] >> GET /asset/?id=873104915
+[2026-06-16 12:28:09] >> GET /asset/?id=873074102
+[2026-06-16 12:28:09] Asset 822354668 fetched OK (20891 bytes)
+[2026-06-16 12:28:09] Asset 873119845 fetched OK (8691 bytes)
+[2026-06-16 12:28:09] >> GET /asset/?id=873101811
+[2026-06-16 12:28:09] Asset 873104915 fetched OK (11210 bytes)
+[2026-06-16 12:28:09] >> GET /v1/asset?id=568340007&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:09] Asset 873074102 fetched OK (9802 bytes)
+[2026-06-16 12:28:09] Asset 873101811 fetched OK (6657 bytes)
+[2026-06-16 12:28:09] >> GET /asset/?id=873104858
+[2026-06-16 12:28:09] >> GET /asset/?id=635546067
+[2026-06-16 12:28:09] >> GET /asset/?id=635546179
+[2026-06-16 12:28:09] >> GET /asset/?id=635546243
+[2026-06-16 12:28:09] Asset 635546067 fetched OK (9888 bytes)
+[2026-06-16 12:28:09] Asset 873104858 fetched OK (11261 bytes)
+[2026-06-16 12:28:09] >> GET /asset/?id=873119597
+[2026-06-16 12:28:09] Asset 635546179 fetched OK (5924 bytes)
+[2026-06-16 12:28:09] >> GET /asset/?id=873119768
+[2026-06-16 12:28:09] Asset 635546243 fetched OK (5529 bytes)
+[2026-06-16 12:28:09] >> GET /asset/?id=873119788
+[2026-06-16 12:28:09] Asset 568340007 fetched OK (624501 bytes)
+[2026-06-16 12:28:09] Asset 873119597 fetched OK (12338 bytes)
+[2026-06-16 12:28:09] Asset 873119768 fetched OK (8727 bytes)
+[2026-06-16 12:28:09] Asset 873119788 fetched OK (8986 bytes)
+[2026-06-16 12:28:09] >> GET /asset/?id=770103681&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:09] >> GET /asset/?id=873119886
+[2026-06-16 12:28:09] >> GET /asset/?id=873119904
+[2026-06-16 12:28:09] >> GET /asset/?id=873119653
+[2026-06-16 12:28:09] >> GET /asset/?id=873119679
+[2026-06-16 12:28:09] >> GET /asset/?id=873119744
+[2026-06-16 12:28:09] Asset 873119886 fetched OK (8756 bytes)
+[2026-06-16 12:28:09] Asset 873119904 fetched OK (8642 bytes)
+[2026-06-16 12:28:09] >> GET /asset/?id=873119703
+[2026-06-16 12:28:09] Asset 873119653 fetched OK (13084 bytes)
+[2026-06-16 12:28:09] Asset 873119679 fetched OK (13947 bytes)
+[2026-06-16 12:28:09] Asset 770103681 fetched OK (85735 bytes)
+[2026-06-16 12:28:09] Asset 873119744 fetched OK (13630 bytes)
+[2026-06-16 12:28:09] Asset 873119703 fetched OK (12875 bytes)
+[2026-06-16 12:28:09] >> GET /asset/?id=873119724
+[2026-06-16 12:28:09] >> GET /asset/?id=873121840
+[2026-06-16 12:28:09] >> GET /asset/?id=873121876
+[2026-06-16 12:28:09] >> GET /asset/?id=873121896
+[2026-06-16 12:28:09] >> GET /asset/?id=845479651&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:09] >> GET /asset/?id=873121913
+[2026-06-16 12:28:09] >> GET /asset/?id=873121936
+[2026-06-16 12:28:09] Asset 873119724 fetched OK (13045 bytes)
+[2026-06-16 12:28:09] Asset 873121840 fetched OK (8367 bytes)
+[2026-06-16 12:28:09] Asset 873121876 fetched OK (9478 bytes)
+[2026-06-16 12:28:09] Asset 873121896 fetched OK (9614 bytes)
+[2026-06-16 12:28:10] Asset 873121913 fetched OK (9441 bytes)
+[2026-06-16 12:28:10] Asset 873121936 fetched OK (9379 bytes)
+[2026-06-16 12:28:10] >> GET /asset/?id=725750810
+[2026-06-16 12:28:10] >> GET /v1/asset?id=396092254
+[2026-06-16 12:28:10] >> GET /v1/asset?id=396092273
+[2026-06-16 12:28:10] >> GET /v1/asset?id=326157262
+[2026-06-16 12:28:10] >> GET /v1/asset?id=839999829&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:10] >> GET /v1/asset?id=326366283
+[2026-06-16 12:28:10] >> GET /asset/?id=553210821&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:10] Asset 396092254 fetched OK (18850 bytes)
+[2026-06-16 12:28:10] Asset 845479651 fetched OK (104938 bytes)
+[2026-06-16 12:28:10] Asset 326157262 fetched OK (72844 bytes)
+[2026-06-16 12:28:10] Asset 725750810 fetched OK (81524 bytes)
+[2026-06-16 12:28:10] Asset 396092273 fetched OK (77881 bytes)
+[2026-06-16 12:28:10] Asset 326366283 fetched OK (68260 bytes)
+[2026-06-16 12:28:10] Asset 839999829 fetched OK (31432 bytes)
+[2026-06-16 12:28:10] Asset 553210821 fetched OK (4345 bytes)
+[2026-06-16 12:28:10] >> GET /asset/?id=553210573&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:10] >> GET /asset/?id=462340882&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:10] >> GET /asset/?id=684409411&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:10] >> GET /v1/asset?id=839098970&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:10] >> GET /asset/?id=839960561&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:10] >> GET /v1/asset?id=839999820&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:10] Asset 462340882 fetched OK (12505 bytes)
+[2026-06-16 12:28:10] >> GET /v1/asset?id=838679756&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:10] Asset 553210573 fetched OK (115225 bytes)
+[2026-06-16 12:28:10] Asset 684409411 fetched OK (8425 bytes)
+[2026-06-16 12:28:10] Asset 839098970 fetched OK (39524 bytes)
+[2026-06-16 12:28:10] Asset 839960561 fetched OK (26466 bytes)
+[2026-06-16 12:28:10] Asset 839999820 fetched OK (21921 bytes)
+[2026-06-16 12:28:10] >> GET /v1/asset?id=834506904&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:10] >> GET /v1/asset?id=838681533&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:10] Asset 838679756 fetched OK (18189 bytes)
+[2026-06-16 12:28:10] >> GET /v1/asset?id=678894236&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:10] >> GET /asset/?id=725750891
+[2026-06-16 12:28:10] >> GET /asset/?id=725750973
+[2026-06-16 12:28:10] >> GET /asset/?id=725751043
+[2026-06-16 12:28:11] >> GET /v1/asset?id=305516385
+[2026-06-16 12:28:11] Asset 838681533 fetched OK (37441 bytes)
+[2026-06-16 12:28:11] Asset 834506904 fetched OK (86281 bytes)
+[2026-06-16 12:28:11] Asset 725750891 fetched OK (80203 bytes)
+[2026-06-16 12:28:11] >> GET /v1/asset?id=305516388
+[2026-06-16 12:28:11] Asset 725750973 fetched OK (94849 bytes)
+[2026-06-16 12:28:11] Asset 305516385 fetched OK (97030 bytes)
+[2026-06-16 12:28:11] Asset 678894236 fetched OK (745904 bytes)
+[2026-06-16 12:28:11] Asset 305516388 fetched OK (46761 bytes)
+[2026-06-16 12:28:11] Asset 725751043 fetched OK (37099 bytes)
+[2026-06-16 12:28:11] >> GET /v1/asset?id=305516389
+[2026-06-16 12:28:11] >> GET /v1/asset?id=305516392
+[2026-06-16 12:28:11] >> GET /v1/asset?id=738693393
+[2026-06-16 12:28:11] >> GET /v1/asset?id=841753812&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:11] >> GET /asset/?id=725751110
+[2026-06-16 12:28:11] Asset 305516389 fetched OK (39786 bytes)
+[2026-06-16 12:28:11] Asset 305516392 fetched OK (116740 bytes)
+[2026-06-16 12:28:11] >> GET /asset/?id=725751178
+[2026-06-16 12:28:11] Asset 738693393 fetched OK (262884 bytes)
+[2026-06-16 12:28:11] >> GET /asset/?id=898398768
+[2026-06-16 12:28:11] Asset 725751110 fetched OK (40126 bytes)
+[2026-06-16 12:28:11] Asset 841753812 fetched OK (14887 bytes)
+[2026-06-16 12:28:11] Asset 898398768 fetched OK (13952 bytes)
+[2026-06-16 12:28:11] Asset 725751178 fetched OK (50488 bytes)
+[2026-06-16 12:28:11] >> GET /asset/?id=898398730
+[2026-06-16 12:28:11] >> GET /asset/?id=898398743
+[2026-06-16 12:28:11] >> GET /asset/?id=841960977&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:11] >> GET /asset/?id=898398785
+[2026-06-16 12:28:11] >> GET /v1/asset?id=331724775
+[2026-06-16 12:28:11] Asset 898398743 fetched OK (13006 bytes)
+[2026-06-16 12:28:11] >> GET /v1/asset?id=611806974
+[2026-06-16 12:28:11] Asset 898398785 fetched OK (10176 bytes)
+[2026-06-16 12:28:11] >> GET /v1/asset?id=611806963
+[2026-06-16 12:28:11] Asset 898398730 fetched OK (12150 bytes)
+[2026-06-16 12:28:11] Asset 331724775 fetched OK (16645 bytes)
+[2026-06-16 12:28:11] Asset 611806974 fetched OK (87949 bytes)
+[2026-06-16 12:28:11] Asset 611806963 fetched OK (168596 bytes)
+[2026-06-16 12:28:11] >> GET /v1/asset?id=807963574&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:11] >> GET /v1/asset?id=838679757&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:11] >> GET /asset/?id=169883260&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:12] >> GET /asset/?id=82281557&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:12] >> GET /asset/?id=898398809
+[2026-06-16 12:28:12] >> GET /asset/?id=898398817
+[2026-06-16 12:28:12] >> GET /asset/?id=898398837
+[2026-06-16 12:28:12] Asset 898398809 fetched OK (13187 bytes)
+[2026-06-16 12:28:12] Asset 838679757 fetched OK (37764 bytes)
+[2026-06-16 12:28:12] Asset 898398817 fetched OK (11799 bytes)
+[2026-06-16 12:28:12] Asset 841960977 fetched OK (161189 bytes)
+[2026-06-16 12:28:12] Asset 898398837 fetched OK (11876 bytes)
+[2026-06-16 12:28:12] Asset 82281557 fetched OK (120153 bytes)
+[2026-06-16 12:28:12] >> GET /asset/?id=873196488
+[2026-06-16 12:28:12] >> GET /asset/?id=873196559
+[2026-06-16 12:28:12] >> GET /asset/?id=873196591
+[2026-06-16 12:28:12] >> GET /asset/?id=873196633
+[2026-06-16 12:28:12] >> GET /asset/?id=873196678
+[2026-06-16 12:28:12] Asset 807963574 fetched OK (154801 bytes)
+[2026-06-16 12:28:12] Asset 873196488 fetched OK (19309 bytes)
+[2026-06-16 12:28:12] Asset 873196559 fetched OK (40009 bytes)
+[2026-06-16 12:28:12] >> GET /asset/?id=873196719
+[2026-06-16 12:28:12] Asset 873196591 fetched OK (23197 bytes)
+[2026-06-16 12:28:12] Asset 873196633 fetched OK (39738 bytes)
+[2026-06-16 12:28:12] Asset 873196678 fetched OK (43980 bytes)
+[2026-06-16 12:28:12] Asset 169883260 fetched OK (1231634 bytes)
+[2026-06-16 12:28:12] Asset 873196719 fetched OK (33564 bytes)
+[2026-06-16 12:28:12] >> GET /v1/asset?id=834729878&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:12] >> GET /asset/?id=873196759
+[2026-06-16 12:28:12] >> GET /asset/?id=873196789
+[2026-06-16 12:28:12] >> GET /v1/asset?id=609272047
+[2026-06-16 12:28:12] >> GET /v1/asset?id=609272054
+[2026-06-16 12:28:12] >> GET /asset/?id=873196821
+[2026-06-16 12:28:12] Asset 873196789 fetched OK (35968 bytes)
+[2026-06-16 12:28:12] >> GET /asset/?id=873196883
+[2026-06-16 12:28:12] Asset 873196759 fetched OK (52069 bytes)
+[2026-06-16 12:28:12] Asset 873196821 fetched OK (47832 bytes)
+[2026-06-16 12:28:12] Asset 609272054 fetched OK (413317 bytes)
+[2026-06-16 12:28:12] Asset 609272047 fetched OK (462313 bytes)
+[2026-06-16 12:28:12] Asset 834729878 fetched OK (949912 bytes)
+[2026-06-16 12:28:12] Asset 873196883 fetched OK (29657 bytes)
+[2026-06-16 12:28:13] >> GET /v1/asset?id=845646924
+[2026-06-16 12:28:13] >> GET /v1/asset?id=845646931
+[2026-06-16 12:28:13] >> GET /v1/asset?id=845646938
+[2026-06-16 12:28:13] >> GET /v1/asset?id=834737936&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:13] >> GET /v1/asset?id=834506905&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:13] Asset 845646931 fetched OK (24059 bytes)
+[2026-06-16 12:28:13] Asset 845646924 fetched OK (8500 bytes)
+[2026-06-16 12:28:13] Asset 845646938 fetched OK (7610 bytes)
+[2026-06-16 12:28:13] Asset 834737936 fetched OK (205198 bytes)
+[2026-06-16 12:28:13] Asset 834506905 fetched OK (86323 bytes)
+[2026-06-16 12:28:13] >> GET /asset/?id=873196918
+[2026-06-16 12:28:13] >> GET /asset/?id=873196972
+[2026-06-16 12:28:13] >> GET /asset/?id=834586675&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:13] >> GET /v1/asset?id=611118797&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:13] >> GET /asset/?id=873196997
+[2026-06-16 12:28:13] Asset 873196972 fetched OK (7528 bytes)
+[2026-06-16 12:28:13] >> GET /v1/asset?id=738692901
+[2026-06-16 12:28:13] Asset 873196918 fetched OK (33349 bytes)
+[2026-06-16 12:28:13] Asset 834586675 fetched OK (307546 bytes)
+[2026-06-16 12:28:13] Asset 873196997 fetched OK (18259 bytes)
+[2026-06-16 12:28:13] >> GET /v1/asset?id=738692892
+[2026-06-16 12:28:13] Asset 738692901 fetched OK (181745 bytes)
+[2026-06-16 12:28:13] Asset 738692892 fetched OK (30932 bytes)
+[2026-06-16 12:28:13] >> GET /v1/asset?id=611806936
+[2026-06-16 12:28:13] >> GET /v1/asset?id=611806930
+[2026-06-16 12:28:13] >> GET /v1/asset?id=611806866
+[2026-06-16 12:28:13] >> GET /v1/asset?id=611806871
+[2026-06-16 12:28:13] >> GET /v1/asset?id=760442864&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:13] Asset 611806936 fetched OK (64012 bytes)
+[2026-06-16 12:28:13] Asset 611806930 fetched OK (141640 bytes)
+[2026-06-16 12:28:13] >> GET /asset/?id=873197013
+[2026-06-16 12:28:13] Asset 611806866 fetched OK (10283 bytes)
+[2026-06-16 12:28:13] Asset 611806871 fetched OK (7950 bytes)
+[2026-06-16 12:28:13] >> GET /v1/asset?id=834546526&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:13] Asset 873197013 fetched OK (6945 bytes)
+[2026-06-16 12:28:13] Asset 760442864 fetched OK (29652 bytes)
+[2026-06-16 12:28:14] >> GET /v1/asset?id=1082801&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:14] >> GET /v1/asset?id=1082805&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:14] >> GET /asset/?id=873197044
+[2026-06-16 12:28:14] Asset 834546526 fetched OK (2177 bytes)
+[2026-06-16 12:28:14] >> GET /asset/?id=873197117
+[2026-06-16 12:28:14] Asset 611118797 fetched OK (976604 bytes)
+[2026-06-16 12:28:14] Asset 1082801 fetched OK (234248 bytes)
+[2026-06-16 12:28:14] Asset 1082805 fetched OK (30889 bytes)
+[2026-06-16 12:28:14] Asset 873197044 fetched OK (19960 bytes)
+[2026-06-16 12:28:14] >> GET /asset/?id=738449694
+[2026-06-16 12:28:14] >> GET /asset/?id=738449739
+[2026-06-16 12:28:14] Asset 873197117 fetched OK (20129 bytes)
+[2026-06-16 12:28:14] >> GET /asset/?id=572461674&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:14] >> GET /asset/?id=673524299&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:14] Asset 738449739 fetched OK (7878 bytes)
+[2026-06-16 12:28:14] Asset 738449694 fetched OK (7645 bytes)
+[2026-06-16 12:28:14] >> GET /asset/?id=670558778&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:14] >> GET /asset/?id=738449789
+[2026-06-16 12:28:14] >> GET /asset/?id=738449845
+[2026-06-16 12:28:14] >> GET /asset/?id=738449901
+[2026-06-16 12:28:14] Asset 572461674 fetched OK (13465 bytes)
+[2026-06-16 12:28:14] Asset 738449789 fetched OK (7082 bytes)
+[2026-06-16 12:28:14] Asset 673524299 fetched OK (361225 bytes)
+[2026-06-16 12:28:14] Asset 738449845 fetched OK (7411 bytes)
+[2026-06-16 12:28:14] >> GET /asset/?id=281700835&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:14] >> GET /v1/asset?id=836517354&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:14] Asset 738449901 fetched OK (7161 bytes)
+[2026-06-16 12:28:14] >> GET /asset/?id=430369152&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:14] Asset 670558778 fetched OK (108985 bytes)
+[2026-06-16 12:28:14] >> GET /v1/asset?id=573744815&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:14] >> GET /v1/asset?id=834733423&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:14] Asset 836517354 fetched OK (1333 bytes)
+[2026-06-16 12:28:14] >> GET /asset/?id=839960559&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:14] >> GET /v1/asset?id=834734856&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:14] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=834733423
+[2026-06-16 12:28:14] Asset 834733423: fetch failed, falling back to redirect
+[2026-06-16 12:28:14] Asset 430369152 fetched OK (855049 bytes)
+[2026-06-16 12:28:14] Asset 281700835 fetched OK (1522074 bytes)
+[2026-06-16 12:28:14] >> GET /asset/?id=839960547&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:14] Asset 839960559 fetched OK (17198 bytes)
+[2026-06-16 12:28:14] >> GET /asset/?id=738449961
+[2026-06-16 12:28:14] Asset 573744815 fetched OK (576732 bytes)
+[2026-06-16 12:28:14] Asset 834734856 fetched OK (82835 bytes)
+[2026-06-16 12:28:14] >> GET /v1/asset?id=681462429&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:14] >> GET /asset/?id=738450012
+[2026-06-16 12:28:15] >> GET /asset/?id=738450121
+[2026-06-16 12:28:15] Asset 738449961 fetched OK (8718 bytes)
+[2026-06-16 12:28:15] Asset 839960547 fetched OK (3326 bytes)
+[2026-06-16 12:28:15] >> GET /v1/asset?id=845646944
+[2026-06-16 12:28:15] Asset 738450012 fetched OK (8126 bytes)
+[2026-06-16 12:28:15] >> GET /asset/?id=738450173
+[2026-06-16 12:28:15] Asset 738450121 fetched OK (8139 bytes)
+[2026-06-16 12:28:15] >> GET /asset/?id=738450221
+[2026-06-16 12:28:15] Asset 845646944 fetched OK (55734 bytes)
+[2026-06-16 12:28:15] >> GET /asset/?id=738450271
+[2026-06-16 12:28:15] >> GET /asset/?id=738476779
+[2026-06-16 12:28:15] Asset 738450221 fetched OK (8266 bytes)
+[2026-06-16 12:28:15] Asset 738450173 fetched OK (7675 bytes)
+[2026-06-16 12:28:15] Asset 681462429 fetched OK (213679 bytes)
+[2026-06-16 12:28:15] >> GET /asset/?id=738476835
+[2026-06-16 12:28:15] >> GET /asset/?id=738476883
+[2026-06-16 12:28:15] Asset 738476779 fetched OK (7957 bytes)
+[2026-06-16 12:28:15] Asset 738450271 fetched OK (8844 bytes)
+[2026-06-16 12:28:15] >> GET /asset/?id=738484890
+[2026-06-16 12:28:15] Asset 738476883 fetched OK (5935 bytes)
+[2026-06-16 12:28:15] Asset 738476835 fetched OK (6345 bytes)
+[2026-06-16 12:28:15] >> GET /v1/asset?id=274467114&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:15] >> GET /v1/asset?id=836555778&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:15] >> GET /asset/?id=738485221
+[2026-06-16 12:28:15] Asset 738484890 fetched OK (7431 bytes)
+[2026-06-16 12:28:15] >> GET /v1/asset?id=845646951
+[2026-06-16 12:28:15] >> GET /asset/?id=738485290
+[2026-06-16 12:28:15] Asset 738485221 fetched OK (7789 bytes)
+[2026-06-16 12:28:15] >> GET /asset/?id=738486925
+[2026-06-16 12:28:15] >> GET /asset/?id=738487026
+[2026-06-16 12:28:15] Asset 836555778 fetched OK (138087 bytes)
+[2026-06-16 12:28:15] Asset 738485290 fetched OK (7314 bytes)
+[2026-06-16 12:28:15] Asset 845646951 fetched OK (24148 bytes)
+[2026-06-16 12:28:15] Asset 274467114 fetched OK (91833 bytes)
+[2026-06-16 12:28:15] >> GET /asset/?id=738487059
+[2026-06-16 12:28:15] Asset 738487026 fetched OK (8541 bytes)
+[2026-06-16 12:28:15] >> GET /v1/asset?id=834506901&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:15] Asset 738487059 fetched OK (8346 bytes)
+[2026-06-16 12:28:15] Asset 738486925 fetched OK (8830 bytes)
+[2026-06-16 12:28:15] >> GET /asset/?id=738488265
+[2026-06-16 12:28:15] >> GET /asset/?id=738488385
+[2026-06-16 12:28:15] >> GET /asset/?id=738488447
+[2026-06-16 12:28:15] >> GET /asset/?id=738488512
+[2026-06-16 12:28:16] Asset 834506901 fetched OK (85735 bytes)
+[2026-06-16 12:28:16] >> GET /asset/?id=739361281
+[2026-06-16 12:28:16] Asset 738488385 fetched OK (9805 bytes)
+[2026-06-16 12:28:16] Asset 738488447 fetched OK (12653 bytes)
+[2026-06-16 12:28:16] Asset 738488512 fetched OK (11949 bytes)
+[2026-06-16 12:28:16] Asset 738488265 fetched OK (12745 bytes)
+[2026-06-16 12:28:16] >> GET /v1/asset?id=760974109&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:16] >> GET /v1/asset?id=838681516&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:16] Asset 739361281 fetched OK (7762 bytes)
+[2026-06-16 12:28:16] >> GET /asset/?id=739361317
+[2026-06-16 12:28:16] Asset 760974109 fetched OK (737897 bytes)
+[2026-06-16 12:28:16] >> GET /asset/?id=739361357
+[2026-06-16 12:28:16] >> GET /asset/?id=739361404
+[2026-06-16 12:28:16] >> GET /asset/?id=739361426
+[2026-06-16 12:28:16] >> GET /asset/?id=739361445
+[2026-06-16 12:28:16] Asset 838681516 fetched OK (37324 bytes)
+[2026-06-16 12:28:16] Asset 739361317 fetched OK (7424 bytes)
+[2026-06-16 12:28:16] Asset 739361357 fetched OK (6978 bytes)
+[2026-06-16 12:28:16] >> GET /asset/?id=739361473
+[2026-06-16 12:28:16] Asset 739361404 fetched OK (9912 bytes)
+[2026-06-16 12:28:16] Asset 739361426 fetched OK (8437 bytes)
+[2026-06-16 12:28:16] >> GET /asset/?id=739361503
+[2026-06-16 12:28:16] Asset 739361473 fetched OK (8774 bytes)
+[2026-06-16 12:28:16] Asset 739361445 fetched OK (8462 bytes)
+[2026-06-16 12:28:16] >> GET /asset/?id=739361526
+[2026-06-16 12:28:16] >> GET /asset/?id=739361547
+[2026-06-16 12:28:16] >> GET /asset/?id=739361572
+[2026-06-16 12:28:16] Asset 739361503 fetched OK (9514 bytes)
+[2026-06-16 12:28:16] >> GET /asset/?id=739361584
+[2026-06-16 12:28:16] >> GET /asset/?id=743048910
+[2026-06-16 12:28:16] Asset 739361526 fetched OK (9213 bytes)
+[2026-06-16 12:28:16] Asset 739361547 fetched OK (9585 bytes)
+[2026-06-16 12:28:16] Asset 739361572 fetched OK (9288 bytes)
+[2026-06-16 12:28:16] >> GET /asset/?id=743048927
+[2026-06-16 12:28:16] >> GET /asset/?id=743048941
+[2026-06-16 12:28:16] Asset 739361584 fetched OK (10998 bytes)
+[2026-06-16 12:28:16] Asset 743048910 fetched OK (7777 bytes)
+[2026-06-16 12:28:16] >> GET /asset/?id=743048953
+[2026-06-16 12:28:16] Asset 743048941 fetched OK (7281 bytes)
+[2026-06-16 12:28:16] Asset 743048927 fetched OK (7706 bytes)
+[2026-06-16 12:28:16] >> GET /asset/?id=743048979
+[2026-06-16 12:28:16] >> GET /asset/?id=743049053
+[2026-06-16 12:28:16] >> GET /asset/?id=743049073
+[2026-06-16 12:28:16] Asset 743048953 fetched OK (7223 bytes)
+[2026-06-16 12:28:16] >> GET /asset/?id=743049103
+[2026-06-16 12:28:16] >> GET /asset/?id=743049123
+[2026-06-16 12:28:17] Asset 743048979 fetched OK (7233 bytes)
+[2026-06-16 12:28:17] >> GET /asset/?id=743049139
+[2026-06-16 12:28:17] Asset 743049053 fetched OK (10131 bytes)
+[2026-06-16 12:28:17] Asset 743049073 fetched OK (9685 bytes)
+[2026-06-16 12:28:17] >> GET /asset/?id=743049162
+[2026-06-16 12:28:17] Asset 743049103 fetched OK (9856 bytes)
+[2026-06-16 12:28:17] Asset 743049123 fetched OK (12093 bytes)
+[2026-06-16 12:28:17] >> GET /v1/asset?id=834733423&contentRepresentationPriorityList=W3siZm9ybWF0IjoiT3JpZ2luYWwiLCJtYWpvclZlcnNpb24iOiJPcmlnaW5hbCIsImZpZGVsaXR5IjoiT3JpZ2luYWwifV0%3D
+[2026-06-16 12:28:17] Asset 743049139 fetched OK (7913 bytes)
+[2026-06-16 12:28:17] Asset 743049162 fetched OK (8062 bytes)
+[2026-06-16 12:28:17] FetchUrl: HTTP 403 for https://assetdelivery.roblox.com/v1/asset/?id=834733423
+[2026-06-16 12:28:17] >> GET /v1/asset?id=751863184&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:17] Asset 834733423: fetch failed, falling back to redirect
+[2026-06-16 12:28:17] >> GET /asset/?id=744281043
+[2026-06-16 12:28:17] >> GET /asset/?id=744281081
+[2026-06-16 12:28:17] >> GET /asset/?id=744281205
+[2026-06-16 12:28:17] >> GET /asset/?id=744281257
+[2026-06-16 12:28:17] >> GET /asset/?id=744281287
+[2026-06-16 12:28:17] Asset 744281081 fetched OK (6800 bytes)
+[2026-06-16 12:28:17] Asset 744281043 fetched OK (7471 bytes)
+[2026-06-16 12:28:17] >> GET /asset/?id=744281319
+[2026-06-16 12:28:17] Asset 744281205 fetched OK (6754 bytes)
+[2026-06-16 12:28:17] Asset 751863184 fetched OK (44474 bytes)
+[2026-06-16 12:28:17] >> GET /asset/?id=744281350
+[2026-06-16 12:28:17] Asset 744281257 fetched OK (7919 bytes)
+[2026-06-16 12:28:17] Asset 744281319 fetched OK (7455 bytes)
+[2026-06-16 12:28:17] Asset 744281287 fetched OK (7369 bytes)
+[2026-06-16 12:28:17] >> GET /v1/asset?id=332163614
+[2026-06-16 12:28:17] Asset 744281350 fetched OK (7836 bytes)
+[2026-06-16 12:28:17] >> GET /v1/asset?id=332163618
+[2026-06-16 12:28:17] >> GET /v1/asset?id=332163623
+[2026-06-16 12:28:17] >> GET /v1/asset?id=332163627
+[2026-06-16 12:28:17] >> GET /v1/asset?id=687720389&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:17] >> GET /asset/?id=744281374
+[2026-06-16 12:28:17] Asset 332163627 fetched OK (335047 bytes)
+[2026-06-16 12:28:17] >> GET /asset/?id=744281411
+[2026-06-16 12:28:17] Asset 332163614 fetched OK (334646 bytes)
+[2026-06-16 12:28:17] >> GET /asset/?id=758169120
+[2026-06-16 12:28:17] Asset 332163623 fetched OK (229110 bytes)
+[2026-06-16 12:28:17] Asset 744281374 fetched OK (7443 bytes)
+[2026-06-16 12:28:17] Asset 687720389 fetched OK (5589 bytes)
+[2026-06-16 12:28:17] Asset 332163618 fetched OK (229954 bytes)
+[2026-06-16 12:28:17] Asset 744281411 fetched OK (7650 bytes)
+[2026-06-16 12:28:17] Asset 758169120 fetched OK (12613 bytes)
+[2026-06-16 12:28:17] >> GET /asset/?id=758169193
+[2026-06-16 12:28:17] >> GET /asset/?id=758169297
+[2026-06-16 12:28:18] >> GET /asset/?id=758169399
+[2026-06-16 12:28:18] >> GET /asset/?id=623307723
+[2026-06-16 12:28:18] >> GET /asset/?id=623307791
+[2026-06-16 12:28:18] Asset 758169193 fetched OK (11136 bytes)
+[2026-06-16 12:28:18] >> GET /asset/?id=623307897
+[2026-06-16 12:28:18] Asset 758169297 fetched OK (8332 bytes)
+[2026-06-16 12:28:18] >> GET /asset/?id=623322852
+[2026-06-16 12:28:18] Asset 623307791 fetched OK (9925 bytes)
+[2026-06-16 12:28:18] Asset 623307723 fetched OK (10670 bytes)
+[2026-06-16 12:28:18] Asset 623307897 fetched OK (11909 bytes)
+[2026-06-16 12:28:18] Asset 623322852 fetched OK (13977 bytes)
+[2026-06-16 12:28:18] Asset 758169399 fetched OK (12874 bytes)
+[2026-06-16 12:28:18] >> GET /asset/?id=623322902
+[2026-06-16 12:28:18] >> GET /asset/?id=623308020
+[2026-06-16 12:28:18] >> GET /asset/?id=623322719
+[2026-06-16 12:28:18] >> GET /asset/?id=623322784
+[2026-06-16 12:28:18] >> GET /asset/?id=623329224
+[2026-06-16 12:28:18] >> GET /asset/?id=623329303
+[2026-06-16 12:28:18] Asset 623322902 fetched OK (11963 bytes)
+[2026-06-16 12:28:18] Asset 623322719 fetched OK (11213 bytes)
+[2026-06-16 12:28:18] Asset 623308020 fetched OK (9486 bytes)
+[2026-06-16 12:28:18] >> GET /asset/?id=866618834
+[2026-06-16 12:28:18] Asset 623329303 fetched OK (11327 bytes)
+[2026-06-16 12:28:18] Asset 623329224 fetched OK (12691 bytes)
+[2026-06-16 12:28:18] Asset 623322784 fetched OK (10028 bytes)
+[2026-06-16 12:28:18] >> GET /asset/?id=866618870
+[2026-06-16 12:28:18] Asset 866618834 fetched OK (8770 bytes)
+[2026-06-16 12:28:18] >> GET /asset/?id=866618921
+[2026-06-16 12:28:18] >> GET /asset/?id=866638867
+[2026-06-16 12:28:18] >> GET /asset/?id=866639973
+[2026-06-16 12:28:18] Asset 866618870 fetched OK (8518 bytes)
+[2026-06-16 12:28:18] >> GET /asset/?id=739281446
+[2026-06-16 12:28:18] >> GET /asset/?id=739281465
+[2026-06-16 12:28:18] >> GET /asset/?id=739281525
+[2026-06-16 12:28:18] Asset 866618921 fetched OK (9527 bytes)
+[2026-06-16 12:28:18] Asset 866638867 fetched OK (13972 bytes)
+[2026-06-16 12:28:18] >> GET /asset/?id=739281543
+[2026-06-16 12:28:18] Asset 739281446 fetched OK (7127 bytes)
+[2026-06-16 12:28:18] Asset 739281525 fetched OK (7536 bytes)
+[2026-06-16 12:28:18] Asset 739281465 fetched OK (7230 bytes)
+[2026-06-16 12:28:18] Asset 866639973 fetched OK (19710 bytes)
+[2026-06-16 12:28:18] >> GET /asset/?id=739281325
+[2026-06-16 12:28:18] Asset 739281543 fetched OK (7277 bytes)
+[2026-06-16 12:28:18] >> GET /asset/?id=739281342
+[2026-06-16 12:28:18] >> GET /asset/?id=739281360
+[2026-06-16 12:28:18] Asset 739281325 fetched OK (7777 bytes)
+[2026-06-16 12:28:19] >> GET /asset/?id=739281381
+[2026-06-16 12:28:19] >> GET /asset/?id=739281395
+[2026-06-16 12:28:19] >> GET /asset/?id=739281423
+[2026-06-16 12:28:19] Asset 739281342 fetched OK (7303 bytes)
+[2026-06-16 12:28:19] Asset 739281360 fetched OK (10310 bytes)
+[2026-06-16 12:28:19] >> GET /asset/?id=739377453
+[2026-06-16 12:28:19] >> GET /asset/?id=739377503
+[2026-06-16 12:28:19] Asset 739281381 fetched OK (10059 bytes)
+[2026-06-16 12:28:19] Asset 739281395 fetched OK (9149 bytes)
+[2026-06-16 12:28:19] Asset 739281423 fetched OK (9860 bytes)
+[2026-06-16 12:28:19] Asset 739377453 fetched OK (7385 bytes)
+[2026-06-16 12:28:19] >> GET /asset/?id=738486870
+[2026-06-16 12:28:19] >> GET /asset/?id=738476924
+[2026-06-16 12:28:19] Asset 739377503 fetched OK (7060 bytes)
+[2026-06-16 12:28:19] >> GET /asset/?id=739806047
+[2026-06-16 12:28:19] Asset 738486870 fetched OK (9314 bytes)
+[2026-06-16 12:28:19] >> GET /asset/?id=739281565
+[2026-06-16 12:28:19] >> GET /asset/?id=739361221
+[2026-06-16 12:28:19] >> GET /asset/?id=873196525
+[2026-06-16 12:28:19] Asset 738476924 fetched OK (5955 bytes)
+[2026-06-16 12:28:19] >> GET /asset/?id=744281118
+[2026-06-16 12:28:19] Asset 739806047 fetched OK (7880 bytes)
+[2026-06-16 12:28:19] Asset 739281565 fetched OK (7380 bytes)
+[2026-06-16 12:28:19] Asset 739361221 fetched OK (6739 bytes)
+[2026-06-16 12:28:19] Asset 873196525 fetched OK (19099 bytes)
+[2026-06-16 12:28:19] >> GET /asset/?id=898398795
+[2026-06-16 12:28:19] Asset 744281118 fetched OK (7795 bytes)
+[2026-06-16 12:28:19] >> GET /asset/?id=743048965
+[2026-06-16 12:28:19] >> GET /asset/?id=738486971
+[2026-06-16 12:28:19] Asset 898398795 fetched OK (11630 bytes)
+[2026-06-16 12:28:19] >> GET /asset/?id=739377526
+[2026-06-16 12:28:19] >> GET /asset/?id=873196855
+[2026-06-16 12:28:19] Asset 743048965 fetched OK (7359 bytes)
+[2026-06-16 12:28:19] >> GET /asset/?id=739361379
+[2026-06-16 12:28:19] >> GET /asset/?id=743049002
+[2026-06-16 12:28:19] Asset 738486971 fetched OK (9058 bytes)
+[2026-06-16 12:28:19] >> GET /asset/?id=743049085
+[2026-06-16 12:28:19] Asset 739377526 fetched OK (7305 bytes)
+[2026-06-16 12:28:19] Asset 873196855 fetched OK (32925 bytes)
+[2026-06-16 12:28:19] >> GET /asset/?id=738487106
+[2026-06-16 12:28:19] Asset 743049002 fetched OK (9979 bytes)
+[2026-06-16 12:28:19] Asset 739361379 fetched OK (7651 bytes)
+[2026-06-16 12:28:19] Asset 743049085 fetched OK (9336 bytes)
+[2026-06-16 12:28:19] >> GET /asset/?id=739377475
+[2026-06-16 12:28:19] >> GET /asset/?id=743049153
+[2026-06-16 12:28:19] Asset 738487106 fetched OK (8133 bytes)
+[2026-06-16 12:28:19] >> GET /asset/?id=873197083
+[2026-06-16 12:28:19] >> GET /asset/?id=738484962
+[2026-06-16 12:28:19] Asset 739377475 fetched OK (7165 bytes)
+[2026-06-16 12:28:20] >> GET /asset/?id=739361264
+[2026-06-16 12:28:20] >> GET /asset/?id=738484818
+[2026-06-16 12:28:20] Asset 743049153 fetched OK (7919 bytes)
+[2026-06-16 12:28:20] >> GET /asset/?id=623322960
+[2026-06-16 12:28:20] Asset 738484962 fetched OK (7292 bytes)
+[2026-06-16 12:28:20] Asset 873197083 fetched OK (10188 bytes)
+[2026-06-16 12:28:20] Asset 739361264 fetched OK (7492 bytes)
+[2026-06-16 12:28:20] >> GET /asset/?id=738485364
+[2026-06-16 12:28:20] Asset 738484818 fetched OK (7828 bytes)
+[2026-06-16 12:28:20] Asset 623322960 fetched OK (13967 bytes)
+[2026-06-16 12:28:20] >> GET /asset/?id=623329368
+[2026-06-16 12:28:20] >> GET /asset/?id=738450072
+[2026-06-16 12:28:20] Asset 738485364 fetched OK (7426 bytes)
+[2026-06-16 12:28:20] >> GET /asset/?id=866618897
+[2026-06-16 12:28:20] >> GET /asset/?id=743049031
+[2026-06-16 12:28:20] Asset 623329368 fetched OK (11057 bytes)
+[2026-06-16 12:28:20] >> GET /asset/?id=739361608
+[2026-06-16 12:28:20] >> GET /asset/?id=739377556
+[2026-06-16 12:28:20] Asset 738450072 fetched OK (8477 bytes)
+[2026-06-16 12:28:20] >> GET /asset/?id=739806155
+[2026-06-16 12:28:20] Asset 743049031 fetched OK (9793 bytes)
+[2026-06-16 12:28:20] >> GET /asset/?id=739281494
+[2026-06-16 12:28:20] Asset 739377556 fetched OK (7343 bytes)
+[2026-06-16 12:28:20] Asset 739806155 fetched OK (8168 bytes)
+[2026-06-16 12:28:20] Asset 866618897 fetched OK (11991 bytes)
+[2026-06-16 12:28:20] >> GET /asset/?id=739805543
+[2026-06-16 12:28:20] Asset 739281494 fetched OK (7097 bytes)
+[2026-06-16 12:28:20] Asset 739361608 fetched OK (8849 bytes)
+[2026-06-16 12:28:20] >> GET /asset/?id=744281233
+[2026-06-16 12:28:20] >> GET /asset/?id=744281156
+[2026-06-16 12:28:20] Asset 739805543 fetched OK (5821 bytes)
+[2026-06-16 12:28:20] >> GET /asset/?id=739377546
+[2026-06-16 12:28:20] Asset 744281233 fetched OK (6422 bytes)
+[2026-06-16 12:28:20] >> GET /asset/?id=739377579
+[2026-06-16 12:28:20] >> GET /asset/?id=739377595
+[2026-06-16 12:28:20] Asset 744281156 fetched OK (7013 bytes)
+[2026-06-16 12:28:20] >> GET /asset/?id=739377625
+[2026-06-16 12:28:20] >> GET /asset/?id=739377652
+[2026-06-16 12:28:20] Asset 739377546 fetched OK (6975 bytes)
+[2026-06-16 12:28:20] Asset 739377579 fetched OK (8104 bytes)
+[2026-06-16 12:28:20] >> GET /asset/?id=739377685
+[2026-06-16 12:28:20] Asset 739377595 fetched OK (9484 bytes)
+[2026-06-16 12:28:20] Asset 739377625 fetched OK (8300 bytes)
+[2026-06-16 12:28:20] Asset 739377652 fetched OK (8180 bytes)
+[2026-06-16 12:28:20] >> GET /asset/?id=739377713
+[2026-06-16 12:28:20] >> GET /asset/?id=739805588
+[2026-06-16 12:28:20] Asset 739377685 fetched OK (8772 bytes)
+[2026-06-16 12:28:21] >> GET /asset/?id=739805641
+[2026-06-16 12:28:21] Asset 739377713 fetched OK (8453 bytes)
+[2026-06-16 12:28:21] >> GET /asset/?id=739805681
+[2026-06-16 12:28:21] Asset 739805588 fetched OK (5959 bytes)
+[2026-06-16 12:28:21] >> GET /asset/?id=739805724
+[2026-06-16 12:28:21] >> GET /asset/?id=739805762
+[2026-06-16 12:28:21] >> GET /asset/?id=739805800
+[2026-06-16 12:28:21] Asset 739805641 fetched OK (5820 bytes)
+[2026-06-16 12:28:21] Asset 739805681 fetched OK (5519 bytes)
+[2026-06-16 12:28:21] Asset 739805724 fetched OK (5832 bytes)
+[2026-06-16 12:28:21] >> GET /asset/?id=739805889
+[2026-06-16 12:28:21] Asset 739805762 fetched OK (5634 bytes)
+[2026-06-16 12:28:21] Asset 739805800 fetched OK (8385 bytes)
+[2026-06-16 12:28:21] >> GET /asset/?id=739805996
+[2026-06-16 12:28:21] >> GET /asset/?id=739806110
+[2026-06-16 12:28:21] Asset 739805889 fetched OK (7909 bytes)
+[2026-06-16 12:28:21] >> GET /asset/?id=744274870
+[2026-06-16 12:28:21] >> GET /asset/?id=871705195
+[2026-06-16 12:28:21] Asset 739805996 fetched OK (6993 bytes)
+[2026-06-16 12:28:21] >> GET /asset/?id=871701134
+[2026-06-16 12:28:21] Asset 739806110 fetched OK (9150 bytes)
+[2026-06-16 12:28:21] >> GET /asset/?id=871704362
+[2026-06-16 12:28:21] >> GET /asset/?id=871709755
+[2026-06-16 12:28:21] Asset 871705195 fetched OK (18695 bytes)
+[2026-06-16 12:28:21] Asset 744274870 fetched OK (7419 bytes)
+[2026-06-16 12:28:21] Asset 871701134 fetched OK (13212 bytes)
+[2026-06-16 12:28:21] >> GET /asset/?id=677010313
+[2026-06-16 12:28:21] Asset 871709755 fetched OK (28348 bytes)
+[2026-06-16 12:28:21] >> GET /asset/?id=677007128
+[2026-06-16 12:28:21] >> GET /asset/?id=677010549
+[2026-06-16 12:28:21] Asset 871704362 fetched OK (9609 bytes)
+[2026-06-16 12:28:21] Asset 677010313 fetched OK (14081 bytes)
+[2026-06-16 12:28:21] >> GET /asset/?id=676999094
+[2026-06-16 12:28:21] >> GET /asset/?id=676999245
+[2026-06-16 12:28:21] Asset 677007128 fetched OK (10603 bytes)
+[2026-06-16 12:28:21] Asset 677010549 fetched OK (10904 bytes)
+[2026-06-16 12:28:21] >> GET /asset/?id=758173986
+[2026-06-16 12:28:21] >> GET /asset/?id=724559173
+[2026-06-16 12:28:21] Asset 676999094 fetched OK (17693 bytes)
+[2026-06-16 12:28:21] Asset 676999245 fetched OK (21031 bytes)
+[2026-06-16 12:28:21] >> GET /asset/?id=758174065
+[2026-06-16 12:28:21] >> GET /asset/?id=676999188
+[2026-06-16 12:28:21] Asset 758173986 fetched OK (5711 bytes)
+[2026-06-16 12:28:21] Asset 724559173 fetched OK (11047 bytes)
+[2026-06-16 12:28:21] Asset 758174065 fetched OK (5729 bytes)
+[2026-06-16 12:28:21] >> GET /asset/?id=724562031
+[2026-06-16 12:28:21] >> GET /asset/?id=744275010
+[2026-06-16 12:28:21] Asset 676999188 fetched OK (24298 bytes)
+[2026-06-16 12:28:22] >> GET /asset/?id=758173759
+[2026-06-16 12:28:22] >> GET /asset/?id=744274901
+[2026-06-16 12:28:22] Asset 724562031 fetched OK (6071 bytes)
+[2026-06-16 12:28:22] >> GET /asset/?id=744274936
+[2026-06-16 12:28:22] Asset 744275010 fetched OK (7363 bytes)
+[2026-06-16 12:28:22] >> GET /asset/?id=744274967
+[2026-06-16 12:28:22] Asset 744274901 fetched OK (7445 bytes)
+[2026-06-16 12:28:22] Asset 758173759 fetched OK (5699 bytes)
+[2026-06-16 12:28:22] >> GET /asset/?id=744275043
+[2026-06-16 12:28:22] >> GET /asset/?id=744275075
+[2026-06-16 12:28:22] Asset 744274936 fetched OK (7376 bytes)
+[2026-06-16 12:28:22] Asset 744274967 fetched OK (7149 bytes)
+[2026-06-16 12:28:22] >> GET /asset/?id=744275099
+[2026-06-16 12:28:22] Asset 744275043 fetched OK (8680 bytes)
+[2026-06-16 12:28:22] >> GET /asset/?id=744275126
+[2026-06-16 12:28:22] Asset 744275075 fetched OK (15318 bytes)
+[2026-06-16 12:28:22] >> GET /asset/?id=744275192
+[2026-06-16 12:28:22] Asset 744275099 fetched OK (15519 bytes)
+[2026-06-16 12:28:22] Asset 744275126 fetched OK (16553 bytes)
+[2026-06-16 12:28:22] >> GET /asset/?id=744275220
+[2026-06-16 12:28:22] >> GET /asset/?id=758173026
+[2026-06-16 12:28:22] Asset 744275192 fetched OK (16935 bytes)
+[2026-06-16 12:28:22] >> GET /asset/?id=758173133
+[2026-06-16 12:28:22] >> GET /asset/?id=758173185
+[2026-06-16 12:28:22] Asset 758173026 fetched OK (5311 bytes)
+[2026-06-16 12:28:22] >> GET /asset/?id=758173250
+[2026-06-16 12:28:22] Asset 744275220 fetched OK (17682 bytes)
+[2026-06-16 12:28:22] >> GET /asset/?id=758173441
+[2026-06-16 12:28:22] Asset 758173133 fetched OK (5296 bytes)
+[2026-06-16 12:28:22] Asset 758173185 fetched OK (5116 bytes)
+[2026-06-16 12:28:22] >> GET /asset/?id=758173516
+[2026-06-16 12:28:22] Asset 758173250 fetched OK (5120 bytes)
+[2026-06-16 12:28:22] >> GET /asset/?id=758173608
+[2026-06-16 12:28:22] Asset 758173441 fetched OK (5254 bytes)
+[2026-06-16 12:28:22] >> GET /asset/?id=758173682
+[2026-06-16 12:28:22] Asset 758173516 fetched OK (5143 bytes)
+[2026-06-16 12:28:22] >> GET /asset/?id=758173891
+[2026-06-16 12:28:22] Asset 758173608 fetched OK (5729 bytes)
+[2026-06-16 12:28:22] >> GET /asset/?id=677006227
+[2026-06-16 12:28:22] >> GET /asset/?id=677006264
+[2026-06-16 12:28:22] >> GET /asset/?id=677006302
+[2026-06-16 12:28:22] Asset 758173682 fetched OK (5343 bytes)
+[2026-06-16 12:28:22] Asset 758173891 fetched OK (5781 bytes)
+[2026-06-16 12:28:22] >> GET /asset/?id=677006342
+[2026-06-16 12:28:22] Asset 677006227 fetched OK (6452 bytes)
+[2026-06-16 12:28:22] Asset 677006302 fetched OK (7640 bytes)
+[2026-06-16 12:28:22] >> GET /asset/?id=677006383
+[2026-06-16 12:28:22] Asset 677006264 fetched OK (7015 bytes)
+[2026-06-16 12:28:23] >> GET /asset/?id=677007056
+[2026-06-16 12:28:23] Asset 677006342 fetched OK (9370 bytes)
+[2026-06-16 12:28:23] >> GET /asset/?id=677007096
+[2026-06-16 12:28:23] >> GET /asset/?id=677010268
+[2026-06-16 12:28:23] Asset 677006383 fetched OK (8040 bytes)
+[2026-06-16 12:28:23] Asset 677007056 fetched OK (7790 bytes)
+[2026-06-16 12:28:23] >> GET /asset/?id=677010351
+[2026-06-16 12:28:23] >> GET /asset/?id=677010399
+[2026-06-16 12:28:23] Asset 677007096 fetched OK (7999 bytes)
+[2026-06-16 12:28:23] >> GET /asset/?id=677010436
+[2026-06-16 12:28:23] >> GET /asset/?id=677010482
+[2026-06-16 12:28:23] Asset 677010351 fetched OK (14219 bytes)
+[2026-06-16 12:28:23] Asset 677010399 fetched OK (10190 bytes)
+[2026-06-16 12:28:23] Asset 677010268 fetched OK (10495 bytes)
+[2026-06-16 12:28:23] >> GET /asset/?id=677010520
+[2026-06-16 12:28:23] Asset 677010436 fetched OK (9778 bytes)
+[2026-06-16 12:28:23] >> GET /asset/?id=724561895
+[2026-06-16 12:28:23] Asset 677010482 fetched OK (8705 bytes)
+[2026-06-16 12:28:23] >> GET /asset/?id=724561958
+[2026-06-16 12:28:23] Asset 677010520 fetched OK (9990 bytes)
+[2026-06-16 12:28:23] Asset 724561895 fetched OK (6797 bytes)
+[2026-06-16 12:28:23] >> GET /asset/?id=724561997
+[2026-06-16 12:28:23] >> GET /asset/?id=724559198
+[2026-06-16 12:28:23] Asset 724561958 fetched OK (6462 bytes)
+[2026-06-16 12:28:23] >> GET /asset/?id=724559218
+[2026-06-16 12:28:23] >> GET /asset/?id=724559241
+[2026-06-16 12:28:23] >> GET /asset/?id=676998794
+[2026-06-16 12:28:23] Asset 724561997 fetched OK (5861 bytes)
+[2026-06-16 12:28:23] >> GET /asset/?id=676998859
+[2026-06-16 12:28:23] Asset 724559218 fetched OK (10384 bytes)
+[2026-06-16 12:28:23] >> GET /asset/?id=676998915
+[2026-06-16 12:28:23] >> GET /asset/?id=676998993
+[2026-06-16 12:28:23] Asset 676998794 fetched OK (20208 bytes)
+[2026-06-16 12:28:23] Asset 724559241 fetched OK (10325 bytes)
+[2026-06-16 12:28:23] Asset 724559198 fetched OK (9977 bytes)
+[2026-06-16 12:28:23] Asset 676998859 fetched OK (20775 bytes)
+[2026-06-16 12:28:23] Asset 676998915 fetched OK (17914 bytes)
+[2026-06-16 12:28:23] Asset 676998993 fetched OK (24568 bytes)
+[2026-06-16 12:28:23] >> GET /asset/?id=676999050
+[2026-06-16 12:28:23] >> GET /asset/?id=676999145
+[2026-06-16 12:28:23] >> GET /asset/?id=676999327
+[2026-06-16 12:28:23] >> GET /asset/?id=676999356
+[2026-06-16 12:28:23] >> GET /asset/?id=676999395
+[2026-06-16 12:28:23] >> GET /asset/?id=871701076
+[2026-06-16 12:28:23] Asset 676999145 fetched OK (17488 bytes)
+[2026-06-16 12:28:23] Asset 676999050 fetched OK (21698 bytes)
+[2026-06-16 12:28:24] >> GET /asset/?id=871701190
+[2026-06-16 12:28:24] Asset 676999327 fetched OK (22922 bytes)
+[2026-06-16 12:28:24] Asset 676999356 fetched OK (22876 bytes)
+[2026-06-16 12:28:24] >> GET /asset/?id=871701241
+[2026-06-16 12:28:24] Asset 871701076 fetched OK (13214 bytes)
+[2026-06-16 12:28:24] Asset 676999395 fetched OK (17455 bytes)
+[2026-06-16 12:28:24] Asset 871701190 fetched OK (13748 bytes)
+[2026-06-16 12:28:24] >> GET /asset/?id=871701297
+[2026-06-16 12:28:24] >> GET /asset/?id=871701346
+[2026-06-16 12:28:24] >> GET /asset/?id=871704182
+[2026-06-16 12:28:24] >> GET /asset/?id=871704259
+[2026-06-16 12:28:24] Asset 871701241 fetched OK (15575 bytes)
+[2026-06-16 12:28:24] Asset 871701297 fetched OK (13717 bytes)
+[2026-06-16 12:28:24] >> GET /asset/?id=871704297
+[2026-06-16 12:28:24] >> GET /asset/?id=871704329
+[2026-06-16 12:28:24] >> GET /asset/?id=871704395
+[2026-06-16 12:28:24] Asset 871701346 fetched OK (12574 bytes)
+[2026-06-16 12:28:24] Asset 871704182 fetched OK (10241 bytes)
+[2026-06-16 12:28:24] Asset 871704259 fetched OK (15056 bytes)
+[2026-06-16 12:28:24] Asset 871704297 fetched OK (16361 bytes)
+[2026-06-16 12:28:24] Asset 871704329 fetched OK (9511 bytes)
+[2026-06-16 12:28:24] Asset 871704395 fetched OK (9076 bytes)
+[2026-06-16 12:28:24] >> GET /asset/?id=871705143
+[2026-06-16 12:28:24] >> GET /asset/?id=871705174
+[2026-06-16 12:28:24] >> GET /asset/?id=871705217
+[2026-06-16 12:28:24] >> GET /asset/?id=871705237
+[2026-06-16 12:28:24] Asset 871705143 fetched OK (11162 bytes)
+[2026-06-16 12:28:24] >> GET /asset/?id=871705264
+[2026-06-16 12:28:24] >> GET /asset/?id=871709869
+[2026-06-16 12:28:24] Asset 871705174 fetched OK (13292 bytes)
+[2026-06-16 12:28:24] >> GET /asset/?id=871709832
+[2026-06-16 12:28:24] Asset 871705217 fetched OK (9163 bytes)
+[2026-06-16 12:28:24] Asset 871705237 fetched OK (10489 bytes)
+[2026-06-16 12:28:24] Asset 871705264 fetched OK (13384 bytes)
+[2026-06-16 12:28:24] Asset 871709869 fetched OK (23078 bytes)
+[2026-06-16 12:28:24] Asset 871709832 fetched OK (20154 bytes)
+[2026-06-16 12:28:24] >> GET /asset/?id=871709789
+[2026-06-16 12:28:24] >> GET /asset/?id=871709708
+[2026-06-16 12:28:24] >> GET /asset/?id=871709643
+[2026-06-16 12:28:24] >> GET /guac-v2/v1/bundles/app-policy
+[2026-06-16 12:28:24] << /guac-v2/v1/bundles/app-policy -> {"version":"1","bundle":{"name":"studio","configurations":{"Feature_DisableOldCookieManagementSticky":"0;100","Feature_UnifiedCookieProtocolEnabled":"0;100","Feature_UnifiedCookieProtocolEnabledSticky":"0;100","Feature_AccessCookiesWithUrlEnabledSticky":"0;100"},"experiments":{}}}
+[2026-06-16 12:28:24] >> GET /player-policy-service/v1/player-policy-client
+[2026-06-16 12:28:24] 404 GET /player-policy-service/v1/player-policy-client
+[2026-06-16 12:28:24] Asset 871709708 fetched OK (26164 bytes)
+[2026-06-16 12:28:24] Asset 871709789 fetched OK (27257 bytes)
+[2026-06-16 12:28:24] << /player-policy-service/v1/player-policy-client -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:28:24] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:28:24] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:28:24] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:28:24] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:28:24] >> GET /v2/persistence/9000000000046/datastores/objects/object?datastore=T2&objectKey=global%2F14463315%3A1
+[2026-06-16 12:28:24] Asset 871709643 fetched OK (20847 bytes)
+[2026-06-16 12:28:25] >> GET /v2/persistence/9000000000046/datastores/objects/object?datastore=T2&objectKey=global%2F14463315%3A1
+[2026-06-16 12:28:25] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:28:25] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:28:25] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:28:25] >> POST /studio/pbe
+[2026-06-16 12:28:25] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:28:25] << /studio/pbe -> {}
+[2026-06-16 12:28:25] >> POST /timespent/pbe
+[2026-06-16 12:28:25] >> POST /client/pbe
+[2026-06-16 12:28:25] << /timespent/pbe -> {}
+[2026-06-16 12:28:25] << /client/pbe -> {}
+[2026-06-16 12:28:25] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 12:28:25] >> POST /user-heartbeats-api/pulse
+[2026-06-16 12:28:25] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 12:28:25] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 12:28:25] >> GET /v2/assets/86802260/details
+[2026-06-16 12:28:25] >> GET /v1/asset?id=341106594
+[2026-06-16 12:28:25] >> GET /v1/asset?id=341144782
+[2026-06-16 12:28:25] << /v2/assets/86802260/details -> {"TargetId":86802260,"AssetId":86802260,"ProductId":86802260,"assetId":86802260,"id":86802260,"Id":86802260,"TargetPlaceId":86802260,"PlaceId":86802260,"ProductType":"User Product","Name":"Baseplate","Description":"","AssetTypeId":9,"assetTypeId":9,"Creator":{"Id":14463315,"Name":"HearMeRoar","CreatorType":"User","CreatorTargetId":14463315,"HasVerifiedBadge":false,"id":14463315,"type":1,"creatorType":"User","creatorTargetId":14463315},"IconImageAssetId":0,"Created":"2022-05-11T13:27:09.897Z","Updated":"2022-06-19T07:23:39.03Z","created":"2022-05-11T13:27:09.897Z","updated":"2022-06-19T07:23:39.03Z","PriceInRobux":null,"Sales":0,"IsNew":false,"IsForSale":false,"IsPublicDomain":true,"IsLimited":false,"IsLimitedUnique":false,"isPublic":true,"isForSale":false,"isLimited":false,"isLimitedUnique":false,"enableComments":false}
+[2026-06-16 12:28:25] >> GET /v1/asset?id=25087327
+[2026-06-16 12:28:25] >> GET /v1/asset?id=464563596
+[2026-06-16 12:28:25] >> GET /player-policy-service/v1/player-policy-client
+[2026-06-16 12:28:25] 404 GET /player-policy-service/v1/player-policy-client
+[2026-06-16 12:28:25] << /player-policy-service/v1/player-policy-client -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:28:25] Asset 341106594 fetched OK (325946 bytes)
+[2026-06-16 12:28:25] Asset 25087327 fetched OK (3052 bytes)
+[2026-06-16 12:28:25] Asset 341144782 fetched OK (305473 bytes)
+[2026-06-16 12:28:25] Asset 464563596 fetched OK (59720 bytes)
+[2026-06-16 12:28:25] >> GET /asset/?id=480767376&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:25] >> GET /asset/?id=480767445&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:25] >> GET /asset/?id=480016146&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:25] >> GET /asset/?id=480019746&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:25] >> GET /asset/?id=480743192&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:25] >> GET /asset/?id=480016778&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:25] >> GET /asset/?id=480016240&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:25] Asset 480767376 fetched OK (16105 bytes)
+[2026-06-16 12:28:25] Asset 480016146 fetched OK (19105 bytes)
+[2026-06-16 12:28:25] Asset 480767445 fetched OK (53905 bytes)
+[2026-06-16 12:28:25] Asset 480019746 fetched OK (477625 bytes)
+[2026-06-16 12:28:25] Asset 480743192 fetched OK (198985 bytes)
+[2026-06-16 12:28:25] Asset 480016778 fetched OK (79945 bytes)
+[2026-06-16 12:28:25] Asset 480016240 fetched OK (100465 bytes)
+[2026-06-16 12:28:25] >> GET /asset/?id=480742662&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:25] >> GET /asset/?id=480742259&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:25] >> GET /asset/?id=480740721&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:25] >> GET /v1/asset?id=483332543
+[2026-06-16 12:28:25] >> GET /asset/?id=480021355&contentRepresentationPriorityList=W3siZm9ybWF0IjoiZm1kIiwibWFqb3JWZXJzaW9uIjoiMS4wLjEiLCJmaWRlbGl0eSI6IkFMTCJ9XQ%3D%3D
+[2026-06-16 12:28:26] Asset 480742662 fetched OK (111985 bytes)
+[2026-06-16 12:28:26] >> GET /v1/users/14463315/items/asset/86802260/is-owned
+[2026-06-16 12:28:26] << /v1/users/14463315/items/asset/86802260/is-owned -> false
+[2026-06-16 12:28:26] Asset 480021355 fetched OK (418225 bytes)
+[2026-06-16 12:28:26] Asset 480740721 fetched OK (226705 bytes)
+[2026-06-16 12:28:26] Asset 483332543 fetched OK (20470 bytes)
+[2026-06-16 12:28:26] Asset 480742259 fetched OK (156865 bytes)
+[2026-06-16 12:28:26] >> GET /player-policy-service/v1/player-policy-client
+[2026-06-16 12:28:26] 404 GET /player-policy-service/v1/player-policy-client
+[2026-06-16 12:28:26] << /player-policy-service/v1/player-policy-client -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:28:28] >> GET /asset/?id=187078712
+[2026-06-16 12:28:28] Asset 187078712 fetched OK (761 bytes)
+[2026-06-16 12:28:29] >> GET /v1/asset?id=584682946&xcachesplit=9000000000046
+[2026-06-16 12:28:29] Asset 584682946 fetched OK (31059 bytes)
+[2026-06-16 12:28:29] >> GET /v1/asset?id=672548189
+[2026-06-16 12:28:29] Asset 672548189 fetched OK (117896 bytes)
+[2026-06-16 12:28:29] >> GET /v1/asset?id=648387186
+[2026-06-16 12:28:29] Asset 648387186 fetched OK (23256 bytes)
+[2026-06-16 12:28:30] >> GET /v1/asset?id=672548170
+[2026-06-16 12:28:30] Asset 672548170 fetched OK (28868 bytes)
+[2026-06-16 12:28:30] >> GET /v1/asset?id=672548183
+[2026-06-16 12:28:30] Asset 672548183 fetched OK (147840 bytes)
+[2026-06-16 12:28:30] >> GET /v1/asset?id=672548164
+[2026-06-16 12:28:30] >> GET /v1/asset?id=648394250
+[2026-06-16 12:28:30] >> GET /asset/?id=648366038&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:30] >> GET /player-policy-service/v1/player-policy-client
+[2026-06-16 12:28:30] >> GET /asset/?id=873074102&xcachesplit=9000000000046
+[2026-06-16 12:28:30] >> GET /asset/?id=873073853&xcachesplit=9000000000046
+[2026-06-16 12:28:30] >> GET /v1/asset?id=185238210&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:30] 404 GET /player-policy-service/v1/player-policy-client
+[2026-06-16 12:28:30] << /player-policy-service/v1/player-policy-client -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:28:30] Asset 672548164 fetched OK (63740 bytes)
+[2026-06-16 12:28:30] Asset 648394250 fetched OK (60443 bytes)
+[2026-06-16 12:28:30] Asset 648366038 fetched OK (5618 bytes)
+[2026-06-16 12:28:30] Asset 873074102 fetched OK (9802 bytes)
+[2026-06-16 12:28:30] Asset 873073853 fetched OK (9924 bytes)
+[2026-06-16 12:28:30] Asset 185238210 fetched OK (2816 bytes)
+[2026-06-16 12:28:30] >> GET /v1/asset?id=185238224&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:30] >> GET /v1/asset?id=185238204&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:31] >> GET /v1/asset?id=185238181&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:31] >> GET /v1/asset?id=185238234&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:31] >> GET /v1/asset?id=185237865&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:31] >> GET /v1/asset?id=185234383&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:31] >> GET /v1/asset?id=246689799&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:31] Asset 185238204 fetched OK (2085 bytes)
+[2026-06-16 12:28:31] Asset 185238224 fetched OK (1810 bytes)
+[2026-06-16 12:28:31] Asset 185237865 fetched OK (3762 bytes)
+[2026-06-16 12:28:31] Asset 185238181 fetched OK (2301 bytes)
+[2026-06-16 12:28:31] Asset 185234383 fetched OK (2984 bytes)
+[2026-06-16 12:28:31] >> GET /v1/asset?id=281634786&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:31] Asset 246689799 fetched OK (137927 bytes)
+[2026-06-16 12:28:31] Asset 185238234 fetched OK (1498 bytes)
+[2026-06-16 12:28:31] >> GET /v1/asset?id=242201991&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:31] >> GET /v1/asset?id=172125333
+[2026-06-16 12:28:31] Asset 281634786 fetched OK (7141 bytes)
+[2026-06-16 12:28:31] >> GET /v1/asset?id=172138011
+[2026-06-16 12:28:31] >> GET /asset/?id=553151967
+[2026-06-16 12:28:31] >> GET /asset/?id=871705143&xcachesplit=9000000000046
+[2026-06-16 12:28:31] Asset 242201991 fetched OK (150026 bytes)
+[2026-06-16 12:28:31] >> GET /asset/?id=871705237&xcachesplit=9000000000046
+[2026-06-16 12:28:31] Asset 172125333 fetched OK (78041 bytes)
+[2026-06-16 12:28:31] Asset 172138011 fetched OK (22190 bytes)
+[2026-06-16 12:28:31] >> GET /asset/?id=871705174&xcachesplit=9000000000046
+[2026-06-16 12:28:31] Asset 871705143 fetched OK (11162 bytes)
+[2026-06-16 12:28:31] Asset 553151967 fetched OK (8256 bytes)
+[2026-06-16 12:28:31] >> GET /asset/?id=871701241&xcachesplit=9000000000046
+[2026-06-16 12:28:31] Asset 871705237 fetched OK (10489 bytes)
+[2026-06-16 12:28:31] Asset 871705174 fetched OK (13292 bytes)
+[2026-06-16 12:28:31] >> GET /asset/?id=871705195&xcachesplit=9000000000046
+[2026-06-16 12:28:31] Asset 871701241 fetched OK (15575 bytes)
+[2026-06-16 12:28:31] >> GET /v1/asset?id=185237879&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:31] >> GET /asset/?id=342423826&xcachesplit=9000000000046
+[2026-06-16 12:28:31] >> GET /asset/?id=342423844&xcachesplit=9000000000046
+[2026-06-16 12:28:31] >> GET /asset/?id=676999050&xcachesplit=9000000000046
+[2026-06-16 12:28:31] >> GET /v1/asset?id=185237853&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:31] Asset 871705195 fetched OK (18695 bytes)
+[2026-06-16 12:28:31] Asset 185237879 fetched OK (3354 bytes)
+[2026-06-16 12:28:31] Asset 342423826 fetched OK (28994 bytes)
+[2026-06-16 12:28:31] >> GET /asset/?id=738450121&xcachesplit=9000000000046
+[2026-06-16 12:28:31] Asset 342423844 fetched OK (16429 bytes)
+[2026-06-16 12:28:31] Asset 676999050 fetched OK (21698 bytes)
+[2026-06-16 12:28:31] Asset 185237853 fetched OK (4241 bytes)
+[2026-06-16 12:28:31] >> GET /asset/?id=724559173&xcachesplit=9000000000046
+[2026-06-16 12:28:31] Asset 738450121 fetched OK (8139 bytes)
+[2026-06-16 12:28:32] >> GET /asset/?id=342423812&xcachesplit=9000000000046
+[2026-06-16 12:28:32] >> GET /asset/?id=873073947&xcachesplit=9000000000046
+[2026-06-16 12:28:32] >> GET /asset/?id=871705264&xcachesplit=9000000000046
+[2026-06-16 12:28:32] Asset 724559173 fetched OK (11047 bytes)
+[2026-06-16 12:28:32] >> GET /asset/?id=871704329&xcachesplit=9000000000046
+[2026-06-16 12:28:32] >> GET /asset/?id=738450012&xcachesplit=9000000000046
+[2026-06-16 12:28:32] >> GET /asset/?id=676999145&xcachesplit=9000000000046
+[2026-06-16 12:28:32] Asset 342423812 fetched OK (18752 bytes)
+[2026-06-16 12:28:32] Asset 871705264 fetched OK (13384 bytes)
+[2026-06-16 12:28:32] Asset 873073947 fetched OK (9786 bytes)
+[2026-06-16 12:28:32] Asset 871704329 fetched OK (9511 bytes)
+[2026-06-16 12:28:32] Asset 676999145 fetched OK (17488 bytes)
+[2026-06-16 12:28:32] >> GET /asset/?id=724559198&xcachesplit=9000000000046
+[2026-06-16 12:28:32] Asset 738450012 fetched OK (8126 bytes)
+[2026-06-16 12:28:32] >> GET /asset/?id=873073703&xcachesplit=9000000000046
+[2026-06-16 12:28:32] >> GET /asset/?id=738476883&xcachesplit=9000000000046
+[2026-06-16 12:28:32] >> GET /asset/?id=676999094&xcachesplit=9000000000046
+[2026-06-16 12:28:32] Asset 724559198 fetched OK (9977 bytes)
+[2026-06-16 12:28:32] >> GET /asset/?id=871701190&xcachesplit=9000000000046
+[2026-06-16 12:28:32] Asset 873073703 fetched OK (9768 bytes)
+[2026-06-16 12:28:32] >> GET /asset/?id=676999395&xcachesplit=9000000000046
+[2026-06-16 12:28:32] >> GET /asset/?id=619649245&xcachesplit=9000000000046
+[2026-06-16 12:28:32] >> POST /product-experimentation-platform/v1/projects/1/values
+[2026-06-16 12:28:32] << /product-experimentation-platform/v1/projects/1/values -> {"assignments":[]}
+[2026-06-16 12:28:32] Asset 676999094 fetched OK (17693 bytes)
+[2026-06-16 12:28:32] Asset 871701190 fetched OK (13748 bytes)
+[2026-06-16 12:28:32] Asset 738476883 fetched OK (5935 bytes)
+[2026-06-16 12:28:32] Asset 676999395 fetched OK (17455 bytes)
+[2026-06-16 12:28:32] Asset 619649245 fetched OK (8728 bytes)
+[2026-06-16 12:28:32] >> GET /asset/?id=738449961&xcachesplit=9000000000046
+[2026-06-16 12:28:32] >> GET /asset/?id=724561997&xcachesplit=9000000000046
+[2026-06-16 12:28:32] >> GET /asset/?id=676999245&xcachesplit=9000000000046
+[2026-06-16 12:28:32] >> GET /asset/?id=677010482&xcachesplit=9000000000046
+[2026-06-16 12:28:32] >> GET /v1/settings
+[2026-06-16 12:28:32] << /v1/settings -> {"isVoiceEnabled":true,"isUserOptIn":true,"isUserEligible":true,"isBanned":false,"banReason":0,"bannedUntil":null,"canVerifyAgeForVoice":true,"isVerifiedForVoice":true,"denialReason":0,"isOptInDisabled":false,"hasEverOpted":true,"isAvatarVideoEnabled":true,"isAvatarVideoOptIn":true,"isAvatarVideoOptInDisabled":false,"isAvatarVideoEligible":true,"hasEverOptedAvatarVideo":true,"userHasAvatarCameraAlwaysAvailable":true,"canVerifyPhoneForVoice":true,"seamlessVoiceStatus":1,"allowVoiceDataUsage":true,"seamlessVoiceVariant":""}
+[2026-06-16 12:28:32] >> GET /v1/settings
+[2026-06-16 12:28:32] << /v1/settings -> {"isVoiceEnabled":true,"isUserOptIn":true,"isUserEligible":true,"isBanned":false,"banReason":0,"bannedUntil":null,"canVerifyAgeForVoice":true,"isVerifiedForVoice":true,"denialReason":0,"isOptInDisabled":false,"hasEverOpted":true,"isAvatarVideoEnabled":true,"isAvatarVideoOptIn":true,"isAvatarVideoOptInDisabled":false,"isAvatarVideoEligible":true,"hasEverOptedAvatarVideo":true,"userHasAvatarCameraAlwaysAvailable":true,"canVerifyPhoneForVoice":true,"seamlessVoiceStatus":1,"allowVoiceDataUsage":true,"seamlessVoiceVariant":""}
+[2026-06-16 12:28:32] Asset 738449961 fetched OK (8718 bytes)
+[2026-06-16 12:28:32] >> GET /v2/users/14463315/groups/roles
+[2026-06-16 12:28:32] << /v2/users/14463315/groups/roles -> {"data":[{"group":{"id":13538101,"name":"GC' Sus Games","memberCount":11,"hasVerifiedBadge":false},"role":{"id":77381526,"name":"Member","rank":1}},{"group":{"id":391929292,"name":"FilteringEnabled=false","memberCount":6,"hasVerifiedBadge":false},"role":{"id":700687000,"name":"Owner","rank":255}},{"group":{"id":4347428,"name":"The State of Mind","memberCount":416796,"hasVerifiedBadge":false},"role":{"id":29322544,"name":"⭐️ Important Member","rank":1}},{"group":{"id":33142130,"name":"Legence Clothes","memberCount":6,"hasVerifiedBadge":false},"role":{"id":101719466,"name":"🎀📝 Love📝","rank":1}},{"group":{"id":13273531,"name":"_RARE NAMES_","memberCount":11049,"hasVerifiedBadge":false},"role":{"id":76113545,"name":"Incredible names","rank":45}},{"group":{"id":5995136,"name":"- Old Roblox Accounts -","memberCount":62907,"hasVerifiedBadge":false},"role":{"id":93679233,"name":"2006 / 2007","rank":170}},{"group":{"id":32818995,"name":"(Project Aincrad SAO)","member
+[2026-06-16 12:28:32] Asset 724561997 fetched OK (5861 bytes)
+[2026-06-16 12:28:32] Asset 676999245 fetched OK (21031 bytes)
+[2026-06-16 12:28:32] Asset 677010482 fetched OK (8705 bytes)
+[2026-06-16 12:28:32] >> GET /asset/?id=724562031&xcachesplit=9000000000046
+[2026-06-16 12:28:32] >> GET /asset/?id=676999327&xcachesplit=9000000000046
+[2026-06-16 12:28:32] >> GET /asset/?id=677010549&xcachesplit=9000000000046
+[2026-06-16 12:28:32] Asset 724562031 fetched OK (6071 bytes)
+[2026-06-16 12:28:32] Asset 676999327 fetched OK (22922 bytes)
+[2026-06-16 12:28:33] Asset 677010549 fetched OK (10904 bytes)
+[2026-06-16 12:28:33] >> GET /asset/?id=677010399&xcachesplit=9000000000046
+[2026-06-16 12:28:33] Asset 677010399 fetched OK (10190 bytes)
+[2026-06-16 12:28:33] >> GET /userhub/?id=
+[2026-06-16 12:28:33] 404 GET /userhub/
+[2026-06-16 12:28:33] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:28:33] >> GET /asset/?id=871701297&xcachesplit=9000000000046
+[2026-06-16 12:28:33] >> GET /v1/asset?id=185237894&contentRepresentationPriorityList=W3siZm9ybWF0Ijoia3R4MiIsIm1ham9yVmVyc2lvbiI6IjdyZG8iLCJmaWRlbGl0eSI6Ii8vLy8vQUU9In0seyJmb3JtYXQiOiJrdHgyIiwibWFqb3JWZXJzaW9uIjoiNnJkbyIsImZpZGVsaXR5IjoiUUFBPSJ9XQ%3D%3D&doNotFallbackToBaselineRepresentation=true
+[2026-06-16 12:28:33] >> GET /asset/?id=738449789&xcachesplit=9000000000046
+[2026-06-16 12:28:33] >> GET /asset/?id=676998915&xcachesplit=9000000000046
+[2026-06-16 12:28:33] >> GET /asset/?id=677010351&xcachesplit=9000000000046
+[2026-06-16 12:28:33] Asset 871701297 fetched OK (13717 bytes)
+[2026-06-16 12:28:33] Asset 185237894 fetched OK (4147 bytes)
+[2026-06-16 12:28:33] Asset 677010351 fetched OK (14219 bytes)
+[2026-06-16 12:28:33] Asset 676998915 fetched OK (17914 bytes)
+[2026-06-16 12:28:33] Asset 738449789 fetched OK (7082 bytes)
+[2026-06-16 12:28:33] >> GET /asset/?id=738449694&xcachesplit=9000000000046
+[2026-06-16 12:28:33] >> GET /asset/?id=676998859&xcachesplit=9000000000046
+[2026-06-16 12:28:33] >> GET /asset/?id=724561958&xcachesplit=9000000000046
+[2026-06-16 12:28:33] >> GET /asset/?id=342423860&xcachesplit=9000000000046
+[2026-06-16 12:28:33] Asset 724561958 fetched OK (6462 bytes)
+[2026-06-16 12:28:33] Asset 738449694 fetched OK (7645 bytes)
+[2026-06-16 12:28:33] Asset 676998859 fetched OK (20775 bytes)
+[2026-06-16 12:28:33] Asset 342423860 fetched OK (22285 bytes)
+[2026-06-16 12:28:33] >> GET /asset/?id=676999188&xcachesplit=9000000000046
+[2026-06-16 12:28:34] Asset 676999188 fetched OK (24298 bytes)
+[2026-06-16 12:28:34] >> GET /asset/?id=738450173&xcachesplit=9000000000046
+[2026-06-16 12:28:34] Asset 738450173 fetched OK (7675 bytes)
+[2026-06-16 12:28:34] >> GET /asset/?id=676998993&xcachesplit=9000000000046
+[2026-06-16 12:28:34] Asset 676998993 fetched OK (24568 bytes)
+[2026-06-16 12:28:34] >> GET /asset/?id=724559218&xcachesplit=9000000000046
+[2026-06-16 12:28:35] Asset 724559218 fetched OK (10384 bytes)
+[2026-06-16 12:28:35] >> GET /asset/?id=619647649&xcachesplit=9000000000046
+[2026-06-16 12:28:35] Asset 619647649 fetched OK (9565 bytes)
+[2026-06-16 12:28:35] >> GET /asset/?id=676999356&xcachesplit=9000000000046
+[2026-06-16 12:28:35] Asset 676999356 fetched OK (22876 bytes)
+[2026-06-16 12:28:35] >> GET /asset/?id=724561895&xcachesplit=9000000000046
+[2026-06-16 12:28:36] Asset 724561895 fetched OK (6797 bytes)
+[2026-06-16 12:28:36] >> GET /asset/?id=738476835&xcachesplit=9000000000046
+[2026-06-16 12:28:36] Asset 738476835 fetched OK (6345 bytes)
+[2026-06-16 12:28:37] >> GET /asset/?id=871701134&xcachesplit=9000000000046
+[2026-06-16 12:28:37] Asset 871701134 fetched OK (13212 bytes)
+[2026-06-16 12:28:37] >> GET /asset/?id=738450072&xcachesplit=9000000000046
+[2026-06-16 12:28:38] Asset 738450072 fetched OK (8477 bytes)
+[2026-06-16 12:28:38] >> GET /asset/?id=738449739&xcachesplit=9000000000046
+[2026-06-16 12:28:38] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:28:38] Asset 738449739 fetched OK (7878 bytes)
+[2026-06-16 12:28:38] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:28:38] >> GET /asset/?id=677010520&xcachesplit=9000000000046
+[2026-06-16 12:28:38] >> GET /v1/asset?id=601904118&xcachesplit=9000000000046
+[2026-06-16 12:28:38] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:28:38] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:28:38] Asset 677010520 fetched OK (9990 bytes)
+[2026-06-16 12:28:38] Asset 601904118 fetched OK (21538 bytes)
+[2026-06-16 12:28:39] >> GET /asset/?id=677010268&xcachesplit=9000000000046
+[2026-06-16 12:28:39] Asset 677010268 fetched OK (10495 bytes)
+[2026-06-16 12:28:39] >> GET /asset/?id=738449901&xcachesplit=9000000000046
+[2026-06-16 12:28:39] Asset 738449901 fetched OK (7161 bytes)
+[2026-06-16 12:28:39] >> GET /asset/?id=676998794&xcachesplit=9000000000046
+[2026-06-16 12:28:39] >> GET /asset/?id=677010436&xcachesplit=9000000000046
+[2026-06-16 12:28:39] Asset 676998794 fetched OK (20208 bytes)
+[2026-06-16 12:28:40] Asset 677010436 fetched OK (9778 bytes)
+[2026-06-16 12:28:40] >> GET /v1/asset?id=601903125&xcachesplit=9000000000046
+[2026-06-16 12:28:40] Asset 601903125 fetched OK (15408 bytes)
+[2026-06-16 12:28:40] >> GET /asset/?id=738449845&xcachesplit=9000000000046
+[2026-06-16 12:28:40] >> GET /asset/?id=677010313&xcachesplit=9000000000046
+[2026-06-16 12:28:40] Asset 677010313 fetched OK (14081 bytes)
+[2026-06-16 12:28:40] Asset 738449845 fetched OK (7411 bytes)
+[2026-06-16 12:28:42] >> GET /asset/?id=873084337&xcachesplit=9000000000046
+[2026-06-16 12:28:42] Asset 873084337 fetched OK (12174 bytes)
+[2026-06-16 12:28:43] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:28:43] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:28:43] >> POST /studio/pbe
+[2026-06-16 12:28:43] >> POST /timespent/pbe
+[2026-06-16 12:28:43] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 12:28:43] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:28:43] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:28:43] << /studio/pbe -> {}
+[2026-06-16 12:28:43] << /timespent/pbe -> {}
+[2026-06-16 12:28:43] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 12:28:44] >> GET /asset/?id=738450271&xcachesplit=9000000000046
+[2026-06-16 12:28:44] Asset 738450271 fetched OK (8844 bytes)
+[2026-06-16 12:28:44] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:28:44] >> GET /asset/?id=724559241&xcachesplit=9000000000046
+[2026-06-16 12:28:44] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:28:44] Asset 724559241 fetched OK (10325 bytes)
+[2026-06-16 12:28:44] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:28:44] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:28:47] >> POST /user-heartbeats-api/pulse
+[2026-06-16 12:28:47] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 12:28:48] >> GET /asset/?id=619649367&xcachesplit=9000000000046
+[2026-06-16 12:28:49] Asset 619649367 fetched OK (9564 bytes)
+[2026-06-16 12:28:50] >> GET /asset/?id=873074075&xcachesplit=9000000000046
+[2026-06-16 12:28:50] Asset 873074075 fetched OK (9516 bytes)
+[2026-06-16 12:28:50] >> GET /asset/?id=873073824&xcachesplit=9000000000046
+[2026-06-16 12:28:50] Asset 873073824 fetched OK (8792 bytes)
+[2026-06-16 12:28:51] >> GET /userhub/?id=
+[2026-06-16 12:28:51] 404 GET /userhub/
+[2026-06-16 12:28:51] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:28:51] >> GET /asset/?id=873073597&xcachesplit=9000000000046
+[2026-06-16 12:28:51] Asset 873073597 fetched OK (9684 bytes)
+[2026-06-16 12:28:51] >> GET /asset/?id=873073890&xcachesplit=9000000000046
+[2026-06-16 12:28:51] >> GET /asset/?id=873073749&xcachesplit=9000000000046
+[2026-06-16 12:28:51] Asset 873073890 fetched OK (10085 bytes)
+[2026-06-16 12:28:51] Asset 873073749 fetched OK (9126 bytes)
+[2026-06-16 12:28:51] >> GET /asset/?id=873073657&xcachesplit=9000000000046
+[2026-06-16 12:28:51] Asset 873073657 fetched OK (9963 bytes)
+[2026-06-16 12:28:52] >> GET /asset/?id=873073999&xcachesplit=9000000000046
+[2026-06-16 12:28:52] Asset 873073999 fetched OK (10206 bytes)
+[2026-06-16 12:29:07] >> GET /v1/universes/9000000000046/configuration
+[2026-06-16 12:29:07] << /v1/universes/9000000000046/configuration -> {"allowPrivateServers":true,"privateServerPrice":null,"id":9000000000046,"name":"Phantom Forces","universeAvatarType":"MorphToR6","universeScaleType":"AllScales","universeAnimationType":"PlayerChoice","universeCollisionType":"OuterBox","universeBodyType":"Standard","universeJointPositioningType":"ArtistIntent","universeAvatarAssetOverrides":[],"universeAvatarMinScales":{"height":0.9,"width":0.7,"head":0.95,"proportion":0,"bodyType":0},"universeAvatarMaxScales":{"height":1.05,"width":1,"head":1,"proportion":1,"bodyType":1},"isArchived":false,"isFriendsOnly":false,"genre":"All","playableDevices":["Computer","Phone","Tablet"],"isForSale":false,"price":0,"isStudioAccessToApisAllowed":true,"privacyType":"Public"}
+[2026-06-16 12:29:07] >> POST /experience-signals-ingest/rcc/v1/events/uniform
+[2026-06-16 12:29:07] << /experience-signals-ingest/rcc/v1/events/uniform -> {}
+[2026-06-16 12:29:07] >> POST /v2/persistence/9000000000046/datastores/objects/object?datastore=T2&objectKey=global%2F14463315%3A1
+[2026-06-16 12:29:07] << /v2/persistence/9000000000046/datastores/objects/object -> {"version":"08DEB9D5D0709F20.0000000002.08DE9F20B557B9D5.02","deleted":false,"contentLength":159,"createdTime":"2026-06-16T19:29:07.0000000Z","objectCreatedTime":"2026-06-11T21:26:24Z"}
+[2026-06-16 12:29:08] >> POST /v2/persistence/9000000000046/datastores/objects/object?datastore=T2&objectKey=global%2F14463315%3A2
+[2026-06-16 12:29:08] >> POST /v2/persistence/9000000000046/datastores/objects/object?datastore=T2&objectKey=global%2F14463315%3A1
+[2026-06-16 12:29:08] << /v2/persistence/9000000000046/datastores/objects/object -> {"version":"08DEB9D5D070A020.0000000002.08DEA020B6EAB9D5.02","deleted":false,"contentLength":5,"createdTime":"2026-06-16T19:29:08.0000000Z","objectCreatedTime":"2026-06-11T21:26:25Z"}
+[2026-06-16 12:29:08] << /v2/persistence/9000000000046/datastores/objects/object -> {"version":"08DEB9D5D0709F20.0000000003.08DE9F20B557B9D5.03","deleted":false,"contentLength":159,"createdTime":"2026-06-16T19:29:08.0000000Z","objectCreatedTime":"2026-06-11T21:26:24Z"}
+[2026-06-16 12:29:08] >> POST /v2/persistence/9000000000046/datastores/objects/object?datastore=T2&objectKey=global%2F14463315%3A2
+[2026-06-16 12:29:08] << /v2/persistence/9000000000046/datastores/objects/object -> {"version":"08DEB9D5D070A020.0000000003.08DEA020B6EAB9D5.03","deleted":false,"contentLength":5,"createdTime":"2026-06-16T19:29:08.0000000Z","objectCreatedTime":"2026-06-11T21:26:25Z"}
+[2026-06-16 12:29:08] >> POST /v2/persistence/9000000000046/datastores/objects/object?datastore=T2&objectKey=global%2F14463315%3A1
+[2026-06-16 12:29:08] << /v2/persistence/9000000000046/datastores/objects/object -> {"version":"08DEB9D5D0709F20.0000000004.08DE9F20B557B9D5.04","deleted":false,"contentLength":159,"createdTime":"2026-06-16T19:29:08.0000000Z","objectCreatedTime":"2026-06-11T21:26:24Z"}
+[2026-06-16 12:29:09] >> POST /v2/persistence/9000000000046/datastores/objects/object?datastore=T2&objectKey=global%2F14463315%3A2
+[2026-06-16 12:29:09] << /v2/persistence/9000000000046/datastores/objects/object -> {"version":"08DEB9D5D070A020.0000000004.08DEA020B6EAB9D5.04","deleted":false,"contentLength":5,"createdTime":"2026-06-16T19:29:09.0000000Z","objectCreatedTime":"2026-06-11T21:26:25Z"}
+[2026-06-16 12:29:13] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:29:13] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:29:13] >> POST /studio/pbe
+[2026-06-16 12:29:13] >> POST /timespent/pbe
+[2026-06-16 12:29:13] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 12:29:13] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:29:13] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:29:13] << /studio/pbe -> {}
+[2026-06-16 12:29:13] << /timespent/pbe -> {}
+[2026-06-16 12:29:13] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 12:29:15] >> GET /v2/universes/9000000000046/configuration
+[2026-06-16 12:29:15] << /__rbxsub__/develop./v2/universes/9000000000046/configuration -> {"allowPrivateServers":true,"privateServerPrice":null,"id":9000000000046,"name":"Phantom Forces","universeAvatarType":"MorphToR6","universeScaleType":"AllScales","universeAnimationType":"PlayerChoice","universeCollisionType":"OuterBox","universeBodyType":"Standard","universeJointPositioningType":"ArtistIntent","universeAvatarAssetOverrides":[],"universeAvatarMinScales":{"height":0.9,"width":0.7,"head":0.95,"proportion":0,"bodyType":0},"universeAvatarMaxScales":{"height":1.05,"width":1,"head":1,"proportion":1,"bodyType":1},"isArchived":false,"isFriendsOnly":false,"genre":"All","playableDevices":["Computer","Phone","Tablet"],"isForSale":false,"price":0,"isStudioAccessToApisAllowed":true,"privacyType":"Public"}
+[2026-06-16 12:29:15] >> POST /experience-guidelines-service/v1beta1/multi-age-recommendation
+[2026-06-16 12:29:15] << /__rbxsub__/apis./experience-guidelines-service/v1beta1/multi-age-recommendation -> {"eligibilityByCreator":[{"userId":"14463315","userIsEligible":true,"displayText":"Eligible","ineligibilityReason":"INELIGIBILITY_REASON_NONE"}]}
+[2026-06-16 12:29:16] >> GET /experience-genre-api/v1/Creator/ExperienceGenre?universeId=9000000000046&genreTaxonomyVersion=1
+[2026-06-16 12:29:16] 404 GET /experience-genre-api/v1/Creator/ExperienceGenre
+[2026-06-16 12:29:16] << /__rbxsub__/apis./experience-genre-api/v1/Creator/ExperienceGenre -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:29:16] >> GET /v1/games/9000000000046/media
+[2026-06-16 12:29:16] << /__rbxsub__/games./v1/games/9000000000046/media -> {"data":[{"id":9991912465,"rootPlaceId":9991912465,"name":"Baseplate","description":"","sourceName":null,"sourceDescription":null,"creator":{"id":14463315,"name":"HearMeRoar","type":"User","isRNVAccount":false,"hasVerifiedBadge":false},"price":null,"allowedGearGenres":["All"],"allowedGearCategories":[],"isGenreEnforced":true,"copyingAllowed":false,"playing":0,"visits":0,"maxPlayers":10,"created":"2022-05-11T13:27:09.897Z","updated":"2022-06-19T07:23:39.03Z","studioAccessToApisAllowed":true,"createVipServersAllowed":false,"genre":"All","genre_l1":"","genre_l2":"","untranslated_genre_l1":"na","isAllGenre":true,"isFavoritedByUser":false,"favoritedCount":0,"isActive":true,"privacyType":"Public","canonicalUrlPath":"/games/9991912465/Baseplate"}]}
+[2026-06-16 12:29:16] >> GET /v1/universes/9000000000046/icon
+[2026-06-16 12:29:16] << /__rbxsub__/develop./v1/universes/9000000000046/icon -> {"id":9000000000046,"universeId":9000000000046,"rootPlaceId":9000000000047,"name":"Phantom Forces","description":"ez","isArchived":false,"isActive":true,"privacyType":"Private","creatorType":"User","creatorTargetId":14463315,"creatorName":"HearMeRoar","price":0,"playing":0,"visits":0,"maxPlayers":10,"studioAccessToApisAllowed":true,"genre":"All","isAllGenre":true,"isFavoritedByUser":false,"favoritedCount":0,"created":"2022-05-11T13:27:09.897Z","updated":"2022-05-11T13:27:09.897Z","universeAvatarType":"MorphToR6"}
+[2026-06-16 12:29:16] >> GET /v1/universes/9000000000046
+[2026-06-16 12:29:16] << /__rbxsub__/develop./v1/universes/9000000000046 -> {"id":9000000000046,"universeId":9000000000046,"rootPlaceId":9000000000047,"name":"Phantom Forces","description":"ez","isArchived":false,"isActive":true,"privacyType":"Private","creatorType":"User","creatorTargetId":14463315,"creatorName":"HearMeRoar","price":0,"playing":0,"visits":0,"maxPlayers":10,"studioAccessToApisAllowed":true,"genre":"All","isAllGenre":true,"isFavoritedByUser":false,"favoritedCount":0,"created":"2022-05-11T13:27:09.897Z","updated":"2022-05-11T13:27:09.897Z","universeAvatarType":"MorphToR6"}
+[2026-06-16 12:29:17] >> POST /user-heartbeats-api/pulse
+[2026-06-16 12:29:17] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 12:29:21] >> GET /userhub/?id=
+[2026-06-16 12:29:21] 404 GET /userhub/
+[2026-06-16 12:29:21] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:29:37] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:29:37] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:29:37] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:29:37] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:29:43] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:29:43] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:29:43] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:29:43] >> POST /studio/pbe
+[2026-06-16 12:29:43] >> POST /timespent/pbe
+[2026-06-16 12:29:43] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 12:29:43] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:29:43] << /studio/pbe -> {}
+[2026-06-16 12:29:43] << /timespent/pbe -> {}
+[2026-06-16 12:29:43] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 12:29:44] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:29:44] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:29:44] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:29:44] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:29:47] >> POST /user-heartbeats-api/pulse
+[2026-06-16 12:29:47] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 12:29:51] >> GET /userhub/?id=
+[2026-06-16 12:29:51] 404 GET /userhub/
+[2026-06-16 12:29:51] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:30:13] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:30:13] >> POST /studio/pbe
+[2026-06-16 12:30:13] >> POST /timespent/pbe
+[2026-06-16 12:30:13] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 12:30:13] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:30:13] << /studio/pbe -> {}
+[2026-06-16 12:30:13] << /timespent/pbe -> {}
+[2026-06-16 12:30:13] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 12:30:17] >> POST /user-heartbeats-api/pulse
+[2026-06-16 12:30:17] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 12:30:21] >> GET /userhub/?id=
+[2026-06-16 12:30:21] 404 GET /userhub/
+[2026-06-16 12:30:21] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:30:43] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:30:43] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:30:43] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:30:43] >> POST /studio/pbe
+[2026-06-16 12:30:43] >> POST /timespent/pbe
+[2026-06-16 12:30:43] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 12:30:43] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:30:43] << /studio/pbe -> {}
+[2026-06-16 12:30:43] << /timespent/pbe -> {}
+[2026-06-16 12:30:43] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 12:30:43] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:30:43] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:30:44] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:30:44] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:30:47] >> POST /user-heartbeats-api/pulse
+[2026-06-16 12:30:47] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 12:30:51] >> GET /userhub/?id=
+[2026-06-16 12:30:51] 404 GET /userhub/
+[2026-06-16 12:30:51] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:31:13] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:31:13] >> POST /timespent/pbe
+[2026-06-16 12:31:13] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 12:31:13] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:31:13] << /timespent/pbe -> {}
+[2026-06-16 12:31:13] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 12:31:17] >> POST /user-heartbeats-api/pulse
+[2026-06-16 12:31:17] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 12:31:18] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:31:18] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:31:18] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:31:18] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:31:22] >> GET /userhub/?id=
+[2026-06-16 12:31:22] 404 GET /userhub/
+[2026-06-16 12:31:22] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:31:43] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:31:43] >> POST /studio/pbe
+[2026-06-16 12:31:43] >> POST /timespent/pbe
+[2026-06-16 12:31:43] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 12:31:43] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:31:43] << /studio/pbe -> {}
+[2026-06-16 12:31:43] << /timespent/pbe -> {}
+[2026-06-16 12:31:43] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 12:31:45] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:31:45] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:31:45] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:31:45] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:31:47] >> POST /user-heartbeats-api/pulse
+[2026-06-16 12:31:47] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 12:31:52] >> GET /userhub/?id=
+[2026-06-16 12:31:52] 404 GET /userhub/
+[2026-06-16 12:31:52] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:32:13] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:32:13] >> POST /timespent/pbe
+[2026-06-16 12:32:13] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 12:32:13] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:32:13] << /timespent/pbe -> {}
+[2026-06-16 12:32:13] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 12:32:17] >> POST /user-heartbeats-api/pulse
+[2026-06-16 12:32:17] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 12:32:22] >> GET /userhub/?id=
+[2026-06-16 12:32:22] 404 GET /userhub/
+[2026-06-16 12:32:22] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:32:43] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:32:43] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:32:43] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:32:43] >> POST /timespent/pbe
+[2026-06-16 12:32:43] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 12:32:43] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:32:43] << /timespent/pbe -> {}
+[2026-06-16 12:32:43] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 12:32:43] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:32:43] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:32:45] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:32:45] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:32:45] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:32:45] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:32:47] >> POST /user-heartbeats-api/pulse
+[2026-06-16 12:32:47] << /user-heartbeats-api/pulse -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 12:32:52] >> GET /userhub/?id=
+[2026-06-16 12:32:52] 404 GET /userhub/
+[2026-06-16 12:32:52] << /userhub/ -> {"errors":[{"code":"NotFound","message":"Not found"}]}
+[2026-06-16 12:32:53] >> POST /studio/pbe
+[2026-06-16 12:32:53] >> PATCH /studio-user-settings/v1/user/studiodata/CloudEditKey_placeId9000000000047
+[2026-06-16 12:32:53] >> POST /studio/pbe
+[2026-06-16 12:32:53] << /studio/pbe -> {}
+[2026-06-16 12:32:53] << /studio-user-settings/v1/user/studiodata/CloudEditKey_placeId9000000000047 -> {}
+[2026-06-16 12:32:53] << /studio/pbe -> {}
+[2026-06-16 12:32:55] >> GET /v1/not-approved
+[2026-06-16 12:32:55] >> POST /user-heartbeats-api/action-report
+[2026-06-16 12:32:55] << /v1/not-approved -> {}
+[2026-06-16 12:32:55] << /user-heartbeats-api/action-report -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 12:32:55] >> POST /studio/pbe
+[2026-06-16 12:32:55] >> POST /studio/pbe
+[2026-06-16 12:32:55] << /studio/pbe -> {}
+[2026-06-16 12:32:55] << /studio/pbe -> {}
+[2026-06-16 12:32:55] >> POST /user-heartbeats-api/action-report
+[2026-06-16 12:32:55] << /user-heartbeats-api/action-report -> {"accounts": [{"username": "HearMeRoar","robloxCookie": "","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}}
+[2026-06-16 12:32:55] >> GET /v1/universes/multiget?ids=9000000000098&ids=9000000000048&ids=9000000000068&ids=9000000000016&ids=9000000000088&ids=9000000000064&ids=9000000000092&ids=9000000000096&ids=9000000000080&ids=9000000000018&ids=9000000000040&ids=9000000000030&ids=9000000000070&ids=9000000000034&ids=9000000000020&ids=9000000000002&ids=9000000000026&ids=9000000000052&ids=9000000000022&ids=9000000000050&ids=9000000000062&ids=9000000000044&ids=9000000000060&ids=9000000000024
+[2026-06-16 12:32:56] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:32:56] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:32:56] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:32:56] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:32:56] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:32:56] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:32:56] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:32:56] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:32:56] >> POST /v1.1/Counters/BatchIncrement?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:32:56] >> POST /v1.0/SequenceStatistics/BatchAddToSequencesV2?apiKey=76E5A40C-3AE1-4028-9F10-7C62520BD94F
+[2026-06-16 12:32:56] >> POST /studio/pbe
+[2026-06-16 12:32:56] >> POST /timespent/pbe
+[2026-06-16 12:32:56] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 12:32:56] << /v1.1/Counters/BatchIncrement -> {}
+[2026-06-16 12:32:56] << /v1.0/SequenceStatistics/BatchAddToSequencesV2 -> {}
+[2026-06-16 12:32:56] << /studio/pbe -> {}
+[2026-06-16 12:32:56] << /timespent/pbe -> {}
+[2026-06-16 12:32:56] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 12:32:57] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 12:32:57] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 12:32:57] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 12:32:57] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 12:32:57] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 12:32:57] << /experience-signals-ingest/public/v1/events/single -> {}
+[2026-06-16 12:32:57] >> POST /experience-signals-ingest/public/v1/events/single
+[2026-06-16 12:32:57] << /experience-signals-ingest/public/v1/events/single -> {}

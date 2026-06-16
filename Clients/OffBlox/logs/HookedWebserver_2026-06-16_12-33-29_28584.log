@@ -1,0 +1,12 @@
+[2026-06-16 12:33:29] === HookedWebserver startup ===
+[2026-06-16 12:33:29] DLL directory: C:\Users\catoa\Desktop\Roblox Downloads\OffBloxModern\Clients\OffBlox\
+[2026-06-16 12:33:29] Username: HearMeRoar  UserId: 14463315
+[2026-06-16 12:33:29] HTTP port: 80  HTTPS port: 443
+[2026-06-16 12:33:29] Winsock initialized
+[2026-06-16 12:33:29] Sign key: loaded OK
+[2026-06-16 12:33:29] SSL: PEM cert+key loaded OK (PKCS#8 key, no PFX needed)
+[2026-06-16 12:33:29] SSL/TLS: loaded OK
+[2026-06-16 12:33:29] Server WATCHDOG — another instance owns port 80, monitoring...
+[2026-06-16 12:33:29] Startup complete.
+[2026-06-16 12:33:29] Roblox cookie probe (users/authenticated): HTTP 200 -> valid
+[2026-06-16 12:33:29] Roblox cookie: loaded & valid

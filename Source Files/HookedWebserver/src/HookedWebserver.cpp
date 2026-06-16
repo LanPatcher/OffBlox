@@ -3906,7 +3906,21 @@ static void InjectRccPort(std::string& json)
 
 static Resp Route(const Req& req)
 {
-    const std::string& P = req.path;
+    /* The shared RobloxAPI/Http module (constructUrl) can't emit a bare
+     * "localhost" host: Studio rejects userinfo ("apis@localhost" -> InvalidUrl)
+     * and a dotless base parses to an empty domain ("https://apis."). So the
+     * plugin bytecode is patched to fold the subdomain into the path under a
+     * unique marker: http://localhost/__rbxsub__/<sub>./<real-path> . Strip that
+     * marker (and the subdomain segment) here so routing sees the real path. */
+    std::string P = req.path;
+    {
+        static const char* MK = "/__rbxsub__/";
+        if (P.rfind(MK, 0) == 0) {
+            std::string rest = P.substr(12);          /* strlen("/__rbxsub__/") */
+            size_t sl = rest.find('/');               /* end of the <sub>. segment */
+            P = (sl == std::string::npos) ? std::string("/") : rest.substr(sl);
+        }
+    }
     const std::string  M = req.method;
 
     /* ---- CORS preflight ---- */
@@ -4131,6 +4145,21 @@ if (P.find("check-permissions") != std::string::npos ||
             }
             Log("asset-permissions check done: %s", P.c_str());
             return RJson(out);
+        }
+        /* permissions:copyInto — NATIVE Studio call (not Lua) made when adding /
+         * overwriting a place into an existing experience (Publish-As). The
+         * engine treats it as a long-running Operation and reads done/response;
+         * an empty {} (no done/response) null-derefs in native parsing and takes
+         * Studio down (copyInto is the last request before the crash). Return a
+         * completed Operation, with results/data arrays for good measure. */
+        if (P.find("copyInto") != std::string::npos ||
+            P.find("copyinto") != std::string::npos) {
+            Log("asset-permissions copyInto -> completed operation: %s", P.c_str());
+            return RJson("{\"path\":\"operations/copyInto\","
+                         "\"operationId\":\"copyInto\","
+                         "\"done\":true,"
+                         "\"response\":{\"results\":[],\"data\":[]},"
+                         "\"results\":[],\"data\":[]}");
         }
         /* Any other asset-permissions path (e.g. /assets/{id}/permissions) -> ok */
         return RJson("{\"results\":[],\"data\":[]}");
@@ -4405,8 +4434,12 @@ if (P.find("check-permissions") != std::string::npos ||
         return HandlePersistence(req, M);
     }
 
-    /* ---- /game/* ---- */
-    if (STARTS(P,"/game")) {
+    /* ---- /game/* ----
+     * NOTE: must be "/game/" (with the slash). "/game" alone also matches
+     * "/game-passes/..." and used to fall through to {"success":true},
+     * shadowing the game-passes ownership/product-info handlers below and
+     * breaking UserOwnsGamePassAsync / GetProductInfo. */
+    if (STARTS(P,"/game/")) {
         std::string sub = P.substr(5);
         if (STARTS(sub,"/Join.ashx") || STARTS(sub,"/join") || STARTS(sub,"/newjoin"))
             return HandleJoin(req);
@@ -4521,6 +4554,141 @@ if (P.find("check-permissions") != std::string::npos ||
     if (STARTS(P,"/version"))
         return RJson(VERSION_JSON);
 
+    /* ---- game-passes ownership ----
+     * POST /game-passes/v1/game-passes:batchGetOwnership
+     * Request: {"gamePassIds":["N",...], "userId":"N"}
+     * Response (per engine parser): {"gamePasses":[{"path":"game-passes/N",
+     *   "gamePassId":"N"}]} — an entry's PRESENCE means owned (there is no
+     *   "owned" boolean).  The old handler returned {"inventoryItems":...},
+     *   the wrong key, so UserOwnsGamePassAsync threw.  We grant ownership of
+     *   every requested pass (local dev owns everything). */
+    if (P.find("/game-passes") != std::string::npos &&
+        P.find("batchGetOwnership") != std::string::npos)
+    {
+        std::string uid_gp = QS(req,"userId");
+        if (uid_gp.empty()) uid_gp = CfgStr(req.body,"userId");
+        if (uid_gp.empty()) uid_gp = g_userId;
+
+        /* The request body is {"ownershipIdentifiers":[{"userId":N,"gamePassId":N}]}
+         * (NOT "gamePassIds"). Scan the body for every "gamePassId":N and echo each
+         * back as owned. The engine wants one result entry per requested identifier;
+         * an empty array made it error and retry. */
+        /* The engine's parser reads BOTH the standard envelope ("data"/"errors")
+         * and a "gamePasses" array (see binary: "Parsed invalid JSON data" /
+         * "...errors" and "gamePasses"). ids must be JSON NUMBERS (unquoted) or it
+         * reports "field is of incorrect type". We grant ownership of every
+         * requested pass and emit all shapes so whichever the parser uses works. */
+        std::string items, dataItems; bool first_gp = true; int cnt_gp = 0;
+        size_t pos = 0;
+        while ((pos = req.body.find("gamePassId", pos)) != std::string::npos) {
+            pos += 10;                       /* past "gamePassId" */
+            while (pos < req.body.size() && (req.body[pos] < '0' || req.body[pos] > '9')
+                   && req.body[pos] != '}') pos++;
+            size_t j = pos;
+            while (j < req.body.size() && req.body[j] >= '0' && req.body[j] <= '9') j++;
+            if (j > pos) {
+                std::string gpid = req.body.substr(pos, j - pos);
+                std::string sep = first_gp ? "" : ",";
+                first_gp = false; cnt_gp++;
+                items     += sep + "{\"path\":\"game-passes/" + gpid + "\",\"gamePassId\":" + gpid +
+                             ",\"userId\":" + uid_gp + ",\"owned\":true,\"isOwned\":true}";
+                dataItems += sep + "{\"gamePassId\":" + gpid + ",\"userId\":" + uid_gp +
+                             ",\"owned\":true,\"isOwned\":true}";
+            }
+            pos = j;
+        }
+        Log("batchGetOwnership userId=%s ids=%d body=[%.200s]",
+            uid_gp.c_str(), cnt_gp, req.body.c_str());
+        return RJson("{\"data\":[" + dataItems + "],\"errors\":[],\"gamePasses\":[" + items + "]}");
+    }
+
+    /* ---- game-passes product info (GetProductInfo / GamePassService / the
+     * GameSettings monetization page).  New Open Cloud game-passes API, camelCase
+     * with a "gamePasses" array.  Without these, GetProductInfo(id, InfoType.
+     * GamePass) and the monetization page fall through and fail.
+     *   GET  /game-passes/v1/game-passes/{id}/product-info -> single object
+     *   POST /game-passes/v1/game-passes:batchGet           -> {"gamePasses":[...]}
+     *   GET  /game-passes/v1/universes/{id}/game-passes     -> list (none)
+     * (batchGetOwnership is handled above and has already returned.) */
+    if (P.find("/game-passes") != std::string::npos) {
+        auto gpObj = [&](const std::string& gpid) -> std::string {
+            return "{\"gamePassId\":" + gpid + ",\"targetId\":" + gpid +
+                   ",\"productId\":" + gpid + ",\"productType\":\"Game Pass\","
+                   "\"name\":\"Game Pass\",\"displayName\":\"Game Pass\",\"description\":\"\","
+                   "\"assetTypeId\":34,\"iconImageAssetId\":0,"
+                   "\"creator\":{\"id\":" + g_userId + ",\"name\":\"" + g_username +
+                   "\",\"creatorType\":\"User\",\"creatorTargetId\":" + g_userId +
+                   ",\"hasVerifiedBadge\":false},"
+                   "\"created\":\"2022-01-01T00:00:00.000Z\",\"updated\":\"2022-01-01T00:00:00.000Z\","
+                   "\"price\":null,\"priceInRobux\":null,\"isForSale\":true,\"isPublicDomain\":false,"
+                   "\"sellerId\":" + g_userId + ",\"sellerName\":\"" + g_username + "\"}";
+        };
+        /* PromptGamePassPurchase -> POST /game-passes/v1/game-passes/{id}/purchase
+         * Grant the purchase so PromptGamePassPurchaseFinished fires IsPurchased=true. */
+        if (P.find("/purchase") != std::string::npos) {
+            std::string gid;
+            size_t pp = P.find("/purchase");
+            if (pp != std::string::npos && pp > 0) {
+                size_t s = P.rfind('/', pp - 1);
+                if (s != std::string::npos) gid = P.substr(s + 1, pp - s - 1);
+            }
+            bool num = !gid.empty();
+            for (size_t i = 0; i < gid.size(); ++i) if (gid[i] < '0' || gid[i] > '9') { num = false; break; }
+            if (!num) gid = "0";
+            return RJson("{\"purchased\":true,\"purchaseResult\":\"Success\",\"statusCode\":0,"
+                         "\"gamePassId\":" + gid + ",\"price\":0,\"currency\":\"Robux\"}");
+        }
+        if (P.find("/universes/") != std::string::npos)
+            return RJson("{\"gamePasses\":[],\"cursor\":\"\",\"nextPageCursor\":null,\"data\":[]}");
+        size_t piPos = P.find("/product-info");
+        if (piPos != std::string::npos && piPos > 0) {
+            size_t idStart = P.rfind('/', piPos - 1);
+            std::string gpid = (idStart != std::string::npos)
+                             ? P.substr(idStart + 1, piPos - idStart - 1) : "0";
+            return RJson(gpObj(gpid));
+        }
+        if (P.find("batchGet") != std::string::npos) {
+            std::string arr; bool firstb = true;
+            size_t a = req.body.find("\"gamePassIds\"");
+            if (a == std::string::npos) a = req.body.find("\"ids\"");
+            if (a != std::string::npos) {
+                size_t b = req.body.find('[', a), e = req.body.find(']', b);
+                if (b != std::string::npos && e != std::string::npos) {
+                    std::string raw = req.body.substr(b + 1, e - b - 1);
+                    size_t i = 0;
+                    while (i < raw.size()) {
+                        while (i < raw.size() && (raw[i] < '0' || raw[i] > '9')) i++;
+                        size_t j = i; while (j < raw.size() && raw[j] >= '0' && raw[j] <= '9') j++;
+                        if (j > i) { if (!firstb) arr += ","; firstb = false; arr += gpObj(raw.substr(i, j - i)); }
+                        i = j + 1;
+                    }
+                }
+            }
+            return RJson("{\"gamePasses\":[" + arr + "]}");
+        }
+        /* any other game-passes sub-path -> empty list (avoids fall-through fail) */
+        return RJson("{\"gamePasses\":[],\"data\":[]}");
+    }
+
+    /* ---- secrets (HttpService secrets / GameSettings secrets page) ----
+     * Unhandled before, so it hit the 404 fallthrough and GameSettings logged
+     * "Failed to parse secrets: Can't parse JSON". Offline there are no stored
+     * secrets — return a valid empty list in the common shapes. */
+    if (P.find("/secrets") != std::string::npos)
+        return RJson("{\"secrets\":[],\"data\":[],\"nextPageCursor\":null,\"domain\":\"\"}");
+
+    /* ---- subscriptions (Studio polls product subscriptions on purchase prompt) ----
+     * Unhandled -> 404. Offline there are none; return an empty product list. */
+    if (STARTS(P,"/subscriptions") || P.find("/subscriptions/") != std::string::npos)
+        return RJson("{\"data\":[],\"hasMoreData\":false,\"nextPageCursor\":null}");
+
+    /* ---- experience-genre-api (GameSettings genre page / GameInfoController) ----
+     * GET /experience-genre-api/v1/Creator/ExperienceGenre?universeId=..&genreTaxonomyVersion=1
+     * Real shape: {"genre":"na","details":{}} ("na" = not assigned). Was 404, so
+     * GameInfoController indexed a nil response ("attempt to index nil"). */
+    if (P.find("/experience-genre-api") != std::string::npos)
+        return RJson("{\"genre\":\"na\",\"details\":{}}");
+
     /* ---- /ownership & /marketplace ---- */
     if (STARTS(P,"/ownership"))
         return RText("true");
@@ -4600,6 +4768,36 @@ if (P.find("check-permissions") != std::string::npos ||
     /* ---- /game-auth ---- */
     if (STARTS(P,"/game-auth"))
         return RText("Guest:-538474545");
+
+    /* ---- /v2/universes/canUserPublish  (Publish-As eligibility) ----
+     * ApiFetchUniversePublishEligibility expects
+     *   {"data":[{"UniverseId":<id>,"CanPublish":true}, ...]}
+     * one entry per requested universeId (sent as ?universeIds=A&universeIds=B).
+     * Without this handler it fell through to the generic universe lookup (a
+     * single Baseplate object), so the data[] parse failed and the Publish-As
+     * picker errored with "Fetch failed" (Save-As doesn't call this, hence Save
+     * worked). Grant publish for every requested universe. */
+    if (P.find("/v2/universes/canUserPublish") != std::string::npos) {
+        std::string out = "{\"data\":[";
+        const std::string& q = req.query;
+        bool first = true; size_t pos = 0;
+        while ((pos = q.find("universeIds=", pos)) != std::string::npos) {
+            pos += strlen("universeIds=");
+            size_t e = q.find('&', pos);
+            std::string id = (e == std::string::npos) ? q.substr(pos)
+                                                      : q.substr(pos, e - pos);
+            pos = (e == std::string::npos) ? q.size() : e;
+            bool numeric = !id.empty();
+            for (char ch : id) if (ch < '0' || ch > '9') { numeric = false; break; }
+            if (numeric) {
+                if (!first) out += ",";
+                out += "{\"UniverseId\":" + id + ",\"CanPublish\":true}";
+                first = false;
+            }
+        }
+        out += "]}";
+        return RJson(out);
+    }
 
     /* ---- /v1/assets/latest-versions  (publish background poll) ----
      * Studio polls this during/after a publish. It was falling through to the
@@ -5023,19 +5221,29 @@ if (P.find("check-permissions") != std::string::npos ||
                 }
             }
             if (P.find("/places")!=std::string::npos) {
+                /* Include the full per-place field set (esp. isRootPlace) the
+                 * Asset Manager expects; a missing field can trip its map.at(). */
                 std::string saved;
                 if (!univId2.empty() && LoadUniverseJson(univId2, saved)) {
                     std::string rpid = CfgStr(saved, "rootPlaceId");
                     std::string uname = CfgStr(saved, "name");
-                    char buf[512]; _snprintf(buf,sizeof(buf)-1,
-                        "{\"previousPageCursor\":null,\"nextPageCursor\":null,"
-                        "\"data\":[{\"id\":%s,\"universeId\":%s,\"name\":\"%s\",\"description\":\"\"}]}",
+                    char buf[1024]; _snprintf(buf,sizeof(buf)-1,
+                        "{\"previousPageCursor\":null,\"nextPageCursor\":null,\"data\":[{"
+                        "\"maxPlayerCount\":null,\"socialSlotType\":null,\"customSocialSlotsCount\":null,"
+                        "\"allowCopying\":null,\"currentSavedVersion\":1,\"isAllGenresAllowed\":null,"
+                        "\"allowedGearTypes\":null,\"maxPlayersAllowed\":0,"
+                        "\"created\":\"2022-01-01T00:00:00.000Z\",\"updated\":\"2022-01-01T00:00:00.000Z\","
+                        "\"id\":%s,\"universeId\":%s,\"name\":\"%s\",\"description\":\"\",\"isRootPlace\":true}]}",
                         rpid.c_str(), univId2.c_str(), uname.c_str());
                     return RJson(buf);
                 }
-                return RJson("{\"previousPageCursor\":null,\"nextPageCursor\":null,"
-                    "\"data\":[{\"id\":9991912465,\"universeId\":9991912465,"
-                    "\"name\":\"Baseplate\",\"description\":\"\"}]}");
+                return RJson("{\"previousPageCursor\":null,\"nextPageCursor\":null,\"data\":[{"
+                    "\"maxPlayerCount\":null,\"socialSlotType\":null,\"customSocialSlotsCount\":null,"
+                    "\"allowCopying\":null,\"currentSavedVersion\":1,\"isAllGenresAllowed\":null,"
+                    "\"allowedGearTypes\":null,\"maxPlayersAllowed\":0,"
+                    "\"created\":\"2022-01-01T00:00:00.000Z\",\"updated\":\"2022-01-01T00:00:00.000Z\","
+                    "\"id\":9991912465,\"universeId\":9991912465,"
+                    "\"name\":\"Baseplate\",\"description\":\"\",\"isRootPlace\":true}]}");
             }
             if (P.find("/badges")!=std::string::npos)
                 return RJson("{\"previousPageCursor\":null,\"nextPageCursor\":null,\"data\":[]}");
@@ -5220,6 +5428,12 @@ if (P.find("check-permissions") != std::string::npos ||
             return RJson("{\"previousPageCursor\":null,\"nextPageCursor\":null,\"data\":[]}");
         }
         if (STARTS(sub,"/games")) {
+    /* /v1/games/{id}/media -> media items (thumbnails/videos). Real shape is
+     * {"data":[]} when there are none. Falling through to the game-details
+     * object below made GameInfoController:153 index a missing media field by
+     * number ("attempt to index nil with number"). */
+    if (P.find("/media") != std::string::npos)
+        return RJson("{\"data\":[]}");
     if (P.find("/icons") != std::string::npos)
     {
         /* Build one entry per requested universeId */
@@ -5486,6 +5700,29 @@ if (P.find("check-permissions") != std::string::npos ||
             if (sub.find("AssetSaving")!=std::string::npos ||
                 sub.find("assetsaving")!=std::string::npos)
                 return RJson("{\"success\":true}");
+            /* /v1/assets/?assetIds=N,N -> asset METADATA, not binary delivery.
+             * Falling through to delivery 400'd with "Missing id" during the
+             * purchase prompt. Return a details object per requested id. */
+            {
+                std::string aids = QS(req,"assetIds");
+                if (!aids.empty()) {
+                    std::string arr; bool f = true; size_t i = 0;
+                    while (i < aids.size()) {
+                        while (i < aids.size() && (aids[i] < '0' || aids[i] > '9')) i++;
+                        size_t j = i; while (j < aids.size() && aids[j] >= '0' && aids[j] <= '9') j++;
+                        if (j > i) {
+                            std::string id = aids.substr(i, j - i);
+                            if (!f) arr += ","; f = false;
+                            arr += "{\"id\":" + id + ",\"name\":\"Asset\",\"assetType\":34,\"typeId\":34,"
+                                   "\"isForSale\":true,\"priceInRobux\":null,\"isPublicDomain\":false,"
+                                   "\"creatorTargetId\":" + g_userId + ",\"creatorType\":\"User\",\"creatorName\":\""
+                                   + g_username + "\"}";
+                        }
+                        i = j + 1;
+                    }
+                    return RJson("{\"data\":[" + arr + "]}");
+                }
+            }
             /* Actual asset delivery */
             return HandleAssetDelivery(req);
         }
@@ -5635,6 +5872,22 @@ if (P.find("check-permissions") != std::string::npos ||
              * Returning {"success":true} made it fail with "Parsed invalid JSON data". */
             if (P.find("awarded-dates")!=std::string::npos)
                 return RJson("{\"data\":[]}");
+            /* Single-badge check -> GET /v1/users/{id}/badges/{badgeId}/awarded-date
+             * Returns one object: {"badgeId":N,"awardedDate":<date|null>}. null =
+             * not awarded.  Previously fell through to {"success":true}, an invalid
+             * shape, so the engine errored and retried in a loop. */
+            if (P.find("/awarded-date")!=std::string::npos) {
+                std::string bid;
+                size_t ad = P.find("/awarded-date");
+                if (ad != std::string::npos && ad > 0) {
+                    size_t s = P.rfind('/', ad - 1);
+                    if (s != std::string::npos) bid = P.substr(s + 1, ad - s - 1);
+                }
+                bool num = !bid.empty();
+                for (size_t i = 0; i < bid.size(); ++i) if (bid[i] < '0' || bid[i] > '9') { num = false; break; }
+                if (!num) bid = "0";
+                return RJson("{\"badgeId\":" + bid + ",\"awardedDate\":null}");
+            }
             /* BadgeService:AwardBadge -> POST /v1/users/{id}/badges/{badgeId}/award-badge
              * SERVER-ONLY call (badges can only be awarded by a game server), which is
              * why this crashed only the server and never the client.
@@ -5647,9 +5900,74 @@ if (P.find("check-permissions") != std::string::npos ||
                 return RJson("true");
             if (P.find("/badges/")!=std::string::npos)
                 return RJson("{\"success\":true}");
-            /* /v1/users?userIds=... or /v1/users/{id} */
-            return RJson(J("{\"data\":[{\"id\":{I},"
-                "\"name\":\"{U}\",\"displayName\":\"{U}\"}]}"));
+            /* PlayerOwnsAsset / asset ownership:
+             *   GET /v1/users/{uid}/items/asset/{aid}/is-owned -> bare boolean.
+             * This (and other /items/ sub-paths) was wrongly caught by the
+             * single-user handler below and returned a user object, breaking the
+             * in-game purchase/ownership flow. Return a bare bool / empty list. */
+            if (P.find("is-owned")!=std::string::npos)
+                return RJson("false");
+            if (P.find("/items/")!=std::string::npos)
+                return RJson("{\"previousPageCursor\":null,\"nextPageCursor\":null,\"data\":[]}");
+            /* /v1/users/{id} (single)  |  POST /v1/users {"userIds":[...]}  |
+             * GET /v1/users?userIds=...  — must echo the REQUESTED ids, not the
+             * host user.  The old handler always returned {I}/{U}, so
+             * GetNameFromUserIdAsync / GetUserInfosByUserIdsAsync got the wrong
+             * id back and failed.  The host id keeps its real name; any other id
+             * gets a stable synthetic name (offline we can't know the real one,
+             * but returning the requested id makes the id->object match succeed).
+             * Shape matches real Roblox: POST -> {"data":[...]}, GET single ->
+             * a bare user object. */
+            {
+                auto nameFor = [](const std::string& id) -> std::string {
+                    return (id == g_userId) ? g_username : ("Player" + id);
+                };
+                /* gather requested ids: body "userIds" -> query "userIds" -> path */
+                std::string src;
+                size_t ub = req.body.find("\"userIds\"");
+                if (ub != std::string::npos) {
+                    size_t b = req.body.find('[', ub), e = req.body.find(']', b);
+                    if (b != std::string::npos && e != std::string::npos)
+                        src = req.body.substr(b + 1, e - b - 1);
+                }
+                if (src.empty()) src = QS(req, "userIds");
+
+                /* GET /v1/users/{id} -> single object */
+                if (src.empty()) {
+                    size_t up = P.find("/users/");
+                    if (up != std::string::npos) {
+                        std::string tail = P.substr(up + 7);
+                        size_t sl = tail.find('/');     /* require EXACTLY /v1/users/{id} (no sub-path) */
+                        bool num = (sl == std::string::npos) && !tail.empty();
+                        if (num) for (size_t i = 0; i < tail.size(); ++i) if (tail[i] < '0' || tail[i] > '9') { num = false; break; }
+                        if (num) {
+                            std::string nm = nameFor(tail);
+                            return RJson("{\"description\":\"\",\"created\":\"2022-01-01T00:00:00.000Z\","
+                                "\"isBanned\":false,\"externalAppDisplayName\":null,\"hasVerifiedBadge\":false,"
+                                "\"id\":" + tail + ",\"name\":\"" + nm + "\",\"displayName\":\"" + nm + "\"}");
+                        }
+                    }
+                }
+
+                /* otherwise -> {"data":[ one entry per requested id ]} */
+                std::string data; bool first = true; size_t i = 0;
+                while (i < src.size()) {
+                    while (i < src.size() && (src[i] < '0' || src[i] > '9')) i++;
+                    size_t j = i; while (j < src.size() && src[j] >= '0' && src[j] <= '9') j++;
+                    if (j > i) {
+                        std::string id = src.substr(i, j - i), nm = nameFor(id);
+                        if (!first) data += ",";
+                        first = false;
+                        data += "{\"hasVerifiedBadge\":false,\"id\":" + id +
+                                ",\"name\":\"" + nm + "\",\"displayName\":\"" + nm + "\"}";
+                    }
+                    i = j + 1;
+                }
+                if (first)   /* nothing requested -> fall back to the host user */
+                    data = "{\"hasVerifiedBadge\":false,\"id\":" + g_userId +
+                           ",\"name\":\"" + g_username + "\",\"displayName\":\"" + g_username + "\"}";
+                return RJson("{\"data\":[" + data + "]}");
+            }
         }
 
         /* -- User (singular) -- */
@@ -6054,9 +6372,14 @@ if (P.find("check-permissions") != std::string::npos ||
         return RText("1");
     }
 
-    /* ---- /content-aliases-api ---- */
+    /* ---- /content-aliases-api ----
+     * Must match the real shape EXACTLY: {"Aliases":[],"NextPageToken":null}.
+     * The Asset Manager (GameExplorer) paginator reads "NextPageToken"; our old
+     * {"FinalPage":...,"PageSize":...} body omitted that key, so the paginator's
+     * map.at("NextPageToken") threw "invalid unordered_map<K,T> key" -> "Error
+     * while loading data for game" / "Failed to load game assets". */
     if (STARTS(P,"/content-aliases-api"))
-        return RJson("{\"FinalPage\":true,\"Aliases\":[],\"PageSize\":50}");
+        return RJson("{\"Aliases\":[],\"NextPageToken\":null}");
 
     /* ---- /packages-api/v1/places/{id}/packages ---- */
     if (STARTS(P,"/packages-api")) {
@@ -6165,6 +6488,20 @@ if (P.find("check-permissions") != std::string::npos ||
          * here to surface local models. NOTE: the Toolbox plugin builds these
          * against the apis. subdomain, so it must also be pointed at localhost
          * (same fix as StartPage) for this to be hit. */
+        /* Toolbox home configuration -> the category tree. Toolbox.Src.Types.
+         * Category:963 does string.split(category.categoryPath, ...); the generic
+         * search shape below has no "sections", so categoryPath was nil ->
+         * "invalid argument #1 to 'split' (string expected, got nil)". Return a
+         * minimal but valid category tree (root has categoryPath set, no children
+         * to recurse into). Keeps localhost; just fixes the shape. */
+        if (STARTS(P,"/toolbox-service/") && P.find("/home/") != std::string::npos
+            && P.find("/configuration") != std::string::npos)
+            return RJson("{\"sections\":[{\"displayName\":\"Categories\",\"name\":\"categories\","
+                "\"subcategory\":{\"name\":\"model\",\"displayName\":\"Model\",\"hidden\":false,"
+                "\"searchKeywords\":\"model\",\"queryParams\":{\"keyword\":\"model\"},"
+                "\"path\":[\"model\"],\"index\":0,\"children\":{},\"childCount\":0,"
+                "\"categoryPath\":\"model\"}}]}");
+
         if (STARTS(P,"/toolbox-service/") ||
             STARTS(P,"/asset-search-api/") ||
             P.find("/marketplace/") != std::string::npos ||
@@ -6198,6 +6535,38 @@ if (P.find("check-permissions") != std::string::npos ||
 
         /* Batch metadata POSTs: age recs / core-content eligibility /
          * release statuses / creator-eligibility -> empty data[] */
+        /* multi-age-recommendation: GameInfoController:getGuidelines reads
+         * response.ageRecommendationDetailsByUniverse and indexes it by the
+         * universeId. The generic eligibilityByCreator shape below has no such
+         * field, so it did nil[universeId] -> "attempt to index nil with number"
+         * (GameInfoController:153). Return a per-universe "unrated" age rec for
+         * every universeId in the request body. */
+        if (P.find("/experience-guidelines-service/") != std::string::npos &&
+            P.find("multi-age-recommendation") != std::string::npos)
+        {
+            std::string arr; bool first = true; size_t i = 0;
+            const std::string& b = req.body;
+            while (i < b.size()) {
+                while (i < b.size() && (b[i] < '0' || b[i] > '9')) i++;
+                size_t j = i; while (j < b.size() && b[j] >= '0' && b[j] <= '9') j++;
+                if (j > i) {
+                    std::string uid = b.substr(i, j - i);
+                    if (!first) arr += ",";
+                    first = false;
+                    arr += "{\"ageRecommendationDetails\":{\"ageRecommendationSummary\":"
+                           "{\"ageRecommendation\":{\"displayName\":\"Unknown\",\"minimumAge\":13,"
+                           "\"displayNameWithHeaderShort\":\"Maturity: Unknown\",\"minimumAgeDisplay\":\"\","
+                           "\"contentMaturity\":\"unrated\"}}},\"universeId\":" + uid + "}";
+                }
+                i = j + 1;
+            }
+            return RJson("{\"ageRecommendationDetailsByUniverse\":[" + arr + "],"
+                         "\"headerDisplayName\":\"Content Maturity\","
+                         "\"headerDisplayNameShort\":\"Maturity\"}");
+        }
+
+        /* Other experience-guidelines / eligibility / release-status POSTs
+         * -> generic "eligible" response. */
         if (STARTS(P,"/experience-guidelines-service/") ||
             STARTS(P,"/core-content/v1/universe-eligibility") ||
             STARTS(P,"/experience-releases/"))
@@ -6572,46 +6941,71 @@ static bool SslWrite(SOCKET s, SslCtx& ctx, const std::string& data)
    ========================================================================= */
 struct ClientArg { SOCKET s; BOOL ssl; };
 
+/* All per-connection work lives in ServeClientBody so ClientThread can wrap it
+ * in an SEH barrier. The server is thread-per-connection; without a barrier a
+ * single handler that throws (std::exception) or faults (access violation) tore
+ * down the WHOLE process. Now one bad request just drops its own connection. */
+static void ServeClientBody(SOCKET s, BOOL isSsl)
+{
+    try {
+        std::string rawReq; SslCtx sslCtx; sslCtx.valid=FALSE;
+        if(isSsl){
+            if(!g_credValid||!SslHandshake(s,sslCtx)){closesocket(s);return;}
+            if(!SslRead(s,sslCtx,rawReq)){closesocket(s);return;}
+        } else {
+            if(!RecvFull(s,rawReq)){closesocket(s);return;}
+        }
+        Req req; if(!ParseHttp(rawReq,req)){closesocket(s);return;}
+        /* Hold every reply until the Roblox cookie prompt has been completed or
+         * skipped, so Studio's launch waits for the user instead of racing ahead
+         * with no credentials. /ping is exempt so the watchdog's health checks
+         * stay responsive. Once signaled the wait returns instantly; the 5-min
+         * cap is just a safety net against a stuck prompt. */
+        if(g_cookieReadyEvent && !STARTS(req.path,"/ping"))
+            WaitForSingleObject(g_cookieReadyEvent, 300000);
+        Resp resp=Route(req);
+        if (req.path != "/ping" && !STARTS(req.path, "/ping")
+            && resp.contentType.find("json") != std::string::npos
+            && resp.body.size() < 4096)
+            Log("<< %s -> %s", req.path.c_str(), resp.body.c_str());
+        std::string raw=BuildRaw(resp);
+        if(isSsl&&sslCtx.valid){
+            SslWrite(s,sslCtx,raw);
+            /* graceful TLS shutdown */
+            DWORD tok=SCHANNEL_SHUTDOWN;
+            SecBuffer sb={sizeof(DWORD),SECBUFFER_TOKEN,&tok};
+            SecBufferDesc sbd={SECBUFFER_VERSION,1,&sb};
+            ApplyControlToken(&sslCtx.hCtxt,&sbd);
+            sb={0,SECBUFFER_TOKEN,NULL}; sbd={SECBUFFER_VERSION,1,&sb};
+            DWORD outF=0;
+            AcceptSecurityContext(&g_hCred,&sslCtx.hCtxt,NULL,0,0,NULL,&sbd,&outF,NULL);
+            if(sb.pvBuffer){send(s,(char*)sb.pvBuffer,sb.cbBuffer,0);FreeContextBuffer(sb.pvBuffer);}
+            DeleteSecurityContext(&sslCtx.hCtxt);
+        } else {
+            send(s,raw.c_str(),(int)raw.size(),0);
+        }
+    } catch (...) {
+        /* C++ exception from a handler — fail just this request, keep serving. */
+    }
+    closesocket(s);
+}
+
+/* Cap concurrent worker threads so a request burst can't exhaust handles/RAM. */
+static volatile LONG g_activeClients = 0;
+static const  LONG   kMaxClients     = 128;
+
 static DWORD WINAPI ClientThread(LPVOID param)
 {
     ClientArg* a=(ClientArg*)param; SOCKET s=a->s; BOOL isSsl=a->ssl; delete a;
-    std::string rawReq; SslCtx sslCtx; sslCtx.valid=FALSE;
-    if(isSsl){
-        if(!g_credValid||!SslHandshake(s,sslCtx)){closesocket(s);return 0;}
-        if(!SslRead(s,sslCtx,rawReq)){closesocket(s);return 0;}
-    } else {
-        if(!RecvFull(s,rawReq)){closesocket(s);return 0;}
+    __try {
+        ServeClientBody(s, isSsl);
+    } __except(EXCEPTION_EXECUTE_HANDLER) {
+        /* access violation / SEH fault inside a handler: drop this socket only,
+         * the process stays up. */
+        closesocket(s);
     }
-    Req req; if(!ParseHttp(rawReq,req)){closesocket(s);return 0;}
-    /* Hold every reply until the Roblox cookie prompt has been completed or
-     * skipped, so Studio's launch waits for the user instead of racing ahead
-     * with no credentials. /ping is exempt so the watchdog's health checks stay
-     * responsive (no spurious failover). Once signaled the wait returns
-     * instantly; the 5-min cap is just a safety net against a stuck prompt. */
-    if(g_cookieReadyEvent && !STARTS(req.path,"/ping"))
-        WaitForSingleObject(g_cookieReadyEvent, 300000);
-    Resp resp=Route(req);
-    if (req.path != "/ping" && !STARTS(req.path, "/ping")
-        && resp.contentType.find("json") != std::string::npos
-        && resp.body.size() < 4096)
-        Log("<< %s -> %s", req.path.c_str(), resp.body.c_str());
-    std::string raw=BuildRaw(resp);
-    if(isSsl&&sslCtx.valid){
-        SslWrite(s,sslCtx,raw);
-        /* graceful TLS shutdown */
-        DWORD tok=SCHANNEL_SHUTDOWN;
-        SecBuffer sb={sizeof(DWORD),SECBUFFER_TOKEN,&tok};
-        SecBufferDesc sbd={SECBUFFER_VERSION,1,&sb};
-        ApplyControlToken(&sslCtx.hCtxt,&sbd);
-        sb={0,SECBUFFER_TOKEN,NULL}; sbd={SECBUFFER_VERSION,1,&sb};
-        DWORD outF=0;
-        AcceptSecurityContext(&g_hCred,&sslCtx.hCtxt,NULL,0,0,NULL,&sbd,&outF,NULL);
-        if(sb.pvBuffer){send(s,(char*)sb.pvBuffer,sb.cbBuffer,0);FreeContextBuffer(sb.pvBuffer);}
-        DeleteSecurityContext(&sslCtx.hCtxt);
-    } else {
-        send(s,raw.c_str(),(int)raw.size(),0);
-    }
-    closesocket(s); return 0;
+    InterlockedDecrement(&g_activeClients);
+    return 0;
 }
 
 static void AcceptLoop(SOCKET ls, BOOL isSsl)
@@ -6622,9 +7016,24 @@ static void AcceptLoop(SOCKET ls, BOOL isSsl)
         if(select(0,&fds,NULL,NULL,&tv)<=0) continue;
         SOCKET c=accept(ls,NULL,NULL);
         if(c==INVALID_SOCKET) continue;
+        /* At/over the cap, serve inline (back-pressure) instead of spawning an
+         * unbounded number of threads. */
+        if(InterlockedIncrement(&g_activeClients) > kMaxClients){
+            __try { ServeClientBody(c, isSsl); }
+            __except(EXCEPTION_EXECUTE_HANDLER) { closesocket(c); }
+            InterlockedDecrement(&g_activeClients);
+            continue;
+        }
         ClientArg* a=new ClientArg(); a->s=c; a->ssl=isSsl;
         HANDLE h=CreateThread(NULL,0,ClientThread,(LPVOID)a,0,NULL);
         if(h) CloseHandle(h);
+        else {
+            /* thread spawn failed — serve inline so the request isn't dropped */
+            delete a;
+            __try { ServeClientBody(c, isSsl); }
+            __except(EXCEPTION_EXECUTE_HANDLER) { closesocket(c); }
+            InterlockedDecrement(&g_activeClients);
+        }
     }
 }
 

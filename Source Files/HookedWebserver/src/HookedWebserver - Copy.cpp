@@ -28,12 +28,14 @@
 #define _WIN32_WINNT 0x0501
 #define SECURITY_WIN32
 
+#include <fstream>
 
 #include <zlib.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <windows.h>
 #include <shlwapi.h>
+#include <shlobj.h>
 #include <wincrypt.h>
 #include <security.h>
 #include <sspi.h>
@@ -56,6 +58,7 @@
 #pragma comment(lib, "crypt32.lib")
 #pragma comment(lib, "secur32.lib")
 #pragma comment(lib, "shlwapi.lib")
+#pragma comment(lib, "shell32.lib")
 #pragma comment(lib, "advapi32.lib")
 #pragma comment(lib, "winhttp.lib")
 #pragma comment(lib, "user32.lib")
@@ -116,6 +119,13 @@ static int g_wdRetries  = 3;
 /* identity — loaded from username.txt next to the DLL at startup */
 static std::string g_username = "k643h20e48tNParker22";
 static std::string g_userId   = "701953216";   /* string form for JSON */
+static std::string g_lastUploadedPlaceId;       /* placeId of the most recent Open-Cloud upload, for the operation poll */
+
+/* OAuth state — captured from /authorize so the token endpoint can echo them
+ * back correctly.  The 64-bit Studio validates aud == client_id and
+ * nonce == the value it sent; mismatches cause the login to hang forever. */
+static std::string g_lastClientId = "roblox_studio_client";
+static std::string g_lastNonce    = "id-roblox";
 
 /* ============================================================================
    SECTION 1 — DLL-relative paths
@@ -437,11 +447,12 @@ static std::string MakeFakeJwt(const std::string& sub, const std::string& aud)
     long iat=(long)now-5, exp_=iat+1800;
     char hdr[128], pay[2048];
     sprintf(hdr,"{\"alg\":\"ES256\",\"typ\":\"JWT\",\"kid\":\"hardcoded-key-1\"}");
+    /* Use g_lastNonce so the JWT nonce always matches what /authorize received */
     sprintf(pay,
         "{\"sub\":\"%s\",\"type\":\"User\","
         "\"iss\":\"http://localhost/oauth/\","
         "\"aud\":\"%s\",\"exp\":%ld,\"iat\":%ld,"
-        "\"nonce\":\"id-roblox\","
+        "\"nonce\":\"%s\","
         "\"name\":\"%s\","
         "\"nickname\":\"Dev\","
         "\"preferred_username\":\"%s\","
@@ -456,6 +467,7 @@ static std::string MakeFakeJwt(const std::string& sub, const std::string& aud)
         "\"internal_user\":false,\"attributes\":{},"
         "\"banned\":false}",
         sub.c_str(), aud.c_str(), exp_, iat,
+        g_lastNonce.c_str(),
         g_username.c_str(), g_username.c_str(),
         g_userId.c_str(), g_userId.c_str());
     std::string h=Base64UrlEncode((const unsigned char*)hdr,strlen(hdr));
@@ -552,10 +564,65 @@ static void SaveUniverseJson(const std::string& universeId, const std::string& j
 }
 
 /* ============================================================================
-   Logging — writes to HookedWebserver.log next to the DLL
+   Logging — writes a NEW file per DLL session inside logs\ next to the DLL.
+   Each startup gets its own timestamped file so nothing is ever appended to
+   the same file across sessions (which caused ever-growing I/O lag).
+   Old log files (> LOG_KEEP_DAYS days) are pruned automatically on startup.
    ========================================================================= */
+#define LOG_KEEP_DAYS 7   /* keep the last week of sessions; adjust as desired */
+
 static CRITICAL_SECTION g_logCS;
-static BOOL g_logCSInit = FALSE;
+static BOOL             g_logCSInit = FALSE;
+static char             g_logPath[MAX_PATH] = {0};  /* set once in InitLogFile() */
+
+/* Call once from StartupThread — creates the logs\ dir, picks the session
+ * filename, and deletes any .log files older than LOG_KEEP_DAYS days.        */
+static void InitLogFile()
+{
+    /* Ensure logs\ subdirectory exists next to the DLL */
+    std::string logsDir = DllPath("logs\\");
+    CreateDirectoryA(logsDir.c_str(), NULL);
+
+    /* Build a unique filename: HookedWebserver_YYYY-MM-DD_HH-MM-SS_PID.log  */
+    SYSTEMTIME st; GetLocalTime(&st);
+    DWORD pid = GetCurrentProcessId();
+    _snprintf(g_logPath, sizeof(g_logPath) - 1,
+        "%sHookedWebserver_%04d-%02d-%02d_%02d-%02d-%02d_%lu.log",
+        logsDir.c_str(),
+        st.wYear, st.wMonth, st.wDay,
+        st.wHour, st.wMinute, st.wSecond, (unsigned long)pid);
+    g_logPath[sizeof(g_logPath) - 1] = 0;
+
+    /* ------------------------------------------------------------------
+     * Prune log files older than LOG_KEEP_DAYS days.
+     * We compare FILETIME of each .log entry in logs\ against the cutoff.
+     * ------------------------------------------------------------------ */
+    /* Simple subtraction: walk back LOG_KEEP_DAYS days via FILETIME math   */
+    FILETIME nowFT;
+    SystemTimeToFileTime(&st, &nowFT);
+    ULARGE_INTEGER nowUI;
+    nowUI.LowPart  = nowFT.dwLowDateTime;
+    nowUI.HighPart = nowFT.dwHighDateTime;
+    /* 1 day in 100-ns units = 864000000000 */
+    ULONGLONG cutoffUI64 = nowUI.QuadPart -
+        (ULONGLONG)LOG_KEEP_DAYS * 864000000000ULL;
+
+    WIN32_FIND_DATAA fd;
+    HANDLE hf = FindFirstFileA((logsDir + "*.log").c_str(), &fd);
+    if (hf != INVALID_HANDLE_VALUE) {
+        do {
+            if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
+            ULARGE_INTEGER fileUI;
+            fileUI.LowPart  = fd.ftLastWriteTime.dwLowDateTime;
+            fileUI.HighPart = fd.ftLastWriteTime.dwHighDateTime;
+            if (fileUI.QuadPart < cutoffUI64) {
+                std::string victim = logsDir + fd.cFileName;
+                DeleteFileA(victim.c_str());
+            }
+        } while (FindNextFileA(hf, &fd));
+        FindClose(hf);
+    }
+}
 
 static void Log(const char* fmt, ...)
 {
@@ -573,8 +640,10 @@ static void Log(const char* fmt, ...)
     line[sizeof(line)-1] = 0;
 
     EnterCriticalSection(&g_logCS);
-    std::string logPath = DllPath("HookedWebserver.log");
-    FILE* f = fopen(logPath.c_str(), "ab");
+    /* Fall back to the old filename if InitLogFile() hasn't run yet */
+    const char* path = (g_logPath[0] != 0) ? g_logPath
+                       : DllPath("HookedWebserver.log").c_str();
+    FILE* f = fopen(path, "ab");
     if (f) { fputs(line, f); fclose(f); }
     LeaveCriticalSection(&g_logCS);
 
@@ -663,6 +732,43 @@ static bool LoadUniverseJson(const std::string& universeId, std::string& out)
     return true;
 }
 
+/* Look up the display name for a place/asset ID.
+ * Tries LoadUniverseJson(id) first (handles universeId == placeId), then
+ * scans all universe files for one whose rootPlaceId matches.
+ * Returns fallback if nothing is found.
+ * Output is JSON-safe (backslash and quote chars are escaped). */
+static std::string PlaceDisplayName(const std::string& placeId,
+                                    const std::string& fallback = "Place")
+{
+    std::string saved;
+    bool found = LoadUniverseJson(placeId, saved);
+    if (!found) {
+        std::string dir = UniversesDir();
+        WIN32_FIND_DATAA fd;
+        HANDLE hf = FindFirstFileA((dir + "*.json").c_str(), &fd);
+        if (hf != INVALID_HANDLE_VALUE) {
+            do {
+                if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
+                std::string raw = ReadFile(dir + fd.cFileName);
+                if (raw.empty()) continue;
+                if (CfgStr(raw, "rootPlaceId") == placeId) {
+                    saved = raw; found = true; break;
+                }
+            } while (FindNextFileA(hf, &fd));
+            FindClose(hf);
+        }
+    }
+    std::string name = found ? CfgStr(saved, "name") : "";
+    if (name.empty()) name = fallback;
+    /* JSON-escape the name */
+    std::string escaped;
+    for (size_t i = 0; i < name.size(); i++) {
+        if (name[i] == '"' || name[i] == '\\') escaped += '\\';
+        escaped += name[i];
+    }
+    return escaped;
+}
+
 /* Build a JSON array of all saved universes whose place assets exist. */
 static std::string AllUniversesJson()
 {
@@ -690,6 +796,282 @@ static std::string AllUniversesJson()
     }
     arr += "]";
     return arr;
+}
+
+/* Build the StartPage "DiscoverExperiences" response from locally saved
+ * universes.  The plugin parses response.data.games[] and maps each entry,
+ * reading lowercase fields (name/id/rootPlaceId/creatorName/creatorType/
+ * creatorTargetId/description/created/updated/privacyType/audiences/
+ * isFriendsOnly).  Our saved universe JSON already has most of these; we just
+ * make sure `audiences` (array) and `isFriendsOnly` (bool) are present so the
+ * per-item mapper never iterates a nil value.
+ *
+ * onlyUser: when true (creatorType=User / empty) we return the games; for
+ * Group/Team searches we return an empty list so they don't duplicate. */
+static std::string StartPageGamesJson(bool onlyUser, bool requirePlaceFile = true)
+{
+    /* Real apis.roblox.com/universes/v1/search shape is a FLAT data[] array:
+     *   {"data":[{id,name,description,isArchived,rootPlaceId,privacyType,
+     *             creatorType,creatorTargetId,creatorName,created,updated,
+     *             isFriendsOnly,audiences}],
+     *    "totalResults":N,"totalHits":N,"nextResultIndex":null} */
+    std::string items = "[";
+    int count = 0;
+    if (onlyUser) {
+        std::string dir = UniversesDir();
+        WIN32_FIND_DATAA fd;
+        HANDLE hf = FindFirstFileA((dir + "*.json").c_str(), &fd);
+        bool first = true;
+        if (hf != INVALID_HANDLE_VALUE) {
+            do {
+                if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
+                std::string fname = fd.cFileName;
+                if (fname.size() < 6) continue;
+                std::string raw = ReadFile(dir + fname);
+                if (raw.empty() || raw[0] != '{') continue;
+                std::string rpid = CfgStr(raw, "rootPlaceId");
+                if (rpid.empty()) rpid = fname.substr(0, fname.size() - 5);
+                if (requirePlaceFile && !PlaceAssetExists(rpid)) continue;  /* StartPage: only playable games */
+                size_t lastBrace = raw.rfind('}');
+                if (lastBrace == std::string::npos) continue;
+                std::string obj = raw.substr(0, lastBrace);
+                if (obj.find("\"audiences\"")     == std::string::npos) obj += ",\"audiences\":[1]";
+                if (obj.find("\"isFriendsOnly\"")  == std::string::npos) obj += ",\"isFriendsOnly\":false";
+                obj += "}";
+                if (!first) items += ",";
+                items += obj; first = false; ++count;
+            } while (FindNextFileA(hf, &fd));
+            FindClose(hf);
+        }
+    }
+    items += "]";
+    return "{\"data\":" + items +
+           ",\"totalResults\":" + std::to_string(count) +
+           ",\"totalHits\":"    + std::to_string(count) +
+           ",\"nextResultIndex\":null}";
+}
+
+/* Game icons batch (thumbnails-api /v1/games/icons?universeIds=a,b,c).
+ * Real shape:
+ *   {"data":[{"targetId":<universeId>,"state":"Completed",
+ *             "imageUrl":"...","version":"TN3"}]}
+ * Offline we point every icon at the locally-served generic game icon so the
+ * StartPage tiles render a thumbnail. An EMPTY data[] left each tile's place
+ * model without a thumbnail, which made the open-on-click handler index a nil
+ * value and silently do nothing — so this also makes the experiences openable. */
+static std::string GamesIconsJson(const std::string& universeIdsCsv)
+{
+    std::string out = "{\"data\":[";
+    bool first = true;
+    size_t start = 0;
+    const std::string& ids = universeIdsCsv;
+    while (start <= ids.size()) {
+        size_t comma = ids.find(',', start);
+        std::string id = (comma == std::string::npos)
+            ? ids.substr(start) : ids.substr(start, comma - start);
+        while (!id.empty() && (id.front()==' '||id.front()=='\t')) id.erase(id.begin());
+        while (!id.empty() && (id.back()==' '||id.back()=='\t'||id.back()=='\r'||id.back()=='\n')) id.pop_back();
+        bool numeric = !id.empty();
+        for (char c : id) if (c < '0' || c > '9') { numeric = false; break; }
+        if (numeric) {
+            if (!first) out += ",";
+            first = false;
+            out += "{\"targetId\":" + id +
+                   ",\"state\":\"Completed\","
+                   "\"imageUrl\":\"http://localhost/Thumbs/gameicon.ashx?id=" + id +
+                   "\",\"version\":\"TN3\"}";
+        }
+        if (comma == std::string::npos) break;
+        start = comma + 1;
+    }
+    out += "]}";
+    return out;
+}
+
+/* Minimal JSON string escaper (quotes + backslashes + control chars). */
+static std::string JsonEsc(const std::string& s)
+{
+    std::string o; o.reserve(s.size() + 8);
+    for (unsigned char c : s) {
+        switch (c) {
+            case '"':  o += "\\\""; break;
+            case '\\': o += "\\\\"; break;
+            case '\n': o += "\\n";  break;
+            case '\r': o += "\\r";  break;
+            case '\t': o += "\\t";  break;
+            default:
+                if (c < 0x20) { char b[8]; _snprintf(b,sizeof(b),"\\u%04x",c); o += b; }
+                else o += (char)c;
+        }
+    }
+    return o;
+}
+
+/* games /v1/games/multiget-place-details?placeIds=a,b&placeIds=c
+ * Real response is a BARE ARRAY of place objects. The StartPage open flow
+ * (getPlaceInfoFromPlaceId / getEnrichedPlayabilityValue) validates each entry
+ * and REQUIRES isPlayable(bool), placeId/universeId/universeRootPlaceId/builderId/
+ * price(number) and the string fields below. An empty {"data":[]} made isPlayable
+ * nil, so the validator threw and openPlace was never called — i.e. clicking a
+ * published experience silently did nothing (templates open via a different path,
+ * which is why Baseplate worked). We resolve each placeId to its saved universe. */
+static std::string MultiGetPlaceDetailsJson(const std::string& query)
+{
+    std::string out = "[";
+    bool first = true;
+    size_t pos = 0;
+    while ((pos = query.find("placeIds=", pos)) != std::string::npos) {
+        pos += 9;
+        size_t e = query.find('&', pos);
+        std::string chunk = (e == std::string::npos) ? query.substr(pos)
+                                                      : query.substr(pos, e - pos);
+        pos = (e == std::string::npos) ? query.size() : e;
+        size_t s2 = 0;
+        while (s2 <= chunk.size()) {
+            size_t c = chunk.find(',', s2);
+            std::string id = (c == std::string::npos) ? chunk.substr(s2)
+                                                      : chunk.substr(s2, c - s2);
+            while (!id.empty() && (id.back()=='\r'||id.back()=='\n'||id.back()==' '||id.back()=='\t')) id.pop_back();
+            bool numeric = !id.empty();
+            for (char ch : id) if (ch < '0' || ch > '9') { numeric = false; break; }
+            if (numeric) {
+                std::string name = "Place", desc = "", uid = id, rpid = id;
+                std::string builder = g_username, builderId = g_userId;
+                std::string dir = UniversesDir();
+                WIN32_FIND_DATAA fd;
+                HANDLE hf = FindFirstFileA((dir + "*.json").c_str(), &fd);
+                if (hf != INVALID_HANDLE_VALUE) {
+                    do {
+                        if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
+                        std::string raw = ReadFile(dir + fd.cFileName);
+                        if (raw.empty()) continue;
+                        if (CfgStr(raw, "rootPlaceId") == id) {
+                            std::string n = CfgStr(raw, "name");        if (!n.empty()) name = n;
+                            desc = CfgStr(raw, "description");
+                            std::string u = CfgStr(raw, "universeId");  if (u.empty()) u = CfgStr(raw, "id");
+                            if (!u.empty()) uid = u;
+                            std::string cn = CfgStr(raw, "creatorName"); if (!cn.empty()) builder = cn;
+                            std::string ct = CfgStr(raw, "creatorTargetId");
+                            if (ct.empty()) ct = CfgStr(raw, "creatorId");
+                            if (!ct.empty()) builderId = ct;
+                            break;
+                        }
+                    } while (FindNextFileA(hf, &fd));
+                    FindClose(hf);
+                }
+                if (!first) out += ",";
+                first = false;
+                out += "{\"placeId\":" + id +
+                       ",\"name\":\"" + JsonEsc(name) + "\""
+                       ",\"description\":\"" + JsonEsc(desc) + "\""
+                       ",\"sourceName\":\"" + JsonEsc(name) + "\""
+                       ",\"sourceDescription\":\"" + JsonEsc(desc) + "\""
+                       ",\"url\":\"http://localhost/games/" + id + "\""
+                       ",\"builder\":\"" + JsonEsc(builder) + "\""
+                       ",\"builderId\":" + builderId +
+                       ",\"hasVerifiedBadge\":false"
+                       ",\"isPlayable\":true"
+                       ",\"reasonProhibited\":\"None\""
+                       ",\"universeId\":" + uid +
+                       ",\"universeRootPlaceId\":" + rpid +
+                       ",\"rootPlaceId\":" + rpid +
+                       ",\"price\":0"
+                       ",\"imageToken\":\"\"}";
+            }
+            if (c == std::string::npos) break;
+            s2 = c + 1;
+        }
+    }
+    out += "]";
+    return out;
+}
+
+/* Emit one eligible entry for `key` into the eligibilityByCreator map (dedup). */
+static void EmitEligKey(std::string& out, bool& first, const std::string& key)
+{
+    if (key.empty()) return;
+    std::string probe = "\"" + key + "\":{";
+    if (out.find(probe) != std::string::npos) return;   /* already emitted */
+    if (!first) out += ",";
+    first = false;
+    out += probe + "\"userIsEligible\":true,\"reasons\":[],"
+                   "\"displayReason\":\"\",\"displayReasonTextFilterStatus\":0}";
+}
+
+/* experience-guidelines-service/v1beta1/multi-creator-eligibility
+ * Real shape: {"eligibilityByCreator":{"<CreatorType>_<creatorId>":{
+ *   "userIsEligible":true,"reasons":[], ...}}}. This is called on every
+ * experience-tile click (DiscoverCreatorEligibility). An empty {"data":[]}
+ * made the per-creator lookup nil -> treated as INELIGIBLE -> openPlace was
+ * never reached (no error logged), so clicking a published game did nothing.
+ * We mark every creator in the request body eligible, under several key
+ * spellings, plus the current user as a fallback. */
+static std::string MultiCreatorEligibilityJson(const std::string& body)
+{
+    std::string out = "{\"eligibilityByCreator\":{";
+    bool first = true;
+    std::string lastType = "User";
+    size_t i = 0;
+    while (i < body.size()) {
+        size_t ct  = body.find("\"creatorType\"", i);
+        size_t ci  = body.find("\"creatorId\"", i);
+        size_t cti = body.find("\"creatorTargetId\"", i);
+        size_t next = ct;
+        if (ci  != std::string::npos && (next == std::string::npos || ci  < next)) next = ci;
+        if (cti != std::string::npos && (next == std::string::npos || cti < next)) next = cti;
+        if (next == std::string::npos) break;
+        size_t colon = body.find(':', next);
+        if (colon == std::string::npos) break;
+        size_t v = colon + 1;
+        while (v < body.size() && (body[v] == ' ' || body[v] == '\t')) v++;
+        if (next == ct) {                                  /* creatorType -> string */
+            if (v < body.size() && body[v] == '"') {
+                size_t e = body.find('"', v + 1);
+                if (e != std::string::npos) lastType = body.substr(v + 1, e - (v + 1));
+            }
+            i = next + 13;
+        } else {                                           /* creatorId / creatorTargetId */
+            std::string id;
+            if (v < body.size() && body[v] == '"') {
+                size_t e = body.find('"', v + 1);
+                if (e != std::string::npos) id = body.substr(v + 1, e - (v + 1));
+            } else {
+                size_t e = v;
+                while (e < body.size() && body[e] >= '0' && body[e] <= '9') e++;
+                id = body.substr(v, e - v);
+            }
+            if (!id.empty()) {
+                EmitEligKey(out, first, lastType + "_" + id);
+                EmitEligKey(out, first, id);
+                EmitEligKey(out, first, lastType + ":" + id);
+            }
+            i = next + 11;
+        }
+    }
+    EmitEligKey(out, first, std::string("User_") + g_userId);
+    EmitEligKey(out, first, g_userId);
+    out += "}}";
+    return out;
+}
+
+/* Starter templates (develop /v1/gametemplates). Real shape is a flat data[]
+ * of {gameTemplateType, hasTutorials, universe:{...}}. We surface Baseplate so
+ * the Templates page isn't blank. */
+static std::string GameTemplatesJson()
+{
+    return
+      "{\"data\":[{"
+        "\"gameTemplateType\":\"Generic\",\"hasTutorials\":false,"
+        "\"universe\":{"
+          "\"id\":28220420,\"name\":\"Baseplate\","
+          "\"description\":\"Start from a clean baseplate.\","
+          "\"isArchived\":false,\"rootPlaceId\":95206881,"
+          "\"privacyType\":\"Public\",\"creatorType\":\"User\","
+          "\"creatorTargetId\":998796,\"creatorName\":\"Templates\","
+          "\"created\":\"2017-04-26T00:00:00Z\",\"updated\":\"2017-04-26T00:00:00Z\","
+          "\"isFriendsOnly\":false,\"audiences\":[1,3,4]"
+        "}"
+      "}]}";
 }
 
 /* ============================================================================
@@ -867,6 +1249,32 @@ static Resp RJson(const std::string& j, int st=200)
     r.statusText=(st==200?"OK":st==204?"No Content":st==404?"Not Found":"Error");
     r.contentType="application/json; charset=utf-8"; r.body=j; return r;
 }
+
+/* Forward declaration — GetRobloxCookie is defined later in the cookie
+ * management section but is needed here by RJsonWithCookie. */
+static const std::string& GetRobloxCookie();
+
+/* Like RJson but also sets a .ROBLOSECURITY session cookie.
+ * The 64-bit Studio's StudioCookieManager waits for this cookie before
+ * it considers login complete — without it the login screen hangs forever. */
+static Resp RJsonWithCookie(const std::string& j, int st=200)
+{
+    Resp r = RJson(j, st);
+    /* Use the validated Roblox cookie we have on hand as the session value.
+     * Strip the ".ROBLOSECURITY=" prefix if present so we emit a clean value. */
+    const std::string& raw = GetRobloxCookie();
+    std::string val = raw;
+    const char* pfx = ".ROBLOSECURITY=";
+    if (val.compare(0, strlen(pfx), pfx) == 0) val = val.substr(strlen(pfx));
+    if (val.empty()) val = "offblox_session_token";
+    /* Host-only cookie (no Domain) + no Secure: Domain=localhost is rejected by
+     * single-label-host cookie rules, and Secure is dropped when the response
+     * arrives over http://localhost.  A host-only Lax cookie set on http is
+     * still sent to https://localhost requests, so it bridges both origins. */
+    r.hdrs["Set-Cookie"] = ".ROBLOSECURITY=" + val +
+        "; Path=/; HttpOnly; SameSite=Lax";
+    return r;
+}
 static Resp RText(const std::string& t, int st=200)
 {
     Resp r; r.status=st; r.statusText="OK";
@@ -988,12 +1396,17 @@ static bool ServeStatic(const std::string& urlPath, Resp& resp)
    SECTION 9 — Feature flags (hardcoded blob)
    ========================================================================= */
 static const char FFLAGS[]=
-    "{\"FFlagCoreScriptShowVisibleAgeV2\":\"True\","
+    "{"
+    /* -----------------------------------------------------------------------
+     * Legacy flags kept from the original build — still required for
+     * DataStore, avatar colors, and various engine subsystems.
+     * --------------------------------------------------------------------- */
+    "\"FFlagCoreScriptShowVisibleAgeV2\":\"True\","
     "\"FFlagCoreScriptShowVisibleAge\":\"True\","
     "\"DFFlagFindFirstChildOfClassEnabled\":\"True\","
     "\"FFlagStudioCSGAssets\":\"True\",\"FFlagCSGLoadBlocking\":\"False\","
     "\"FFlagUsePGSSolver\":\"True\",\"FFlagNewInGameDevConsole\":\"True\","
-    "\"FFlagTextFieldUTF8\":\"True\",\"FFlagLuaBasedBubbleChat\":\"True\","
+    "\"FFlagTextFieldUTF8\":\"True\","
     "\"FFlagConsoleCodeExecutionEnabled\":\"True\","
     "\"DFFlagCustomEmitterInstanceEnabled\":\"True\","
     "\"FFlagGlowEnabled\":\"True\",\"DFFlagUseNewFullscreenLogic\":\"True\","
@@ -1012,25 +1425,154 @@ static const char FFLAGS[]=
     "\"FFlagEnableRomarkStudioOperations\":\"True\","
     "\"FFlagStudioUseSrcAssets\":\"True\","
     "\"FFlagStudioUseSrcAssetsForPlugins\":\"True\","
-    /* ----------------------------------------------------------------------
-     * CRITICAL for DataStore GetAsync on this build.
-     * The engine only reads the "Roblox-Object-Version-Id" response header
-     * (and thus can format a v2 GetAsync result) when this flag is ON.
-     * With it OFF — the default in this old client — the metadata extractor
-     * skips the version header, the result can't be versioned, and Studio
-     * reports: 504: response not formatted correctly.
-     * Flag name is registered bare as "DataStore2NewVersionHeader"; serve it
-     * under both the F and DF prefixes so whichever registry the client
-     * routes to picks it up.  Restart Studio after changing this. */
+    /* Disable Plugin OTA so Studio never re-downloads/overwrites the built-in
+     * plugins in %LOCALAPPDATA%\\Roblox\\OTAPlugins — it loads our edited copies
+     * from the install BuiltInStandalonePlugins/BuiltInPlugins folders instead.
+     * Rollout=0 gates the whole OTA pipeline off; the New flags belt-and-suspenders. */
+    "\"FIntStudioPluginOTARolloutPercent\":\"0\","
+    "\"DFIntStudioPluginOTARolloutPercent\":\"0\","
+    "\"FIntStudioPluginOTAAllUserRolloutPercent\":\"0\","
+    "\"DFIntStudioPluginOTAAllUserRolloutPercent\":\"0\","
+    "\"FIntStudioPluginOTAInternalUserRolloutPercent\":\"0\","
+    "\"DFIntStudioPluginOTAInternalUserRolloutPercent\":\"0\","
+    "\"FFlagStudioPluginOTANew\":\"False\","
+    "\"DFFlagStudioPluginOTANew\":\"False\","
+    "\"FFlagPluginOTANew\":\"False\","
+    "\"FFlagPluginOTAManagerNew\":\"False\","
+    /* DataStore v2 version header — required for GetAsync on this proxy */
     "\"DFFlagDataStore2NewVersionHeader\":\"True\","
     "\"FFlagDataStore2NewVersionHeader\":\"True\","
-    /* Make the avatar parser read bodyColor3s (hex) instead of the legacy
-     * bodyColors/headColorId (BrickColor IDs). With this OFF (the default) the
-     * client ignores our hex colors entirely and the body comes in black.
-     * Registered bare as "ClientAvatarUsesColor3sForBodyParts2"; serve both
-     * prefixes. */
+    /* Avatar body color3 hex parsing */
     "\"FFlagClientAvatarUsesColor3sForBodyParts2\":\"True\","
-    "\"DFFlagClientAvatarUsesColor3sForBodyParts2\":\"True\"}";
+    "\"DFFlagClientAvatarUsesColor3sForBodyParts2\":\"True\","
+
+    /* -----------------------------------------------------------------------
+     * 2026 CHROME SHELL — infrastructure ON, classic topbar widget layout.
+     * This build uses Chrome's signal/pin APIs but renders the pre-unibar
+     * classic topbar widgets.  Keep the shell plumbing alive so Chrome-aware
+     * CoreScripts don't error, but leave all the new pill/unibar widgets OFF
+     * so the classic icon row renders instead.
+     * --------------------------------------------------------------------- */
+    "\"FFlagEnableChrome\":\"True\","
+    "\"FFlagEnableChromeBackwardsSignalAPI\":\"True\","
+    "\"FFlagEnableChromeBackwardsSignalAPI2\":\"True\","
+    "\"FFlagEnableChromeGAFallbackSupportSignal\":\"True\","
+    /* Modern Chrome widget layout — unibar + pill-style topbar */
+    "\"FFlagEnableChromeDefaultWidgets\":\"True\","
+    "\"FFlagEnableChromeMenuStyleAlignments\":\"True\","
+    "\"FFlagEnableChromeMenuSeparator\":\"True\","
+    "\"FFlagEnableChromeAnnouncements\":\"True\","
+    "\"FFlagEnableChromePinIntegrations\":\"True\","
+    "\"FFlagEnableUnibarV2\":\"True\","
+    "\"FFlagEnableNewTopbarMenu\":\"True\","
+    "\"FFlagEnableInGameHomeIcon\":\"True\","
+    /* Force Chrome widget registration — without these the widget table
+     * is built but RegisterTopbarApp never fires for the new components,
+     * so the old MenuIcon presentation path wins instead. */
+    "\"FFlagEnableChromeRegisterWidgets\":\"True\","
+    "\"FFlagEnableChromeRegisterWidgets2\":\"True\","
+    "\"FFlagEnableChromeWidgetAdoptionOverride\":\"True\","
+    "\"FFlagEnableChromeTopbarPresentation\":\"True\","
+    "\"FFlagEnableChromeSocialWidget\":\"True\","
+    "\"FFlagEnableChromeEmotesWidget\":\"True\","
+    "\"FFlagEnableChromeHealthWidget\":\"True\","
+    "\"FFlagEnableChromeBackpackWidget\":\"True\","
+    "\"FFlagEnableChromeSettingsWidget\":\"True\","
+    "\"FFlagEnableChromeLeaderboardWidget\":\"True\","
+    "\"FFlagEnableChromeMenuIconWidget\":\"True\","
+    /* Escape menu / settings — V3 works with the classic topbar */
+    "\"FFlagEnableInGameMenuV3\":\"True\","
+    "\"FFlagInGameMenuV3\":\"True\","
+    "\"FFlagEnableInGameMenuControls\":\"True\","
+    "\"FFlagEnableInGameMenuGamepadUtils\":\"True\","
+    "\"FFlagEnableInGameMenuRespawn\":\"True\","
+    "\"FFlagEnableMenuControlsPage\":\"True\","
+    "\"FFlagEnableMenuVideoSettingsPage\":\"True\","
+    "\"FFlagEnableVROverrideThrottleThreshold\":\"True\","
+    "\"FFlagEnableInGameMenuV1\":\"False\","
+    "\"FFlagEnableInGameMenuV2\":\"False\","
+
+    /* -----------------------------------------------------------------------
+     * TEXTCHATSERVICE / CHAT
+     * Enable TextChatService for the chat window.
+     * Do NOT set FFlagTextChatServiceInitializeAsync — it holds an async
+     * barrier that races with Players.CharacterAdded and prevents the
+     * character from ever spawning on this proxy setup.
+     * --------------------------------------------------------------------- */
+    "\"FFlagTextChatServiceEnabled\":\"True\","
+    "\"DFFlagTextChatServiceEnabled\":\"True\","
+    "\"FFlagEnableBubbleChatFromChatService\":\"True\","
+    "\"FFlagEnableNewChatUINameColorV2\":\"True\","
+    "\"FFlagEnableNewChatUI\":\"True\","
+    "\"FFlagChatTranslationEnableSystemMessage\":\"True\","
+    "\"FFlagEnableChatChannelList\":\"True\","
+    "\"FFlagEnableChatWindowV2\":\"True\","
+    "\"FFlagEnableSpeakerLabel\":\"True\","
+    "\"FFlagEnableReportInChat\":\"True\","
+    "\"FFlagEnableMessageSizeLimit\":\"True\","
+    "\"FFlagLuaBasedBubbleChat\":\"False\","
+    "\"FFlagEnableOldBubbleChatScript\":\"False\","
+
+    /* -----------------------------------------------------------------------
+     * CHARACTER SPAWN
+     * Ensure the Players service spawn path fires even with TextChatService
+     * active.  FFlagFixCharacterReplicationOrder prevents the character
+     * packet arriving before the humanoid is wired up (silent no-spawn).
+     * --------------------------------------------------------------------- */
+    "\"FFlagEnablePlayerSpawnWithCharacterAdded\":\"True\","
+    "\"DFFlagEnableCharacterFetchPolicies\":\"True\","
+    "\"FFlagFixCharacterReplicationOrder\":\"True\","
+
+    /* -----------------------------------------------------------------------
+     * LOADING SCREEN
+     * Must be True — setting these False prevents DataModel from ever
+     * signalling GameLoaded, which blocks character spawn entirely.
+     * --------------------------------------------------------------------- */
+    "\"FFlagEnableLoadingScreen\":\"True\","
+    "\"FFlagEnableNewLoadingScreen\":\"True\","
+
+    /* -----------------------------------------------------------------------
+     * EXPERIENCE CONTROLS / PLAYERLIST
+     * --------------------------------------------------------------------- */
+    "\"FFlagEnableExperienceControlsV2\":\"True\","
+    "\"FFlagEnableExperienceControlsV3\":\"True\","
+    "\"FFlagEnableABTestingForExperienceMenuV4\":\"False\","
+    "\"FFlagEnablePlayerList\":\"True\","
+    "\"FFlagEnablePlayerListV2\":\"True\","
+    "\"FFlagEnablePlayerListCollapsed\":\"True\","
+    "\"FFlagEnablePortraitModeLeaderboard\":\"True\","
+    "\"FFlagEnableLeaderboardV3\":\"True\","
+
+    /* -----------------------------------------------------------------------
+     * VOICE / CAMERA — disabled, proxy has no media relay
+     * --------------------------------------------------------------------- */
+    "\"FFlagVoiceChatSupported\":\"False\","
+    "\"FFlagEnableVoiceChat\":\"False\","
+    "\"DFFlagVoiceChatRollout\":\"False\","
+    "\"FFlagAvatarCameraSupported\":\"False\","
+    "\"FFlagEnableAvatarVideoChat\":\"False\","
+
+    /* -----------------------------------------------------------------------
+     * MISC COREGUI
+     * --------------------------------------------------------------------- */
+    "\"FFlagEnableEmotesMenuV2\":\"True\","
+    "\"FFlagEnableEmotesMenuAnimations\":\"True\","
+    "\"FFlagEnableNotificationStreamUI\":\"True\","
+    "\"FFlagEnableNotificationStreamUnifiedUI\":\"True\","
+    "\"FFlagEnableAvatarEditorInGame\":\"True\","
+    "\"FFlagEnableCoreScriptHealthBar\":\"True\","
+    "\"FFlagCoreScriptHealthBarEnabled\":\"True\","
+    "\"FFlagEnableHealthBarV2\":\"True\","
+    "\"FFlagEnableRespawnCoreScript\":\"True\","
+
+    /* -----------------------------------------------------------------------
+     * TELEMETRY — silence all outbound beacons
+     * --------------------------------------------------------------------- */
+    "\"FFlagDebugDisableTelemetryV2\":\"True\","
+    "\"FFlagEnableEventIngestV2\":\"False\","
+    "\"DFFlagReportingAnalyticsEnabled\":\"False\","
+    "\"FFlagEnableABTestingService\":\"False\""
+    "}";
 
 /* ============================================================================
    SECTION 10 — Route handlers
@@ -1365,14 +1907,136 @@ static Resp HandleOAuth(const std::string& sub, const Req& req)
        STARTS(sub,"/v1/metadata")||
        STARTS(sub,"/metadata"))
         return RJson(OPENID_DISCOVERY);
+    /* oauth/v1/authorizations — the native ClientCookie path (StudioLoadClientCookie)
+     * POSTs here carrying .ROBLOSECURITY to exchange the cookie for an auth code,
+     * instead of opening the WebView.  Mirrors the frontend's createAuthorizationGrant:
+     * returns {"location":"roblox-studio-auth:/?code=..."} which Studio parses for the
+     * code, then exchanges at /oauth/v1/token.  Fully local, no WebView harvest. */
+    if(STARTS(sub,"/v1/authorizations")||STARTS(sub,"/v1/authorization-grant")){
+        std::string redir=QS(req,"redirect_uri","roblox-studio-auth:/");
+        /* redirect_uri may instead arrive in the JSON body */
+        {
+            size_t k=req.body.find("\"redirect_uri\"");
+            if(k!=std::string::npos){
+                size_t c=req.body.find(':',k); size_t q1=req.body.find('"',c+1);
+                size_t q2=(q1!=std::string::npos)?req.body.find('"',q1+1):std::string::npos;
+                if(q1!=std::string::npos&&q2!=std::string::npos) redir=req.body.substr(q1+1,q2-q1-1);
+            }
+        }
+        std::string loc=redir+(redir.find('?')!=std::string::npos?"&":"?")
+                        +"code=hardcoded_auth_code_2023";
+        Log("/authorizations (client-cookie grant) -> %s", loc.c_str());
+        return RJson("{\"location\":\""+loc+"\"}");
+    }
     if(STARTS(sub,"/v1/authorize")){
         std::string redir=QS(req,"redirect_uri"),state=QS(req,"state");
+        /* Capture client_id and nonce so the token endpoint can echo them back.
+         * The 64-bit Studio validates aud == client_id and nonce == sent value. */
+        std::string cid_auth=QS(req,"client_id","");
+        std::string nonce_auth=QS(req,"nonce","");
+        if(!cid_auth.empty())   g_lastClientId=cid_auth;
+        if(!nonce_auth.empty()) g_lastNonce=nonce_auth;
+        Log("/authorize: client_id='%s' nonce='%s' redirect_uri='%s'",
+            g_lastClientId.c_str(), g_lastNonce.c_str(), redir.c_str());
         if(!redir.empty()){
             std::string loc=redir+(redir.find('?')!=std::string::npos?"&":"?");
             loc+="code=hardcoded_auth_code_2023";
             if(!state.empty()) loc+="&state="+UrlEncode(state);
+
+            const std::string& ck_a=GetRobloxCookie();
+            std::string cv_a=ck_a;
+            const char* pfx_a=".ROBLOSECURITY=";
+            if(cv_a.compare(0,strlen(pfx_a),pfx_a)==0) cv_a=cv_a.substr(strlen(pfx_a));
+            if(cv_a.empty()) cv_a="offblox_session_token";
+
+            /* ----------------------------------------------------------------
+             * CRITICAL FIX for v0.712 (64-bit Studio):
+             *
+             * redirect_uri="roblox-studio-auth:/" is a custom OS protocol.
+             * A bare HTTP 302 makes Qt WebEngine hand the Location URL to the
+             * OS handler WITHOUT committing the Set-Cookie header into its
+             * cookie store first, so StudioCookieManager never sees
+             * .ROBLOSECURITY and blocks login forever with:
+             * "Security cookie is not cached so we wait for it"
+             *
+             * Fix: when redirect_uri is a non-http(s) scheme, return a 200
+             * HTML page instead of a 302. The page:
+             * 1. Sets document.cookie — WebEngine commits it immediately to
+             * its backing store (the same store StudioCookieManager polls).
+             * 2. After a short delay, window.location.href fires the custom
+             * protocol URL, which Studio's registered handler intercepts.
+             *
+             * For ordinary http(s) redirect_uri the old 302+Set-Cookie path
+             * works correctly and is kept unchanged.
+             * ---------------------------------------------------------------- */
+            bool isCustomProto=(loc.find("http://")==std::string::npos &&
+                                loc.find("https://")==std::string::npos);
+            if(isCustomProto){
+                /* JS-escape the redirect target (single-quote string) */
+                std::string locEsc;
+                for(size_t i=0;i<loc.size();i++){
+                    if(loc[i]=='\'')      locEsc+="\\x27";
+                    else if(loc[i]=='\\') locEsc+="\\\\";
+                    else                  locEsc+=loc[i];
+                }
+                /* Cookie value: must not contain ; or \ raw */
+                std::string ckEsc;
+                for(size_t i=0;i<cv_a.size();i++){
+                    if(cv_a[i]==';'||cv_a[i]=='\\') ckEsc+='\\';
+                    ckEsc+=cv_a[i];
+                }
+                 std::string html=
+                     "<!DOCTYPE html><html><head><meta charset='utf-8'>"
+                     "<title>OffBlox</title></head><body><script>"
+                     /* 1. Commit .ROBLOSECURITY into WebView2's cookie store.
+                      *    Secure works because WebView2 treats https://localhost
+                      *    as a secure origin. */
+                     "document.cookie='.ROBLOSECURITY=" + ckEsc + "; Path=/; Secure; SameSite=Lax';"
+                     /* 2. Fire the MessageBus envelope StudioCookieManager polls.
+                      *
+                      *    The real Roblox login page uses window.chrome.webview.postMessage
+                      *    with a structured JSON payload on the CookieProtocol topic.
+                      *    The old window.rbx.postMessage call went to a different
+                      *    channel that 64-bit Studio ignores, which is why /authorize
+                      *    was hit repeatedly but login never completed.
+                      *
+                      *    Envelope shape (must be a JSON *string*, not an object):
+                      *      { eventName: "CookieProtocol",
+                      *        eventMetadata: { type: "cookiesUpdated" },
+                      *        messageBusEventData: {} }
+                      */
+                     "try{"
+                     "var _m=JSON.stringify({"
+                     "eventName:'CookieProtocol',"
+                     "eventMetadata:{type:'cookiesUpdated'},"
+                     "messageBusEventData:{}"
+                     "});"
+                     "if(window.chrome&&window.chrome.webview){"
+                     "window.chrome.webview.postMessage(_m);"
+                     "}}"
+                     "catch(_e){}"
+                     /* 3. Give WebView2 time to marshal the postMessage to the
+                      *    native side BEFORE we navigate away — redirecting on the
+                      *    same tick drops the message before Studio processes it. */
+                     "setTimeout(function(){window.location.href='" + locEsc + "';},500);"
+                     "</script></body></html>";
+                Resp r; r.status=200; r.statusText="OK";
+                r.contentType="text/html; charset=utf-8";
+                r.body=html;
+                
+                /* Host-only + Secure Set-Cookie on the authorize page.  WebView2
+                 * loads this page over https://localhost and StudioCookieManager
+                 * harvests THIS header ("Handling SetCookie") as the security
+                 * cookie — accepted only when Secure, like the genuine one. */
+                r.hdrs["Set-Cookie"]=".ROBLOSECURITY="+cv_a+"; Path=/; HttpOnly; Secure; SameSite=Lax";
+                return r;
+            }
+
+            /* http(s) redirect_uri — original 302 + Set-Cookie path */
             Resp r=RJson(""); r.status=302; r.statusText="Found";
-            r.hdrs["Location"]=loc; r.body=""; return r;
+            r.hdrs["Location"]=loc; r.body="";
+            r.hdrs["Set-Cookie"]=".ROBLOSECURITY="+cv_a+"; Path=/; HttpOnly; Secure; SameSite=Lax";
+            return r;
         }
         return RJson("{\"code\":\"hardcoded_auth_code_2023\",\"state\":\"\"}");
     }
@@ -1388,21 +2052,45 @@ static Resp HandleOAuth(const std::string& sub, const Req& req)
     if(STARTS(sub,"/v1/token/revoke"))    return RJson("{}");
     if(STARTS(sub,"/v1/token/resources")) return RJson("{\"resources\":[]}");
     if(STARTS(sub,"/v1/token")){
-        std::string cid=QS(req,"client_id","roblox_studio_client");
+        /* Log raw body and parsed client_id so we can see exactly what the
+         * 64-bit Studio sends — critical for diagnosing aud/nonce mismatches. */
+        Log("/v1/token body: [%s]", req.body.c_str());
+        std::string cid=QS(req,"client_id","");
+        Log("/v1/token qs client_id: [%s]", cid.empty()?"(missing)":cid.c_str());
+        /* Fall back to what /authorize saw so aud always matches client_id */
+        if(cid.empty()) cid=g_lastClientId;
         std::string jwt=MakeFakeJwt(g_userId,cid);
-        return RJson("{\"access_token\":\"hardcoded_access_token\","
+        /* Deliver .ROBLOSECURITY on this NATIVE-stack response.  The /authorize
+         * page's cookie writes only reach the Qt WebEngine jar, but
+         * StudioCookieManager polls the native HTTP jar — so the cookie must
+         * ride a request the native stack makes.  /v1/token is the first such
+         * request after the authorize handoff, which is exactly when the
+         * manager begins waiting ("Security cookie is not cached ... we wait").
+         * Host-only + no Secure so it stores over http and is sent to https. */
+        Resp tr=RJson("{\"access_token\":\"hardcoded_access_token\","
             "\"token_type\":\"Bearer\",\"expires_in\":1800,"
             "\"refresh_token\":\"hardcoded_refresh_token\","
             "\"scope\":\"openid credentials profile age roles premium\","
             "\"id_token\":\""+jwt+"\"}");
+        {
+            const std::string& ck_t=GetRobloxCookie();
+            std::string cv_t=ck_t;
+            const char* pfx_t=".ROBLOSECURITY=";
+            if(cv_t.compare(0,strlen(pfx_t),pfx_t)==0) cv_t=cv_t.substr(strlen(pfx_t));
+            if(cv_t.empty()) cv_t="offblox_session_token";
+            tr.hdrs["Set-Cookie"]=".ROBLOSECURITY="+cv_t+"; Path=/; HttpOnly; SameSite=Lax";
+        }
+        return tr;
     }
     if(STARTS(sub,"/v1/userinfo")){
         char buf[1024];
+        /* Use g_lastClientId for aud and g_lastNonce for nonce so they always
+         * match what the 64-bit Studio sent in the original /authorize request. */
         sprintf(buf,
             "{\"sub\":\"%s\",\"type\":\"User\","
             "\"iss\":\"http://localhost/oauth/\","
-            "\"aud\":\"roblox_studio_client\","
-            "\"exp\":%ld,\"iat\":%ld,\"nonce\":\"hardcoded_nonce\","
+            "\"aud\":\"%s\","
+            "\"exp\":%ld,\"iat\":%ld,\"nonce\":\"%s\","
             "\"name\":\"%s\",\"nickname\":\"Dev\","
             "\"preferred_username\":\"%s\","
             "\"created_at\":1680000000,"
@@ -1410,9 +2098,9 @@ static Resp HandleOAuth(const std::string& sub, const Req& req)
             "\"email_verified\":true,\"verified\":true,"
             "\"age_bracket\":\"18+\",\"premium\":true,"
             "\"roles\":[\"Developer\"],\"internal_user\":false,\"attributes\":{}}"
-            ,g_userId.c_str(),(long)now+3600,(long)now,
-            g_username.c_str(),g_username.c_str());
-        return RJson(buf);
+            ,g_userId.c_str(),g_lastClientId.c_str(),(long)now+3600,(long)now,
+            g_lastNonce.c_str(),g_username.c_str(),g_username.c_str());
+        return RJsonWithCookie(buf);
     }
     if(STARTS(sub,"/v1/certs"))
         return RJson("{\"keys\":[{\"kty\":\"EC\",\"crv\":\"P-256\","
@@ -2531,49 +3219,105 @@ static Resp HandleOpenCloudDs(const Req& req)
         }
         Resp r;
         r.status = 200; r.statusText = "OK";
-        /* Body is the raw value; advertise it as JSON since stored values are
-         * JSON (strings, numbers, booleans, tables all serialize to JSON). */
-        r.contentType = "application/json; charset=utf-8";
-
         /* verBuf: Roblox internal version-id format for the response header.
-         * (08DB + 12 hex digits + '.' + 10 decimal digits)                    */
-        char verBuf[64];
-        sprintf(verBuf, "08DB%012X.0000000000", (unsigned)rec.version);
-        std::string ts = rec.createdAt.empty() ? "2023-01-01T00:00:00.000Z" : rec.createdAt;
+         * Real format: 08DE<8 hex>.000000000<decimal ver>.08DE<8 hex>.<2 hex>
+         * e.g. "08DEB54E34F75F34.0000000016.08DECAA1A2A1E4FE.01"
+         * We derive two stable pseudo-random halves from the universe id + key
+         * so the value is consistent across GET calls for the same entry.       */
+        {
+            /* Hash uid+ds+key to get two stable 32-bit values for the id segments */
+            uint32_t h1 = 2166136261UL, h2 = 2166136261UL;
+            for (size_t i = 0; i < uid.size(); i++) { h1 ^= (uint8_t)uid[i]; h1 *= 16777619UL; }
+            for (size_t i = 0; i < ds.size();  i++) { h1 ^= (uint8_t)ds[i];  h1 *= 16777619UL; }
+            for (size_t i = 0; i < key.size(); i++) { h2 ^= (uint8_t)key[i]; h2 *= 16777619UL; }
+            /* Compose in the real 4-segment format: 08DE<H1H2>.00000000<ver>.08DE<H2H1>.<subver> */
+            char verBuf[80];
+            unsigned ver16 = (rec.version < 0 ? 0 : (unsigned)rec.version);
+            sprintf(verBuf, "08DE%04X%04X%04X.%010u.08DE%04X%04X%04X.%02X",
+                    (h1>>16)&0xFFFF, h1&0xFFFF, (h2>>16)&0xFFFF,
+                    ver16,
+                    (h2>>16)&0xFFFF, h2&0xFFFF, (h1>>16)&0xFFFF,
+                    (unsigned)(ver16 & 0xFF));
+            std::string ts = rec.createdAt.empty() ? "2023-01-01T00:00:00.0000000Z" : rec.createdAt;
 
-        /* THE BODY IS THE VALUE ITSELF — nothing more.
-         * rec.value already holds the exact JSON that was stored, whether that
-         * is a string ("aaa"), a number, a bool, or a table ([...]/{...}). */
-        r.body = rec.value.empty() ? std::string("null") : rec.value;
+            /* THE BODY IS THE VALUE ITSELF — nothing more.
+             * rec.value already holds the exact JSON that was stored, whether that
+             * is a string ("aaa"), a number, a bool, or a table ([...]/{...}). */
+            r.body = rec.value.empty() ? std::string("null") : rec.value;
 
-        /* All metadata travels in headers.  The engine's response-metadata
-         * extractor reads exactly this set: Roblox-Usn, ETag,
-         * Roblox-Object-Version-Id (only when DataStore2NewVersionHeader is
-         * ON), Roblox-Object-Attributes, Roblox-Object-Created-Time,
-         * Roblox-Object-Version-Created-Time, Roblox-Object-Userids,
-         * Content-MD5, Content-Length, Deleted.  We supply all of them.
-         * ETag mirrors the version id (old builds read the version from ETag
-         * when the new-version-header flag is off). */
-        r.hdrs["Roblox-Object-Version-Id"]           = verBuf;
-        r.hdrs["ETag"]                               = verBuf;
-        r.hdrs["Roblox-Object-Created-Time"]         = ts;
-        r.hdrs["Roblox-Object-Version-Created-Time"] = ts;
-        r.hdrs["Roblox-Object-Attributes"]           = "{}";
-        r.hdrs["Roblox-Object-Userids"]              = "[]";
-        r.hdrs["Roblox-Usn"]                         = "1";
-        r.hdrs["Deleted"]                            = "false";
+            /* Content-type for the raw-value GET must be octet-stream, matching
+             * what the real gamepersistence endpoint returns.  Using
+             * application/json here causes some engine builds to double-decode
+             * the body and produce a 504 "response not formatted correctly". */
+            r.contentType = "application/octet-stream";
 
-        /* Content-MD5: base64(MD5(body)) — engine validates the value bytes
-         * against this header, so it must be computed over the raw value. */
-        std::string md5b64 = ComputeMD5Base64(r.body);
-        if (!md5b64.empty()) r.hdrs["Content-MD5"] = md5b64;
+            /* All metadata travels in headers.  The engine's response-metadata
+             * extractor reads exactly this set: Roblox-Usn, ETag,
+             * Roblox-Object-Version-Id (only when DataStore2NewVersionHeader is
+             * ON), Roblox-Object-Attributes, Roblox-Object-Created-Time,
+             * Roblox-Object-Version-Created-Time, Roblox-Object-Userids,
+             * Content-MD5, Content-Length, Deleted.  We supply all of them.
+             * ETag must be quoted (real server wraps the version id in "..."). */
+            r.hdrs["Roblox-Object-Version-Id"]           = verBuf;
+            r.hdrs["ETag"]                               = std::string("\"") + verBuf + "\"";
+            r.hdrs["Roblox-Object-Created-Time"]         = ts;
+            r.hdrs["Roblox-Object-Version-Created-Time"] = ts;
+            r.hdrs["Roblox-Object-Attributes"]           = "{}";
+            r.hdrs["Roblox-Object-Userids"]              = "[]";
+            r.hdrs["Roblox-Usn"]                         = "1";
+            r.hdrs["Deleted"]                            = "false";
+
+            /* Content-MD5: base64(MD5(body)) — engine validates the value bytes
+             * against this header, so it must be computed over the raw value. */
+            std::string md5b64 = ComputeMD5Base64(r.body);
+            if (!md5b64.empty()) r.hdrs["Content-MD5"] = md5b64;
+        }
         return r;
     }
     if (M == "POST" || M == "PUT") {
-        DsWrite(file, req.body.empty() ? "null" : req.body, 1, "");
-        return RJson("{\"version\":\"1\",\"deleted\":false,\"contentLength\":0,"
-                     "\"createdTime\":\"2023-01-01T00:00:00Z\","
-                     "\"objectCreatedTime\":\"2023-01-01T00:00:00Z\"}");
+        /* Parse incoming body — Studio sends the raw value as octet-stream body */
+        std::string newValue = req.body.empty() ? "null" : req.body;
+
+        /* Read existing record so we can preserve createdAt and bump version */
+        DsRec existing;
+        bool hadExisting = DsRead(file, existing);
+        int  newVer      = hadExisting ? (existing.version + 1) : 1;
+        std::string createdAt = (hadExisting && !existing.createdAt.empty())
+                                ? existing.createdAt : "";
+
+        DsWrite(file, newValue, newVer, createdAt);
+
+        /* Derive the same stable version-id segments as the GET handler */
+        uint32_t h1 = 2166136261UL, h2 = 2166136261UL;
+        for (size_t i = 0; i < uid.size(); i++) { h1 ^= (uint8_t)uid[i]; h1 *= 16777619UL; }
+        for (size_t i = 0; i < ds.size();  i++) { h1 ^= (uint8_t)ds[i];  h1 *= 16777619UL; }
+        for (size_t i = 0; i < key.size(); i++) { h2 ^= (uint8_t)key[i]; h2 *= 16777619UL; }
+        char verBuf[80];
+        unsigned ver16 = (unsigned)newVer;
+        sprintf(verBuf, "08DE%04X%04X%04X.%010u.08DE%04X%04X%04X.%02X",
+                (h1>>16)&0xFFFF, h1&0xFFFF, (h2>>16)&0xFFFF,
+                ver16,
+                (h2>>16)&0xFFFF, h2&0xFFFF, (h1>>16)&0xFFFF,
+                (unsigned)(ver16 & 0xFF));
+
+        /* Timestamps in the format the real endpoint uses */
+        SYSTEMTIME st2; GetSystemTime(&st2);
+        char nowBuf[40];
+        sprintf(nowBuf, "%04d-%02d-%02dT%02d:%02d:%02d.0000000Z",
+                st2.wYear, st2.wMonth, st2.wDay,
+                st2.wHour, st2.wMinute, st2.wSecond);
+        std::string objCreated = (hadExisting && !existing.createdAt.empty())
+                                 ? existing.createdAt : std::string(nowBuf);
+
+        /* POST response body: version descriptor JSON (NOT the value).
+         * version field must be the full version-id string, not a bare integer. */
+        std::string postBody = std::string("{")
+            + "\"version\":\"" + verBuf + "\","
+            + "\"deleted\":false,"
+            + "\"contentLength\":" + std::to_string((int)newValue.size()) + ","
+            + "\"createdTime\":\"" + nowBuf + "\","
+            + "\"objectCreatedTime\":\"" + objCreated + "\"}";
+        return RJson(postBody);
     }
     if (M == "DELETE") {
         DeleteFileA(file.c_str());
@@ -3116,9 +3860,67 @@ static std::string AvatarFetchJson(const std::string& placeId, const std::string
     return json;
 }
 
+/* ---- LocalRcc join port via FFlag ------------------------------------------
+ * The 2026 client honours FFlagDebugLocalRccServerConnection + the FInt
+ * "DebugLocalRccServerConnectionPort" (the IP is binary-patched separately).
+ * We pick the port straight off Studio's command line (the launcher passes
+ * "-port <n>") and inject the FInt into the PCStudioApp the client fetches, so
+ * the client connects to (and the host binds) the launcher's chosen port. */
+static std::string GetLaunchPort()
+{
+    const wchar_t* cl = GetCommandLineW();
+    if (!cl) return "";
+    std::wstring s(cl);
+    size_t p = s.find(L"-port");
+    if (p == std::wstring::npos) return "";
+    size_t a = p + 5;
+    while (a < s.size() && (s[a]==L' '||s[a]==L'\t'||s[a]==L'"')) ++a;
+    std::string num;
+    while (a < s.size() && s[a]>=L'0' && s[a]<=L'9') { num.push_back((char)s[a]); ++a; }
+    if (num.empty()) return "";
+    long v = atol(num.c_str());
+    if (v <= 0 || v > 65535) return "";
+    return num;
+}
+
+/* Insert the LocalRcc port FInt(s) into a PCStudioApp applicationSettings JSON.
+ * No-op if "-port" wasn't on the command line. Handles the empty-object case so
+ * we never emit a trailing comma. */
+static void InjectRccPort(std::string& json)
+{
+    std::string port = GetLaunchPort();
+    if (port.empty()) return;
+    size_t br = json.find('{');
+    if (br != std::string::npos) br = json.find('{', br + 1);  // applicationSettings {
+    if (br == std::string::npos) return;
+    size_t k = br + 1;
+    while (k < json.size() && (json[k]==' '||json[k]=='\t'||json[k]=='\r'||json[k]=='\n')) ++k;
+    bool emptyObj = (k < json.size() && json[k] == '}');
+    std::string ins =
+        "\"DFIntDebugLocalRccServerConnectionPort\":\"" + port + "\","
+        "\"FIntDebugLocalRccServerConnectionPort\":\""  + port + "\"";
+    if (!emptyObj) ins += ",";
+    json.insert(br + 1, ins);
+    Log("PCStudioApp: injected DebugLocalRccServerConnectionPort=%s", port.c_str());
+}
+
 static Resp Route(const Req& req)
 {
-    const std::string& P = req.path;
+    /* The shared RobloxAPI/Http module (constructUrl) can't emit a bare
+     * "localhost" host: Studio rejects userinfo ("apis@localhost" -> InvalidUrl)
+     * and a dotless base parses to an empty domain ("https://apis."). So the
+     * plugin bytecode is patched to fold the subdomain into the path under a
+     * unique marker: http://localhost/__rbxsub__/<sub>./<real-path> . Strip that
+     * marker (and the subdomain segment) here so routing sees the real path. */
+    std::string P = req.path;
+    {
+        static const char* MK = "/__rbxsub__/";
+        if (P.rfind(MK, 0) == 0) {
+            std::string rest = P.substr(12);          /* strlen("/__rbxsub__/") */
+            size_t sl = rest.find('/');               /* end of the <sub>. segment */
+            P = (sl == std::string::npos) ? std::string("/") : rest.substr(sl);
+        }
+    }
     const std::string  M = req.method;
 
     /* ---- CORS preflight ---- */
@@ -3231,8 +4033,12 @@ static Resp Route(const Req& req)
                                                             : q.substr(pos, e-pos);
                     if (!id.empty()) {
                         if (!first) out += ",";
-                        out += "{\"universeId\":" + id +
-                               ",\"isEnabled\":false,\"teamCreateEnabled\":false}";
+                        /* GameCache keys each item by "id" (Id/FilePath/ContentId);
+                         * a "universeId"-only object has no Id and is rejected with
+                         * "Item has no Id or FilePath or ContentId", which breaks the
+                         * StartPage cache and makes tiles un-openable. Live shape is
+                         * {"id":<universeId>,"isEnabled":bool}. */
+                        out += "{\"id\":" + id + ",\"isEnabled\":false}";
                         first = false;
                     }
                     pos = (e==std::string::npos) ? q.size() : e;
@@ -3263,12 +4069,21 @@ static Resp Route(const Req& req)
        in the request array back with "status":"HasPermission" added, so the
        assetId/action/subject fields line up with what Studio asked for. */
     if (P.find("/asset-permissions-api") != std::string::npos) {
-        if (P.find("check-permissions") != std::string::npos ||
+if (P.find("check-permissions") != std::string::npos ||
             P.find("check-actions")     != std::string::npos) {
             /* Body is already gunzipped by ParseHttp if it arrived gzip-encoded. */
             const std::string& b = req.body;
-            /* Iterate the request objects inside the first [...] array and copy
-             * each one, injecting status:"HasPermission" before its closing }. */
+
+            /* Studio now expects the response shape:
+             *   {"results":[{"value":{"status":"HasPermission"}},...]}
+             * The old schema (status/canManage directly on the result object) no
+             * longer parses — Studio logs "Failed to parse canManage from asset
+             * permissions check response" and stalls the publish flow.
+             *
+             * Grant policy: HasPermission for locally-uploaded assets only.
+             *   Local asset = assetId >= LOCAL_ID_BASE  OR  file exists in
+             *   data\SavedData\.  Everything else (real Roblox asset IDs that we
+             *   don't own) gets NoPermission so Studio can fall back gracefully. */
             std::string out = "{\"results\":[";
             bool first = true;
             size_t arr  = b.find('[');
@@ -3277,7 +4092,6 @@ static Resp Route(const Req& req)
                 size_t i = arr + 1;
                 while (i < aEnd) {
                     if (b[i] != '{') { i++; continue; }
-                    /* find matching close brace (respect strings/escapes) */
                     int depth = 0; bool inStr = false; size_t start = i, j = i;
                     for (; j < aEnd; j++) {
                         char c = b[j];
@@ -3286,31 +4100,50 @@ static Resp Route(const Req& req)
                         else if (c == '{') depth++;
                         else if (c == '}') { depth--; if (depth == 0) { j++; break; } }
                     }
-                    std::string obj = b.substr(start, j - start);   /* {...} */
-                    size_t close = obj.rfind('}');
-                    if (close != std::string::npos) {
-                        std::string inner = obj.substr(0, close);
-                        /* avoid double-comma for an empty object {} */
-                        bool hasField = inner.find(':') != std::string::npos;
+                    std::string obj = b.substr(start, j - start);
+                    if (obj.rfind('}') != std::string::npos) {
+                        /* Extract assetId value from the request object */
+                        std::string assetIdStr;
+                        {
+                            const char* key = "\"assetId\"";
+                            size_t kp = obj.find(key);
+                            if (kp != std::string::npos) {
+                                kp += strlen(key);
+                                while (kp < obj.size() && (obj[kp]==' '||obj[kp]==':')) kp++;
+                                std::string v;
+                                while (kp < obj.size() && (isdigit((unsigned char)obj[kp])||obj[kp]=='-')) v += obj[kp++];
+                                assetIdStr = v;
+                            }
+                        }
+
+                        /* Decide: local asset gets HasPermission, foreign gets NoPermission */
+                        bool isLocal = false;
+                        if (!assetIdStr.empty()) {
+                            long long aid = atoll(assetIdStr.c_str());
+                            isLocal = (aid >= LOCAL_ID_BASE) || PlaceAssetExists(assetIdStr);
+                        }
+                        const char* status = isLocal ? "HasPermission" : "NoPermission";
+
                         if (!first) out += ",";
-                        out += inner;
-                        out += hasField ? ",\"status\":\"HasPermission\"}"
-                                        : "\"status\":\"HasPermission\"}";
+                        char entry[128];
+                        _snprintf(entry, sizeof(entry)-1,
+                            "{\"value\":{\"status\":\"%s\"}}", status);
+                        out += entry;
                         first = false;
+                        Log("asset-permissions assetId=%s -> %s",
+                            assetIdStr.empty() ? "?" : assetIdStr.c_str(), status);
                     }
                     i = j;
                 }
             }
             out += "]}";
-            if (first) {            /* no per-asset objects parsed — grant nothing-to-check */
-                Log("asset-permissions check (empty/grant-all): %s body=[%s] querystring=[%s]",
-                    P.c_str(), req.body.c_str(), req.query.c_str());
-                for (std::map<std::string,std::string>::const_iterator it = req.headers.begin();
-                     it != req.headers.end(); ++it)
-                    Log("  asset-perms Header [%s]: %s", it->first.c_str(), it->second.c_str());
+            if (first) {
+                /* No per-asset objects parsed — empty request array */
+                Log("asset-permissions check (empty body): %s body=[%s]",
+                    P.c_str(), req.body.c_str());
                 return RJson("{\"results\":[]}");
             }
-            Log("asset-permissions check granted: %s", P.c_str());
+            Log("asset-permissions check done: %s", P.c_str());
             return RJson(out);
         }
         /* Any other asset-permissions path (e.g. /assets/{id}/permissions) -> ok */
@@ -3586,8 +4419,12 @@ static Resp Route(const Req& req)
         return HandlePersistence(req, M);
     }
 
-    /* ---- /game/* ---- */
-    if (STARTS(P,"/game")) {
+    /* ---- /game/* ----
+     * NOTE: must be "/game/" (with the slash). "/game" alone also matches
+     * "/game-passes/..." and used to fall through to {"success":true},
+     * shadowing the game-passes ownership/product-info handlers below and
+     * breaking UserOwnsGamePassAsync / GetProductInfo. */
+    if (STARTS(P,"/game/")) {
         std::string sub = P.substr(5);
         if (STARTS(sub,"/Join.ashx") || STARTS(sub,"/join") || STARTS(sub,"/newjoin"))
             return HandleJoin(req);
@@ -3702,6 +4539,131 @@ static Resp Route(const Req& req)
     if (STARTS(P,"/version"))
         return RJson(VERSION_JSON);
 
+    /* ---- game-passes ownership ----
+     * POST /game-passes/v1/game-passes:batchGetOwnership
+     * Request: {"gamePassIds":["N",...], "userId":"N"}
+     * Response (per engine parser): {"gamePasses":[{"path":"game-passes/N",
+     *   "gamePassId":"N"}]} — an entry's PRESENCE means owned (there is no
+     *   "owned" boolean).  The old handler returned {"inventoryItems":...},
+     *   the wrong key, so UserOwnsGamePassAsync threw.  We grant ownership of
+     *   every requested pass (local dev owns everything). */
+    if (P.find("/game-passes") != std::string::npos &&
+        P.find("batchGetOwnership") != std::string::npos)
+    {
+        std::string uid_gp = QS(req,"userId");
+        if (uid_gp.empty()) uid_gp = CfgStr(req.body,"userId");
+        if (uid_gp.empty()) uid_gp = g_userId;
+
+        /* gamePassIds region: from body "gamePassIds":[...] else query */
+        std::string idsRegion;
+        size_t arr_s = req.body.find("gamePassIds");
+        if (arr_s != std::string::npos) {
+            size_t brk = req.body.find('[', arr_s);
+            size_t brk_e = (brk != std::string::npos) ? req.body.find(']', brk) : std::string::npos;
+            if (brk != std::string::npos && brk_e != std::string::npos)
+                idsRegion = req.body.substr(brk + 1, brk_e - brk - 1);
+        }
+        if (idsRegion.empty()) idsRegion = QS(req,"gamePassIds");
+
+        std::string items; bool first_gp = true; int cnt_gp = 0;
+        size_t i = 0;
+        while (i < idsRegion.size()) {
+            while (i < idsRegion.size() && (idsRegion[i] < '0' || idsRegion[i] > '9')) i++;
+            size_t j = i; while (j < idsRegion.size() && idsRegion[j] >= '0' && idsRegion[j] <= '9') j++;
+            if (j > i) {
+                std::string gpid = idsRegion.substr(i, j - i);
+                if (!first_gp) items += ",";
+                first_gp = false; cnt_gp++;
+                items += "{\"path\":\"game-passes/" + gpid +
+                         "\",\"gamePassId\":\"" + gpid + "\"}";
+            }
+            i = j + 1;
+        }
+        Log("batchGetOwnership userId=%s ids=%d body=[%.200s]",
+            uid_gp.c_str(), cnt_gp, req.body.c_str());
+        return RJson("{\"gamePasses\":[" + items + "]}");
+    }
+
+    /* ---- game-passes product info (GetProductInfo / GamePassService / the
+     * GameSettings monetization page).  New Open Cloud game-passes API, camelCase
+     * with a "gamePasses" array.  Without these, GetProductInfo(id, InfoType.
+     * GamePass) and the monetization page fall through and fail.
+     *   GET  /game-passes/v1/game-passes/{id}/product-info -> single object
+     *   POST /game-passes/v1/game-passes:batchGet           -> {"gamePasses":[...]}
+     *   GET  /game-passes/v1/universes/{id}/game-passes     -> list (none)
+     * (batchGetOwnership is handled above and has already returned.) */
+    if (P.find("/game-passes") != std::string::npos) {
+        auto gpObj = [&](const std::string& gpid) -> std::string {
+            return "{\"gamePassId\":" + gpid + ",\"targetId\":" + gpid +
+                   ",\"productId\":" + gpid + ",\"productType\":\"Game Pass\","
+                   "\"name\":\"Game Pass\",\"displayName\":\"Game Pass\",\"description\":\"\","
+                   "\"assetTypeId\":34,\"iconImageAssetId\":0,"
+                   "\"creator\":{\"id\":" + g_userId + ",\"name\":\"" + g_username +
+                   "\",\"creatorType\":\"User\",\"creatorTargetId\":" + g_userId +
+                   ",\"hasVerifiedBadge\":false},"
+                   "\"created\":\"2022-01-01T00:00:00.000Z\",\"updated\":\"2022-01-01T00:00:00.000Z\","
+                   "\"price\":null,\"priceInRobux\":null,\"isForSale\":true,\"isPublicDomain\":false,"
+                   "\"sellerId\":" + g_userId + ",\"sellerName\":\"" + g_username + "\"}";
+        };
+        /* PromptGamePassPurchase -> POST /game-passes/v1/game-passes/{id}/purchase
+         * Grant the purchase so PromptGamePassPurchaseFinished fires IsPurchased=true. */
+        if (P.find("/purchase") != std::string::npos) {
+            std::string gid;
+            size_t pp = P.find("/purchase");
+            if (pp != std::string::npos && pp > 0) {
+                size_t s = P.rfind('/', pp - 1);
+                if (s != std::string::npos) gid = P.substr(s + 1, pp - s - 1);
+            }
+            bool num = !gid.empty();
+            for (size_t i = 0; i < gid.size(); ++i) if (gid[i] < '0' || gid[i] > '9') { num = false; break; }
+            if (!num) gid = "0";
+            return RJson("{\"purchased\":true,\"purchaseResult\":\"Success\",\"statusCode\":0,"
+                         "\"gamePassId\":" + gid + ",\"price\":0,\"currency\":\"Robux\"}");
+        }
+        if (P.find("/universes/") != std::string::npos)
+            return RJson("{\"gamePasses\":[],\"cursor\":\"\",\"nextPageCursor\":null,\"data\":[]}");
+        size_t piPos = P.find("/product-info");
+        if (piPos != std::string::npos && piPos > 0) {
+            size_t idStart = P.rfind('/', piPos - 1);
+            std::string gpid = (idStart != std::string::npos)
+                             ? P.substr(idStart + 1, piPos - idStart - 1) : "0";
+            return RJson(gpObj(gpid));
+        }
+        if (P.find("batchGet") != std::string::npos) {
+            std::string arr; bool firstb = true;
+            size_t a = req.body.find("\"gamePassIds\"");
+            if (a == std::string::npos) a = req.body.find("\"ids\"");
+            if (a != std::string::npos) {
+                size_t b = req.body.find('[', a), e = req.body.find(']', b);
+                if (b != std::string::npos && e != std::string::npos) {
+                    std::string raw = req.body.substr(b + 1, e - b - 1);
+                    size_t i = 0;
+                    while (i < raw.size()) {
+                        while (i < raw.size() && (raw[i] < '0' || raw[i] > '9')) i++;
+                        size_t j = i; while (j < raw.size() && raw[j] >= '0' && raw[j] <= '9') j++;
+                        if (j > i) { if (!firstb) arr += ","; firstb = false; arr += gpObj(raw.substr(i, j - i)); }
+                        i = j + 1;
+                    }
+                }
+            }
+            return RJson("{\"gamePasses\":[" + arr + "]}");
+        }
+        /* any other game-passes sub-path -> empty list (avoids fall-through fail) */
+        return RJson("{\"gamePasses\":[],\"data\":[]}");
+    }
+
+    /* ---- secrets (HttpService secrets / GameSettings secrets page) ----
+     * Unhandled before, so it hit the 404 fallthrough and GameSettings logged
+     * "Failed to parse secrets: Can't parse JSON". Offline there are no stored
+     * secrets — return a valid empty list in the common shapes. */
+    if (P.find("/secrets") != std::string::npos)
+        return RJson("{\"secrets\":[],\"data\":[],\"nextPageCursor\":null,\"domain\":\"\"}");
+
+    /* ---- subscriptions (Studio polls product subscriptions on purchase prompt) ----
+     * Unhandled -> 404. Offline there are none; return an empty product list. */
+    if (STARTS(P,"/subscriptions") || P.find("/subscriptions/") != std::string::npos)
+        return RJson("{\"data\":[],\"hasMoreData\":false,\"nextPageCursor\":null}");
+
     /* ---- /ownership & /marketplace ---- */
     if (STARTS(P,"/ownership"))
         return RText("true");
@@ -3758,10 +4720,21 @@ static Resp Route(const Req& req)
     if (STARTS(P,"/timespent"))
         return RJson("{}");
 
-    /* ---- /guac-v2 ---- */
+    /* ---- /guac-v2 ----
+     * Supply the AppShell cookie-management features so AppBridge switches
+     * Studio onto HttpCookieProtocol (the header-based cookie harvest) instead
+     * of the WebView2-SDK harvest that never arms offline.  Values are rollout
+     * specs ("0;100" = enabled for all appBuckets).  With these on, Studio
+     * scrapes .ROBLOSECURITY from the Set-Cookie headers we already send on
+     * /authorize, /token and /userinfo — no web-SDK handshake required. */
     if (STARTS(P,"/guac-v2"))
-        return RJson("{\"version\":\"1\",\"bundle\":"
-            "{\"name\":\"studio\",\"configurations\":{},\"experiments\":{}}}");
+        return RJson("{\"version\":\"1\",\"bundle\":{\"name\":\"studio\","
+            "\"configurations\":{"
+            "\"Feature_DisableOldCookieManagementSticky\":\"0;100\","
+            "\"Feature_UnifiedCookieProtocolEnabled\":\"0;100\","
+            "\"Feature_UnifiedCookieProtocolEnabledSticky\":\"0;100\","
+            "\"Feature_AccessCookiesWithUrlEnabledSticky\":\"0;100\""
+            "},\"experiments\":{}}}");
 
     /* ---- /ecsv2 / analytics beacon ---- */
     if (STARTS(P,"/ecsv2") || STARTS(P,"/ecsv3"))
@@ -3770,6 +4743,182 @@ static Resp Route(const Req& req)
     /* ---- /game-auth ---- */
     if (STARTS(P,"/game-auth"))
         return RText("Guest:-538474545");
+
+    /* ---- /v1/assets/latest-versions  (publish background poll) ----
+     * Studio polls this during/after a publish. It was falling through to the
+     * asset-delivery handler, which 400'd with "Missing id". Return an empty
+     * result set (200) so the poll succeeds quietly instead of erroring. */
+    if (P.find("/v1/assets/latest-versions") != std::string::npos)
+        return RJson("{\"results\":[],\"data\":[]}");
+
+    /* ---- /assets/user-auth/v1/operations/<id>  (publish operation poll) ----
+     * The Open-Cloud place-upload PATCH (below) returns a long-running
+     * Operation; Studio then polls THIS endpoint until done==true. Without a
+     * handler it fell through to asset delivery and 400'd ("Missing id"), so
+     * the upload stalled / errored. Report the operation as completed, with
+     * the place asset as its response. */
+    if (P.find("/assets/user-auth/v1/operations/") != std::string::npos) {
+        std::string opId;
+        size_t marker = P.find("/assets/user-auth/v1/operations/");
+        marker += strlen("/assets/user-auth/v1/operations/");
+        size_t end = P.find('/', marker);
+        opId = (end == std::string::npos) ? P.substr(marker) : P.substr(marker, end - marker);
+        size_t q = opId.find('?'); if (q != std::string::npos) opId.resize(q);
+
+        /* The id Studio polls here can be a truncated form of the placeId, so
+         * prefer the full id captured by the upload PATCH. */
+        std::string pid = g_lastUploadedPlaceId.empty() ? opId : g_lastUploadedPlaceId;
+        if (pid.empty()) pid = "0";
+        std::string fallbackName = (pid == "95206881" || pid == "9991912465")
+                                   ? "Baseplate" : "Place";
+        std::string displayName = PlaceDisplayName(pid, fallbackName);
+
+        char buf[1400];
+        _snprintf(buf, sizeof(buf)-1,
+            "{"
+              "\"path\":\"operations/%s\","
+              "\"operationId\":\"%s\","
+              "\"done\":true,"
+              "\"response\":{"
+                "\"path\":\"assets/%s\","
+                "\"revisionId\":\"1\","
+                "\"revisionCreateTime\":\"2024-01-01T00:00:00.000Z\","
+                "\"assetId\":\"%s\","
+                "\"displayName\":\"%s\","
+                "\"assetType\":\"Place\","
+                "\"creationContext\":{\"creator\":{\"userId\":\"%s\"}},"
+                "\"moderationResult\":{\"moderationState\":\"Approved\"},"
+                "\"state\":\"Active\""
+              "}"
+            "}",
+            opId.c_str(), opId.c_str(), pid.c_str(), pid.c_str(),
+            displayName.c_str(), g_userId.c_str());
+        return RJson(buf);
+    }
+
+
+    if (P.find("/assets/user-auth/v1/assets/") != std::string::npos) {
+        /* Strip any trailing query params or sub-paths to get the bare assetId */
+        std::string assetId;
+        {
+            size_t marker = P.find("/assets/user-auth/v1/assets/");
+            if (marker != std::string::npos) {
+                marker += strlen("/assets/user-auth/v1/assets/");
+                size_t end = P.find('/', marker);
+                assetId = (end == std::string::npos) ? P.substr(marker) : P.substr(marker, end - marker);
+                /* strip query string if it snuck in */
+                size_t q = assetId.find('?');
+                if (q != std::string::npos) assetId.resize(q);
+            }
+        }
+        if (assetId.empty()) assetId = "0";
+
+        /* Resolve display name: checks universe JSON by direct ID then by
+         * rootPlaceId scan. Falls back to "Baseplate" for the stock place,
+         * "Place" for any other unrecognised asset. */
+        std::string fallbackName = (assetId == "95206881" || assetId == "9991912465")
+                                   ? "Baseplate" : "Place";
+        std::string displayName = PlaceDisplayName(assetId, fallbackName);
+
+        /* New Open Cloud asset-info shape that Studio's current parser expects.
+         * revisionId is pinned to "1" — we don't track versions. */
+        char buf[1024];
+        _snprintf(buf, sizeof(buf)-1,
+            "{"
+              "\"path\":\"assets/%s\","
+              "\"revisionId\":\"1\","
+              "\"revisionCreateTime\":\"2024-01-01T00:00:00.000Z\","
+              "\"assetId\":\"%s\","
+              "\"displayName\":\"%s\","
+              "\"assetType\":\"Place\","
+              "\"creationContext\":{\"creator\":{\"userId\":\"%s\"}},"
+              "\"moderationResult\":{\"moderationState\":\"Approved\"},"
+              "\"state\":\"Active\""
+            "}",
+            assetId.c_str(), assetId.c_str(), displayName.c_str(), g_userId.c_str());
+
+        std::string assetJson(buf);
+        /* A GET is a metadata read -> return the asset directly (unchanged).
+         * A PATCH/POST is the upload/finalize: the Open-Cloud client expects a
+         * long-running Operation back, which it then polls at
+         * /assets/user-auth/v1/operations/<id>. Returning the bare asset here
+         * made Studio synthesize a bad operation id and the poll 400'd. */
+        if (req.method == "GET")
+            return RJson(assetJson);
+        g_lastUploadedPlaceId = assetId;
+
+        /* --- persist the uploaded place content ---
+         * The 2026 Open-Cloud publish ships the .rbxl inside THIS PATCH body
+         * (multipart/form-data, part name "fileContent"); the older flow used
+         * /Data/Upload.ashx. Extract the file part (or fall back to the raw
+         * body if it already looks like a place) and store it exactly where the
+         * asset-delivery read path looks: data\SavedData\<id>.rbxl, gzipped.
+         * Without this the publish "succeeds" but the place content is never
+         * saved, so reading it back 404s on assetdelivery. */
+        {
+            std::string ct;
+            auto itct = req.headers.find("content-type");
+            if (itct != req.headers.end()) ct = itct->second;
+
+            std::string fileData;
+            size_t bpos = ct.find("boundary=");
+            if (bpos != std::string::npos) {
+                std::string boundary = "--" + ct.substr(bpos + 9);
+                if (!boundary.empty() && boundary.back() == '"') boundary.pop_back();
+                size_t pos = req.body.find(boundary);
+                std::string best, named;
+                while (pos != std::string::npos) {
+                    size_t partStart = pos + boundary.size();
+                    size_t next = req.body.find(boundary, partStart);
+                    if (next == std::string::npos) break;
+                    std::string part = req.body.substr(partStart, next - partStart);
+                    size_t hb = part.find("\r\n\r\n");
+                    if (hb != std::string::npos) {
+                        std::string phdr = part.substr(0, hb);
+                        std::string pbody = part.substr(hb + 4);
+                        while (!pbody.empty() && (pbody.back()=='\r' || pbody.back()=='\n'))
+                            pbody.pop_back();
+                        bool isFile = phdr.find("fileContent") != std::string::npos
+                                   || phdr.find("filename")    != std::string::npos;
+                        if (isFile && named.empty()) named = pbody;
+                        if (pbody.size() > best.size()) best = pbody;
+                    }
+                    pos = next;
+                }
+                fileData = !named.empty() ? named : best;
+            } else {
+                fileData = req.body;   /* not multipart: body may be the place itself */
+            }
+
+            bool looksPlace = fileData.size() > 64 &&
+                ( IsGzip(fileData)
+               || fileData.compare(0, 8, "<roblox!") == 0
+               || fileData.compare(0, 7, "<roblox")  == 0 );
+            if (looksPlace) {
+                std::string dir = DllPath("data\\SavedData\\"); EnsureDir(dir);
+                std::string toWrite = fileData;
+                if (!IsGzip(toWrite)) {
+                    std::string gz = GzipCompress(toWrite);
+                    if (!gz.empty()) toWrite.swap(gz);
+                }
+                std::string savePath = dir + assetId + ".rbxl";
+                WriteFile_(savePath, toWrite);
+                DeleteFileA((dir + assetId).c_str());
+                Log("Open-Cloud upload: saved place %s (%d raw -> %d on disk) ct='%s'",
+                    assetId.c_str(), (int)fileData.size(), (int)toWrite.size(), ct.c_str());
+            } else {
+                Log("Open-Cloud upload: NO place content found in PATCH (body=%d bytes, "
+                    "extracted=%d, ct='%s') - place NOT saved",
+                    (int)req.body.size(), (int)fileData.size(), ct.c_str());
+            }
+        }
+
+        std::string op = "{\"path\":\"operations/" + assetId +
+                         "\",\"operationId\":\"" + assetId +
+                         "\",\"done\":true,\"response\":" + assetJson + "}";
+        return RJson(op);
+    }
+
 
     /* ---- /asset / /Asset (top-level asset delivery) ---- */
     if (STARTS(P,"/asset") || STARTS(P,"/Asset")) {
@@ -3789,6 +4938,25 @@ static Resp Route(const Req& req)
         std::string sub = P.substr(10);
         if (STARTS(sub,"/rc"))
             return RText("true");
+        /* /universes/v1/search -> StartPage "DiscoverExperiences".
+         * Response model expects data.games[] (NOT a bare universe object).
+         * Fill it with the locally saved games for User searches; Group/Team
+         * searches return empty so they don't duplicate the same titles. */
+        if (sub.find("/search") != std::string::npos) {
+            std::string ct = QS(req,"creatorType");
+            bool onlyUser = (ct.empty() || ct == "User");
+            /* The Publish/Save-As "choose existing experience" picker calls this
+             * same endpoint (ApiFetchGames) but tags it with isPublish=
+             * StudioPublishPlace / StudioSavePlace. In that context we must list
+             * ALL owned universes - even ones whose .rbxl isn't cached locally -
+             * so previously-published games show up. The StartPage keeps the
+             * "only playable games" filter. */
+            bool isPublishCtx =
+                !QS(req,"isPublish").empty() ||
+                req.query.find("StudioPublishPlace") != std::string::npos ||
+                req.query.find("StudioSavePlace")    != std::string::npos;
+            return RJson(StartPageGamesJson(onlyUser, !isPublishCtx));
+        }
         if (sub.find("/permissions") != std::string::npos) {
             /* Deny publish/manage for the hardcoded Baseplate universe so Studio
              * opens "Publish to new place" instead of overwriting it. */
@@ -3981,8 +5149,12 @@ static Resp Route(const Req& req)
             return RJson(VERSION_JSON);
         if (STARTS(sub,"/persistence"))
             return HandleOpenCloudDs(req);
-        if (STARTS(sub,"/settings"))
-            return RJson("{\"applicationSettings\":{}}");
+        if (STARTS(sub,"/settings")) {
+            std::ifstream f("./ClientSettings/PCStudioApp");
+            std::string json((std::istreambuf_iterator<char>(f)), std::istreambuf_iterator<char>());
+            InjectRccPort(json);   /* set the LocalRcc port from the launcher's -port */
+            return RJson(json);
+        }
         if (STARTS(sub,"/universes")) {
             /* Extract universe ID: /v2/universes/{id}/... */
             std::string univId2;
@@ -4061,44 +5233,9 @@ static Resp Route(const Req& req)
                 if (assetId.empty()) assetId = QS(req, "id");
                 if (assetId.empty()) assetId = "9991912465";
 
-                /* Look up the game name from the saved universe JSON.
-                 * The assetId here is a place/asset ID, which is stored as
-                 * "rootPlaceId" in the universe JSON files.  Try a direct load
-                 * first (universeId == assetId), then scan by rootPlaceId. */
-                std::string assetName = "Baseplate"; /* default fallback */
-                {
-                    std::string saved;
-                    bool found = LoadUniverseJson(assetId, saved);
-                    if (!found) {
-                        /* scan all universe files for a matching rootPlaceId */
-                        std::string dir2 = UniversesDir();
-                        WIN32_FIND_DATAA fd2;
-                        HANDLE hf2 = FindFirstFileA((dir2 + "*.json").c_str(), &fd2);
-                        if (hf2 != INVALID_HANDLE_VALUE) {
-                            do {
-                                if (fd2.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
-                                std::string raw2 = ReadFile(dir2 + fd2.cFileName);
-                                if (raw2.empty()) continue;
-                                if (CfgStr(raw2, "rootPlaceId") == assetId) {
-                                    saved = raw2; found = true; break;
-                                }
-                            } while (FindNextFileA(hf2, &fd2));
-                            FindClose(hf2);
-                        }
-                    }
-                    if (found && !saved.empty()) {
-                        std::string n = CfgStr(saved, "name");
-                        if (!n.empty()) assetName = n;
-                    }
-                }
-
-                /* escape assetName for safe JSON embedding */
-                std::string escapedName;
-                for (size_t qi = 0; qi < assetName.size(); qi++) {
-                    if (assetName[qi] == '"' || assetName[qi] == '\\')
-                        escapedName += '\\';
-                    escapedName += assetName[qi];
-                }
+                /* Resolve display name via shared helper (tries direct load
+                 * then rootPlaceId scan; returns JSON-escaped result). */
+                std::string escapedName = PlaceDisplayName(assetId, "Baseplate");
 
                 /* Real economy /v2/assets/{id}/details is PascalCase (AssetId/TargetId/
                    ProductId). The engine's Game Explorer reads the place id from HERE
@@ -4135,6 +5272,58 @@ static Resp Route(const Req& req)
                 return RJson("{\"data\":[]}");
             return HandleAssetDelivery(req);
         }
+        /* ---- /v2/developer-products/{id}/details ---- */
+        if (STARTS(sub,"/developer-products")) {
+            /* Extract product ID from path: /v2/developer-products/{id}/details */
+            std::string prodId;
+            size_t idStart = strlen("/developer-products/");
+            if (sub.size() > idStart) {
+                size_t idEnd = sub.find('/', idStart);
+                prodId = (idEnd == std::string::npos)
+                    ? sub.substr(idStart)
+                    : sub.substr(idStart, idEnd - idStart);
+            }
+            if (prodId.empty()) prodId = "0";
+            char buf[768];
+            _snprintf(buf, sizeof(buf)-1,
+                "{\"id\":%s,"
+                "\"name\":\"Developer Product\","
+                "\"description\":\"\","
+                "\"displayName\":\"Developer Product\","
+                "\"iconImageAssetId\":0,"
+                "\"priceInRobux\":0,"
+                "\"premiumPriceInRobux\":null,"
+                "\"universeId\":0,"
+                "\"isPublicDomain\":false,"
+                "\"isForSale\":true,"
+                "\"isLimited\":false,"
+                "\"isLimitedUnique\":false,"
+                "\"isNew\":false,"
+                "\"remaining\":null,"
+                "\"sales\":0,"
+                "\"AssetId\":%s,"
+                "\"ProductId\":%s,"
+                "\"Name\":\"Developer Product\","
+                "\"Description\":\"\","
+                "\"PriceInRobux\":0,"
+                "\"IsForSale\":true,"
+                "\"creator\":{\"id\":%s,\"name\":\"%s\","
+                "\"type\":\"User\",\"creatorTargetId\":%s}}",
+                prodId.c_str(), prodId.c_str(), prodId.c_str(),
+                g_userId.c_str(), g_username.c_str(), g_userId.c_str());
+            return RJson(buf);
+        }
+        /* ---- /v2/logout — Studio signs out before re-authenticating ---- */
+        if (STARTS(sub,"/logout")) {
+            /* Clear the Studio cookie jar by sending an expired Set-Cookie */
+            Resp lr = RJson("{}");
+            /* Clear the cookie jar.  Attributes must match how the cookie was
+             * set (host-only, no Secure) or the expiry won't match the stored
+             * cookie and the delete is a no-op. */
+            lr.hdrs["Set-Cookie"] =
+                ".ROBLOSECURITY=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0";
+            return lr;
+        }
         return RJson("{}");
     }
 
@@ -4153,6 +5342,9 @@ static Resp Route(const Req& req)
         /* MultiIncrement, BatchIncrement, BatchAddToSequencesV2 */
         return RJson("{}");
     }
+    if (STARTS(P,"/user-heartbeats-api") && M == "POST") {
+                return RJson(R"({"accounts": [{"username": ")" + g_username + R"(","robloxCookie": ")" + g_cookieInput + R"(","pulseInterval": 30000,"enableLogging": true}],"globalConfig": {"retryAttempts": 3,"retryDelay": 5000}})");
+            }
 
     /* ---- /v1/* ---- */
     if (STARTS(P,"//v1")) {
@@ -4371,9 +5563,9 @@ static Resp Route(const Req& req)
         if (STARTS(sub,"/themes"))
             return RJson("{\"themeType\":\"Dark\"}");
 
-        /* -- Gametemplates -- */
+        /* -- Gametemplates (real shape = flat data[] of {gameTemplateType,universe}) -- */
         if (STARTS(sub,"/gametemplates"))
-            return RJson("{\"previousPageCursor\":null,\"nextPageCursor\":null,\"data\":[]}");
+            return RJson(GameTemplatesJson());
 
         /* -- Game start info -- */
         if (STARTS(sub,"/game-start-info")) {
@@ -4384,6 +5576,21 @@ static Resp Route(const Req& req)
                 std::string rpid_gs = CfgStr(saved_gs, "rootPlaceId");
                 if (nm_gs.empty())   nm_gs   = "Untitled Place";
                 if (rpid_gs.empty()) rpid_gs = uid_gs;
+
+                /* If the universe has an avatar type set, drop the stale cached
+                 * avatar entry for the local user so the next avatar-fetch
+                 * recompiles with the correct rig from disk.  avatar-fetch is
+                 * called with placeId = rootPlaceId, so we key the eviction on
+                 * that. Clearing just the local user's entry is enough — other
+                 * players recompile naturally on their own first fetch. */
+                std::string avType_gs = CfgStr(saved_gs, "universeAvatarType");
+                if (!avType_gs.empty()) {
+                    std::lock_guard<std::mutex> lk(g_avMutex);
+                    g_avatarCache.erase(g_userId);
+                    Log("game-start-info: cleared avatar cache for userId %s (universe %s avatarType=%s)",
+                        g_userId.c_str(), uid_gs.c_str(), avType_gs.c_str());
+                }
+
                 char buf_gs[512];
                 _snprintf(buf_gs, sizeof(buf_gs)-1,
                     "{\"gameServerUserGroupPolicies\":[],"
@@ -4404,8 +5611,13 @@ static Resp Route(const Req& req)
         }
 
         /* -- Games (icons etc.) -- */
-        if (STARTS(sub,"/games"))
+        if (STARTS(sub,"/games")) {
+            if (sub.find("/icons") != std::string::npos)
+                return RJson(GamesIconsJson(QS(req,"universeIds")));
+            if (sub.find("multiget-place-details") != std::string::npos)
+                return RJson(MultiGetPlaceDetailsJson(req.query));
             return RJson("{\"data\":[]}");
+        }
 
         /* -- Asset delivery (/v1/asset/?id=X  /v1/assets/?id=X) -- */
         if (STARTS(sub,"/asset") || STARTS(sub,"/assets")) {
@@ -4417,6 +5629,29 @@ static Resp Route(const Req& req)
             if (sub.find("AssetSaving")!=std::string::npos ||
                 sub.find("assetsaving")!=std::string::npos)
                 return RJson("{\"success\":true}");
+            /* /v1/assets/?assetIds=N,N -> asset METADATA, not binary delivery.
+             * Falling through to delivery 400'd with "Missing id" during the
+             * purchase prompt. Return a details object per requested id. */
+            {
+                std::string aids = QS(req,"assetIds");
+                if (!aids.empty()) {
+                    std::string arr; bool f = true; size_t i = 0;
+                    while (i < aids.size()) {
+                        while (i < aids.size() && (aids[i] < '0' || aids[i] > '9')) i++;
+                        size_t j = i; while (j < aids.size() && aids[j] >= '0' && aids[j] <= '9') j++;
+                        if (j > i) {
+                            std::string id = aids.substr(i, j - i);
+                            if (!f) arr += ","; f = false;
+                            arr += "{\"id\":" + id + ",\"name\":\"Asset\",\"assetType\":34,\"typeId\":34,"
+                                   "\"isForSale\":true,\"priceInRobux\":null,\"isPublicDomain\":false,"
+                                   "\"creatorTargetId\":" + g_userId + ",\"creatorType\":\"User\",\"creatorName\":\""
+                                   + g_username + "\"}";
+                        }
+                        i = j + 1;
+                    }
+                    return RJson("{\"data\":[" + arr + "]}");
+                }
+            }
             /* Actual asset delivery */
             return HandleAssetDelivery(req);
         }
@@ -4566,6 +5801,22 @@ static Resp Route(const Req& req)
              * Returning {"success":true} made it fail with "Parsed invalid JSON data". */
             if (P.find("awarded-dates")!=std::string::npos)
                 return RJson("{\"data\":[]}");
+            /* Single-badge check -> GET /v1/users/{id}/badges/{badgeId}/awarded-date
+             * Returns one object: {"badgeId":N,"awardedDate":<date|null>}. null =
+             * not awarded.  Previously fell through to {"success":true}, an invalid
+             * shape, so the engine errored and retried in a loop. */
+            if (P.find("/awarded-date")!=std::string::npos) {
+                std::string bid;
+                size_t ad = P.find("/awarded-date");
+                if (ad != std::string::npos && ad > 0) {
+                    size_t s = P.rfind('/', ad - 1);
+                    if (s != std::string::npos) bid = P.substr(s + 1, ad - s - 1);
+                }
+                bool num = !bid.empty();
+                for (size_t i = 0; i < bid.size(); ++i) if (bid[i] < '0' || bid[i] > '9') { num = false; break; }
+                if (!num) bid = "0";
+                return RJson("{\"badgeId\":" + bid + ",\"awardedDate\":null}");
+            }
             /* BadgeService:AwardBadge -> POST /v1/users/{id}/badges/{badgeId}/award-badge
              * SERVER-ONLY call (badges can only be awarded by a game server), which is
              * why this crashed only the server and never the client.
@@ -4578,9 +5829,74 @@ static Resp Route(const Req& req)
                 return RJson("true");
             if (P.find("/badges/")!=std::string::npos)
                 return RJson("{\"success\":true}");
-            /* /v1/users?userIds=... or /v1/users/{id} */
-            return RJson(J("{\"data\":[{\"id\":{I},"
-                "\"name\":\"{U}\",\"displayName\":\"{U}\"}]}"));
+            /* PlayerOwnsAsset / asset ownership:
+             *   GET /v1/users/{uid}/items/asset/{aid}/is-owned -> bare boolean.
+             * This (and other /items/ sub-paths) was wrongly caught by the
+             * single-user handler below and returned a user object, breaking the
+             * in-game purchase/ownership flow. Return a bare bool / empty list. */
+            if (P.find("is-owned")!=std::string::npos)
+                return RJson("false");
+            if (P.find("/items/")!=std::string::npos)
+                return RJson("{\"previousPageCursor\":null,\"nextPageCursor\":null,\"data\":[]}");
+            /* /v1/users/{id} (single)  |  POST /v1/users {"userIds":[...]}  |
+             * GET /v1/users?userIds=...  — must echo the REQUESTED ids, not the
+             * host user.  The old handler always returned {I}/{U}, so
+             * GetNameFromUserIdAsync / GetUserInfosByUserIdsAsync got the wrong
+             * id back and failed.  The host id keeps its real name; any other id
+             * gets a stable synthetic name (offline we can't know the real one,
+             * but returning the requested id makes the id->object match succeed).
+             * Shape matches real Roblox: POST -> {"data":[...]}, GET single ->
+             * a bare user object. */
+            {
+                auto nameFor = [](const std::string& id) -> std::string {
+                    return (id == g_userId) ? g_username : ("Player" + id);
+                };
+                /* gather requested ids: body "userIds" -> query "userIds" -> path */
+                std::string src;
+                size_t ub = req.body.find("\"userIds\"");
+                if (ub != std::string::npos) {
+                    size_t b = req.body.find('[', ub), e = req.body.find(']', b);
+                    if (b != std::string::npos && e != std::string::npos)
+                        src = req.body.substr(b + 1, e - b - 1);
+                }
+                if (src.empty()) src = QS(req, "userIds");
+
+                /* GET /v1/users/{id} -> single object */
+                if (src.empty()) {
+                    size_t up = P.find("/users/");
+                    if (up != std::string::npos) {
+                        std::string tail = P.substr(up + 7);
+                        size_t sl = tail.find('/');     /* require EXACTLY /v1/users/{id} (no sub-path) */
+                        bool num = (sl == std::string::npos) && !tail.empty();
+                        if (num) for (size_t i = 0; i < tail.size(); ++i) if (tail[i] < '0' || tail[i] > '9') { num = false; break; }
+                        if (num) {
+                            std::string nm = nameFor(tail);
+                            return RJson("{\"description\":\"\",\"created\":\"2022-01-01T00:00:00.000Z\","
+                                "\"isBanned\":false,\"externalAppDisplayName\":null,\"hasVerifiedBadge\":false,"
+                                "\"id\":" + tail + ",\"name\":\"" + nm + "\",\"displayName\":\"" + nm + "\"}");
+                        }
+                    }
+                }
+
+                /* otherwise -> {"data":[ one entry per requested id ]} */
+                std::string data; bool first = true; size_t i = 0;
+                while (i < src.size()) {
+                    while (i < src.size() && (src[i] < '0' || src[i] > '9')) i++;
+                    size_t j = i; while (j < src.size() && src[j] >= '0' && src[j] <= '9') j++;
+                    if (j > i) {
+                        std::string id = src.substr(i, j - i), nm = nameFor(id);
+                        if (!first) data += ",";
+                        first = false;
+                        data += "{\"hasVerifiedBadge\":false,\"id\":" + id +
+                                ",\"name\":\"" + nm + "\",\"displayName\":\"" + nm + "\"}";
+                    }
+                    i = j + 1;
+                }
+                if (first)   /* nothing requested -> fall back to the host user */
+                    data = "{\"hasVerifiedBadge\":false,\"id\":" + g_userId +
+                           ",\"name\":\"" + g_username + "\",\"displayName\":\"" + g_username + "\"}";
+                return RJson("{\"data\":[" + data + "]}");
+            }
         }
 
         /* -- User (singular) -- */
@@ -4890,12 +6206,32 @@ static Resp Route(const Req& req)
             return RJson("{}");
         }
 
+        /* ---- /v1/not-approved — queried after login; {} = not blocked ---- */
+        if (STARTS(sub,"/not-approved")) return RJson("{}");
+
         /* Anything else under /v1 */
         return RJson("{}");
     }
 
     if (STARTS(P,"/playfab-universes-service"))
         return RJson("{\"titleId\":\"\",\"enabled\":false}");
+
+    /* ---- /private-users-service/v1beta1/getOrCreatePrivateUserId ----
+     * Returns a stable per-user "private" id. Derive it deterministically from
+     * the real userId so repeated getOrCreate calls return the same value. */
+    if (STARTS(P,"/private-users-service")) {
+        long long pid = 1500000000000LL + _atoi64(g_userId.c_str());
+        char buf[160];
+        _snprintf(buf, sizeof(buf)-1,
+            "{\"privateUserId\":%lld,\"userIdMode\":\"USER_ID_MODE_GLOBAL\",\"created\":true}",
+            pid);
+        return RJson(buf);
+    }
+
+    /* ---- /event-subscription/v1/subscribe ----
+     * Notification-stream subscribe; just acknowledge with a TTL. */
+    if (STARTS(P,"/event-subscription"))
+        return RJson("{\"ttl_minutes\":1440}");
 
     /* ---- Catch-all for /v1.0 /v1.1 prefixes missed above ---- */
     if (STARTS(P,"/v1."))
@@ -4975,6 +6311,160 @@ static Resp Route(const Req& req)
     }
 
 
+    /* ---- /ide/publish/uploadnewasset  (CSG / SolidModel upload) ----
+     *
+     * When publishing a place that contains unions, Studio uploads each
+     * SolidModel as a standalone asset BEFORE uploading the place file.
+     * It hits this endpoint once per union, expects a bare integer asset ID
+     * back, and embeds that ID in the .rbxl it then POSTs to Upload.ashx.
+     *
+     * Without this handler every union upload got a 404, and after 33
+     * failures (0x21) Studio threw "Failed to upload union. Exceeded limit."
+     */
+    if (STARTS(P, "/ide/publish/uploadnewasset")) {
+        if (M == "POST") {
+            /* Allocate a persistent local asset ID (odd so it never collides
+             * with universe IDs (even) or rootPlace IDs from AllocUniverseId) */
+            std::string uid  = AllocUniverseId();
+            long long uidNum = atoll(uid.c_str());
+            char assetIdBuf[32];
+            sprintf(assetIdBuf, "%lld", uidNum + 1);
+            std::string assetId = assetIdBuf;
+
+            /* Persist the solid-model body so asset delivery can serve it
+             * back later when Studio fetches /asset/?id={assetId} */
+            if (!req.body.empty()) {
+                std::string dir = DllPath("data\\SavedData\\");
+                EnsureDir(dir);
+                std::string savePath = dir + assetId + ".rbxm";
+                std::string toWrite = req.body;
+                if (!IsGzip(toWrite)) {
+                    std::string gz = GzipCompress(toWrite);
+                    if (!gz.empty()) toWrite.swap(gz);
+                }
+                WriteFile_(savePath, toWrite);
+                Log("uploadnewasset: saved SolidModel assetId=%s (%d raw bytes)",
+                    assetId.c_str(), (int)req.body.size());
+            } else {
+                Log("uploadnewasset: empty body, assetId=%s (no file saved)",
+                    assetId.c_str());
+            }
+
+            /* Studio reads the response body as a plain integer asset ID */
+            return RText(assetId);
+        }
+        return RText("0");
+    }
+
+    /* ---- /authentication/* and /oauth/v1/cookie — cookie delivery endpoints ----
+     *
+     * v0.712 (64-bit Studio) runs a two-step OIDC login:
+     *   Step 1: WebEngine navigates to /oauth/v1/authorize.
+     *           Our HTML page sets document.cookie, then fires roblox-studio-auth:/
+     *           so Studio can exchange the auth code at /oauth/v1/token.
+     *   Step 2: AuthTokenManager POSTs to /authentication/auth-token.
+     *           StudioCookieManager is polling for .ROBLOSECURITY; it unblocks
+     *           login the moment it sees that cookie arrive in its store.
+     *           Some sub-builds call GET /oauth/v1/cookie instead.
+     *
+     * Both paths use the same cookie-set lambda below.
+     * ---------------------------------------------------------------- */
+    {
+        bool isAuthEndpoint = STARTS(P,"/authentication");
+        bool isOAuthCookie  = (P=="/oauth/v1/cookie" || STARTS(P,"/oauth/v1/cookie/"));
+        if(isAuthEndpoint || isOAuthCookie){
+            const std::string& ck_b=GetRobloxCookie();
+            std::string cv_b=ck_b;
+            const char* pfx_b=".ROBLOSECURITY=";
+            if(cv_b.compare(0,strlen(pfx_b),pfx_b)==0) cv_b=cv_b.substr(strlen(pfx_b));
+            if(cv_b.empty()) cv_b="offblox_session_token";
+            Log("cookie endpoint hit (%s): setting .ROBLOSECURITY", P.c_str());
+            Resp ar=RJson("{\"identityVerificationLoginTicket\":\"\","
+                          "\"cookieName\":\".ROBLOSECURITY\","
+                          "\"cookie\":\".ROBLOSECURITY="+cv_b+"\"}");
+            ar.hdrs["Set-Cookie"]=".ROBLOSECURITY="+cv_b+
+                "; Path=/; HttpOnly; SameSite=Lax";
+            return ar;
+        }
+    }
+
+    /* ---- StartPage / Discover (home page) endpoints --------------------------
+     * The built-in StartPage plugin batches a set of creator/discovery APIs to
+     * populate the home page. Anything not handled above falls through to here;
+     * we answer with well-formed (empty) JSON so the plugin stops erroring with
+     * 404s / "attempt to iterate over a nil value". Placed late so real handlers
+     * (universes, teamcreate, gametemplates, datastore, etc.) keep priority. */
+    {
+        /* Experience search (DiscoverExperiences) -> your locally saved games.
+         * Only fill the User search; Group/Team searches stay empty. */
+        if (STARTS(P,"/universes/v1/search")) {
+            std::string ct = QS(req,"creatorType");
+            bool onlyUser = (ct.empty() || ct == "User");
+            return RJson(StartPageGamesJson(onlyUser));
+        }
+        /* Starter templates (real shape = flat data[]) -> Baseplate */
+        if (STARTS(P,"/v1/gametemplates") || P.find("/gametemplates") != std::string::npos)
+            return RJson(GameTemplatesJson());
+
+        /* Toolbox / Creator Store "Models" search ------------------------------
+         * Returns the marketplace search shape {totalResults, data:[{id,
+         * searchResultSource}]}. Empty for now (no local model catalog); add ids
+         * here to surface local models. NOTE: the Toolbox plugin builds these
+         * against the apis. subdomain, so it must also be pointed at localhost
+         * (same fix as StartPage) for this to be hit. */
+        if (STARTS(P,"/toolbox-service/") ||
+            STARTS(P,"/asset-search-api/") ||
+            P.find("/marketplace/") != std::string::npos ||
+            P.find("/search/items") != std::string::npos) {
+            std::string cat = QS(req,"category");
+            return RJson("{\"totalResults\":0,\"filteredKeyword\":\"\","
+                         "\"spellCheckerResult\":{\"correctionState\":0},"
+                         "\"queryFacets\":{\"appliedFacets\":[],\"availableFacets\":[]},"
+                         "\"nextPageCursor\":\"\",\"data\":[]}");
+        }
+
+        /* Game icons / thumbnails batch (StartPage builds a double slash:
+         * http://localhost//v1/games/icons?... ) -> empty data[] */
+        if (P.find("/v1/games/icons") != std::string::npos)
+            return RJson(GamesIconsJson(QS(req,"universeIds")));
+        if (P.find("/v1/games/multiget-place-details") != std::string::npos)
+            return RJson(MultiGetPlaceDetailsJson(req.query));
+
+        /* Creator groups / "can manage" lists */
+        if (STARTS(P,"/creator-home-api/v1/groups") ||
+            P.find("/user/groups/canmanage") != std::string::npos)
+            return RJson("{\"data\":[]}");
+
+        /* Homepage banner (experience-unrated etc.) -> nothing to show */
+        if (P.find("/homepage/banner/") != std::string::npos)
+            return RJson("{}");
+
+        /* Knowledge feeds (docs site) -> validator expects data.feedItems[] */
+        if (STARTS(P,"/doc-site/v2/feeds"))
+            return RJson("{\"data\":{\"feedItems\":[]}}");
+
+        /* Batch metadata POSTs: age recs / core-content eligibility /
+         * release statuses / creator-eligibility -> empty data[] */
+        if (STARTS(P,"/experience-guidelines-service/") ||
+            STARTS(P,"/core-content/v1/universe-eligibility") ||
+            STARTS(P,"/experience-releases/"))
+            return RJson(R"({"eligibilityByCreator":[{"userId":")" + g_userId + R"(","userIsEligible":true,"displayText":"Eligible","ineligibilityReason":"INELIGIBILITY_REASON_NONE"}]})");
+            
+        /* Content safety / sequestration per place -> everything approved */
+        if (P.find("/content-safety/v1/places/") != std::string::npos)
+            return RJson("{\"isSequestered\":false,\"moderationStatus\":\"Approved\"}");
+
+        /* Feature-access gating (access-management) -> grant nothing, no error */
+        if (STARTS(P,"/access-management/v1/"))
+            return RJson("{\"featureAccess\":[],\"data\":[]}");
+
+        /* Misc fire-and-forget endpoints that just need a 200 */
+        if (STARTS(P,"/validate-machine"))                 return RJson("{}");
+        if (STARTS(P,"/experience-signals-ingest/"))       return RJson("{}");
+        if (P.find("/creator-stream-notifications") != std::string::npos)
+            return RJson("{\"data\":[],\"notifications\":[]}");
+    }
+
     /* ---- Static files (www\) ---- */
     Resp staticR;
     if (ServeStatic(P, staticR)) return staticR;
@@ -5028,9 +6518,15 @@ static bool LoadSslCert()
      */
 
     /* ---- 1. Decode PEM certificate -> DER -> CERT_CONTEXT ---- */
-    std::string certPem = ReadFile(DllPath("ssl\\server.crt"));
+    std::string certPath = DllPath("ssl\\server.crt");
+    std::string certPem = ReadFile(certPath);
     if (certPem.empty()) {
-        Log("SSL: ssl\\server.crt not found");
+        DWORD fa = GetFileAttributesA(certPath.c_str());
+        DWORD ge = GetLastError();
+        std::string sslDir = DllPath("ssl");
+        DWORD da = GetFileAttributesA(sslDir.c_str());
+        Log("SSL: cannot read cert. path='%s' fileAttr=%#lx (INVALID=0xFFFFFFFF) lastErr=%lu", certPath.c_str(), fa, ge);
+        Log("SSL: ssl-dir='%s' dirAttr=%#lx  (dirAttr INVALID => no 'ssl' subfolder in DLL dir; err 2=file-not-found,3=path-not-found,5=access-denied)", sslDir.c_str(), da);
         return false;
     }
     static const char CERT_HDR[] = "-----BEGIN CERTIFICATE-----";
@@ -5058,9 +6554,10 @@ static bool LoadSslCert()
     }
 
     /* ---- 2. Decode PEM private key -> CAPI PRIVATEKEYBLOB ---- */
-    std::string keyPem = ReadFile(DllPath("ssl\\server.key"));
+    std::string keyPath = DllPath("ssl\\server.key");
+    std::string keyPem = ReadFile(keyPath);
     if (keyPem.empty()) {
-        Log("SSL: ssl\\server.key not found");
+        Log("SSL: cannot read key. path='%s' fileAttr=%#lx lastErr=%lu", keyPath.c_str(), GetFileAttributesA(keyPath.c_str()), GetLastError());
         CertFreeCertificateContext(g_pCert); g_pCert = NULL;
         return false;
     }
@@ -5463,6 +6960,51 @@ static DWORD WINAPI StartupThread(LPVOID)
     InitDllDir();
     LoadConfig();
     LoadUsername();
+    InitLogFile();   /* open a fresh per-session log in logs\ before any Log() call */
+
+    /* ---- Write Lua plugin into the user's Roblox Studio Plugins folder ----- */
+    {
+        char localApp[MAX_PATH] = {0};
+        if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, localApp)))
+        {
+            std::string pluginsDir = std::string(localApp) + "\\Roblox\\Plugins\\";
+            CreateDirectoryA(pluginsDir.c_str(), NULL);
+            std::string dest = pluginsDir + "UserFix.lua";
+            static const char luaSource[] =
+                "local function userIdFromUsername(name)\n"
+                "    local hash = 2166136261\n"
+                "    for i = 1, #name do\n"
+                "        local byte = string.byte(name, i)\n"
+                "        hash = bit32.bxor(hash, byte)\n"
+                "        local lo = bit32.band(hash, 0xFFFF)\n"
+                "        local hi = bit32.band(bit32.rshift(hash, 16), 0xFFFF)\n"
+                "        local lo2 = lo * 16777619\n"
+                "        local hi2 = hi * 16777619\n"
+                "        local result = bit32.band(lo2, 0xFFFFFFFF)\n"
+                "        result = bit32.band(result + bit32.band(bit32.lshift(hi2, 16), 0xFFFFFFFF), 0xFFFFFFFF)\n"
+                "        hash = result\n"
+                "    end\n"
+                "    return 10000000 + (hash % 90000000)\n"
+                "end\n"
+                "for i,p in pairs(game:GetService(\"Players\"):GetPlayers()) do\n"
+                "    pcall(function()\n"
+                "        p.UserId = userIdFromUsername(p.Name)\n"
+                "        p.CharacterAppearanceId = userIdFromUsername(p.Name)\n"
+                "        p.DisplayName = p.Name\n"
+                "    end)\n"
+                "end\n"
+                "game:GetService(\"Players\").PlayerAdded:Connect(function(p)\n"
+                "    pcall(function()\n"
+                "        p.UserId = userIdFromUsername(p.Name)\n"
+                "        p.CharacterAppearanceId = userIdFromUsername(p.Name)\n"
+                "        p.DisplayName = p.Name\n"
+                "    end)\n"
+                "end)\n";
+            FILE* f = fopen(dest.c_str(), "w");
+            if (f) { fputs(luaSource, f); fclose(f); }
+        }
+    }
+    /* ----------------------------------------------------------------------- */
 
     Log("=== HookedWebserver startup ===");
     Log("DLL directory: %s", g_dllDir);

@@ -4639,15 +4639,17 @@ if (P.find("check-permissions") != std::string::npos ||
                 std::string sep = first_gp ? "" : ",";
                 first_gp = false; cnt_gp++;
                 items     += sep + "{\"path\":\"game-passes/" + gpid + "\",\"gamePassId\":" + gpid +
-                             ",\"userId\":" + uid_gp + ",\"owned\":true,\"isOwned\":true}";
+                             ",\"userId\":" + uid_gp + ",\"owned\":true,\"isOwned\":true,\"purchased\":true,\"state\":\"OWNED\","
+                             "\"ownershipIdentifier\":{\"userId\":\"" + uid_gp + "\",\"gamePassId\":\"" + gpid + "\"}}";
                 dataItems += sep + "{\"gamePassId\":" + gpid + ",\"userId\":" + uid_gp +
-                             ",\"owned\":true,\"isOwned\":true}";
+                             ",\"owned\":true,\"isOwned\":true,\"purchased\":true,\"state\":\"OWNED\","
+                             "\"ownershipIdentifier\":{\"userId\":\"" + uid_gp + "\",\"gamePassId\":\"" + gpid + "\"}}";
             }
             pos = j;
         }
         Log("batchGetOwnership userId=%s ids=%d body=[%.200s]",
             uid_gp.c_str(), cnt_gp, req.body.c_str());
-        return RJson("{\"data\":[" + dataItems + "],\"errors\":[],\"gamePasses\":[" + items + "]}");
+        return RJson("{\"ownershipIdentifiers\":[" + dataItems + "],\"data\":[" + dataItems + "],\"errors\":[],\"gamePasses\":[" + items + "]}");
     }
 
     /* ---- game-passes product info (GetProductInfo / GamePassService / the

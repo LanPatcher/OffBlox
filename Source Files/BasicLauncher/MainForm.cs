@@ -551,7 +551,7 @@ namespace OffBloxLauncher
             // Exact arg form the original launcher used (fix.ini == a single quote):
             //   ""-task StartClient -server "<ip>" -port <port>"
             const string q = "\"";
-            string args = q + "\"-task StartClient -rbxTransportToken bG9jYWxfdGVzdA== -placeId 0 -universeId 0 "+ " -port " + port + " -server " + q + ip + q;
+            string args = q + "\"-task StartClient -placeId 0 -universeId 0 "+ " -port " + port + " -server " + q + ip + q;
             Launch(args, "Joining " + ip + ":" + port + " ...", playStatus);
         }
 
@@ -593,6 +593,10 @@ namespace OffBloxLauncher
             catch { }
 
             string port = OneLine(txtHostPort.Text);
+            // -port stays the forwarded/host port. RbxTransport (the transport the
+            // client uses) is pinned to it by the webserver's FInt overrides, and
+            // the RobloxStudioPatcher bind() hook moves RakNet to -port+1 inside
+            // the server so it doesn't collide on this port.
             const string q = "\"";
             string args = "-task StartServer"
                 + " -placeId " + w.PlaceId

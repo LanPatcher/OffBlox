@@ -1,6 +1,15 @@
 {"applicationSettings":{
-"DFIntAssetsUploadUseMultiPartSizeThresholdBytes":"2147483647",
 "FFlagDebugLocalRccServerConnection":"False",
+"DFIntAssetsUploadUseMultiPartSizeThresholdBytes":"2147483647",
+"DFFlagSessionCryptoEarlyKey": "True",
+"FFlagSessionCryptoEarlyKey": "True",
+
+"DFLog::SessionCrypto": "7",
+"FLog::Network": "7",
+"FFlagDebugRakNetConnectTracePrintRcsSystemAddress": "True",
+"FFlagAddRakNetDebugLogs": "True",
+"DFFlagRakNetLogAllPackets": "True",
+"FFlagDebugRakNetLogAllPackets": "True",
 "StudioGenreOverhaulExplainationLink":"http://localhost/owo",
 "FIntStudioPluginOTARolloutPercent": "0",
   "DFIntStudioPluginOTARolloutPercent": "0",

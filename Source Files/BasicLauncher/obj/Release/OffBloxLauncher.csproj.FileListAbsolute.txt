@@ -22,3 +22,9 @@ C:\Users\catoa\Desktop\Roblox Downloads\OffBloxModern\Source Files\BasicLauncher
 C:\Users\catoa\Desktop\Roblox Downloads\OffBloxModern\Source Files\BasicLauncher\obj\Release\OffBloxLauncher.csproj.CoreCompileInputs.cache
 C:\Users\catoa\Desktop\Roblox Downloads\OffBloxModern\Source Files\BasicLauncher\obj\Release\OffBloxLauncher.exe
 C:\Users\catoa\Desktop\Roblox Downloads\OffBloxModern\Source Files\BasicLauncher\obj\Release\OffBloxLauncher.pdb
+C:\Users\catoa\Desktop\OffBloxModern\Source Files\BasicLauncher\bin\Release\OffBloxLauncher.exe
+C:\Users\catoa\Desktop\OffBloxModern\Source Files\BasicLauncher\bin\Release\OffBloxLauncher.pdb
+C:\Users\catoa\Desktop\OffBloxModern\Source Files\BasicLauncher\obj\Release\OffBloxLauncher.csproj.AssemblyReference.cache
+C:\Users\catoa\Desktop\OffBloxModern\Source Files\BasicLauncher\obj\Release\OffBloxLauncher.csproj.CoreCompileInputs.cache
+C:\Users\catoa\Desktop\OffBloxModern\Source Files\BasicLauncher\obj\Release\OffBloxLauncher.exe
+C:\Users\catoa\Desktop\OffBloxModern\Source Files\BasicLauncher\obj\Release\OffBloxLauncher.pdb

@@ -1979,6 +1979,19 @@ static Resp HandleOAuth(const std::string& sub, const Req& req)
                     else if(loc[i]=='\\') locEsc+="\\\\";
                     else                  locEsc+=loc[i];
                 }
+                /* HTML-attribute-escaped redirect for the visible fallback link.
+                 * External browsers block programmatic custom-protocol navigation
+                 * without a user gesture, so we also render a real <a> the user
+                 * can click - a click IS a gesture and launches the OS handler. */
+                std::string locAttr;
+                for(size_t i=0;i<loc.size();i++){
+                    char ch=loc[i];
+                    if(ch=='&')      locAttr+="&amp;";
+                    else if(ch=='"') locAttr+="&quot;";
+                    else if(ch=='<') locAttr+="&lt;";
+                    else if(ch=='>') locAttr+="&gt;";
+                    else             locAttr+=ch;
+                }
                 /* Cookie value: must not contain ; or \ raw */
                 std::string ckEsc;
                 for(size_t i=0;i<cv_a.size();i++){
@@ -1987,7 +2000,16 @@ static Resp HandleOAuth(const std::string& sub, const Req& req)
                 }
                  std::string html=
                      "<!DOCTYPE html><html><head><meta charset='utf-8'>"
-                     "<title>OffBlox</title></head><body><script>"
+                     "<title>OffBlox Login</title>"
+                     "<style>body{font-family:Segoe UI,Arial,sans-serif;background:#f2f4f7;"
+                     "text-align:center;padding-top:64px;color:#222}"
+                     "a.btn{display:inline-block;background:#00a2ff;color:#fff;padding:14px 30px;"
+                     "border-radius:8px;text-decoration:none;font-size:18px;margin-top:22px}</style>"
+                     "</head><body>"
+                     "<h2>Signing you in...</h2>"
+                     "<p>If Roblox Studio doesn't open automatically, click below.</p>"
+                     "<a class='btn' id='go' href='" + locAttr + "'>Open Roblox Studio</a>"
+                     "<script>"
                      /* 1. Commit .ROBLOSECURITY into WebView2's cookie store.
                       *    Secure works because WebView2 treats https://localhost
                       *    as a secure origin. */
@@ -2018,7 +2040,10 @@ static Resp HandleOAuth(const std::string& sub, const Req& req)
                      /* 3. Give WebView2 time to marshal the postMessage to the
                       *    native side BEFORE we navigate away — redirecting on the
                       *    same tick drops the message before Studio processes it. */
-                     "setTimeout(function(){window.location.href='" + locEsc + "';},500);"
+                     "setTimeout(function(){"
+                     "try{window.location.href='" + locEsc + "';}catch(e){}"
+                     "try{var g=document.getElementById('go');if(g&&g.click){g.click();}}catch(e2){}"
+                     "},500);"
                      "</script></body></html>";
                 Resp r; r.status=200; r.statusText="OK";
                 r.contentType="text/html; charset=utf-8";
@@ -3898,10 +3923,22 @@ static void InjectRccPort(std::string& json)
     bool emptyObj = (k < json.size() && json[k] == '}');
     std::string ins =
         "\"DFIntDebugLocalRccServerConnectionPort\":\"" + port + "\","
-        "\"FIntDebugLocalRccServerConnectionPort\":\""  + port + "\"";
+        "\"FIntDebugLocalRccServerConnectionPort\":\""  + port + "\","
+        /* The 2026 client connects over RbxTransport, not RakNet. Pin the
+         * RbxTransport server AND its DummyServer to the SAME forwarded port
+         * (the one we tunnel) so the single mapped port reaches the game,
+         * instead of the DummyServer landing on a random ephemeral port.
+         * RakNet binds -port FIRST and would otherwise hold this port, so the
+         * RobloxStudioPatcher bind() hook moves RakNet to -port+1 inside the
+         * server, leaving this (the forwarded) port free for RbxTransport. */
+        "\"DFIntRbxTransportServerPort\":\"" + port + "\","
+        "\"FIntRbxTransportServerPort\":\""  + port + "\","
+        "\"DFIntRbxTransportDummyServerPortOverride\":\"" + port + "\","
+        "\"FIntRbxTransportDummyServerPortOverride\":\""  + port + "\"";
     if (!emptyObj) ins += ",";
     json.insert(br + 1, ins);
-    Log("PCStudioApp: injected DebugLocalRccServerConnectionPort=%s", port.c_str());
+    Log("PCStudioApp: injected LocalRcc + RbxTransport/DummyServer port = %s "
+        "(RakNet uses %s+1 on the server)", port.c_str(), port.c_str());
 }
 
 static Resp Route(const Req& req)
@@ -3963,6 +4000,17 @@ static Resp Route(const Req& req)
                      "\"version\":\"1.0\",\"isServer\":true}");
     if (STARTS(P,"/protocol-handler-launch"))
         return RText("true");
+    /* ---- /userhub/negotiate ----
+     * Belt-and-suspenders alongside the raw WS handler in ServeClientBody
+     * (SECTION 13b): if Studio ever does call negotiate before opening the
+     * /userhub WebSocket (rather than skipping straight to it, which is what
+     * the log we're fixing shows), force WebSockets as the only transport so
+     * it doesn't also try SSE/LongPolling paths we don't implement. */
+    if (STARTS(P,"/userhub/negotiate"))
+        return RJson("{\"negotiateVersion\":1,\"connectionId\":\"local-" + g_userId + "\","
+                     "\"connectionToken\":\"local-" + g_userId + "\","
+                     "\"availableTransports\":[{\"transport\":\"WebSockets\","
+                     "\"transferFormats\":[\"Text\",\"Binary\"]}]}");
 
     /* ---- PointsService (GetUserPointBalanceInUniverse / GetPointBalance /
             GetGamePointBalance / AwardPoints) ----------------------------------
@@ -6299,6 +6347,35 @@ if (P.find("check-permissions") != std::string::npos ||
         return RJson(buf);
     }
 
+    /* ---- /player-hydration-service/v1/players/signed ----
+     * Was 404ing (see log: "HttpTraceError ... status:404 ... /player-
+     * hydration-service/v1/players/signed"). Studio expects a playerInfo
+     * object plus a "signature" string. As with MakeFakeJwt's
+     * "hardcoded_signature" stub above, the signature here isn't a real
+     * cryptographic signature over anything — there's no real Roblox
+     * backend in this loop to verify it against, so it just needs to be a
+     * non-empty base64 string of plausible shape so the client's
+     * deserializer doesn't choke on a missing/malformed field. playerInfo
+     * fields are filled with the same kind of static "good enough for
+     * local Studio" values used elsewhere in this file (ageBracket/gender/
+     * platform/os, etc.) — adjust the literals below if your particular
+     * Studio build asserts on a specific value. */
+    if (STARTS(P,"/player-hydration-service")) {
+        long long nowMs = (long long)time(NULL) * 1000LL;
+        const char sigStub[] = "hardcoded_player_hydration_signature_not_real_crypto";
+        std::string sig = Base64Encode((const unsigned char*)sigStub, strlen(sigStub));
+        char buf[768];
+        _snprintf(buf, sizeof(buf)-1,
+            "{\"playerInfo\":{\"lastPerformed\":\"%lld\",\"userId\":\"%s\","
+            "\"ageBracket\":\"Age18To20\",\"gender\":\"Female\","
+            "\"platform\":\"Computer\",\"os\":\"Windows\","
+            "\"isOriginalUser\":true,"
+            "\"originalAccountCreationTimestampMs\":\"1195431100077\"},"
+            "\"signature\":\"%s\"}",
+            nowMs, g_userId.c_str(), sig.c_str());
+        return RJson(buf);
+    }
+
     /* ---- /event-subscription/v1/subscribe ----
      * Notification-stream subscribe; just acknowledge with a TTL. */
     if (STARTS(P,"/event-subscription"))
@@ -6937,6 +7014,223 @@ static bool SslWrite(SOCKET s, SslCtx& ctx, const std::string& data)
 }
 
 /* ============================================================================
+   SECTION 13b — Minimal WebSocket + SignalR Core ("UserHub") support
+   ----------------------------------------------------------------------
+   Studio opens a persistent WebSocket to /userhub for live notifications
+   (it uses SignalR Core's JSON Hub Protocol over the raw WS connection).
+   We had no route for it at all, so every attempt got a plain 404, which
+   Studio logs as WebSocketTraceError + SignalRCoreError and then retries
+   forever. We don't know what UserHub methods/messages the real backend
+   would actually push, so this doesn't implement real hub semantics —
+   it just completes the WS handshake + the SignalR Core handshake so the
+   client believes it's connected, and quietly answers keepalive pings,
+   which is enough to stop the reconnect/error spam in the logs. */
+
+enum WsIo { WSIO_DATA, WSIO_TIMEOUT, WSIO_CLOSED };
+
+/* Read whatever bytes are available within pollSec, without requiring a
+ * complete HTTP request (unlike RecvFull/SslRead) — used so the WS message
+ * loop can poll for new frames while still checking g_shutdown regularly
+ * instead of blocking on one read for the lifetime of the connection. */
+static WsIo TransportReadSome(SOCKET s, SslCtx* ctx, BOOL isSsl, std::string& out, int pollSec)
+{
+    if (!isSsl) {
+        char buf[8192];
+        fd_set fds; struct timeval tv={pollSec,0};
+        FD_ZERO(&fds); FD_SET(s,&fds);
+        int sel = select(0,&fds,NULL,NULL,&tv);
+        if (sel==0) return WSIO_TIMEOUT;
+        if (sel<0)  return WSIO_CLOSED;
+        int r = recv(s,buf,sizeof(buf),0);
+        if (r<=0) return WSIO_CLOSED;
+        out.append(buf,r);
+        return WSIO_DATA;
+    }
+    /* TLS: ctx->extra carries ciphertext that hasn't formed a complete TLS
+     * record yet, across calls, so each call can poll in short bursts
+     * instead of blocking the whole connection on one read. */
+    DWORD cap = ctx->sizes.cbHeader + ctx->sizes.cbMaximumMessage + ctx->sizes.cbTrailer + 65536;
+    std::vector<BYTE> eb(cap); DWORD eLen=0;
+    if (!ctx->extra.empty()) {
+        if (ctx->extra.size() > eb.size()) eb.resize(ctx->extra.size());
+        memcpy(&eb[0], &ctx->extra[0], ctx->extra.size());
+        eLen=(DWORD)ctx->extra.size();
+        ctx->extra.clear();
+    }
+    for(;;) {
+        SecBuffer db[4];
+        db[0]={(ULONG)eLen,SECBUFFER_DATA,&eb[0]};
+        db[1]={0,SECBUFFER_EMPTY,NULL}; db[2]={0,SECBUFFER_EMPTY,NULL}; db[3]={0,SECBUFFER_EMPTY,NULL};
+        SecBufferDesc dbd={SECBUFFER_VERSION,4,db};
+        SECURITY_STATUS ss = DecryptMessage(&ctx->hCtxt,&dbd,0,NULL);
+        if (ss==SEC_E_OK) {
+            for (int i=0;i<4;i++) if (db[i].BufferType==SECBUFFER_DATA) out.append((char*)db[i].pvBuffer, db[i].cbBuffer);
+            for (int i=0;i<4;i++) if (db[i].BufferType==SECBUFFER_EXTRA && db[i].cbBuffer>0)
+                ctx->extra.assign((BYTE*)db[i].pvBuffer,(BYTE*)db[i].pvBuffer+db[i].cbBuffer);
+            return out.empty() ? WSIO_TIMEOUT : WSIO_DATA;
+        }
+        if (ss==SEC_E_INCOMPLETE_MESSAGE) {
+            if (eLen>=cap) { cap*=2; eb.resize(cap); }
+            fd_set fds; struct timeval tv={pollSec,0};
+            FD_ZERO(&fds); FD_SET(s,&fds);
+            int sel=select(0,&fds,NULL,NULL,&tv);
+            if (sel==0) { if (eLen>0) ctx->extra.assign(&eb[0], &eb[0]+eLen); return WSIO_TIMEOUT; }
+            if (sel<0) return WSIO_CLOSED;
+            int r = recv(s,(char*)&eb[eLen],(int)(cap-eLen),0);
+            if (r<=0) return WSIO_CLOSED;
+            eLen+=r;
+            continue;
+        }
+        return WSIO_CLOSED;
+    }
+}
+
+static bool TransportSendRaw(SOCKET s, SslCtx* ctx, BOOL isSsl, const std::string& data)
+{
+    if (isSsl) return SslWrite(s, *ctx, data);
+    return send(s, data.c_str(), (int)data.size(), 0) == (int)data.size();
+}
+
+/* RFC 6455 §1.3 handshake accept key: base64(SHA1(key + magic GUID)). */
+static std::string ComputeWsAcceptKey(const std::string& clientKey)
+{
+    static const char* WS_GUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
+    std::string combined = clientKey + WS_GUID;
+    HCRYPTPROV hProv=NULL; std::string result;
+    if (CryptAcquireContextA(&hProv,NULL,NULL,PROV_RSA_FULL,CRYPT_VERIFYCONTEXT)) {
+        HCRYPTHASH hHash=NULL;
+        if (CryptCreateHash(hProv,CALG_SHA1,0,0,&hHash)) {
+            if (CryptHashData(hHash,(const BYTE*)combined.data(),(DWORD)combined.size(),0)) {
+                BYTE sha[20]; DWORD len=20;
+                if (CryptGetHashParam(hHash,HP_HASHVAL,sha,&len,0))
+                    result = Base64Encode(sha,20);
+            }
+            CryptDestroyHash(hHash);
+        }
+        CryptReleaseContext(hProv,0);
+    }
+    return result;
+}
+
+/* Build one unmasked server->client WS frame (servers must not mask). */
+static std::string WsBuildFrame(int opcode, const std::string& payload)
+{
+    std::string o;
+    o += (char)(0x80 | (opcode & 0x0F));   /* FIN=1, no fragmentation */
+    size_t n = payload.size();
+    if (n < 126) {
+        o += (char)n;
+    } else if (n <= 0xFFFF) {
+        o += (char)126;
+        o += (char)((n>>8)&0xFF);
+        o += (char)(n&0xFF);
+    } else {
+        o += (char)127;
+        for (int i=7;i>=0;i--) o += (char)((n >> (8*i)) & 0xFF);
+    }
+    o += payload;
+    return o;
+}
+
+/* Try to pull one complete frame off the front of buf (client frames are
+ * always masked per spec). Returns false if buf doesn't hold a full frame
+ * yet. Fragmentation (FIN=0) isn't handled — fine for the small single-
+ * frame JSON messages SignalR Core's hub protocol uses. */
+static bool WsTryParseFrame(const std::string& buf, size_t& consumed, int& opcode, std::string& payload)
+{
+    if (buf.size() < 2) return false;
+    unsigned char b0=(unsigned char)buf[0], b1=(unsigned char)buf[1];
+    opcode = b0 & 0x0F;
+    bool masked = (b1 & 0x80)!=0;
+    unsigned long long len = b1 & 0x7F;
+    size_t pos=2;
+    if (len==126) {
+        if (buf.size() < pos+2) return false;
+        len = ((unsigned long long)(unsigned char)buf[pos]<<8) | (unsigned char)buf[pos+1];
+        pos+=2;
+    } else if (len==127) {
+        if (buf.size() < pos+8) return false;
+        len=0;
+        for (int i=0;i<8;i++) len = (len<<8) | (unsigned char)buf[pos+i];
+        pos+=8;
+    }
+    unsigned char mask[4]={0,0,0,0};
+    if (masked) {
+        if (buf.size() < pos+4) return false;
+        memcpy(mask, buf.data()+pos, 4);
+        pos+=4;
+    }
+    if (buf.size() < pos+(size_t)len) return false;
+    payload.assign(buf.data()+pos, (size_t)len);
+    if (masked)
+        for (size_t i=0;i<payload.size();i++) payload[i] = (char)((unsigned char)payload[i] ^ mask[i%4]);
+    consumed = pos + (size_t)len;
+    return true;
+}
+
+/* Owns a /userhub connection from the 101 response onward: completes the
+ * SignalR Core JSON Hub Protocol handshake (the {"protocol":"json",...}
+ * message every SignalR Core client sends first, 0x1E-delimited) and then
+ * just answers keepalive pings (type 6) and WS-level pings/closes. No real
+ * hub method dispatch — see the SECTION 13b comment above for why. */
+static void HandleUserHubWebSocket(SOCKET s, SslCtx* ctx, BOOL isSsl, const std::string& wsKey)
+{
+    std::string resp = "HTTP/1.1 101 Switching Protocols\r\n"
+                        "Upgrade: websocket\r\n"
+                        "Connection: Upgrade\r\n"
+                        "Sec-WebSocket-Accept: " + ComputeWsAcceptKey(wsKey) + "\r\n\r\n";
+    if (!TransportSendRaw(s, ctx, isSsl, resp)) return;
+    Log("userhub: websocket upgraded (ssl=%d)", (int)isSsl);
+
+    std::string buf;
+    bool handshakeDone = false;
+    while (!g_shutdown) {
+        size_t consumed; int opcode; std::string payload;
+        while (WsTryParseFrame(buf, consumed, opcode, payload)) {
+            buf.erase(0, consumed);
+            if (opcode == 0x8) {                              /* close */
+                TransportSendRaw(s, ctx, isSsl, WsBuildFrame(0x8, payload));
+                return;
+            }
+            if (opcode == 0x9) {                              /* ping -> pong */
+                TransportSendRaw(s, ctx, isSsl, WsBuildFrame(0xA, payload));
+                continue;
+            }
+            if (opcode == 0xA) continue;                      /* pong */
+            if (opcode == 0x1 || opcode == 0x2) {
+                size_t start=0;
+                while (true) {
+                    size_t rs = payload.find('\x1e', start);
+                    std::string rec = (rs==std::string::npos)
+                        ? payload.substr(start) : payload.substr(start, rs-start);
+                    if (!rec.empty()) {
+                        if (!handshakeDone) {
+                            TransportSendRaw(s, ctx, isSsl, WsBuildFrame(0x1, std::string("{}\x1e",3)));
+                            handshakeDone = true;
+                            Log("userhub: SignalR handshake acked");
+                        } else if (rec.find("\"type\":6") != std::string::npos) {
+                            /* client keepalive ping -> echo back */
+                            TransportSendRaw(s, ctx, isSsl, WsBuildFrame(0x1, std::string("{\"type\":6}\x1e",11)));
+                        }
+                        /* Other message types (invocations, etc.) are
+                         * silently ignored — we don't know the real
+                         * UserHub method surface; we're only here to stop
+                         * the 404/reconnect spam, not to implement it. */
+                    }
+                    if (rs==std::string::npos) break;
+                    start = rs+1;
+                }
+            }
+        }
+        std::string chunk;
+        WsIo r = TransportReadSome(s, ctx, isSsl, chunk, 5);
+        if (r == WSIO_CLOSED) break;
+        if (r == WSIO_DATA) buf += chunk;
+        /* WSIO_TIMEOUT: nothing new — loop back around to recheck g_shutdown. */
+    }
+}
+
+/* ============================================================================
    SECTION 14 — Connection worker thread
    ========================================================================= */
 struct ClientArg { SOCKET s; BOOL ssl; };
@@ -6956,6 +7250,20 @@ static void ServeClientBody(SOCKET s, BOOL isSsl)
             if(!RecvFull(s,rawReq)){closesocket(s);return;}
         }
         Req req; if(!ParseHttp(rawReq,req)){closesocket(s);return;}
+        /* ---- WebSocket upgrade: /userhub (SignalR Core "UserHub") ----
+         * See SECTION 13b above. This bypasses Route()/BuildRaw() entirely —
+         * a 101 response and the frames after it don't look like normal
+         * HTTP responses (no Content-Length, no "Connection: close", etc). */
+        {
+            std::map<std::string,std::string>::const_iterator uit = req.headers.find("upgrade");
+            std::map<std::string,std::string>::const_iterator kit = req.headers.find("sec-websocket-key");
+            if (STARTS(req.path,"/userhub") && uit!=req.headers.end() && kit!=req.headers.end()
+                && ToLower(uit->second).find("websocket")!=std::string::npos) {
+                HandleUserHubWebSocket(s, &sslCtx, isSsl, kit->second);
+                closesocket(s);
+                return;
+            }
+        }
         /* Hold every reply until the Roblox cookie prompt has been completed or
          * skipped, so Studio's launch waits for the user instead of racing ahead
          * with no credentials. /ping is exempt so the watchdog's health checks
@@ -7124,8 +7432,15 @@ static DWORD WINAPI StartupThread(LPVOID)
     LoadUsername();
     InitLogFile();   /* open a fresh per-session log in logs\ before any Log() call */
 
+    /* Mirror the resolved userId into userid.txt next to the DLL so the
+     * RobloxStudioPatcher relay (which reads userid.txt and sends it in the
+     * join magic-packet) hands the engine the SAME id the webserver auth uses.
+     * Keeps the in-game Player.UserId consistent and removes the manual step. */
+    WriteFile_(DllPath("userid.txt"), g_userId);
+    Log("userid.txt set to %s", g_userId.c_str());
+
     /* ---- Write Lua plugin into the user's Roblox Studio Plugins folder ----- */
-    {
+    /*{
         char localApp[MAX_PATH] = {0};
         if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, localApp)))
         {
@@ -7133,39 +7448,86 @@ static DWORD WINAPI StartupThread(LPVOID)
             CreateDirectoryA(pluginsDir.c_str(), NULL);
             std::string dest = pluginsDir + "UserFix.lua";
             static const char luaSource[] =
-                "local function userIdFromUsername(name)\n"
-                "    local hash = 2166136261\n"
-                "    for i = 1, #name do\n"
-                "        local byte = string.byte(name, i)\n"
-                "        hash = bit32.bxor(hash, byte)\n"
-                "        local lo = bit32.band(hash, 0xFFFF)\n"
-                "        local hi = bit32.band(bit32.rshift(hash, 16), 0xFFFF)\n"
-                "        local lo2 = lo * 16777619\n"
-                "        local hi2 = hi * 16777619\n"
-                "        local result = bit32.band(lo2, 0xFFFFFFFF)\n"
-                "        result = bit32.band(result + bit32.band(bit32.lshift(hi2, 16), 0xFFFFFFFF), 0xFFFFFFFF)\n"
-                "        hash = result\n"
-                "    end\n"
-                "    return 10000000 + (hash % 90000000)\n"
-                "end\n"
-                "for i,p in pairs(game:GetService(\"Players\"):GetPlayers()) do\n"
-                "    pcall(function()\n"
-                "        p.UserId = userIdFromUsername(p.Name)\n"
-                "        p.CharacterAppearanceId = userIdFromUsername(p.Name)\n"
-                "        p.DisplayName = p.Name\n"
-                "    end)\n"
-                "end\n"
-                "game:GetService(\"Players\").PlayerAdded:Connect(function(p)\n"
-                "    pcall(function()\n"
-                "        p.UserId = userIdFromUsername(p.Name)\n"
-                "        p.CharacterAppearanceId = userIdFromUsername(p.Name)\n"
-                "        p.DisplayName = p.Name\n"
-                "    end)\n"
-                "end)\n";
+    "local Players       = game:GetService(\"Players\")\n"
+    "local StarterPlayer = game:GetService(\"StarterPlayer\")\n"
+    "\n"
+    "local clientSource = [==[\n"
+    "local Players         = game:GetService(\"Players\")\n"
+    "local TextChatService = game:GetService(\"TextChatService\")\n"
+    "\n"
+    "local function userIdFromUsername(name)\n"
+    "    local hash = 2166136261\n"
+    "    for i = 1, #name do\n"
+    "        local byte = string.byte(name, i)\n"
+    "        hash = bit32.bxor(hash, byte)\n"
+    "        local lo  = bit32.band(hash, 0xFFFF)\n"
+    "        local hi  = bit32.band(bit32.rshift(hash, 16), 0xFFFF)\n"
+    "        local lo2 = lo * 16777619\n"
+    "        local hi2 = hi * 16777619\n"
+    "        local result = bit32.band(lo2, 0xFFFFFFFF)\n"
+    "        result = bit32.band(result + bit32.band(bit32.lshift(hi2, 16), 0xFFFFFFFF), 0xFFFFFFFF)\n"
+    "        hash = result\n"
+    "    end\n"
+    "    return 10000000 + (hash % 90000000)\n"
+    "end\n"
+    "\n"
+    "local function resolveName(src)\n"
+    "    if not src then return nil end\n"
+    "    local plr = Players:GetPlayerByUserId(src.UserId)\n"
+    "    if plr then\n"
+    "        return (plr.DisplayName ~= \"\" and plr.DisplayName) or plr.Name\n"
+    "    end\n"
+    "    for _, p in ipairs(Players:GetPlayers()) do\n"
+    "        if userIdFromUsername(p.Name) == src.UserId then\n"
+    "            return (p.DisplayName ~= \"\" and p.DisplayName) or p.Name\n"
+    "        end\n"
+    "    end\n"
+    "    return nil\n"
+    "end\n"
+    "\n"
+    "TextChatService.OnIncomingMessage = function(message)\n"
+    "    local props = Instance.new(\"TextChatMessageProperties\")\n"
+    "    if message.PrefixText == nil or message.PrefixText == \"\" then\n"
+    "        local name = resolveName(message.TextSource)\n"
+    "        if name then\n"
+    "            props.PrefixText = \"[\" .. name .. \"]:\"\n"
+    "        end\n"
+    "    end\n"
+    "    return props\n"
+    "end\n"
+    "\n"
+    "pcall(function()\n"
+    "    local CoreGui = game:GetService(\"CoreGui\")\n"
+    "    local function kill(gui)\n"
+    "        if gui:IsA(\"ScreenGui\") and gui.Name == \"Chat\" then gui.Enabled = false end\n"
+    "    end\n"
+    "    for _, gui in ipairs(CoreGui:GetDescendants()) do kill(gui) end\n"
+    "    CoreGui.DescendantAdded:Connect(kill)\n"
+    "end)\n"
+    "]==]\n"
+    "\n"
+    "local function deploy(parent)\n"
+    "    if not parent then return end\n"
+    "    local existing = parent:FindFirstChild(\"ChatClientFix\")\n"
+    "    if existing then existing:Destroy() end\n"
+    "    local ls = Instance.new(\"LocalScript\")\n"
+    "    ls.Name = \"ChatClientFix\"\n"
+    "    ls.Source = clientSource\n"
+    "    ls.Parent = parent\n"
+    "end\n"
+    "\n"
+    "deploy(StarterPlayer:FindFirstChildOfClass(\"StarterPlayerScripts\"))\n"
+    "for _, p in ipairs(Players:GetPlayers()) do\n"
+    "    deploy(p:FindFirstChildOfClass(\"PlayerScripts\"))\n"
+    "end\n"
+    "Players.PlayerAdded:Connect(function(p)\n"
+    "    local ps = p:WaitForChild(\"PlayerScripts\", 10)\n"
+    "    deploy(ps)\n"
+    "end)\n";
             FILE* f = fopen(dest.c_str(), "w");
             if (f) { fputs(luaSource, f); fclose(f); }
         }
-    }
+    }*/
     /* ----------------------------------------------------------------------- */
 
     Log("=== HookedWebserver startup ===");

@@ -41,4 +41,21 @@ namespace RobloxStudioPatcher
     // The same DLL works on both the client and server side - hooks are
     // bidirectional by design.
     bool StartUdpRelay();
+
+    // Feed a server output line here so the relay can detect player LEAVES and
+    // free that player's name (so the same human reclaims it on reconnect
+    // instead of being bumped to Player%d). Recognises:
+    //   * "OffBloxPlayerLeft:<name>"      - the injected PlayerRemoving handler
+    //                                       (reliable; fires on every leave)
+    //   * "Disconnect from <ip>|<port>"   - transport disconnect (by port)
+    //   * "Player (<name>) is being removed"
+    // Returns true if the line was the INTERNAL PlayerRemoving tag and should be
+    // suppressed from visible output; false otherwise. Cheap; the caller should
+    // only pass lines containing one of those trigger substrings.
+    bool OnServerOutputLine(const char* msg);
+
+    // Free a player's relay identity by name (clone-identity fix). Called by the
+    // C++ player-removal hook (player_leave.cpp) when a player leaves, so the
+    // same person reclaims their name on reconnect instead of getting Player%d.
+    void RelayFreePlayerName(const char* name);
 }

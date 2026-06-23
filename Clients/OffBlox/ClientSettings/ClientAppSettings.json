@@ -1,4 +1,10 @@
 {"applicationSettings":{
+  "FFlagLogServiceRateLimit": "True",
+"DFFlagLogServiceRateLimit": "True",
+"FIntLogServiceSignalRateLimitCapacity": "20",
+"DFIntLogServiceSignalRateLimitCapacity": "20",
+"FIntLogServiceSignalRateLimitDuration": "1000",
+"DFIntLogServiceSignalRateLimitDuration": "1000",
   "FFlagDebugLocalRccServerConnection":"False",
 "DFIntAssetsUploadUseMultiPartSizeThresholdBytes":"2147483647",
 "DFFlagSessionCryptoEarlyKey": "True",

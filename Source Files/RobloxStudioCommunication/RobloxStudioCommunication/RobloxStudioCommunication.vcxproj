@@ -173,6 +173,17 @@
     <ClInclude Include="script_start_hook.h" />
     <ClInclude Include="rcc_patch.h" />
     <ClInclude Include="port_remap.h" />
+    <ClInclude Include="auto_recovery.h" />
+    <ClInclude Include="output_dedupe.h" />
+    <ClInclude Include="script_error_dedupe.h" />
+    <ClInclude Include="server_console.h" />
+    <ClInclude Include="render_disable.h" />
+    <ClInclude Include="player_leave.h" />
+    <ClInclude Include="render_nulldevice.h" />
+    <ClInclude Include="dialog_suppress.h" />
+    <ClInclude Include="audio_disable.h" />
+    <ClInclude Include="plugin_disable.h" />
+    <ClInclude Include="anr_disable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
@@ -186,6 +197,17 @@
     <ClCompile Include="script_start_hook.cpp" />
     <ClCompile Include="rcc_patch.cpp" />
     <ClCompile Include="port_remap.cpp" />
+    <ClCompile Include="auto_recovery.cpp" />
+    <ClCompile Include="output_dedupe.cpp" />
+    <ClCompile Include="script_error_dedupe.cpp" />
+    <ClCompile Include="server_console.cpp" />
+    <ClCompile Include="render_disable.cpp" />
+    <ClCompile Include="player_leave.cpp" />
+    <ClCompile Include="render_nulldevice.cpp" />
+    <ClCompile Include="dialog_suppress.cpp" />
+    <ClCompile Include="audio_disable.cpp" />
+    <ClCompile Include="plugin_disable.cpp" />
+    <ClCompile Include="anr_disable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="RobloxStudioPatcher.def" />

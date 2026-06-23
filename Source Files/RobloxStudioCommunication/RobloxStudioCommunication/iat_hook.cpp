@@ -15,32 +15,77 @@ namespace RobloxStudioPatcher
     static SIZE_T InsnLen(const BYTE* p)
     {
 #ifdef _WIN64
-        // Handle REX prefix
-        BYTE b = *p;
-        bool hasRex = (b >= 0x40 && b <= 0x4F);
-        if (hasRex) { ++p; b = *p; }
+        // Skip (possibly multiple) prefixes, then a REX byte, to reach opcode.
+        const BYTE* op = p;
+        // operand-size / rep / segment prefixes occasionally precede prologue
+        // insns; consume the common ones so the opcode decode stays aligned.
+        while (*op == 0x66 || *op == 0x67 || *op == 0xF2 || *op == 0xF3) ++op;
+        bool hasRex = (*op >= 0x40 && *op <= 0x4F);
+        if (hasRex) ++op;
+        BYTE b = *op;
+        SIZE_T pre = (SIZE_T)(op - p);   // bytes consumed as prefixes/REX
+
+        // ModRM (+SIB +disp) length, in bytes. Sets ripRel if the operand is
+        // RIP-relative (mod=00, rm=101) - which we must NOT relocate, so the
+        // caller aborts (returns 0).
+        auto modrmLen = [](const BYTE* m, bool& ripRel) -> SIZE_T
+        {
+            BYTE mod = (m[0] >> 6) & 3;
+            BYTE rm  = m[0] & 7;
+            SIZE_T len = 1;                 // the ModRM byte itself
+            if (mod == 3) return len;       // register-direct, no SIB/disp
+            if (mod == 0 && rm == 5) { ripRel = true; return len + 4; } // [rip+disp32]
+            if (rm == 4)                    // SIB present
+            {
+                len += 1;                   // SIB byte
+                BYTE base = m[1] & 7;
+                if (mod == 0 && base == 5) len += 4;   // disp32
+                else if (mod == 1)         len += 1;   // disp8
+                else if (mod == 2)         len += 4;   // disp32
+            }
+            else
+            {
+                if (mod == 1) len += 1;     // disp8
+                if (mod == 2) len += 4;     // disp32
+            }
+            return len;
+        };
 
         switch (b)
         {
-        case 0x55: return 1 + (hasRex ? 1 : 0); // PUSH RBP
-        case 0x53: return 1 + (hasRex ? 1 : 0); // PUSH RBX
-        case 0x57: return 1 + (hasRex ? 1 : 0); // PUSH RDI
-        case 0x56: return 1 + (hasRex ? 1 : 0); // PUSH RSI
-        case 0x89:                               // MOV r/m, r  (+ModRM)
-        case 0x8B:                               // MOV r, r/m  (+ModRM)
+        // PUSH/POP r64 (0x50-0x5F)
+        case 0x50: case 0x51: case 0x52: case 0x53:
+        case 0x54: case 0x55: case 0x56: case 0x57:
+        case 0x58: case 0x59: case 0x5A: case 0x5B:
+        case 0x5C: case 0x5D: case 0x5E: case 0x5F:
+            return pre + 1;
+
+        case 0x88: case 0x89:   // MOV r/m, r
+        case 0x8A: case 0x8B:   // MOV r, r/m
+        case 0x8D:              // LEA r, m
         {
-            BYTE mod = (p[1] >> 6) & 3;
-            BYTE rm  = p[1] & 7;
-            SIZE_T base = 2 + (hasRex ? 1 : 0);
-            if (mod == 1) base += 1;
-            if (mod == 2) base += 4;
-            if (mod == 0 && rm == 5) base += 4; // RIP-relative - NOT safe to copy
-            return base;
+            bool ripRel = false;
+            SIZE_T ml = modrmLen(op + 1, ripRel);
+            if (ripRel) return 0;            // can't relocate RIP-relative - abort
+            return pre + 1 + ml;
         }
-        case 0x83: return 3 + (hasRex ? 1 : 0); // ADD/SUB/CMP r/m, imm8
-        case 0x81: return 6 + (hasRex ? 1 : 0); // ADD/SUB/CMP r/m, imm32
-        case 0x48: return 0; // bare REX.W without hasRex set - shouldn't happen
-        default:   return 0;
+
+        case 0x83:              // grp1 r/m, imm8
+        {
+            bool ripRel = false;
+            SIZE_T ml = modrmLen(op + 1, ripRel);
+            if (ripRel) return 0;
+            return pre + 1 + ml + 1;
+        }
+        case 0x81:              // grp1 r/m, imm32
+        {
+            bool ripRel = false;
+            SIZE_T ml = modrmLen(op + 1, ripRel);
+            if (ripRel) return 0;
+            return pre + 1 + ml + 4;
+        }
+
+        default:   return 0;     // unrecognised - abort
         }
 #else
         // Helper: decode ModRM byte and return total extra bytes beyond opcode+ModRM.

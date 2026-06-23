@@ -6,6 +6,7 @@
 #include "iat_hook.h"
 #include "name_patcher.h"
 #include "rcc_patch.h"
+#include "server_console.h"
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <winsock2.h>
@@ -228,6 +229,28 @@ namespace RobloxStudioPatcher
     static std::mutex                      s_peerMutex;
     static std::map<uint64_t, PeerInfo>    s_peers;      // src key -> {username,uid,lastSeen}
     static std::map<std::string, uint64_t> s_userToKey;  // username -> current src key
+
+    // After a player leaves we briefly ignore re-announces from THAT source key:
+    // the leaving client's announcer keeps firing for a moment, which would
+    // otherwise free-then-instantly-rejoin the same name. Refreshed on each
+    // swallowed packet, so it clears shortly after the announcer actually stops.
+    // A genuine rejoin opens a fresh socket (different key) and is unaffected.
+    static const DWORD                     kLeaveCooldownMs = 2500;
+    static std::map<uint64_t, DWORD>       s_leftCooldown;   // left key -> last-seen tick
+
+    // A connection forced to the default name (rejected) keeps sending its join
+    // burst; remember it briefly so we log/patch the rejection ONCE instead of
+    // once per datagram. (Accepted joins are already deduped via s_userToKey.)
+    static const DWORD                     kForcedDedupMs = 3000;
+    static std::map<uint64_t, DWORD>       s_forcedRecent;   // forced key -> last-seen tick
+
+    // Anti-impersonation: a name is protected while its holder's peer is still
+    // present. Leave detection (PlayerRemoving hook) removes the peer the instant
+    // the player actually leaves, so protection lasts the WHOLE session - it no
+    // longer depends on a 2s liveness window kept warm by announce-spam (that was
+    // the regression when the burst was shortened). This long timeout is ONLY a
+    // safety net so a missed leave (e.g. a crash) can't lock a name out forever.
+    static const DWORD                     kHolderProtectMs = 600000;   // 10 min
     // Stable per-connection key from ip:port. Handles BOTH IPv4 and IPv6 -
     // RakNet on loopback uses ::1, which the old IPv4-only version saw as
     // "unknown" (0), breaking dedup AND making the local host look external.
@@ -303,10 +326,34 @@ namespace RobloxStudioPatcher
         std::string hostUser = GetUsernameAscii();
         std::lock_guard<std::mutex> lk(s_peerMutex);
         DWORD now = GetTickCount();
+        // A key that JUST left is still re-announcing (its announcer hasn't
+        // stopped yet) -> swallow so a leave isn't followed by a false rejoin.
+        // Refresh the timer while the stragglers keep coming; clear once they stop.
+        if (key != 0)
+        {
+            std::map<uint64_t, DWORD>::iterator cd = s_leftCooldown.find(key);
+            if (cd != s_leftCooldown.end())
+            {
+                if (now - cd->second < kLeaveCooldownMs) { cd->second = now; return kRepeatIdentity; }
+                s_leftCooldown.erase(cd);
+            }
+        }
+        // A connection we already rejected (forced to default) keeps sending its
+        // burst -> swallow the repeats so the rejection is logged/applied once.
+        if (key != 0)
+        {
+            std::map<uint64_t, DWORD>::iterator fr = s_forcedRecent.find(key);
+            if (fr != s_forcedRecent.end())
+            {
+                if (now - fr->second < kForcedDedupMs) { fr->second = now; return kRepeatIdentity; }
+                s_forcedRecent.erase(fr);
+            }
+        }
         // Host username taken from a non-loopback ip -> not the real host.
         if (!hostUser.empty() && name == hostUser && !loopback) {
             LogF(L"[udp_relay] '%hs' uses host name from external ip -> Player%%d\n",
                 name.c_str());
+            if (key != 0) s_forcedRecent[key] = now;
             return kForceDefaultName;
         }
         std::map<std::string, uint64_t>::iterator u = s_userToKey.find(name);
@@ -318,19 +365,23 @@ namespace RobloxStudioPatcher
                 if (self != s_peers.end()) self->second.lastSeen = now;
                 return kRepeatIdentity;
             }
-            // A DIFFERENT connection wants a name still held by a LIVE one ->
-            // duplicate username -> force default. (key==0 means we couldn't
-            // attribute this datagram to a connection; don't flip on it, to
-            // avoid a false positive against the legitimate holder.)
+            // A DIFFERENT connection claiming a name whose holder is still
+            // PRESENT -> impersonation -> force default. The holder is removed on
+            // real leave (leave detection), so "present" means actively in use,
+            // for the whole session - not just a 2s liveness window. The long
+            // timeout is only a crash safety net. (key==0 means we couldn't
+            // attribute this datagram to a connection; don't flip on it, to avoid
+            // a false positive against the legitimate holder.)
             std::map<uint64_t, PeerInfo>::iterator orig = s_peers.find(u->second);
-            bool live = (orig != s_peers.end()) &&
-                (now - orig->second.lastSeen < kPeerTimeoutMs);
-            if (live && key != 0) {
+            bool inUse = (orig != s_peers.end()) &&
+                (now - orig->second.lastSeen < kHolderProtectMs);
+            if (inUse && key != 0) {
                 LogF(L"[udp_relay] '%hs' already in use by another connection -> Player%%d\n",
                     name.c_str());
+                s_forcedRecent[key] = now;
                 return kForceDefaultName;
             }
-            // Holder is stale/gone (or unknown source) -> allow takeover.
+            // Holder actually left (peer gone) or ancient/unknown -> allow takeover.
         }
         // First sighting (or takeover of a dead name): claim it for this key.
         if (key != 0) {
@@ -339,6 +390,116 @@ namespace RobloxStudioPatcher
             s_userToKey[name] = key;
         }
         return kApplyIdentity;
+    }
+
+    // ---------- Leave detection -------------------------------------------
+    // When a player leaves we drop their peer so the SAME human reclaims their
+    // name on reconnect (instead of being bumped to Player%d because the stale
+    // entry still "holds" the name). Two independent signals from the server's
+    // output stream feed this (see OnServerOutputLine):
+    //   * "Disconnect from <ip>|<port>"  - frees by source key (works when the
+    //                                      magic rode that connection's port)
+    //   * "Player (<name>) is being removed" - frees by username (robust even
+    //                                      when the disconnect port differs from
+    //                                      the magic-announce port)
+    static void ErasePeerKeyLocked(uint64_t key)   // caller holds s_peerMutex
+    {
+        std::map<uint64_t, PeerInfo>::iterator it = s_peers.find(key);
+        if (it == s_peers.end()) return;
+        std::string uname = it->second.username;
+        std::map<std::string, uint64_t>::iterator u = s_userToKey.find(uname);
+        if (u != s_userToKey.end() && u->second == key) s_userToKey.erase(u);
+        s_peers.erase(it);
+        s_leftCooldown[key] = GetTickCount();   // suppress this key's straggler announces
+        LogF(L"[udp_relay] peer left -> freed name '%hs'\n", uname.c_str());
+        ServerConsolePlayerLeft(uname);
+    }
+
+    static void RemovePeerByIpPort(const char* ip, int port)
+    {
+        sockaddr_in sa; std::memset(&sa, 0, sizeof(sa));
+        sa.sin_family = AF_INET;
+        sa.sin_port = htons((unsigned short)port);
+        if (InetPtonA(AF_INET, ip, &sa.sin_addr) != 1) return;
+        uint64_t key = SourceKey(reinterpret_cast<sockaddr*>(&sa), sizeof(sa));
+        std::lock_guard<std::mutex> lk(s_peerMutex);
+        if (s_peers.find(key) != s_peers.end()) ErasePeerKeyLocked(key);
+        else LogF(L"[udp_relay] disconnect %hs:%d -> no tracked peer "
+                  L"(port differs from magic key; username path will handle it)\n", ip, port);
+    }
+
+    static void RemovePeerByUsername(const std::string& name)
+    {
+        if (name.empty()) return;
+        std::lock_guard<std::mutex> lk(s_peerMutex);
+        std::map<std::string, uint64_t>::iterator u = s_userToKey.find(name);
+        if (u == s_userToKey.end()) return;
+        uint64_t key = u->second;
+        std::map<uint64_t, PeerInfo>::iterator it = s_peers.find(key);
+        if (it != s_peers.end()) s_peers.erase(it);
+        s_userToKey.erase(u);
+        s_leftCooldown[key] = GetTickCount();   // suppress this key's straggler announces
+        LogF(L"[udp_relay] player removed -> freed name '%hs'\n", name.c_str());
+        ServerConsolePlayerLeft(name);
+    }
+
+    // Parse leave signals out of a server output line. Cheap substring checks;
+    // the caller only invokes this for lines that already contain one of the
+    // trigger substrings. Returns true if the line was an INTERNAL signal that
+    // should be suppressed from the visible output (the PlayerRemoving tag),
+    // false for real engine lines that should still be shown.
+    bool OnServerOutputLine(const char* msg)
+    {
+        if (!msg) return false;
+
+        // Internal leave signal from the injected PlayerRemoving handler:
+        //   "OffBloxPlayerLeft:<name>"
+        // This is the reliable path - PlayerRemoving fires on EVERY leave and
+        // carries the exact name, with no Player-layout reversing.
+        const char* tag = std::strstr(msg, "OffBloxPlayerLeft:");
+        if (tag)
+        {
+            std::string name(tag + 18);   // strlen("OffBloxPlayerLeft:") == 18
+            while (!name.empty() &&
+                   (name.back() == '\r' || name.back() == '\n' ||
+                    name.back() == ' '  || name.back() == '\t'))
+                name.pop_back();
+            RemovePeerByUsername(name);
+            return true;                  // suppress this internal line
+        }
+
+        const char* d = std::strstr(msg, "Disconnect from ");
+        if (d)
+        {
+            d += 16;   // past "Disconnect from "
+            char ip[64] = {}; int i = 0;
+            while (d[i] && d[i] != '|' && d[i] != ' ' && i < 63) { ip[i] = d[i]; ++i; }
+            ip[i] = '\0';
+            int port = (d[i] == '|') ? atoi(d + i + 1) : 0;
+            if (ip[0] && port > 0 && std::strcmp(ip, "UNASSIGNED_SYSTEM_ADDRESS") != 0)
+                RemovePeerByIpPort(ip, port);
+            return false;
+        }
+        const char* rem = std::strstr(msg, "is being removed");
+        if (rem)
+        {
+            const char* open = nullptr;            // last '(' before "is being removed"
+            for (const char* p = msg; p < rem; ++p) if (*p == '(') open = p;
+            if (open)
+            {
+                const char* close = std::strchr(open, ')');
+                if (close && close > open + 1)
+                    RemovePeerByUsername(std::string(open + 1, close - open - 1));
+            }
+            return false;
+        }
+        return false;
+    }
+
+    // Public entry for the C++ player-removal hook (player_leave.cpp).
+    void RelayFreePlayerName(const char* name)
+    {
+        if (name && *name) RemovePeerByUsername(std::string(name));
     }
     // ---------- Magic packet construction ---------------------------------
     static int BuildMagicPacket(char* out, size_t outCap)
@@ -439,12 +600,15 @@ namespace RobloxStudioPatcher
         // A conflicting username (the host's name from an external ip, or a name
         // held by a live DIFFERENT account) still gets in, but as the default
         // "Player%d" - and we skip applying their relayed identity/appearance,
-        // so they can't impersonate anyone.
+        // so they can't impersonate anyone. ClassifyJoin deduped the burst, so
+        // this runs ONCE per connection; the console reflects the FORCED name.
         if (decision == kForceDefaultName) {
             PatchPlayerNameCallSite("Player%d");
+            ServerConsolePlayerJoined("Player%d (rejected '" + name + "' - name in use)");
             return true;
         }
         PatchPlayerNameCallSite(name);
+        ServerConsolePlayerJoined(name);
         if (haveId)
             ApplyReceivedIdentity(uid, age);
         if (!appearance.empty())
@@ -452,9 +616,15 @@ namespace RobloxStudioPatcher
         return true;
     }
     // ---------- Hook implementations --------------------------------------
+    // Forward decls - the join-gate helpers are defined further down (next to
+    // the announcer) but are used here in the send hooks.
+    static bool DestIsServerEndpoint(const sockaddr* to, int tolen);
+    static void HintJoin(const char* why);
+
     static int WINAPI Hook_sendto(SOCKET s, const char* buf, int len,
         int flags, const sockaddr* to, int tolen)
     {
+        if (DestIsServerEndpoint(to, tolen)) HintJoin("sendto");
         if (ShouldAnnounceToDest(to, tolen))
         {
             char pkt[kMaxPacket];
@@ -495,6 +665,7 @@ namespace RobloxStudioPatcher
         int tolen, LPWSAOVERLAPPED ovl,
         LPWSAOVERLAPPED_COMPLETION_ROUTINE comp)
     {
+        if (DestIsServerEndpoint(to, tolen)) HintJoin("WSASendTo");
         if (ShouldAnnounceToDest(to, tolen) && s_orig_WSASendTo)
         {
             char pkt[kMaxPacket];
@@ -704,6 +875,53 @@ namespace RobloxStudioPatcher
         }
         return r;
     }
+    // ---------- Join gate -------------------------------------------------
+    //
+    // The identity announce used to fire at process start, before the client
+    // had even logged in or chosen to join. We now hold it until the client is
+    // actually CONNECTING to the server (its transport sends/connects to the
+    // server endpoint), which is the precise "about to join" moment. A fallback
+    // timeout guarantees we still announce even if that signal is missed, so a
+    // join can never be blocked.
+    static HANDLE      s_joinGate      = nullptr;   // manual-reset; set on first server contact
+    static const DWORD kJoinFallbackMs = 12000;     // announce anyway after this
+
+    // True if `to` addresses the game server endpoint - its resolved IP on the
+    // connect port or the RakNet port (connectPort+1). Matches the game ports
+    // only, so unrelated loopback traffic (e.g. the :443 webserver) won't trip
+    // the gate during startup.
+    static bool DestIsServerEndpoint(const sockaddr* to, int tolen)
+    {
+        if (!to || tolen < (int)sizeof(sockaddr_in) || to->sa_family != AF_INET)
+            return false;
+        std::string ip; int port = 0;
+        if (!GetServerEndpoint(ip, port)) return false;
+        const sockaddr_in* d = reinterpret_cast<const sockaddr_in*>(to);
+        char ipStr[INET_ADDRSTRLEN] = {};
+        inet_ntop(AF_INET, &d->sin_addr, ipStr, sizeof(ipStr));
+        if (ip != ipStr) return false;
+        int dp = ntohs(d->sin_port);
+        return dp == port || dp == port + 1;
+    }
+
+    static void HintJoin(const char* why)
+    {
+        if (!s_joinGate) return;
+        if (WaitForSingleObject(s_joinGate, 0) != WAIT_OBJECT_0)   // first time only
+            LogF(L"[udp_relay] join detected (%hs) -> announcing identity now\n", why);
+        SetEvent(s_joinGate);
+    }
+
+    // connect() hook: msquic / RakNet connect their UDP socket to the server
+    // endpoint right as the join begins. That is our most precise trigger.
+    static int (WINAPI* s_orig_connect)(SOCKET, const sockaddr*, int) = nullptr;
+    static int WINAPI Hook_connect(SOCKET s, const sockaddr* name, int namelen)
+    {
+        if (DestIsServerEndpoint(name, namelen)) HintJoin("connect");
+        return s_orig_connect ? s_orig_connect(s, name, namelen)
+                              : connect(s, name, namelen);
+    }
+
     // ---------- Client identity announcer ---------------------------------
     //
     // Under RbxTransport the client's RakNet is a vestigial loopback socket
@@ -727,6 +945,15 @@ namespace RobloxStudioPatcher
             LogF(L"[udp_relay] announcer: no username/magic to send - exiting\n");
             return 0;
         }
+        // Hold the announce until the client actually starts connecting to the
+        // server (HintJoin sets s_joinGate). The fallback ensures we never block
+        // a join if that signal is missed.
+        if (s_joinGate)
+        {
+            DWORD wr = WaitForSingleObject(s_joinGate, kJoinFallbackMs);
+            LogF(L"[udp_relay] announcer: %ls, sending identity\n",
+                 wr == WAIT_OBJECT_0 ? L"join gate opened" : L"fallback timeout");
+        }
         // ONE socket for every retry. A fresh socket per send would give each
         // announcement a different source port, so the host's anti-impersonation
         // check would see "same name from a new connection" and flip the player
@@ -741,7 +968,15 @@ namespace RobloxStudioPatcher
         // ~15s of coverage so the name beats the join, then stops. The host
         // dedupes the repeats, so this is just to win the race, not to keep
         // re-sending forever.
-        for (int i = 0; i < 30; ++i)
+        // Brief burst on join, NOT a 15s spam. The first received magic does
+        // everything (registers the peer, applies identity, POSTs appearance)
+        // and the name patch is persistent, so one delivered datagram is enough.
+        // We send a few in quick succession only as insurance against a dropped
+        // datagram / the create-player race, then STOP - so there are no
+        // stragglers to cause a false rejoin after a leave.
+        const int   kTries    = 3;
+        const DWORD kTryGapMs = 100;
+        for (int i = 0; i < kTries; ++i)
         {
             std::string ip; int port = 0;
             if (GetServerEndpoint(ip, port))
@@ -755,18 +990,18 @@ namespace RobloxStudioPatcher
                         reinterpret_cast<sockaddr*>(&dst), sizeof(dst))
                     : sendto(s, pkt, pktLen, 0,
                         reinterpret_cast<sockaddr*>(&dst), sizeof(dst));
-                if (i == 0)
-                    LogF(L"[udp_relay] announce magic -> %hs:%d len=%d r=%d "
-                        L"(repeating %dx, silent)\n", ip.c_str(), port, pktLen, r, 30);
+                LogF(L"[udp_relay] announce magic -> %hs:%d len=%d r=%d (try %d/%d)\n",
+                     ip.c_str(), port, pktLen, r, i + 1, kTries);
             }
-            else if (i == 0)
+            else
             {
-                LogF(L"[udp_relay] announcer: server endpoint not known yet\n");
+                LogF(L"[udp_relay] announcer: server endpoint not known - skipping\n");
+                break;
             }
-            Sleep(500);
+            if (i + 1 < kTries) Sleep(kTryGapMs);
         }
         closesocket(s);
-        LogF(L"[udp_relay] magic announcer finished\n");
+        LogF(L"[udp_relay] magic announcer finished (sent %d)\n", kTries);
         return 0;
     }
     // ---------- Public entry ----------------------------------------------
@@ -900,6 +1135,21 @@ namespace RobloxStudioPatcher
         // can retry while the connection is being established.
         if (isClient)
         {
+            // Create the join gate and hook connect() BEFORE the announcer runs,
+            // so the announce waits for the actual connect to the server.
+            s_joinGate = CreateEventW(nullptr, TRUE /*manual reset*/, FALSE, nullptr);
+            if (!IatHook("ws2_32.dll", "connect",
+                    reinterpret_cast<void*>(&Hook_connect),
+                    reinterpret_cast<void**>(&s_orig_connect)))
+            {
+                if (InlineHook("ws2_32.dll", "connect",
+                        reinterpret_cast<void*>(&Hook_connect),
+                        reinterpret_cast<void**>(&s_orig_connect)))
+                    LogF(L"[udp_relay] connect: IAT miss, inline hook installed\n");
+                else
+                    LogF(L"[udp_relay] connect hook FAILED - join gate relies on "
+                         L"send-hooks + %lums fallback\n", kJoinFallbackMs);
+            }
             HANDLE h = CreateThread(nullptr, 0, &MagicAnnouncerThread, nullptr, 0, nullptr);
             if (h) { CloseHandle(h); LogF(L"[udp_relay] client magic announcer started\n"); }
             else { LogF(L"[udp_relay] FAILED to start magic announcer\n"); }

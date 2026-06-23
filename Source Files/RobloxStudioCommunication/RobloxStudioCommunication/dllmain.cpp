@@ -26,6 +26,17 @@
 #include "script_start_hook.h"
 #include "rcc_patch.h"
 #include "port_remap.h"
+#include "auto_recovery.h"
+#include "output_dedupe.h"
+#include "script_error_dedupe.h"
+#include "server_console.h"
+#include "render_disable.h"
+#include "player_leave.h"
+#include "render_nulldevice.h"
+#include "dialog_suppress.h"
+#include "audio_disable.h"
+#include "plugin_disable.h"
+#include "anr_disable.h"
 
 #include <cstdio>
 #include <fstream>
@@ -252,6 +263,121 @@ static void SafeInit()
     }
     __except (EXCEPTION_EXECUTE_HANDLER)
     { LogF(L"[dllmain] exception in PatchLocalRccIp\n"); }
+
+    // Phase 4d: Auto-Recovery suppressor - ALL launch modes (client, server,
+    // editor). The Auto-Recovery modal (AutoSaveDialog) grabs input on any
+    // launch; clearing the AutoSaves folder + dismissing the dialog is safe
+    // everywhere (it only ever rejects an unwanted recovery prompt, and does
+    // not touch developer tools).
+    __try
+    {
+        StartAutoRecoveryKiller();
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    { LogF(L"[dllmain] exception in StartAutoRecoveryKiller\n"); }
+
+    // Phase 4e: output dedupe - drop already-seen output/error strings in a
+    // running game so error spam stops hammering the output model. No-op until
+    // kSinkRva is set in output_dedupe.cpp; gates itself to non-editor modes.
+    __try
+    {
+        StartOutputDedupe();
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    { LogF(L"[dllmain] exception in StartOutputDedupe\n"); }
+
+    // Phase 4f: script-error dedupe - redirects the script-error reporter's
+    // single emit call site (0x34dc777 -> 0x32ccb30) through a dedup wrapper so
+    // repeated script errors (which bypass StandardOut) stop spamming. Surgical
+    // (one call site), so it avoids the crash from inline-hooking 0x32ccb30.
+    __try
+    {
+        StartScriptErrorDedupe();
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    { LogF(L"[dllmain] exception in StartScriptErrorDedupe\n"); }
+
+    // Phase 4g: server console - StartServer launches only. Allocates a console
+    // window, hides the 3D game window, and mirrors the deduped output + player
+    // joins there. No-op on client/editor (gates on -task StartServer inside).
+    __try
+    {
+        StartServerConsole();
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    { LogF(L"[dllmain] exception in StartServerConsole\n"); }
+
+    // Phase 4h: engine-level 3D render disable - StartServer only. NOPs the
+    // RenderJob's render-dispatch call so the server stops GPU/scene work
+    // (physics/scripts/replication keep running). Server-gated inside.
+    __try
+    {
+        StartRenderDisable();
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    { LogF(L"[dllmain] exception in StartRenderDisable\n"); }
+
+    // Phase 4i: player-leave detection - StartServer only. Hooks the engine's
+    // player-removal so a leaving player's relay name is freed (clone-identity
+    // fix). Server-gated inside; SEH-guarded name read.
+    __try
+    {
+        StartPlayerLeaveHook();
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    { LogF(L"[dllmain] exception in StartPlayerLeaveHook\n"); }
+
+    // Phase 4j: force NoGraphics null-device - StartServer only, EXPERIMENTAL.
+    // Redirects the CreateGraphicsEngine factory call to always request mode 9
+    // (NoGraphics). If a null backend exists, the server runs with no D3D11
+    // device / shaders / VRAM; if not, it aborts at FailedCreateGameWindow.
+    // Server-gated inside. Revert by deleting this block.
+    __try
+    {
+        StartForceNullDevice();
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    { LogF(L"[dllmain] exception in StartForceNullDevice\n"); }
+
+    // Phase 4k: modal-dialog suppressor - StartServer only. Stops the NoGraphics
+    // "incompatible GPU" QMessageBox (and any other modal) from showing/beeping
+    // on the headless server. Server-gated inside.
+    __try
+    {
+        StartDialogSuppress();
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    { LogF(L"[dllmain] exception in StartDialogSuppress\n"); }
+
+    // Phase 4l: audio disable - StartServer only. Neuters the audio device
+    // enumerate/open so no output device, mixer or mic capture is set up on the
+    // headless server. Server-gated inside.
+    __try
+    {
+        StartAudioDisable();
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    { LogF(L"[dllmain] exception in StartAudioDisable\n"); }
+
+    // Phase 4m: editor-plugin disable - StartServer only. Blocks the ~40
+    // sabuiltin_*.rbxm Studio editor plugins from loading (fails their file
+    // open); builtin_ plugins like SimulationStep are kept. Server-gated inside.
+    __try
+    {
+        StartPluginDisable();
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    { LogF(L"[dllmain] exception in StartPluginDisable\n"); }
+
+    // Phase 4n: ANR watchdog disable - StartServer only. Neuters the
+    // App-Not-Responding monitor (noise + a thread once 3D render is off).
+    // Server-gated inside.
+    __try
+    {
+        StartAnrDisable();
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    { LogF(L"[dllmain] exception in StartAnrDisable\n"); }
 
     // Phase 5: Qt chrome hider - client only.
     // Running this inside the server/editor would hide the developer tools.

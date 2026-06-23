@@ -43,6 +43,10 @@ namespace OffBloxLauncher
         private static string SavedDataDir { get { return Pth("Clients", "OffBlox", "data", "SavedData"); } }
         private static string ContentDir   { get { return Pth("Clients", "OffBlox", "content"); } }
         private static string SelectedWorldFile { get { return Pth("Settings", "SelectedWorld.txt"); } }
+        // Marker that OffBlox has been launched at least once from this launcher.
+        // Absent => first run => we confirm before launching (the first launch can
+        // trigger a Windows security/UAC prompt).
+        private static string LaunchedMarker     { get { return Pth("Settings", "firstrun.done"); } }
 
         // ---- Controls ----
         private TextBox txtUser, txtIp, txtClientPort, txtHostPort;
@@ -628,16 +632,61 @@ namespace OffBloxLauncher
             Launch(args, "Editing \"" + w.Name + "\" ...", hostStatus);
         }
 
+        private static bool HasLaunchedBefore()
+        {
+            try { return File.Exists(LaunchedMarker); } catch { return false; }
+        }
+        private static void MarkLaunched()
+        {
+            WriteFileSafe(LaunchedMarker, DateTime.Now.ToString("o"));
+        }
+
         private void Launch(string args, string status, Label statusLabel)
         {
+            // First-ever launch: Windows may show a security (UAC) prompt because
+            // OffBlox.exe asks to elevate. If the user dismisses it, Process.Start
+            // throws Win32 error 1223 ("The operation was canceled by the user"),
+            // which used to surface as a confusing failure. So on the first run we
+            // confirm up front, and we handle a declined prompt gracefully.
+            if (!HasLaunchedBefore())
+            {
+                DialogResult r = MessageBox.Show(
+                    "This looks like the first time you're launching OffBlox.\n\n" +
+                    "Windows may show a security prompt - choose \"Yes\" on it to let " +
+                    "OffBlox start.\n\nLaunch OffBlox now?",
+                    "First launch", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (r != DialogResult.Yes)
+                {
+                    if (statusLabel != null) statusLabel.Text = "Launch cancelled.";
+                    return;
+                }
+            }
+
             try
             {
                 Process p = new Process();
                 p.StartInfo.FileName = StudioExe;
                 p.StartInfo.WorkingDirectory = StudioDir;
                 p.StartInfo.Arguments = args;
+                p.StartInfo.UseShellExecute = true;   // allows OffBlox.exe to auto-elevate
                 p.Start();
+                MarkLaunched();
                 if (statusLabel != null) statusLabel.Text = status;
+            }
+            catch (System.ComponentModel.Win32Exception wex)
+            {
+                // 1223 == ERROR_CANCELLED: the user dismissed the Windows security
+                // prompt. Not a real failure - tell them how to proceed.
+                if (wex.NativeErrorCode == 1223)
+                {
+                    if (statusLabel != null)
+                        statusLabel.Text = "Launch cancelled at the Windows prompt. " +
+                                           "Click again and choose \"Yes\" to allow it.";
+                }
+                else if (statusLabel != null)
+                {
+                    statusLabel.Text = "Launch failed: " + wex.Message;
+                }
             }
             catch (Exception ex)
             {

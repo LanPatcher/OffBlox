@@ -37,6 +37,7 @@
 #include "audio_disable.h"
 #include "plugin_disable.h"
 #include "anr_disable.h"
+#include "devconsole_lock.h"
 
 #include <cstdio>
 #include <fstream>
@@ -378,6 +379,18 @@ static void SafeInit()
     }
     __except (EXCEPTION_EXECUTE_HANDLER)
     { LogF(L"[dllmain] exception in StartAnrDisable\n"); }
+
+    // Phase 4o: dev-console lock - client + server (game launches). Re-enables
+    // the FastFlag-gated GetCanManageAsync request the Developer Console relies
+    // on, so the (host-only) webserver canManage answer applies again and only
+    // the host gets the dev console. Pure branch byte-patch; no CoreGui/Lua,
+    // no FastFlag config. Editor left untouched (gated inside).
+    __try
+    {
+        StartDevConsoleLock();
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    { LogF(L"[dllmain] exception in StartDevConsoleLock\n"); }
 
     // Phase 5: Qt chrome hider - client only.
     // Running this inside the server/editor would hide the developer tools.

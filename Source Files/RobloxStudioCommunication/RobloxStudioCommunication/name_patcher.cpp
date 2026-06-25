@@ -44,6 +44,16 @@ namespace RobloxStudioPatcher
     static const char   kPattern[] = "Player%d";
     static const size_t kPatternLen = sizeof(kPattern); // 9 incl. \0
 
+    // Relayed identity (set by udp_relay's v2 magic packet, consumed by the
+    // createServerPlayer detour in identity_patch). Declared here (not down in
+    // the build-independent section) so the name-revert thread can also CLEAR it:
+    // a rejected/no-relay joiner must not inherit the last player's userId, or it
+    // would also inherit that player's avatar via avatar-fetch. Cleared -> the
+    // engine keeps its own default id -> the webserver serves the gray guest
+    // avatar for it.
+    static volatile unsigned long long s_recvUserId     = 0;
+    static volatile unsigned int       s_recvAccountAge = 0;
+
     static std::string WStringToAscii(const std::wstring& s)
     {
         std::string out;
@@ -352,6 +362,51 @@ namespace RobloxStudioPatcher
         s_nameBuf[n] = '\0';
     }
 
+    // ---- 3.5s name-revert fail-safe -------------------------------------
+    // After a name is set from a relayed (joining-player) magic packet, revert
+    // the engine's name format back to "Player%d" ~3.5s later. This stops a
+    // client that joins WITHOUT relaying a name from inheriting the LAST set
+    // name (which would let it bypass name-based fraud checks / impersonate the
+    // previous joiner). A single poller thread re-arms on every set, so only the
+    // most recent name stays live for ~3.5s — long enough for createServerPlayer
+    // to consume it, after which the generic "Player%d" is restored.
+    static volatile LONGLONG s_nameRevertAt    = 0;   // GetTickCount64 deadline; 0 = none
+    static volatile LONG     s_reverterStarted = 0;
+
+    static DWORD WINAPI NameRevertThread(LPVOID)
+    {
+        for (;;)
+        {
+            Sleep(250);
+            LONGLONG at = s_nameRevertAt;
+            if (at != 0 && (LONGLONG)GetTickCount64() >= at)
+            {
+                s_nameRevertAt = 0;          // disarm before writing
+                if (s_nameBuf)
+                {
+                    WriteNameToBuf("Guest_%d");   // rejected/no-name joiners -> Guest_N
+                    LogF(L"[name_patcher] name format reverted to 'Guest_%%d' "
+                         L"(3.5s fail-safe; rejected joiners become guests)\n");
+                }
+                // Also drop the relayed identity so a rejected joiner doesn't
+                // inherit the last player's userId (which would give them that
+                // player's avatar). Cleared -> engine default id -> guest avatar.
+                s_recvUserId     = 0;
+                s_recvAccountAge = 0;
+            }
+        }
+    }
+
+    static void ArmNameRevert()
+    {
+        s_nameRevertAt = (LONGLONG)GetTickCount64() + 3500;   // 3.5s from this set
+        if (InterlockedCompareExchange(&s_reverterStarted, 1, 0) == 0)
+        {
+            HANDLE h = CreateThread(nullptr, 0, NameRevertThread, nullptr, 0, nullptr);
+            if (h) CloseHandle(h);
+        }
+    }
+
     // POD-only worker (no C++ unwinding) so it can use __try/__except. Validates
     // the RVA site really loads "Player%d", then repoints its disp32 at s_nameBuf.
     static int PatchNameDispImpl()
@@ -428,7 +483,11 @@ namespace RobloxStudioPatcher
     }
     bool PatchPlayerNameCallSite(const std::string& username)
     {
-        return PatchPlayerNameCallSiteImpl(username);
+        bool ok = PatchPlayerNameCallSiteImpl(username);
+        if (ok) ArmNameRevert();   // relayed (joining-player) name -> revert to
+                                   // "Player%d" 3.5s later so a no-name joiner
+                                   // can't inherit the last set name.
+        return ok;
     }
 #endif
 
@@ -440,9 +499,8 @@ namespace RobloxStudioPatcher
     // packet arrives; it hands the values to the createServerPlayer getter
     // detours in identity_patch.cpp so the joining Player gets them instead
     // of 0. The values are also cached + logged here.
-
-    static volatile unsigned long long s_recvUserId     = 0;
-    static volatile unsigned int       s_recvAccountAge = 0;
+    // (s_recvUserId / s_recvAccountAge are declared near the top of this file so
+    //  the name-revert thread can clear them; see that comment.)
 
     unsigned long long GetReceivedUserId()     { return s_recvUserId; }
     unsigned int       GetReceivedAccountAge() { return s_recvAccountAge; }

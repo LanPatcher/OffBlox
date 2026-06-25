@@ -3864,8 +3864,12 @@ static std::string AvatarFetchJson(const std::string& placeId, const std::string
     bool complete = true;
     if (!raw.empty()) {
         json = CompileAvatarJson(rig, raw, &complete);  /* may block on asset fetches */
-    } else {
-        /* No appearance known -> minimal default (blocky R15). */
+    }
+    /* GUEST appearance: any empty/unknown appearance (a rejected joiner, or any
+     * userId with no relayed appearance) resolves to a plain grey, asset-less
+     * guest avatar. This is the deliberate "make empty appearances guests" path
+     * -- a rejected player can never show up wearing the previous player's look. */
+    if (raw.empty()) {
         json = "{\"resolvedAvatarType\":\"" + rig + "\","
             "\"equippedGearVersionIds\":[],\"backpackGearVersionIds\":[],"
             "\"assetAndAssetTypeIds\":[],\"animationAssetIds\":{},"
@@ -3874,6 +3878,7 @@ static std::string AvatarFetchJson(const std::string& placeId, const std::string
             "\"rightLegColor3\":\"A3A2A5\",\"leftLegColor3\":\"A3A2A5\"},"
             "\"scales\":{\"height\":1.0,\"width\":1.0,\"head\":1.0,\"depth\":1.0,"
             "\"proportion\":0.0,\"bodyType\":0.0},\"emotes\":[]}";
+        complete = true;
     }
     /* Only cache a result that fully resolved. If some asset types couldn't be
      * resolved (e.g. a transient fetch failure), leave it uncached so the next
@@ -3960,6 +3965,32 @@ static Resp Route(const Req& req)
     }
     const std::string  M = req.method;
 
+    /* ---- DEV-CONSOLE AUTH DIAGNOSTIC (temporary) -------------------------
+     * The in-game developer console is authorized server-side. The old build
+     * requested canManage from this webserver; the current build appears to use
+     * access-management RCC feature evaluation instead, which 404s/returns empty
+     * here and defaults verification OPEN. We don't yet know which feature name
+     * the server evaluates for the console (the eval is a POST with an unlogged
+     * body). Dump the full path+query+body of every authorization-relevant
+     * request so a single guest-join capture reveals exactly what the server
+     * asks. Remove this block once the gating feature/URL is identified. */
+    {
+        if (P.find("access-management")   != std::string::npos ||
+            P.find("rcc-user-feature")    != std::string::npos ||
+            P.find("user-feature")        != std::string::npos ||
+            P.find("canmanage")           != std::string::npos ||
+            P.find("can-manage")          != std::string::npos ||
+            P.find("/permissions")        != std::string::npos ||
+            P.find("user-blocking")       != std::string::npos)
+        {
+            Log("AUTH-DIAG %s %s%s%s  body=[%s]",
+                M.c_str(), P.c_str(),
+                req.query.empty() ? "" : "?",
+                req.query.c_str(),
+                req.body.empty() ? "" : req.body.c_str());
+        }
+    }
+
     /* ---- CORS preflight ---- */
     if (M == "OPTIONS") {
         Resp r; r.status=204; r.statusText="No Content";
@@ -3981,6 +4012,30 @@ static Resp Route(const Req& req)
         return RText("OK");
     if (P == "/validate" || STARTS(P,"/validate/"))
         return RText("true");
+
+    /* ---- MemoryStoreService (HashMap / SortedMap / Queue) ----
+     * Engine routes these to ums-service:
+     *   /ums-service/studio/hash-map/v1/{item,keys,values}
+     *   /ums-service/studio/sorted-map/v1/{item,item/range,size}
+     *   /ums-service/studio/queue/v1/{add,read,remove,size}
+     * The MemoryStoreService response parser REQUIRES an envelope: an integer
+     * "code", a string "message", and a string "correlationId"; it then reads
+     * the value via "stringValue"/"int64Value", list pages via "deprecatedItems",
+     * and size via "size". The old fallback ({"Success":true}) had no "code", so
+     * the engine logged 'Response "code" key not found.' and surfaced
+     * "InternalError: Unknown Error. API: HashMap.Get" (the HDAdmin error).
+     *
+     * We have no persistent store offline, so return a SUCCESS envelope with
+     * empty data. There is no "value not found" error path for items (only for
+     * Size), so an item Get with no value field resolves to nil cleanly:
+     *   Get -> nil   ListItems/keys/values -> empty   GetSize -> 0
+     *   Set/Update/Add/Remove -> success
+     * (If you later want MemoryStore to actually persist, this is where to add a
+     *  real in-memory map keyed by name+key returning "stringValue".) */
+    if (P.find("/ums-service/") != std::string::npos)
+        return RJson("{\"code\":0,\"message\":\"\","
+                     "\"correlationId\":\"00000000-0000-0000-0000-000000000000\","
+                     "\"deprecatedItems\":[],\"size\":0}");
 
     /* ---- OffBlox: relayed avatar appearance ----
      * The host-side RobloxStudioPatcher POSTs each joining client's appearance
@@ -4128,10 +4183,11 @@ if (P.find("check-permissions") != std::string::npos ||
              * longer parses — Studio logs "Failed to parse canManage from asset
              * permissions check response" and stalls the publish flow.
              *
-             * Grant policy: HasPermission for locally-uploaded assets only.
-             *   Local asset = assetId >= LOCAL_ID_BASE  OR  file exists in
-             *   data\SavedData\.  Everything else (real Roblox asset IDs that we
-             *   don't own) gets NoPermission so Studio can fall back gracefully. */
+             * Grant policy: HasPermission only when BOTH conditions hold:
+             *   1. assetId is local (>= LOCAL_ID_BASE or file exists in data\SavedData\)
+             *   2. subjectId matches g_userId (the host user)
+             * Any joining client or RCC service account that doesn't match g_userId
+             * gets NoPermission, keeping the developer console host-only. */
             std::string out = "{\"results\":[";
             bool first = true;
             size_t arr  = b.find('[');
@@ -4150,7 +4206,7 @@ if (P.find("check-permissions") != std::string::npos ||
                     }
                     std::string obj = b.substr(start, j - start);
                     if (obj.rfind('}') != std::string::npos) {
-                        /* Extract assetId value from the request object */
+                        /* Extract assetId from the request object */
                         std::string assetIdStr;
                         {
                             const char* key = "\"assetId\"";
@@ -4164,13 +4220,36 @@ if (P.find("check-permissions") != std::string::npos ||
                             }
                         }
 
-                        /* Decide: local asset gets HasPermission, foreign gets NoPermission */
+                        /* Extract subjectId (the requesting user).
+                         * Body shape from RCC:
+                         *   {"requests":[{"action":"...","subjectType":"User",
+                         *                 "subjectId":"<uid>","assetId":<id>}]}
+                         * Handles both quoted ("subjectId":"123") and bare
+                         * (subjectId:123) forms. */
+                        std::string subjectId;
+                        {
+                            const char* key = "\"subjectId\"";
+                            size_t kp = obj.find(key);
+                            if (kp != std::string::npos) {
+                                kp += strlen(key);
+                                while (kp < obj.size() && (obj[kp]==' '||obj[kp]==':')) kp++;
+                                if (kp < obj.size() && obj[kp] == '"') {
+                                    kp++;
+                                    while (kp < obj.size() && obj[kp] != '"') subjectId += obj[kp++];
+                                } else {
+                                    while (kp < obj.size() && (isdigit((unsigned char)obj[kp])||obj[kp]=='-')) subjectId += obj[kp++];
+                                }
+                            }
+                        }
+
+                        /* Decide: must be a local asset AND the host user. */
                         bool isLocal = false;
                         if (!assetIdStr.empty()) {
                             long long aid = atoll(assetIdStr.c_str());
                             isLocal = (aid >= LOCAL_ID_BASE) || PlaceAssetExists(assetIdStr);
                         }
-                        const char* status = isLocal ? "HasPermission" : "NoPermission";
+                        bool isHostUser = (!subjectId.empty() && subjectId == g_userId);
+                        const char* status = (isLocal && isHostUser) ? "HasPermission" : "NoPermission";
 
                         if (!first) out += ",";
                         char entry[128];
@@ -4178,8 +4257,10 @@ if (P.find("check-permissions") != std::string::npos ||
                             "{\"value\":{\"status\":\"%s\"}}", status);
                         out += entry;
                         first = false;
-                        Log("asset-permissions assetId=%s -> %s",
-                            assetIdStr.empty() ? "?" : assetIdStr.c_str(), status);
+                        Log("asset-permissions assetId=%s subjectId=%s (host=%s) -> %s",
+                            assetIdStr.empty() ? "?" : assetIdStr.c_str(),
+                            subjectId.empty()  ? "?" : subjectId.c_str(),
+                            g_userId.c_str(), status);
                     }
                     i = j;
                 }
@@ -5884,6 +5965,42 @@ if (P.find("check-permissions") != std::string::npos ||
                 if (LoadUniverseJson(univId, saved)) return RJson(NormalizeUniverseJson(saved));
             }
             return RJson(UniverseJson());
+        }
+
+        /* -- Username -> userId lookup (Players:GetUserIdFromNameAsync) --
+         * POST /v1/usernames/users
+         *   request : {"usernames":["Name", ...], "excludeBannedUsers":false}
+         *   response: {"data":[{"requestedUsername":"Name","hasVerifiedBadge":false,
+         *                       "id":<fnvId>,"name":"Name","displayName":"Name"}, ...]}
+         * The id is derived from the username with the SAME FNV-1a used everywhere
+         * else (UserIdFromUsername), so it matches the in-game Player.UserId.
+         * The old fallback returned {"Success":true}, which made the engine report
+         * "Bad server response" for GetUserIdFromNameAsync. Must be BEFORE /users
+         * because "/usernames/users" would otherwise miss every handler. */
+        if (STARTS(sub,"/usernames")) {
+            const std::string& b = req.body;
+            std::string out = "{\"data\":[";
+            bool first = true;
+            size_t key = b.find("\"usernames\"");
+            size_t lb  = (key == std::string::npos) ? std::string::npos : b.find('[', key);
+            size_t rb  = (lb  == std::string::npos) ? std::string::npos : b.find(']', lb);
+            if (lb != std::string::npos && rb != std::string::npos) {
+                size_t i = lb + 1;
+                while (i < rb) {
+                    size_t q1 = b.find('"', i);      if (q1 == std::string::npos || q1 >= rb) break;
+                    size_t q2 = b.find('"', q1 + 1); if (q2 == std::string::npos || q2 >  rb) break;
+                    std::string uname = b.substr(q1 + 1, q2 - q1 - 1);
+                    i = q2 + 1;
+                    if (uname.empty()) continue;
+                    std::string id = UserIdFromUsername(uname);
+                    if (!first) out += ",";
+                    first = false;
+                    out += "{\"requestedUsername\":\"" + uname + "\",\"hasVerifiedBadge\":false,"
+                           "\"id\":" + id + ",\"name\":\"" + uname + "\",\"displayName\":\"" + uname + "\"}";
+                }
+            }
+            out += "]}";
+            return RJson(out);
         }
 
         /* -- Users -- */

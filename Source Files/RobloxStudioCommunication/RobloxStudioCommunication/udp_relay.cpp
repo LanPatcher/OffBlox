@@ -603,8 +603,14 @@ namespace RobloxStudioPatcher
         // so they can't impersonate anyone. ClassifyJoin deduped the burst, so
         // this runs ONCE per connection; the console reflects the FORCED name.
         if (decision == kForceDefaultName) {
-            PatchPlayerNameCallSite("Player%d");
-            ServerConsolePlayerJoined("Player%d (rejected '" + name + "' - name in use)");
+            PatchPlayerNameCallSite("Guest_%d");
+            // Clear any stale relayed identity so this rejected joiner can't
+            // inherit the previous (accepted) player's userId -- which would also
+            // hand them that player's avatar via avatar-fetch. With the identity
+            // cleared the engine uses its own default id, for which the local
+            // webserver serves the gray guest avatar.
+            ApplyReceivedIdentity(0, 0);
+            ServerConsolePlayerJoined("Guest_%d (rejected '" + name + "' - name in use)");
             return true;
         }
         PatchPlayerNameCallSite(name);

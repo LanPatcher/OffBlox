@@ -184,6 +184,7 @@
     <ClInclude Include="audio_disable.h" />
     <ClInclude Include="plugin_disable.h" />
     <ClInclude Include="anr_disable.h" />
+    <ClInclude Include="devconsole_lock.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
@@ -208,6 +209,7 @@
     <ClCompile Include="audio_disable.cpp" />
     <ClCompile Include="plugin_disable.cpp" />
     <ClCompile Include="anr_disable.cpp" />
+    <ClCompile Include="devconsole_lock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="RobloxStudioPatcher.def" />

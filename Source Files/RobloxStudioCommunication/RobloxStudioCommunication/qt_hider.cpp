@@ -400,7 +400,7 @@ namespace RobloxStudioPatcher
     {
         if (wcsstr(cls, L"OwnDC") != nullptr) return true;
         if (!IsQt5IconClass(cls)) return false;
-        if (TitleContainsAnyOf(hwnd, L"Roblox", L"Studio", L"Player"))
+        if (TitleContainsAnyOf(hwnd, L"Roblox", L"Studio", L"Player") || TitleContainsAnyOf(hwnd, L"OffBlox", L"Studio", L"Player"))
             return true;
         int w = 0, h = 0;
         GetWindowSize(hwnd, &w, &h);
@@ -513,9 +513,9 @@ namespace RobloxStudioPatcher
         {
             if (s_origMainWndProc)
                 return CallWindowProcW(s_origMainWndProc, hwnd, WM_SETTEXT,
-                    wParam, reinterpret_cast<LPARAM>(L"Roblox"));
+                    wParam, reinterpret_cast<LPARAM>(L"OffBlox"));
             return DefWindowProcW(hwnd, WM_SETTEXT, wParam,
-                reinterpret_cast<LPARAM>(L"Roblox"));
+                reinterpret_cast<LPARAM>(L"OffBlox"));
         }
 
         if (msg == s_hideChromeMsg && s_hideChromeMsg != 0)
@@ -591,7 +591,7 @@ namespace RobloxStudioPatcher
             //LOG(L"[qt_hider] subclassed main window %p (orig WndProc=%p msg=%u)\n",
               //  mainHwnd, s_origMainWndProc, s_hideChromeMsg);
             // Set "Roblox" now; the WM_SETTEXT hook keeps it pinned afterward.
-            SetWindowTextW(mainHwnd, L"Roblox");
+            SetWindowTextW(mainHwnd, L"OffBlox");
         }
         else
         {

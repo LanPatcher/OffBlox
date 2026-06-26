@@ -184,6 +184,31 @@ echo [Build] zlib_x64.lib created OK.
 echo.
 
 :: -----------------------------------------------------------------------
+:: 3b. Compile tlse (portable, single-file TLS) as one x64 C object.
+::     TLS_AMALGAMATION makes tlse.c pull in libtomcrypt.c + x509.c, so this
+::     one compile produces the whole TLS stack. Replaces SChannel so HTTPS
+::     works under Wine (where SChannel server creds fail).
+:: -----------------------------------------------------------------------
+if not exist "tlse\tlse.c" (
+    echo [ERROR] tlse source not found at tlse\tlse.c
+    pause
+    exit /b 1
+)
+echo [Build] Compiling tlse (portable TLS) from source (x64) ...
+"!CLEXE!" /nologo /c /O2 /MT /W0 /GS- ^
+    /DTLS_AMALGAMATION /D_CRT_SECURE_NO_WARNINGS /DWIN32 /D_WINSOCK_DEPRECATED_NO_WARNINGS ^
+    /I tlse ^
+    /Fotlse\tlse_x64.obj ^
+    tlse\tlse.c
+if errorlevel 1 (
+    echo [ERROR] Failed to compile tlse\tlse.c
+    pause
+    exit /b 1
+)
+echo [Build] tlse_x64.obj created OK.
+echo.
+
+:: -----------------------------------------------------------------------
 :: 4.  Compile HookedWebserver.cpp (x64, static CRT)
 ::
 ::     Differences from the old x86 build:
@@ -213,11 +238,12 @@ echo.
     /link ^
     /LIBPATH:zlib ^
     zlib_x64.lib ^
+    tlse\tlse_x64.obj ^
     /DLL /MACHINE:X64 ^
     /DEF:HookedWebserver.def ^
     /OUT:HookedWebserver.dll ^
     /SUBSYSTEM:WINDOWS ^
-    ws2_32.lib crypt32.lib secur32.lib shlwapi.lib advapi32.lib kernel32.lib user32.lib
+    ws2_32.lib crypt32.lib secur32.lib shlwapi.lib advapi32.lib kernel32.lib user32.lib bcrypt.lib
 
 if %errorlevel% neq 0 (
     echo.

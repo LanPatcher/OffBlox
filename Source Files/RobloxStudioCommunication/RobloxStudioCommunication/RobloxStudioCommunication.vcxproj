@@ -179,6 +179,7 @@
     <ClInclude Include="server_console.h" />
     <ClInclude Include="render_disable.h" />
     <ClInclude Include="player_leave.h" />
+    <ClInclude Include="player_join.h" />
     <ClInclude Include="render_nulldevice.h" />
     <ClInclude Include="dialog_suppress.h" />
     <ClInclude Include="audio_disable.h" />
@@ -204,12 +205,14 @@
     <ClCompile Include="server_console.cpp" />
     <ClCompile Include="render_disable.cpp" />
     <ClCompile Include="player_leave.cpp" />
+    <ClCompile Include="player_join.cpp" />
     <ClCompile Include="render_nulldevice.cpp" />
     <ClCompile Include="dialog_suppress.cpp" />
     <ClCompile Include="audio_disable.cpp" />
     <ClCompile Include="plugin_disable.cpp" />
     <ClCompile Include="anr_disable.cpp" />
     <ClCompile Include="devconsole_lock.cpp" />
+    <ClCompile Include="webview_skip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="RobloxStudioPatcher.def" />

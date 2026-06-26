@@ -356,22 +356,26 @@ namespace RobloxStudioPatcher
             if (key != 0) s_forcedRecent[key] = now;
             return kForceDefaultName;
         }
-        std::map<std::string, uint64_t>::iterator u = s_userToKey.find(name);
-        if (u != s_userToKey.end()) {
-            // Same source connection re-announcing (the ~30x burst from one
-            // socket => one key). Already applied: refresh liveness and skip.
-            if (key != 0 && u->second == key) {
-                std::map<uint64_t, PeerInfo>::iterator self = s_peers.find(key);
-                if (self != s_peers.end()) self->second.lastSeen = now;
+        // Same source connection re-announcing (the ~30x burst from one socket
+        // => one key). Recognised by its s_peers entry, which is created on the
+        // first sighting below. We dedup on s_peers (NOT s_userToKey) because the
+        // name lock in s_userToKey is now DEFERRED until the player actually
+        // joins (RelayCommitPlayerName, from the createServerPlayer hook) - so a
+        // not-yet-joined announcer has an s_peers entry but no s_userToKey entry.
+        if (key != 0) {
+            std::map<uint64_t, PeerInfo>::iterator self = s_peers.find(key);
+            if (self != s_peers.end() && self->second.username == name) {
+                self->second.lastSeen = now;
                 return kRepeatIdentity;
             }
-            // A DIFFERENT connection claiming a name whose holder is still
-            // PRESENT -> impersonation -> force default. The holder is removed on
-            // real leave (leave detection), so "present" means actively in use,
-            // for the whole session - not just a 2s liveness window. The long
-            // timeout is only a crash safety net. (key==0 means we couldn't
-            // attribute this datagram to a connection; don't flip on it, to avoid
-            // a false positive against the legitimate holder.)
+        }
+        // s_userToKey holds only COMMITTED (actually-joined) names. A DIFFERENT
+        // connection claiming a joined name whose holder is still PRESENT ->
+        // impersonation -> force default. The holder is removed on real leave
+        // (leave detection); the long timeout is only a crash safety net.
+        // (key==0 means we couldn't attribute this datagram; don't flip on it.)
+        std::map<std::string, uint64_t>::iterator u = s_userToKey.find(name);
+        if (u != s_userToKey.end() && u->second != key) {
             std::map<uint64_t, PeerInfo>::iterator orig = s_peers.find(u->second);
             bool inUse = (orig != s_peers.end()) &&
                 (now - orig->second.lastSeen < kHolderProtectMs);
@@ -383,13 +387,45 @@ namespace RobloxStudioPatcher
             }
             // Holder actually left (peer gone) or ancient/unknown -> allow takeover.
         }
-        // First sighting (or takeover of a dead name): claim it for this key.
+        // First sighting (or takeover of a dead name): record the peer as PENDING
+        // - we patch the name now, but DO NOT lock it in s_userToKey yet. The lock
+        // is committed only when this player actually joins (createServerPlayer ->
+        // RelayCommitPlayerName), so a client that announces but never joins can't
+        // hold a username hostage.
         if (key != 0) {
             PeerInfo pi; pi.username = name; pi.lastSeen = now;
             s_peers[key] = pi;
-            s_userToKey[name] = key;
         }
         return kApplyIdentity;
+    }
+
+    // Commit a name to the anti-impersonation table AFTER the player has actually
+    // joined (called from the createServerPlayer hook with the created player's
+    // real Name). Until this runs the name is only PENDING in s_peers and not
+    // locked, so an announce-but-never-join can't reserve it. Finds the pending
+    // peer that announced this name (most-recent wins) and locks name -> key.
+    void RelayCommitPlayerName(const std::string& name)
+    {
+        if (name.empty()) return;
+        std::lock_guard<std::mutex> lk(s_peerMutex);
+        uint64_t bestKey = 0; DWORD bestSeen = 0; bool any = false;
+        for (std::map<uint64_t, PeerInfo>::iterator it = s_peers.begin();
+             it != s_peers.end(); ++it) {
+            if (it->second.username == name &&
+                (!any || it->second.lastSeen >= bestSeen)) {
+                bestSeen = it->second.lastSeen; bestKey = it->first; any = true;
+            }
+        }
+        if (bestKey != 0) {
+            s_userToKey[name] = bestKey;
+            LogF(L"[udp_relay] join confirmed: locked name '%hs' to key %llu\n",
+                 name.c_str(), (unsigned long long)bestKey);
+        } else {
+            // No pending relay peer (host's own local player, or a forced-default
+            // "Guest_%d" join that was never tracked) -> nothing to lock.
+            LogF(L"[udp_relay] join '%hs' has no pending relay peer - not locked\n",
+                 name.c_str());
+        }
     }
 
     // ---------- Leave detection -------------------------------------------
@@ -529,6 +565,24 @@ namespace RobloxStudioPatcher
         std::memcpy(out + appPos + 2, app.data(), app.size());
         return static_cast<int>(total);
     }
+
+    // Derive a stable userId from a username, IDENTICALLY to the HookedWebserver
+    // (UserIdFromUsername): 32-bit FNV-1a, mapped into an 8-digit range. The host
+    // computes each joiner's id from their (validated) username instead of
+    // trusting the id the client put in the magic packet - so a client cannot
+    // claim someone else's userId (impersonation). The numeric result matches the
+    // webserver's, so in-game Player.UserId lines up with avatar-fetch /
+    // datastore / canManage keys that the webserver derives the same way.
+    static uint64_t UserIdFromUsername(const std::string& name)
+    {
+        uint32_t hash = 2166136261UL;          // FNV-1a offset basis
+        for (size_t i = 0; i < name.size(); ++i) {
+            hash ^= static_cast<uint8_t>(name[i]);
+            hash *= 16777619UL;                // FNV prime (32-bit wrap)
+        }
+        return 10000000ULL + (hash % 90000000UL);   // [10000000 .. 99999999]
+    }
+
     // Inspect a received datagram. If it's ours, patch the name and return
     // true. from/fromlen are optional - RakNet calls recvfrom on connected
     // sockets with a null from pointer, so we must not require them.
@@ -615,8 +669,16 @@ namespace RobloxStudioPatcher
         }
         PatchPlayerNameCallSite(name);
         ServerConsolePlayerJoined(name);
-        if (haveId)
-            ApplyReceivedIdentity(uid, age);
+        // SECURITY: do NOT trust the userId the client put in the packet (that
+        // lets a client impersonate any id). Derive it from the validated
+        // username, exactly like the webserver does, so the id is deterministic
+        // and matches the web-side id. accountAge is still taken from the relay
+        // (cosmetic only); the relayed uid is ignored.
+        uint64_t derivedUid = UserIdFromUsername(name);
+        LogF(L"[udp_relay] derived userId=%llu from username '%hs' "
+             L"(relayed uid=%llu ignored)\n",
+             (unsigned long long)derivedUid, name.c_str(), (unsigned long long)uid);
+        ApplyReceivedIdentity(derivedUid, age);
         if (!appearance.empty())
             PostAppearanceToLocal(name, appearance);   // host -> local webserver
         return true;

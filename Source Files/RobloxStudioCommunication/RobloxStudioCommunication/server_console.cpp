@@ -58,6 +58,16 @@ namespace RobloxStudioPatcher
         GetWindowThreadProcessId(hwnd, &pid);
         if (pid != GetCurrentProcessId()) return TRUE;
         if (!IsWindowVisible(hwnd)) return TRUE;
+        // Keep the HookedWebserver cookie-login popup visible: it needs user
+        // input (paste .ROBLOSECURITY, Log In / Skip), so even on a headless
+        // StartServer instance it must NOT be hidden. Match by window class
+        // (stable across the normal and "invalid cookie" retry titles).
+        {
+            wchar_t cls[64] = {};
+            if (GetClassNameW(hwnd, cls, ARRAYSIZE(cls)) > 0 &&
+                lstrcmpW(cls, L"OffBloxCookieLogin") == 0)
+                return TRUE;
+        }
         ShowWindow(hwnd, SW_HIDE);
         return TRUE;
     }

@@ -32,12 +32,14 @@
 #include "server_console.h"
 #include "render_disable.h"
 #include "player_leave.h"
+#include "player_join.h"
 #include "render_nulldevice.h"
 #include "dialog_suppress.h"
 #include "audio_disable.h"
 #include "plugin_disable.h"
 #include "anr_disable.h"
 #include "devconsole_lock.h"
+#include "webview_skip.h"
 
 #include <cstdio>
 #include <fstream>
@@ -223,6 +225,16 @@ static void SafeInit()
     __except (EXCEPTION_EXECUTE_HANDLER)
     { LogF(L"[dllmain] exception in StartUdpRelay - continuing\n"); }
 
+    // Phase 2b: WebView2 login skip - ALL launch modes (the login/auth happens
+    // on the editor process). Installs IAT hooks on WebView2Loader so that, on
+    // machines with no working WebView2 runtime (e.g. Wine), Studio's login is
+    // driven straight to the OAuth redirect without ever opening the WebView2
+    // window. Pass-through (no behaviour change) when a real runtime exists, so
+    // it is safe on Windows. Must be installed before login fires (~1.4s in).
+    __try { StartWebViewLoginSkip(); }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    { LogF(L"[dllmain] exception in StartWebViewLoginSkip - continuing\n"); }
+
     // Phase 3: server-only script-start hook.
     // Hook VA 0x0101E380 on StartServer launches only. Blocks Lua execution
     // until AllowScriptStart() / the named event fires.
@@ -327,6 +339,17 @@ static void SafeInit()
     }
     __except (EXCEPTION_EXECUTE_HANDLER)
     { LogF(L"[dllmain] exception in StartPlayerLeaveHook\n"); }
+
+    // Phase 4i2: player-JOIN detection - StartServer only. Hooks createServerPlayer
+    // so the anti-impersonation name lock is committed only when a player actually
+    // joins (not when the join magic is received) - a client that announces but
+    // never joins can no longer hold a username. Server-gated inside.
+    __try
+    {
+        StartPlayerJoinHook();
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    { LogF(L"[dllmain] exception in StartPlayerJoinHook\n"); }
 
     // Phase 4j: force NoGraphics null-device - StartServer only, EXPERIMENTAL.
     // Redirects the CreateGraphicsEngine factory call to always request mode 9

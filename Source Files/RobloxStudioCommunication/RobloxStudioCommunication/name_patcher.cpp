@@ -513,6 +513,9 @@ namespace RobloxStudioPatcher
         LogF(L"[name_patcher] relayed identity: userId=%llu accountAge=%u\n",
              userId, accountAge);
 
-        //SetRelayedIdentity(userId, accountAge);
+        // Feed the userId to identity_patch (createServerPlayer raw field write).
+        // The SecurityViolation integrity check that this used to trip is
+        // neutralised by security_patch.cpp.
+        SetRelayedIdentity(userId, accountAge);
     }
 }

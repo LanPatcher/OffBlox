@@ -241,14 +241,49 @@ namespace RobloxStudioPatcher
         0x49,0x63,0x95,0xA4,0x02,0x00,0x00    // movsxd rdx,[r13+0x2A4]
     };
 
-    // Build a position-independent thunk:
-    //     mov r10,&g_haveUid ; cmp byte [r10],0 ; je pass
-    //     mov r10,&g_uid     ; mov rdx,[r10]
-    //   pass:
-    //     mov r10,realTarget ; jmp r10
+    // UserId int64 backing field, relative to the SetUserId `this` (the player
+    // subobject = player+0xC8). Confirmed against this build:
+    //   setter 0x4A00D50 writes  mov [rbx+0x240], rax   (rbx = this)
+    //   getter 0x49FC860 reads   mov rax, [rcx+0x240]
+    static const unsigned int kUserIdFieldOff = 0x240;
+
+    // Allocate executable memory within +/-2GB of `anchor` so a 32-bit relative
+    // call at the patch site can reach it. Walks outward from the anchor.
+    static void* AllocNear(void* anchor, size_t size)
+    {
+        SYSTEM_INFO si; GetSystemInfo(&si);
+        uintptr_t gran = si.dwAllocationGranularity ? si.dwAllocationGranularity : 0x10000;
+        uintptr_t a = (uintptr_t)anchor;
+        const uintptr_t span = 0x70000000ull;       // ~1.75 GB, safely < 2GB
+        for (uintptr_t off = gran; off < span; off += gran)
+        {
+            for (int dir = 0; dir < 2; ++dir)
+            {
+                uintptr_t cand = dir ? (a - off) : (a + off);
+                cand &= ~(gran - 1);
+                void* p = VirtualAlloc((void*)cand, size,
+                                       MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+                if (p) return p;
+            }
+        }
+        return nullptr;                              // caller falls back / skips
+    }
+
+    // Position-independent thunk that REPLACES the SetUserId call at the tail of
+    // createServerPlayer. At that call site rcx = the subobject (this) and
+    // rdx = the engine's negative placeholder id.
+    //
+    //   if (g_haveUid):  *(int64*)(rcx + 0x240) = g_uid ; ret   // RAW write
+    //   else:            jmp realSetter                          // default id
+    //
+    // The raw write sets the property's backing field directly, so the getter
+    // and every consumer return our id - but WITHOUT running the setter's
+    // property-changed / replication / account+character callback path, which is
+    // exactly what froze/crashed the offline server when a positive id was set
+    // at creation. We skip that path entirely.
     static void* BuildUidThunk(void* realTarget)
     {
-        unsigned char c[64]; size_t n = 0;
+        unsigned char c[80]; size_t n = 0;
         auto imm64 = [&](const void* p){
             unsigned long long v = (unsigned long long)(uintptr_t)p;
             std::memcpy(c + n, &v, 8); n += 8; };
@@ -257,13 +292,17 @@ namespace RobloxStudioPatcher
         c[n++]=0x41; c[n++]=0x80; c[n++]=0x3A; c[n++]=0x00;   // cmp byte [r10],0
         c[n++]=0x74; size_t jeRel = n; c[n++]=0x00;           // je pass
         c[n++]=0x49; c[n++]=0xBA; imm64((void*)&g_uid);       // mov r10,&g_uid
-        c[n++]=0x49; c[n++]=0x8B; c[n++]=0x12;                // mov rdx,[r10]
+        c[n++]=0x4D; c[n++]=0x8B; c[n++]=0x12;                // mov r10,[r10]  (r10=g_uid)
+        c[n++]=0x4C; c[n++]=0x89; c[n++]=0x91;                // mov [rcx+disp32], r10
+        std::memcpy(c + n, &kUserIdFieldOff, 4); n += 4;
+        c[n++]=0xC3;                                          // ret  (skip setter)
         c[jeRel] = (unsigned char)(n - (jeRel + 1));          // pass:
         c[n++]=0x49; c[n++]=0xBA; imm64(realTarget);          // mov r10,realTarget
         c[n++]=0x41; c[n++]=0xFF; c[n++]=0xE2;                // jmp r10
 
-        void* mem = VirtualAlloc(nullptr, n, MEM_COMMIT | MEM_RESERVE,
-                                 PAGE_EXECUTE_READWRITE);
+        // Must be within +/-2GB of the patched call site (realTarget is in the
+        // same module as the call), so allocate near it for the rel32 to reach.
+        void* mem = AllocNear(realTarget, n);
         if (!mem) return nullptr;
         std::memcpy(mem, c, n);
         FlushInstructionCache(GetCurrentProcess(), mem, n);
@@ -272,7 +311,6 @@ namespace RobloxStudioPatcher
 
     static int InstallUidRedirectImpl()
     {
-        /*
         __try
         {
             unsigned char* base = reinterpret_cast<unsigned char*>(GetModuleHandleW(nullptr));
@@ -294,8 +332,14 @@ namespace RobloxStudioPatcher
             void* thunk = BuildUidThunk(realTarget);
             if (!thunk) { LogF(L"[identity] x64 userid: thunk alloc failed\n"); return 0; }
 
-            int32_t newRel = static_cast<int32_t>(
-                reinterpret_cast<unsigned char*>(thunk) - (call + 5));
+            intptr_t dist = reinterpret_cast<unsigned char*>(thunk) - (call + 5);
+            if (dist > 0x7FFF0000ll || dist < -0x7FFF0000ll)
+            {
+                LogF(L"[identity] x64 userid: thunk out of rel32 range (%lld) - skipping\n",
+                     (long long)dist);
+                return 0;
+            }
+            int32_t newRel = static_cast<int32_t>(dist);
             DWORD op = 0;
             if (!VirtualProtect(call + 1, 4, PAGE_EXECUTE_READWRITE, &op)) return 0;
             *reinterpret_cast<int32_t*>(call + 1) = newRel;
@@ -311,39 +355,37 @@ namespace RobloxStudioPatcher
             LogF(L"[identity] x64 userid: exception during install\n");
             return 0;
         }
-        */
-        return 0;
     }
 
     void InstallIdentityPatch()
     {
         if (g_installed) return;
         g_installed = true;
-       // InstallUidRedirectImpl();
+        InstallUidRedirectImpl();
     }
 
-    // Opt-in gate. Applying a REAL (positive) userId at player creation makes the
-    // UserId property setter (0x4A00D50) run its full property-changed +
-    // replication + signal path, which in the offline server triggers account/
-    // character work it can't complete -> freeze -> watchdog crash. Until that
-    // root cause is resolved the override is OFF unless userid_on.txt exists next
-    // to the DLL, so the default build is stable and userIds can still be tested.
+    // The override now does a RAW field write (no property-setter callbacks),
+    // which is why it no longer triggers the account/character freeze that the
+    // old setter-call path did. It is therefore ON BY DEFAULT. If it ever
+    // misbehaves it can be disabled without a rebuild by dropping a file named
+    // "userid_off.txt" next to the DLL.
     static bool UseridOverrideEnabled()
     {
         std::wstring dir = GetDllDirectory();
-        if (dir.empty()) return false;
-        DWORD a = GetFileAttributesW((dir + L"userid_on.txt").c_str());
-        return a != INVALID_FILE_ATTRIBUTES && !(a & FILE_ATTRIBUTE_DIRECTORY);
+        if (dir.empty()) return true;               // default ON
+        DWORD a = GetFileAttributesW((dir + L"userid_off.txt").c_str());
+        bool off = (a != INVALID_FILE_ATTRIBUTES) && !(a & FILE_ATTRIBUTE_DIRECTORY);
+        return !off;
     }
 
     void SetRelayedIdentity(unsigned long long userId, unsigned int /*accountAge*/)
     {
-        //InstallIdentityPatch();
+        InstallIdentityPatch();                      // ensure the call-site redirect exists
         bool on = UseridOverrideEnabled();
         g_uid     = userId;
         g_haveUid = (on && userId != 0) ? 1 : 0;
-        LogF(L"[identity] relayed userId=%llu override=%ls have=%d\n",
-             userId, on ? L"ON" : L"OFF(create userid_on.txt to test)", (int)g_haveUid);
+        LogF(L"[identity] relayed userId=%llu override=%ls have=%d (raw field write)\n",
+             userId, on ? L"ON" : L"OFF(userid_off.txt present)", (int)g_haveUid);
     }
 #endif
 }

@@ -58,4 +58,11 @@ namespace RobloxStudioPatcher
     // C++ player-removal hook (player_leave.cpp) when a player leaves, so the
     // same person reclaims their name on reconnect instead of getting Player%d.
     void RelayFreePlayerName(const char* name);
+
+    // Commit a username to the anti-impersonation table AFTER the player has
+    // actually joined. Called by the createServerPlayer hook (player_join.cpp)
+    // with the created player's real Name. Until this runs the name is only
+    // PENDING (announced) and is NOT locked, so a client that sends the join
+    // magic but never actually joins cannot reserve a username forever.
+    void RelayCommitPlayerName(const std::string& name);
 }

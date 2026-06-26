@@ -102,9 +102,29 @@ static HANDLE        g_hOwnerMutex = NULL;
 static SOCKET    g_httpSock      = INVALID_SOCKET;
 static SOCKET    g_httpsSock     = INVALID_SOCKET;
 
-static CredHandle g_hCred;
 static BOOL       g_credValid    = FALSE;
-static PCCERT_CONTEXT g_pCert   = NULL;
+
+/* ===== Portable TLS via tlse (replaces SChannel; works on Wine + Windows) =====
+ * tlse loads our existing PEM cert+key and runs the whole TLS state machine
+ * in-process, so HTTPS no longer depends on Windows SChannel/crypt32 (which
+ * fails on Wine: AcquireCredentialsHandle -> SEC_E_INTERNAL_ERROR). */
+struct TLSContext;
+extern "C" {
+    struct TLSContext *tls_create_context(unsigned char is_server, unsigned short version);
+    struct TLSContext *tls_accept(struct TLSContext *context);
+    void  tls_destroy_context(struct TLSContext *context);
+    int   tls_load_certificates(struct TLSContext *context, const unsigned char *pem, int pem_size);
+    int   tls_load_private_key(struct TLSContext *context, const unsigned char *pem, int pem_size);
+    int   tls_consume_stream(struct TLSContext *context, const unsigned char *buf, int len, void *vfn);
+    const unsigned char *tls_get_write_buffer(struct TLSContext *context, unsigned int *outlen);
+    void  tls_buffer_clear(struct TLSContext *context);
+    int   tls_established(struct TLSContext *context);
+    int   tls_read(struct TLSContext *context, unsigned char *buf, unsigned int size);
+    int   tls_write(struct TLSContext *context, const unsigned char *data, unsigned int len);
+    int   tls_close_notify(struct TLSContext *context);
+}
+#define HWS_TLS_V12 0x0303
+static struct TLSContext* g_tlsServer = NULL;
 
 static HCRYPTKEY  g_hSignKey     = NULL;
 static HCRYPTPROV g_hSignProv    = NULL;
@@ -969,7 +989,7 @@ static std::string MultiGetPlaceDetailsJson(const std::string& query)
                        ",\"url\":\"http://localhost/games/" + id + "\""
                        ",\"builder\":\"" + JsonEsc(builder) + "\""
                        ",\"builderId\":" + builderId +
-                       ",\"hasVerifiedBadge\":false"
+                       ",\"hasVerifiedBadge\":true"
                        ",\"isPlayable\":true"
                        ",\"reasonProhibited\":\"None\""
                        ",\"universeId\":" + uid +
@@ -3111,23 +3131,23 @@ static Resp HandleAssetDelivery(const Req& req)
 /* Hardcoded groups/roles list — returned for ANY /v2/users/{id}/groups/roles */
 static const char* GROUPS_ROLES_JSON =
     "{\"data\":["
-    "{\"group\":{\"id\":13538101,\"name\":\"GC' Sus Games\",\"memberCount\":11,\"hasVerifiedBadge\":false},"
+    "{\"group\":{\"id\":13538101,\"name\":\"GC' Sus Games\",\"memberCount\":11,\"hasVerifiedBadge\":true},"
      "\"role\":{\"id\":77381526,\"name\":\"Member\",\"rank\":1}},"
-    "{\"group\":{\"id\":391929292,\"name\":\"FilteringEnabled=false\",\"memberCount\":6,\"hasVerifiedBadge\":false},"
+    "{\"group\":{\"id\":391929292,\"name\":\"FilteringEnabled=false\",\"memberCount\":6,\"hasVerifiedBadge\":true},"
      "\"role\":{\"id\":700687000,\"name\":\"Owner\",\"rank\":255}},"
-    "{\"group\":{\"id\":4347428,\"name\":\"The State of Mind\",\"memberCount\":416796,\"hasVerifiedBadge\":false},"
+    "{\"group\":{\"id\":4347428,\"name\":\"The State of Mind\",\"memberCount\":416796,\"hasVerifiedBadge\":true},"
      "\"role\":{\"id\":29322544,\"name\":\"\xe2\xad\x90\xef\xb8\x8f Important Member\",\"rank\":1}},"
-    "{\"group\":{\"id\":33142130,\"name\":\"Legence Clothes\",\"memberCount\":6,\"hasVerifiedBadge\":false},"
+    "{\"group\":{\"id\":33142130,\"name\":\"Legence Clothes\",\"memberCount\":6,\"hasVerifiedBadge\":true},"
      "\"role\":{\"id\":101719466,\"name\":\"\xf0\x9f\x8e\x80\xf0\x9f\x93\x9d Love\xf0\x9f\x93\x9d\",\"rank\":1}},"
-    "{\"group\":{\"id\":13273531,\"name\":\"_RARE NAMES_\",\"memberCount\":11049,\"hasVerifiedBadge\":false},"
+    "{\"group\":{\"id\":13273531,\"name\":\"_RARE NAMES_\",\"memberCount\":11049,\"hasVerifiedBadge\":true},"
      "\"role\":{\"id\":76113545,\"name\":\"Incredible names\",\"rank\":45}},"
-    "{\"group\":{\"id\":5995136,\"name\":\"- Old Roblox Accounts -\",\"memberCount\":62907,\"hasVerifiedBadge\":false},"
+    "{\"group\":{\"id\":5995136,\"name\":\"- Old Roblox Accounts -\",\"memberCount\":62907,\"hasVerifiedBadge\":true},"
      "\"role\":{\"id\":93679233,\"name\":\"2006 / 2007\",\"rank\":170}},"
-    "{\"group\":{\"id\":32818995,\"name\":\"(Project Aincrad SAO)\",\"memberCount\":1901,\"hasVerifiedBadge\":false},"
+    "{\"group\":{\"id\":32818995,\"name\":\"(Project Aincrad SAO)\",\"memberCount\":1901,\"hasVerifiedBadge\":true},"
      "\"role\":{\"id\":100005741,\"name\":\"(Beta Tester)\",\"rank\":10}},"
-    "{\"group\":{\"id\":14131124,\"name\":\"CNP Foundation\",\"memberCount\":339771,\"hasVerifiedBadge\":false},"
+    "{\"group\":{\"id\":14131124,\"name\":\"CNP Foundation\",\"memberCount\":339771,\"hasVerifiedBadge\":true},"
      "\"role\":{\"id\":80344347,\"name\":\"\xe2\x9a\x94\xef\xb8\x8f\xe3\x80\xa2Player\",\"rank\":1}},"
-    "{\"group\":{\"id\":35850331,\"name\":\"Luckiest Game Studio\",\"memberCount\":19,\"hasVerifiedBadge\":false},"
+    "{\"group\":{\"id\":35850331,\"name\":\"Luckiest Game Studio\",\"memberCount\":19,\"hasVerifiedBadge\":true},"
      "\"role\":{\"id\":350844049,\"name\":\"Weird Otaku\",\"rank\":255}},"
     "{\"group\":{\"id\":2782840,\"name\":\"Chillz Studios\",\"memberCount\":17557193,\"hasVerifiedBadge\":true},"
      "\"role\":{\"id\":22745106,\"name\":\"\xf0\x9f\x8c\x9fRoyal Member\xf0\x9f\x8c\x9f\",\"rank\":150}}"
@@ -4032,10 +4052,78 @@ static Resp Route(const Req& req)
      *   Set/Update/Add/Remove -> success
      * (If you later want MemoryStore to actually persist, this is where to add a
      *  real in-memory map keyed by name+key returning "stringValue".) */
-    if (P.find("/ums-service/") != std::string::npos)
-        return RJson("{\"code\":0,\"message\":\"\","
-                     "\"correlationId\":\"00000000-0000-0000-0000-000000000000\","
-                     "\"deprecatedItems\":[],\"size\":0}");
+    if (P.find("/ums-service/") != std::string::npos) {
+        /* Contract recovered from the engine by disasm:
+         *  - Envelope parser (0x1474d59b0): REQUIRES JSON keys "code" (int),
+         *    "message" (string), "correlationId" (string). Missing any -> logs
+         *    "Response '<k>' key not found." and fails -> InternalError. (Why {}
+         *    and the correlationId-only / 404 bodies all failed.)
+         *  - "code" is an HTTP-status int. The parser flags {0,403,502,503,504}
+         *    as internal errors (status enum 9 = "InternalError: Internal
+         *    Error" - exactly what code:0 produced) and 429 as throttled.
+         *  - The per-op handler then does `cmp code, 0xC8` (==200): 200 means
+         *    "item FOUND", so it goes on to READ the item value. With no value
+         *    present that read fails -> InternalError. (Why code:200 still threw
+         *    on a Get.)
+         *
+         * So for a GET of a key we don't have, the right answer is the NOT-FOUND
+         * branch: a valid envelope with a non-200 "code" (404). The handler sees
+         * code != 200, takes the "no item" path, and GetAsync returns nil WITHOUT
+         * trying to read a value. Writes/lists/size are real successes -> code 200
+         * (no value to read; empty list / size 0). */
+        /* CAPTURE: log the full request (method, content-type, body) for every
+         * ums-service call. A Set/Update POSTs the value in the ENGINE'S OWN item
+         * serialization - the exact format a Get response must mirror (incl.
+         * whether it's JSON or protobuf, and the value wrapper). Trigger one
+         * in-game write (any script HashMap:SetAsync, e.g. an HDAdmin action that
+         * saves) and this reveals the precise schema. */
+        {
+            /* Dump ALL request headers: the Accept header tells us whether the
+             * engine expects JSON or protobuf back (a protobuf-expecting client
+             * rejects every JSON body identically -> the invariant InternalError
+             * we keep seeing). Also dumps any content-type/body for writes. */
+            std::string hdrs;
+            for (auto& kv : req.headers) { hdrs += kv.first; hdrs += "="; hdrs += kv.second; hdrs += " | "; }
+            Log("MS-REQ %s %s%s%s  HEADERS{ %s} body=[%s]",
+                M.c_str(), P.c_str(),
+                req.query.empty() ? "" : "?", req.query.c_str(),
+                hdrs.c_str(), req.body.empty() ? "" : req.body.c_str());
+        }
+        std::string body;
+        bool isGet    = (M == "GET");
+        bool itemPath = P.find("/item")  != std::string::npos
+                        && P.find("/range") == std::string::npos;
+        bool sizePath = P.find("/size")  != std::string::npos;
+        bool listPath = P.find("/keys")  != std::string::npos
+                        || P.find("/values") != std::string::npos
+                        || P.find("/range")  != std::string::npos
+                        || P.find("/read")   != std::string::npos;
+        const char* CID = "\"correlationId\":\"00000000-0000-0000-0000-000000000000\"";
+        if (isGet && itemPath) {
+            /* code:200 = the engine's "item FOUND" path, which then reads the
+             * item value via the value parser (0x1474ea1c0). That parser's first
+             * check accepts a JSON null and returns nil; a non-null non-object is
+             * "NotAnObject", and an ABSENT value field errors (why our prior
+             * envelopes failed). So a key with no data is code:200 + value:null
+             * -> GetAsync returns nil. A found item would be value:{"stringValue"
+             * :"..."} / {"int64Value":N}. */
+            /* value as an EMPTY OBJECT: the value parser treats an object with
+             * neither stringValue nor int64Value as "no value" -> nil. (null
+             * failed: not an object; absent failed: field required.) */
+            body = std::string("{\"code\":200,\"message\":\"\",") + CID + ",\"value\":{}}";
+            Log("MemoryStore ums-service: GET %s -> code:200 value:{} (nil)", P.c_str());
+        } else if (sizePath) {
+            body = std::string("{\"code\":200,\"message\":\"\",") + CID + ",\"size\":0}";
+            Log("MemoryStore ums-service: %s %s -> code:200 size:0", M.c_str(), P.c_str());
+        } else if (listPath) {
+            body = std::string("{\"code\":200,\"message\":\"\",") + CID + ",\"deprecatedItems\":[]}";
+            Log("MemoryStore ums-service: %s %s -> code:200 empty list", M.c_str(), P.c_str());
+        } else {
+            body = std::string("{\"code\":200,\"message\":\"\",") + CID + "}";
+            Log("MemoryStore ums-service: %s %s -> code:200 ok", M.c_str(), P.c_str());
+        }
+        return RJson(body);
+    }
 
     /* ---- OffBlox: relayed avatar appearance ----
      * The host-side RobloxStudioPatcher POSTs each joining client's appearance
@@ -4749,7 +4837,7 @@ if (P.find("check-permissions") != std::string::npos ||
                    "\"assetTypeId\":34,\"iconImageAssetId\":0,"
                    "\"creator\":{\"id\":" + g_userId + ",\"name\":\"" + g_username +
                    "\",\"creatorType\":\"User\",\"creatorTargetId\":" + g_userId +
-                   ",\"hasVerifiedBadge\":false},"
+                   ",\"hasVerifiedBadge\":true},"
                    "\"created\":\"2022-01-01T00:00:00.000Z\",\"updated\":\"2022-01-01T00:00:00.000Z\","
                    "\"price\":null,\"priceInRobux\":null,\"isForSale\":true,\"isPublicDomain\":false,"
                    "\"sellerId\":" + g_userId + ",\"sellerName\":\"" + g_username + "\"}";
@@ -5446,7 +5534,7 @@ if (P.find("check-permissions") != std::string::npos ||
                     "\"Name\":\"%s\",\"Description\":\"\","
                     "\"AssetTypeId\":9,\"assetTypeId\":9,"
                     "\"Creator\":{\"Id\":%s,\"Name\":\"%s\",\"CreatorType\":\"User\","
-                        "\"CreatorTargetId\":%s,\"HasVerifiedBadge\":false,"
+                        "\"CreatorTargetId\":%s,\"HasVerifiedBadge\":true,"
                         "\"id\":%s,\"type\":1,\"creatorType\":\"User\",\"creatorTargetId\":%s},"
                     "\"IconImageAssetId\":0,"
                     "\"Created\":\"2022-05-11T13:27:09.897Z\",\"Updated\":\"2022-06-19T07:23:39.03Z\","
@@ -5602,7 +5690,7 @@ if (P.find("check-permissions") != std::string::npos ||
         "\"sourceName\":null,"
         "\"sourceDescription\":null,"
         "\"creator\":{\"id\":{I},\"name\":\"{U}\",\"type\":\"User\","
-            "\"isRNVAccount\":false,\"hasVerifiedBadge\":false},"
+            "\"isRNVAccount\":false,\"hasVerifiedBadge\":true},"
         "\"price\":null,"
         "\"allowedGearGenres\":[\"All\"],"
         "\"allowedGearCategories\":[],"
@@ -5995,7 +6083,7 @@ if (P.find("check-permissions") != std::string::npos ||
                     std::string id = UserIdFromUsername(uname);
                     if (!first) out += ",";
                     first = false;
-                    out += "{\"requestedUsername\":\"" + uname + "\",\"hasVerifiedBadge\":false,"
+                    out += "{\"requestedUsername\":\"" + uname + "\",\"hasVerifiedBadge\":true,"
                            "\"id\":" + id + ",\"name\":\"" + uname + "\",\"displayName\":\"" + uname + "\"}";
                 }
             }
@@ -6110,7 +6198,7 @@ if (P.find("check-permissions") != std::string::npos ||
                         if (num) {
                             std::string nm = nameFor(tail);
                             return RJson("{\"description\":\"\",\"created\":\"2022-01-01T00:00:00.000Z\","
-                                "\"isBanned\":false,\"externalAppDisplayName\":null,\"hasVerifiedBadge\":false,"
+                                "\"isBanned\":false,\"externalAppDisplayName\":null,\"hasVerifiedBadge\":true,"
                                 "\"id\":" + tail + ",\"name\":\"" + nm + "\",\"displayName\":\"" + nm + "\"}");
                         }
                     }
@@ -6125,13 +6213,13 @@ if (P.find("check-permissions") != std::string::npos ||
                         std::string id = src.substr(i, j - i), nm = nameFor(id);
                         if (!first) data += ",";
                         first = false;
-                        data += "{\"hasVerifiedBadge\":false,\"id\":" + id +
+                        data += "{\"hasVerifiedBadge\":true,\"id\":" + id +
                                 ",\"name\":\"" + nm + "\",\"displayName\":\"" + nm + "\"}";
                     }
                     i = j + 1;
                 }
                 if (first)   /* nothing requested -> fall back to the host user */
-                    data = "{\"hasVerifiedBadge\":false,\"id\":" + g_userId +
+                    data = "{\"hasVerifiedBadge\":true,\"id\":" + g_userId +
                            ",\"name\":\"" + g_username + "\",\"displayName\":\"" + g_username + "\"}";
                 return RJson("{\"data\":[" + data + "]}");
             }
@@ -6828,307 +6916,75 @@ static bool RecvFull(SOCKET s, std::string& out)
    ========================================================================= */
 static bool LoadSslCert()
 {
-    /* Load PEM cert and key directly — same files Apache uses.
-     * No openssl / PFX conversion required.
-     *
-     * ssl\server.crt  — PEM X.509 certificate (-----BEGIN CERTIFICATE-----)
-     * ssl\server.key  — PEM private key, PKCS#1 or PKCS#8
-     */
-
-    /* ---- 1. Decode PEM certificate -> DER -> CERT_CONTEXT ---- */
-    std::string certPath = DllPath("ssl\\server.crt");
-    std::string certPem = ReadFile(certPath);
-    if (certPem.empty()) {
-        DWORD fa = GetFileAttributesA(certPath.c_str());
-        DWORD ge = GetLastError();
-        std::string sslDir = DllPath("ssl");
-        DWORD da = GetFileAttributesA(sslDir.c_str());
-        Log("SSL: cannot read cert. path='%s' fileAttr=%#lx (INVALID=0xFFFFFFFF) lastErr=%lu", certPath.c_str(), fa, ge);
-        Log("SSL: ssl-dir='%s' dirAttr=%#lx  (dirAttr INVALID => no 'ssl' subfolder in DLL dir; err 2=file-not-found,3=path-not-found,5=access-denied)", sslDir.c_str(), da);
-        return false;
-    }
-    static const char CERT_HDR[] = "-----BEGIN CERTIFICATE-----";
-    static const char CERT_FTR[] = "-----END CERTIFICATE-----";
-    size_t hs = certPem.find(CERT_HDR);
-    size_t fe = (hs != std::string::npos) ? certPem.find(CERT_FTR, hs + strlen(CERT_HDR)) : std::string::npos;
-    if (hs == std::string::npos || fe == std::string::npos) {
-        Log("SSL: ssl\\server.crt has no valid PEM CERTIFICATE block");
-        return false;
-    }
-    hs += strlen(CERT_HDR);
-    std::string rawCert = certPem.substr(hs, fe - hs);
-    std::string b64Cert;
-    for (size_t i = 0; i < rawCert.size(); i++)
-        if (!isspace((unsigned char)rawCert[i])) b64Cert += rawCert[i];
-    std::vector<unsigned char> certDer = Base64Decode(b64Cert);
-    if (certDer.empty()) { Log("SSL: cert base64-decode failed"); return false; }
-
-    g_pCert = CertCreateCertificateContext(
-        X509_ASN_ENCODING | PKCS_7_ASN_ENCODING,
-        &certDer[0], (DWORD)certDer.size());
-    if (!g_pCert) {
-        Log("SSL: CertCreateCertificateContext failed (err=%lu)", GetLastError());
-        return false;
-    }
-
-    /* ---- 2. Decode PEM private key -> CAPI PRIVATEKEYBLOB ---- */
-    std::string keyPath = DllPath("ssl\\server.key");
-    std::string keyPem = ReadFile(keyPath);
-    if (keyPem.empty()) {
-        Log("SSL: cannot read key. path='%s' fileAttr=%#lx lastErr=%lu", keyPath.c_str(), GetFileAttributesA(keyPath.c_str()), GetLastError());
-        CertFreeCertificateContext(g_pCert); g_pCert = NULL;
-        return false;
-    }
-    static const char* KH[] = {
-        "-----BEGIN RSA PRIVATE KEY-----",
-        "-----BEGIN PRIVATE KEY-----",
-        NULL
-    };
-    static const char* KF[] = {
-        "-----END RSA PRIVATE KEY-----",
-        "-----END PRIVATE KEY-----",
-        NULL
-    };
-    std::string b64Key; bool pkcs8 = false;
-    for (int i = 0; KH[i]; i++) {
-        size_t khs = keyPem.find(KH[i]); if (khs == std::string::npos) continue;
-        khs += strlen(KH[i]);
-        size_t kfe = keyPem.find(KF[i], khs); if (kfe == std::string::npos) continue;
-        std::string rawKey = keyPem.substr(khs, kfe - khs);
-        for (size_t j = 0; j < rawKey.size(); j++)
-            if (!isspace((unsigned char)rawKey[j])) b64Key += rawKey[j];
-        pkcs8 = (i == 1); break;
-    }
-    if (b64Key.empty()) {
-        Log("SSL: ssl\\server.key has no recognized PEM private key header");
-        CertFreeCertificateContext(g_pCert); g_pCert = NULL;
-        return false;
-    }
-    std::vector<unsigned char> keyDer = Base64Decode(b64Key);
-    if (keyDer.empty()) {
-        Log("SSL: key base64-decode failed");
-        CertFreeCertificateContext(g_pCert); g_pCert = NULL;
-        return false;
-    }
-
-    BYTE*  pbBlob = NULL;
-    DWORD  cbBlob = 0;
-    if (pkcs8) {
-        /* Unwrap PKCS#8 envelope first */
-        CRYPT_PRIVATE_KEY_INFO* pki = NULL; DWORD cbPki = 0;
-        if (!CryptDecodeObjectEx(X509_ASN_ENCODING, PKCS_PRIVATE_KEY_INFO,
-                &keyDer[0], (DWORD)keyDer.size(),
-                CRYPT_DECODE_ALLOC_FLAG, NULL, &pki, &cbPki)) {
-            Log("SSL: CryptDecodeObjectEx(PKCS8) failed (err=%lu)", GetLastError());
-            CertFreeCertificateContext(g_pCert); g_pCert = NULL;
-            return false;
-        }
-        CryptDecodeObjectEx(X509_ASN_ENCODING, PKCS_RSA_PRIVATE_KEY,
-                pki->PrivateKey.pbData, pki->PrivateKey.cbData,
-                CRYPT_DECODE_ALLOC_FLAG, NULL, &pbBlob, &cbBlob);
-        LocalFree(pki);
-    } else {
-        CryptDecodeObjectEx(X509_ASN_ENCODING, PKCS_RSA_PRIVATE_KEY,
-                &keyDer[0], (DWORD)keyDer.size(),
-                CRYPT_DECODE_ALLOC_FLAG, NULL, &pbBlob, &cbBlob);
-    }
-    if (!pbBlob) {
-        Log("SSL: CryptDecodeObjectEx(RSA key) failed (err=%lu)", GetLastError());
-        CertFreeCertificateContext(g_pCert); g_pCert = NULL;
-        return false;
-    }
-
-    /* ---- 3. Import key into a named user-space key container ---- */
-    /* SChannel requires the private key to live in a named CSP container
-     * so it can open it by name via CERT_KEY_PROV_INFO_PROP_ID.
-     * User-space containers require no admin rights. */
-    static const char  kContA[] = "HWSSSLKey";
-    static const WCHAR kContW[] = L"HWSSSLKey";
-
-    HCRYPTPROV hProv = NULL;
-    if (!CryptAcquireContextA(&hProv, kContA, NULL, PROV_RSA_FULL, 0)) {
-        /* Container doesn't exist yet — create it */
-        if (!CryptAcquireContextA(&hProv, kContA, NULL, PROV_RSA_FULL, CRYPT_NEWKEYSET)) {
-            Log("SSL: CryptAcquireContext failed (err=%lu)", GetLastError());
-            LocalFree(pbBlob);
-            CertFreeCertificateContext(g_pCert); g_pCert = NULL;
-            return false;
-        }
-    }
-
-    HCRYPTKEY hKey = NULL;
-    if (!CryptImportKey(hProv, pbBlob, cbBlob, 0, CRYPT_EXPORTABLE, &hKey)) {
-        Log("SSL: CryptImportKey failed (err=%lu)", GetLastError());
-        LocalFree(pbBlob);
-        CryptReleaseContext(hProv, 0);
-        CertFreeCertificateContext(g_pCert); g_pCert = NULL;
-        return false;
-    }
-    CryptDestroyKey(hKey);   /* key is now stored in the container */
-    LocalFree(pbBlob);
-    CryptReleaseContext(hProv, 0);
-
-    /* ---- 4. Attach key container to the cert context ---- */
-    CRYPT_KEY_PROV_INFO kpi = {0};
-    kpi.pwszContainerName = const_cast<LPWSTR>(kContW);
-    kpi.pwszProvName      = NULL;          /* default provider */
-    kpi.dwProvType        = PROV_RSA_FULL;
-    kpi.dwFlags           = 0;
-    kpi.cProvParam        = 0;
-    kpi.rgProvParam       = NULL;
-    kpi.dwKeySpec         = AT_KEYEXCHANGE;
-    if (!CertSetCertificateContextProperty(g_pCert, CERT_KEY_PROV_INFO_PROP_ID, 0, &kpi)) {
-        Log("SSL: CertSetCertificateContextProperty failed (err=%lu)", GetLastError());
-        CertFreeCertificateContext(g_pCert); g_pCert = NULL;
-        return false;
-    }
-
-    Log("SSL: PEM cert+key loaded OK (PKCS#%d key, no PFX needed)", pkcs8 ? 8 : 1);
+    std::string certPem = ReadFile(DllPath("ssl\\server.crt"));
+    std::string keyPem  = ReadFile(DllPath("ssl\\server.key"));
+    if (certPem.empty()) { Log("SSL: cannot read ssl\\server.crt"); return false; }
+    if (keyPem.empty())  { Log("SSL: cannot read ssl\\server.key"); return false; }
+    g_tlsServer = tls_create_context(1, HWS_TLS_V12);
+    if (!g_tlsServer) { Log("SSL: tls_create_context failed"); return false; }
+    if (tls_load_certificates(g_tlsServer,(const unsigned char*)certPem.data(),(int)certPem.size()) <= 0) {
+        Log("SSL: tls_load_certificates failed"); tls_destroy_context(g_tlsServer); g_tlsServer=NULL; return false; }
+    if (tls_load_private_key(g_tlsServer,(const unsigned char*)keyPem.data(),(int)keyPem.size()) <= 0) {
+        Log("SSL: tls_load_private_key failed"); tls_destroy_context(g_tlsServer); g_tlsServer=NULL; return false; }
+    Log("SSL: PEM cert+key loaded into tlse OK (portable TLS, Wine-compatible)");
     return true;
 }
 
 static bool InitSChannel()
 {
-    if(!g_pCert) return false;
-    SCHANNEL_CRED cred={0};
-    cred.dwVersion=SCHANNEL_CRED_VERSION;
-    cred.cCreds=1; cred.paCred=&g_pCert;
-    cred.grbitEnabledProtocols=
-        SP_PROT_TLS1_SERVER|SP_PROT_TLS1_1_SERVER|SP_PROT_TLS1_2_SERVER;
-    cred.dwFlags=SCH_CRED_NO_SYSTEM_MAPPER|SCH_CRED_NO_DEFAULT_CREDS;
-    SECURITY_STATUS ss=AcquireCredentialsHandleA(
-        NULL,(char*)UNISP_NAME_A,SECPKG_CRED_INBOUND,
-        NULL,&cred,NULL,NULL,&g_hCred,NULL);
-    g_credValid=(ss==SEC_E_OK);
+    g_credValid = (g_tlsServer != NULL);
+    if (g_credValid) Log("SSL: tlse server ready (HTTPS enabled)");
     return g_credValid;
 }
 
-struct SslCtx {
-    CtxtHandle hCtxt; BOOL valid;
-    SecPkgContext_StreamSizes sizes;
-    std::vector<BYTE> extra;
-};
+struct SslCtx { struct TLSContext* tls; BOOL valid; };
 
+static bool SslFlush(SOCKET s, SslCtx& ctx)
+{
+    if (!ctx.tls) return false;
+    unsigned int outlen=0; const unsigned char* wb=tls_get_write_buffer(ctx.tls,&outlen);
+    bool ok=true;
+    if (wb && outlen){ unsigned int sent=0; while(sent<outlen){ int n=send(s,(const char*)wb+sent,(int)(outlen-sent),0); if(n<=0){ok=false;break;} sent+=(unsigned)n; } }
+    tls_buffer_clear(ctx.tls); return ok;
+}
 static bool SslHandshake(SOCKET s, SslCtx& ctx)
 {
-    ctx.valid=FALSE;
-    const DWORD F=ASC_REQ_SEQUENCE_DETECT|ASC_REQ_REPLAY_DETECT|
-                  ASC_REQ_CONFIDENTIALITY|ASC_RET_EXTENDED_ERROR|
-                  ASC_REQ_ALLOCATE_MEMORY|ASC_REQ_STREAM;
-    std::vector<BYTE> ib(32768); int ibLen=0;
-    BOOL first=TRUE; SecBuffer sb[2],ob[1];
-    SecBufferDesc ibd,obd; DWORD outF=0;
-    while(true){
-        /* receive */
-        {fd_set fds;struct timeval tv={5,0};FD_ZERO(&fds);FD_SET(s,&fds);
-         if(select(0,&fds,NULL,NULL,&tv)<=0) return false;
-         int r=recv(s,(char*)&ib[ibLen],(int)ib.size()-ibLen,0);
-         if(r<=0) return false; ibLen+=r;}
-        sb[0]={(ULONG)ibLen,SECBUFFER_TOKEN,&ib[0]};
-        sb[1]={0,SECBUFFER_EMPTY,NULL};
-        ibd={SECBUFFER_VERSION,2,sb};
-        ob[0]={0,SECBUFFER_TOKEN,NULL};
-        obd={SECBUFFER_VERSION,1,ob};
-        SECURITY_STATUS ss=AcceptSecurityContext(&g_hCred,
-            first?NULL:&ctx.hCtxt,&ibd,F,SECURITY_NATIVE_DREP,
-            &ctx.hCtxt,&obd,&outF,NULL);
-        first=FALSE;
-        if(ob[0].cbBuffer>0&&ob[0].pvBuffer)
-            {send(s,(char*)ob[0].pvBuffer,ob[0].cbBuffer,0);FreeContextBuffer(ob[0].pvBuffer);}
-        if(ss==SEC_E_OK){
-            if(sb[1].BufferType==SECBUFFER_EXTRA&&sb[1].cbBuffer>0)
-                ctx.extra.assign((BYTE*)sb[1].pvBuffer,(BYTE*)sb[1].pvBuffer+sb[1].cbBuffer);
-            QueryContextAttributes(&ctx.hCtxt,SECPKG_ATTR_STREAM_SIZES,&ctx.sizes);
-            ctx.valid=TRUE; return true;
-        }
-        if(ss==SEC_I_CONTINUE_NEEDED){
-            if(sb[1].BufferType==SECBUFFER_EXTRA&&sb[1].cbBuffer>0)
-                {memmove(&ib[0],&ib[ibLen-sb[1].cbBuffer],sb[1].cbBuffer);ibLen=sb[1].cbBuffer;}
-            else ibLen=0;
-            continue;
-        }
-        return false;
+    ctx.valid=FALSE; ctx.tls=NULL;
+    if(!g_tlsServer) return false;
+    ctx.tls=tls_accept(g_tlsServer); if(!ctx.tls) return false;
+    std::vector<unsigned char> ib(16384);
+    while(!tls_established(ctx.tls)){
+        fd_set fds; struct timeval tv={10,0}; FD_ZERO(&fds); FD_SET(s,&fds);
+        if(select(0,&fds,NULL,NULL,&tv)<=0){ tls_destroy_context(ctx.tls); ctx.tls=NULL; return false; }
+        int r=recv(s,(char*)&ib[0],(int)ib.size(),0);
+        if(r<=0){ tls_destroy_context(ctx.tls); ctx.tls=NULL; return false; }
+        if(tls_consume_stream(ctx.tls,&ib[0],r,NULL)<0){ tls_destroy_context(ctx.tls); ctx.tls=NULL; return false; }
+        if(!SslFlush(s,ctx)){ tls_destroy_context(ctx.tls); ctx.tls=NULL; return false; }
     }
+    SslFlush(s,ctx); ctx.valid=TRUE; return true;
 }
-
 static bool SslRead(SOCKET s, SslCtx& ctx, std::string& out)
 {
-    /* Ciphertext buffer — grows dynamically so large uploads never hit the cap.
-     * A TLS record is at most ~16 KB, but a place file can be many megabytes
-     * spread across hundreds of records. */
-    DWORD cap = ctx.sizes.cbHeader + ctx.sizes.cbMaximumMessage + ctx.sizes.cbTrailer + 65536;
-    std::vector<BYTE> eb(cap); DWORD eLen = 0;
-    if (!ctx.extra.empty()) {
-        memcpy(&eb[0], &ctx.extra[0], ctx.extra.size());
-        eLen = (DWORD)ctx.extra.size();
-        ctx.extra.clear();
-    }
-    while (true) {
-        SecBuffer db[4];
-        db[0] = {(ULONG)eLen, SECBUFFER_DATA,  &eb[0]};
-        db[1] = {0,           SECBUFFER_EMPTY, NULL};
-        db[2] = {0,           SECBUFFER_EMPTY, NULL};
-        db[3] = {0,           SECBUFFER_EMPTY, NULL};
-        SecBufferDesc dbd = {SECBUFFER_VERSION, 4, db};
-        SECURITY_STATUS ss = DecryptMessage(&ctx.hCtxt, &dbd, 0, NULL);
-        if (ss == SEC_E_OK) {
-            for (int i = 0; i < 4; i++)
-                if (db[i].BufferType == SECBUFFER_DATA)
-                    out.append((char*)db[i].pvBuffer, db[i].cbBuffer);
-            /* Save leftover ciphertext (pipelined next request) */
-            ctx.extra.clear();
-            for (int i = 0; i < 4; i++)
-                if (db[i].BufferType == SECBUFFER_EXTRA && db[i].cbBuffer > 0)
-                    ctx.extra.assign((BYTE*)db[i].pvBuffer,
-                                     (BYTE*)db[i].pvBuffer + db[i].cbBuffer);
-            /* KEY FIX: keep reading TLS records until the FULL HTTP body has
-             * arrived.  The old code returned as soon as \r\n\r\n appeared,
-             * which meant the body of large POSTs (place uploads) was always
-             * empty — Studio sends headers in one TLS record, body in the next. */
-            if (HttpRequestComplete(out)) return true;
-            /* More records needed — consume any EXTRA bytes first */
-            eLen = 0;
-            if (!ctx.extra.empty()) {
-                memcpy(&eb[0], &ctx.extra[0], ctx.extra.size());
-                eLen = (DWORD)ctx.extra.size();
-                ctx.extra.clear();
-            }
-        } else if (ss == SEC_E_INCOMPLETE_MESSAGE) {
-            /* Not enough ciphertext yet for a full TLS record — read more. */
-            if (eLen >= cap) {          /* grow buffer for very large records */
-                cap *= 2;
-                eb.resize(cap);
-            }
-            fd_set fds; struct timeval tv = {30, 0}; /* 30 s for large uploads */
-            FD_ZERO(&fds); FD_SET(s, &fds);
-            if (select(0, &fds, NULL, NULL, &tv) <= 0) return false;
-            int r = recv(s, (char*)&eb[eLen], (int)(cap - eLen), 0);
-            if (r <= 0) return false;
-            eLen += r;
-        } else {
-            return false;
-        }
+    if(!ctx.tls) return false;
+    std::vector<unsigned char> ib(16384), pb(16384);
+    while(true){
+        int got; while((got=tls_read(ctx.tls,&pb[0],(unsigned)pb.size()))>0) out.append((char*)&pb[0],(size_t)got);
+        if(!out.empty() && HttpRequestComplete(out)) return true;
+        fd_set fds; struct timeval tv={30,0}; FD_ZERO(&fds); FD_SET(s,&fds);
+        if(select(0,&fds,NULL,NULL,&tv)<=0) return false;
+        int r=recv(s,(char*)&ib[0],(int)ib.size(),0); if(r<=0) return false;
+        if(tls_consume_stream(ctx.tls,&ib[0],r,NULL)<0) return false;
+        SslFlush(s,ctx);
     }
 }
-
 static bool SslWrite(SOCKET s, SslCtx& ctx, const std::string& data)
 {
+    if(!ctx.tls) return false;
     size_t off=0;
-    while(off<data.size()){
-        size_t chunk=std::min((size_t)ctx.sizes.cbMaximumMessage,data.size()-off);
-        size_t total=ctx.sizes.cbHeader+chunk+ctx.sizes.cbTrailer;
-        std::vector<BYTE> buf(total);
-        memcpy(&buf[ctx.sizes.cbHeader],data.c_str()+off,chunk);
-        SecBuffer sb[3];
-        sb[0]={ctx.sizes.cbHeader,SECBUFFER_STREAM_HEADER,&buf[0]};
-        sb[1]={(ULONG)chunk,SECBUFFER_DATA,&buf[ctx.sizes.cbHeader]};
-        sb[2]={ctx.sizes.cbTrailer,SECBUFFER_STREAM_TRAILER,&buf[ctx.sizes.cbHeader+chunk]};
-        SecBufferDesc sbd={SECBUFFER_VERSION,3,sb};
-        if(EncryptMessage(&ctx.hCtxt,0,&sbd,0)!=SEC_E_OK) return false;
-        DWORD toSend=sb[0].cbBuffer+sb[1].cbBuffer+sb[2].cbBuffer;
-        if(send(s,(char*)&buf[0],toSend,0)!=(int)toSend) return false;
-        off+=chunk;
-    }
+    do{ size_t chunk=data.size()-off; if(chunk>16384) chunk=16384;
+        if(tls_write(ctx.tls,(const unsigned char*)data.data()+off,(unsigned)chunk)<0) return false;
+        if(!SslFlush(s,ctx)) return false; off+=chunk;
+    } while(off<data.size());
     return true;
 }
 
@@ -7153,55 +7009,24 @@ enum WsIo { WSIO_DATA, WSIO_TIMEOUT, WSIO_CLOSED };
  * instead of blocking on one read for the lifetime of the connection. */
 static WsIo TransportReadSome(SOCKET s, SslCtx* ctx, BOOL isSsl, std::string& out, int pollSec)
 {
-    if (!isSsl) {
-        char buf[8192];
-        fd_set fds; struct timeval tv={pollSec,0};
-        FD_ZERO(&fds); FD_SET(s,&fds);
-        int sel = select(0,&fds,NULL,NULL,&tv);
-        if (sel==0) return WSIO_TIMEOUT;
-        if (sel<0)  return WSIO_CLOSED;
-        int r = recv(s,buf,sizeof(buf),0);
-        if (r<=0) return WSIO_CLOSED;
-        out.append(buf,r);
-        return WSIO_DATA;
+    if(!isSsl){
+        char buf[8192]; fd_set fds; struct timeval tv={pollSec,0}; FD_ZERO(&fds); FD_SET(s,&fds);
+        int sel=select(0,&fds,NULL,NULL,&tv);
+        if(sel==0) return WSIO_TIMEOUT; if(sel<0) return WSIO_CLOSED;
+        int r=recv(s,buf,sizeof(buf),0); if(r<=0) return WSIO_CLOSED;
+        out.append(buf,r); return WSIO_DATA;
     }
-    /* TLS: ctx->extra carries ciphertext that hasn't formed a complete TLS
-     * record yet, across calls, so each call can poll in short bursts
-     * instead of blocking the whole connection on one read. */
-    DWORD cap = ctx->sizes.cbHeader + ctx->sizes.cbMaximumMessage + ctx->sizes.cbTrailer + 65536;
-    std::vector<BYTE> eb(cap); DWORD eLen=0;
-    if (!ctx->extra.empty()) {
-        if (ctx->extra.size() > eb.size()) eb.resize(ctx->extra.size());
-        memcpy(&eb[0], &ctx->extra[0], ctx->extra.size());
-        eLen=(DWORD)ctx->extra.size();
-        ctx->extra.clear();
-    }
-    for(;;) {
-        SecBuffer db[4];
-        db[0]={(ULONG)eLen,SECBUFFER_DATA,&eb[0]};
-        db[1]={0,SECBUFFER_EMPTY,NULL}; db[2]={0,SECBUFFER_EMPTY,NULL}; db[3]={0,SECBUFFER_EMPTY,NULL};
-        SecBufferDesc dbd={SECBUFFER_VERSION,4,db};
-        SECURITY_STATUS ss = DecryptMessage(&ctx->hCtxt,&dbd,0,NULL);
-        if (ss==SEC_E_OK) {
-            for (int i=0;i<4;i++) if (db[i].BufferType==SECBUFFER_DATA) out.append((char*)db[i].pvBuffer, db[i].cbBuffer);
-            for (int i=0;i<4;i++) if (db[i].BufferType==SECBUFFER_EXTRA && db[i].cbBuffer>0)
-                ctx->extra.assign((BYTE*)db[i].pvBuffer,(BYTE*)db[i].pvBuffer+db[i].cbBuffer);
-            return out.empty() ? WSIO_TIMEOUT : WSIO_DATA;
-        }
-        if (ss==SEC_E_INCOMPLETE_MESSAGE) {
-            if (eLen>=cap) { cap*=2; eb.resize(cap); }
-            fd_set fds; struct timeval tv={pollSec,0};
-            FD_ZERO(&fds); FD_SET(s,&fds);
-            int sel=select(0,&fds,NULL,NULL,&tv);
-            if (sel==0) { if (eLen>0) ctx->extra.assign(&eb[0], &eb[0]+eLen); return WSIO_TIMEOUT; }
-            if (sel<0) return WSIO_CLOSED;
-            int r = recv(s,(char*)&eb[eLen],(int)(cap-eLen),0);
-            if (r<=0) return WSIO_CLOSED;
-            eLen+=r;
-            continue;
-        }
-        return WSIO_CLOSED;
-    }
+    if(!ctx->tls) return WSIO_CLOSED;
+    unsigned char pb[16384];
+    int got=tls_read(ctx->tls,pb,sizeof(pb)); if(got>0){ out.append((char*)pb,(size_t)got); return WSIO_DATA; }
+    fd_set fds; struct timeval tv={pollSec,0}; FD_ZERO(&fds); FD_SET(s,&fds);
+    int sel=select(0,&fds,NULL,NULL,&tv);
+    if(sel==0) return WSIO_TIMEOUT; if(sel<0) return WSIO_CLOSED;
+    unsigned char ib[16384]; int r=recv(s,(char*)ib,sizeof(ib),0); if(r<=0) return WSIO_CLOSED;
+    if(tls_consume_stream(ctx->tls,ib,r,NULL)<0) return WSIO_CLOSED;
+    SslFlush(s,*ctx);
+    got=tls_read(ctx->tls,pb,sizeof(pb)); if(got>0){ out.append((char*)pb,(size_t)got); return WSIO_DATA; }
+    return WSIO_TIMEOUT;
 }
 
 static bool TransportSendRaw(SOCKET s, SslCtx* ctx, BOOL isSsl, const std::string& data)
@@ -7361,10 +7186,10 @@ struct ClientArg { SOCKET s; BOOL ssl; };
 static void ServeClientBody(SOCKET s, BOOL isSsl)
 {
     try {
-        std::string rawReq; SslCtx sslCtx; sslCtx.valid=FALSE;
+        std::string rawReq; SslCtx sslCtx; sslCtx.valid=FALSE; sslCtx.tls=NULL;
         if(isSsl){
             if(!g_credValid||!SslHandshake(s,sslCtx)){closesocket(s);return;}
-            if(!SslRead(s,sslCtx,rawReq)){closesocket(s);return;}
+            if(!SslRead(s,sslCtx,rawReq)){if(sslCtx.tls)tls_destroy_context(sslCtx.tls);closesocket(s);return;}
         } else {
             if(!RecvFull(s,rawReq)){closesocket(s);return;}
         }
@@ -7379,6 +7204,7 @@ static void ServeClientBody(SOCKET s, BOOL isSsl)
             if (STARTS(req.path,"/userhub") && uit!=req.headers.end() && kit!=req.headers.end()
                 && ToLower(uit->second).find("websocket")!=std::string::npos) {
                 HandleUserHubWebSocket(s, &sslCtx, isSsl, kit->second);
+                if(sslCtx.tls)tls_destroy_context(sslCtx.tls);
                 closesocket(s);
                 return;
             }
@@ -7398,16 +7224,8 @@ static void ServeClientBody(SOCKET s, BOOL isSsl)
         std::string raw=BuildRaw(resp);
         if(isSsl&&sslCtx.valid){
             SslWrite(s,sslCtx,raw);
-            /* graceful TLS shutdown */
-            DWORD tok=SCHANNEL_SHUTDOWN;
-            SecBuffer sb={sizeof(DWORD),SECBUFFER_TOKEN,&tok};
-            SecBufferDesc sbd={SECBUFFER_VERSION,1,&sb};
-            ApplyControlToken(&sslCtx.hCtxt,&sbd);
-            sb={0,SECBUFFER_TOKEN,NULL}; sbd={SECBUFFER_VERSION,1,&sb};
-            DWORD outF=0;
-            AcceptSecurityContext(&g_hCred,&sslCtx.hCtxt,NULL,0,0,NULL,&sbd,&outF,NULL);
-            if(sb.pvBuffer){send(s,(char*)sb.pvBuffer,sb.cbBuffer,0);FreeContextBuffer(sb.pvBuffer);}
-            DeleteSecurityContext(&sslCtx.hCtxt);
+            if(sslCtx.tls){ tls_close_notify(sslCtx.tls); SslFlush(s,sslCtx);
+                            tls_destroy_context(sslCtx.tls); sslCtx.tls=NULL; }
         } else {
             send(s,raw.c_str(),(int)raw.size(),0);
         }
@@ -7727,8 +7545,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID)
         if(g_httpsSock!=INVALID_SOCKET) closesocket(g_httpsSock);
         if(g_hOwnerMutex){ReleaseMutex(g_hOwnerMutex);CloseHandle(g_hOwnerMutex);}
         if(g_signKeyLoaded){CryptDestroyKey(g_hSignKey);CryptReleaseContext(g_hSignProv,0);}
-        if(g_credValid) FreeCredentialsHandle(&g_hCred);
-        if(g_pCert)     CertFreeCertificateContext(g_pCert);
+        if(g_tlsServer) { tls_destroy_context(g_tlsServer); g_tlsServer=NULL; }
         WSACleanup();
     }
     return TRUE;

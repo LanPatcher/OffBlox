@@ -1,0 +1,82 @@
+DllMain: Wine - deferring loads to thread
+LoaderThread: start
+DllMain: Wine - deferring loads to thread
+LoaderThread: start
+DllMain: Wine - deferring loads to thread
+LoaderThread: start
+DllMain: Wine - deferring loads to thread
+LoaderThread: start
+  comm=0x00007ffc551c0000
+  webserver=0x00007ffc41250000
+  comm=0x00007ffc551c0000
+  webserver=0x00007ffc41250000
+  comm=0x00007ffc551c0000
+  webserver=0x00007ffc41250000
+  comm=0x00007ffc551c0000
+  webserver=0x00007ffc41250000
+DllMain: Wine - deferring loads to thread
+LoaderThread: start
+  comm=0x0000000000000000
+DllMain: Wine - deferring loads to thread
+LoaderThread: start
+  comm=0x0000000000000000
+  webserver=0x0000000000000000
+LoaderThread: done
+DllMain: Wine - deferring loads to thread
+LoaderThread: start
+  comm=0x0000000000000000
+  webserver=0x0000000000000000
+LoaderThread: done
+DllMain: Wine - deferring loads to thread
+LoaderThread: start
+  comm=0x0000000000000000
+  webserver=0x0000000000000000
+LoaderThread: done
+DllMain: Wine - deferring loads to thread
+LoaderThread: start
+DllMain: Wine - deferring loads to thread
+LoaderThread: start
+DllMain: Wine - deferring loads to thread
+LoaderThread: start
+  comm=0x00007ffc70500000
+  webserver=0x00007ffc3d5b0000
+DllMain: Wine - deferring loads to thread
+LoaderThread: start
+  comm=0x00007ffca2d90000
+  webserver=0x00007ffc46480000
+  comm=0x00007ffca2d90000
+  webserver=0x00007ffc46480000
+  comm=0x00007ffca2d90000
+  webserver=0x00007ffc46480000
+  comm=0x00007ffa3a7e0000
+  webserver=0x00007ffa3a6b0000
+  comm=0x00007ffafb580000
+  webserver=0x00007ffa3f110000
+  comm=0x00007ffa3a7f0000
+  webserver=0x00007ffa3a6c0000
+  comm=0x00007ffa3a7f0000
+  webserver=0x00007ffa3a6c0000
+  comm=0x00007ffa3a7f0000
+  webserver=0x00007ffa3a6c0000
+  comm=0x00007ffa3a810000
+  webserver=0x00007ffa3a6e0000
+  comm=0x00007ffa3a810000
+  webserver=0x00007ffa3a6e0000
+  comm=0x00007ffa921f0000
+  webserver=0x00007ffa3a850000
+  comm=0x00007ffa2e300000
+  webserver=0x00007ffa2e1d0000
+  comm=0x00007ffa2e300000
+  webserver=0x00007ffa2e1d0000
+  comm=0x00007ffa2e130000
+  webserver=0x00007ffa2e000000
+  comm=0x00007ffa2a7d0000
+  webserver=0x00007ffa2a6a0000
+  comm=0x00007ffa2a7d0000
+  webserver=0x00007ffa2a6a0000
+  comm=0x00007ffa2ccf0000
+  webserver=0x00007ffa299f0000
+  comm=0x00007ffa91ac0000
+  webserver=0x00007ffa91990000
+  comm=0x00007ffa91ac0000
+  webserver=0x00007ffa91990000

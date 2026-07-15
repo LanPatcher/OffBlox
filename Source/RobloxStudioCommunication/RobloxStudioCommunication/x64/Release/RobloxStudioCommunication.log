@@ -1,11 +1,11 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (x64\Release\) contains files shared from another project (RobloxStudioPatcher.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  server_console.cpp
+  dllmain.cpp
      Creating library C:\Users\catoa\Desktop\OffBloxModern\Source\RobloxStudioCommunication\x64\Release\RobloxStudioCommunication.lib and object C:\Users\catoa\Desktop\OffBloxModern\Source\RobloxStudioCommunication\x64\Release\RobloxStudioCommunication.exp
 RobloxStudioCommunication.exp : warning LNK4070: /OUT:RobloxStudioPatcher.dll directive in .EXP differs from output filename 'C:\Users\catoa\Desktop\OffBloxModern\Source\RobloxStudioCommunication\x64\Release\RobloxStudioCommunication.dll'; ignoring directive
   Generating code
-  2 of 1321 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    3 functions had inline decision re-evaluated but remain unchanged
+  5 of 1554 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    2 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
 RobloxStudioCommunication.exp : warning LNK4070: /OUT:RobloxStudioPatcher.dll directive in .EXP differs from output filename 'C:\Users\catoa\Desktop\OffBloxModern\Source\RobloxStudioCommunication\x64\Release\RobloxStudioCommunication.dll'; ignoring directive
   RobloxStudioCommunication.vcxproj -> C:\Users\catoa\Desktop\OffBloxModern\Source\RobloxStudioCommunication\x64\Release\RobloxStudioCommunication.dll

@@ -386,6 +386,18 @@ namespace RobloxStudioPatcher
         return false;
     }
 
+    // The Auto-Recovery modal ("Auto-Save Recovery" etc.) must never be hidden:
+    // a hidden modal keeps its input grab, so the whole UI freezes and clicks
+    // ding. auto_recovery.cpp closes it via WM_CLOSE instead - leave it visible
+    // for that to happen (and untouched so it isn't layered/moved either).
+    static bool TitleHasRecover(HWND hwnd)
+    {
+        wchar_t title[256] = {};
+        if (GetWindowTextW(hwnd, title, _countof(title)) <= 0) return false;
+        for (wchar_t* p = title; *p; ++p) *p = (wchar_t)towlower(*p);
+        return wcsstr(title, L"recover") != nullptr;
+    }
+
     static void GetWindowSize(HWND hwnd, int* w, int* h)
     {
         RECT r{};
@@ -436,6 +448,10 @@ namespace RobloxStudioPatcher
         wchar_t cls[64] = {};
         if (!ClassNameStartsWithQt5(hwnd, cls, _countof(cls)))
             return TRUE;
+
+        // Leave the Auto-Recovery modal entirely alone (auto_recovery.cpp closes
+        // it). Hiding it would freeze input behind an invisible modal.
+        if (TitleHasRecover(hwnd)) return TRUE;
 
         if (wcsstr(cls, L"OwnDC") && state->loginWindow == nullptr)
         {

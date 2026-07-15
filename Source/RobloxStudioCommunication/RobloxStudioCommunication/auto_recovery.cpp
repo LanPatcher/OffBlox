@@ -63,7 +63,11 @@ namespace RobloxStudioPatcher
         DWORD pid = 0;
         GetWindowThreadProcessId(hwnd, &pid);
         if (pid != ctx->pid) return TRUE;
-        if (!IsWindowVisible(hwnd)) return TRUE;
+        // NOTE: do NOT skip invisible windows. A window hider (qt_hider /
+        // server_console) can ShowWindow(SW_HIDE) the modal before we reach it;
+        // a hidden modal still holds its input grab, so the UI freezes (and a
+        // click plays the system "ding"). We must still WM_CLOSE it even when
+        // hidden - matching by title + our pid keeps that specific.
 
         wchar_t title[256] = {};
         if (GetWindowTextW(hwnd, title, _countof(title)) <= 0) return TRUE;

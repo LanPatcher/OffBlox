@@ -85,6 +85,29 @@ namespace RobloxStudioPatcher
             return pre + 1 + ml + 4;
         }
 
+        case 0x0F:              // two-byte opcode
+        {
+            BYTE b2 = op[1];
+            // movzx/movsx r, r/m8|r/m16  (0F B6 / B7 / BE / BF) - common in prologues
+            if (b2 == 0xB6 || b2 == 0xB7 || b2 == 0xBE || b2 == 0xBF)
+            {
+                bool ripRel = false;
+                SIZE_T ml = modrmLen(op + 2, ripRel);
+                if (ripRel) return 0;
+                return pre + 2 + ml;
+            }
+            // multi-byte NOP (0F 1F /r) - appears in aligned prologues, e.g.
+            // internal resume starts with a 7-byte "nop dword ptr [rax]".
+            if (b2 == 0x1F)
+            {
+                bool ripRel = false;
+                SIZE_T ml = modrmLen(op + 2, ripRel);
+                if (ripRel) return 0;
+                return pre + 2 + ml;
+            }
+            return 0;
+        }
+
         default:   return 0;     // unrecognised - abort
         }
 #else

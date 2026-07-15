@@ -7,6 +7,7 @@
 #include "name_patcher.h"
 #include "rcc_patch.h"
 #include "server_console.h"
+#include "loadstring_console.h"   // EnqueueConsoleScript - server-VM Lua exec for v10 property replication
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <winsock2.h>
@@ -18,6 +19,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#include <deque>
 #include <map>
 #include <mutex>
 #include <set>
@@ -594,6 +596,39 @@ namespace RobloxStudioPatcher
         std::memcpy(&got, buf, 4);
         if (ntohl(got) != kMagic) return false;
         uint8_t ver = static_cast<uint8_t>(buf[4]);
+        // v10 = OffBlox property-replication Lua (client -> server VM). Distinct from the
+        // identity packets (v1..v3): it carries a ready-to-run Lua assignment statement and
+        // NEVER touches the peer / anti-impersonation tables. Layout:
+        //   magic(4) | ver(1)=10 | luaLen(2 BE) | Lua UTF-8 bytes
+        // We hand it straight to the server console-exec queue, which runs it on the server
+        // DataModel VM; the resulting property write then replicates natively to all clients.
+        // v10 = OffBlox property replication. Payload = a sequence of length-prefixed
+        // binary blobs: [blobLen(2 BE)][ guid64(8) | propLen(1) | prop | varLen(1) | variant ].
+        // Each blob is queued for the main-thread pure-C++ apply (guid resolve + setValue).
+        if (ver == 10)
+        {
+            if (len < 7) return false;                       // magic(4)+ver(1)+payloadLen(2)
+            const unsigned char* q = reinterpret_cast<const unsigned char*>(buf + 5);
+            size_t payLen = (size_t(q[0]) << 8) | q[1];
+            if (payLen == 0 || len < (int)(7 + payLen)) return false;
+            const unsigned char* p = reinterpret_cast<const unsigned char*>(buf + 7);
+            const unsigned char* end = p + payLen;
+            while (p + 2 <= end)
+            {
+                size_t blobLen = (size_t(p[0]) << 8) | p[1]; p += 2;
+                if (p + blobLen > end || blobLen < 8 + 1 + 1 + 1) break;
+                const unsigned char* b = p; p += blobLen;
+                unsigned long long guid; std::memcpy(&guid, b, 8);
+                int plen = b[8];
+                if (8 + 1 + (size_t)plen + 1 > blobLen) continue;
+                const char* prop = reinterpret_cast<const char*>(b + 9);
+                int vlen = b[9 + plen];
+                const unsigned char* var = b + 9 + plen + 1;
+                if (9 + (size_t)plen + 1 + (size_t)vlen > blobLen) continue;
+                EnqueueGuidChange(guid, prop, plen, var, vlen);
+            }
+            return true;                                     // swallow (never reaches RakNet)
+        }
         if (ver < 1 || ver > 3) return false;   // v1 name / v2 +ids / v3 +appearance
         size_t nL = static_cast<uint8_t>(buf[5]);
         if (len < (int)(kHeaderSize + nL)) return false;
@@ -1072,6 +1107,119 @@ namespace RobloxStudioPatcher
         LogF(L"[udp_relay] magic announcer finished (sent %d)\n", kTries);
         return 0;
     }
+    // ---------- OffBlox property-replication sender (client) ---------------
+    //
+    // The client executor DLL (OffBloxExec) captures every non-physics property
+    // change as a ready-to-run Lua assignment string and hands it here via the
+    // exported OffBloxRelayServerLua(). We queue it and a dedicated thread ships it
+    // to the host as a v10 magic packet (see TryConsumeMagic ver==10), where the
+    // server runs it on its DataModel VM and the write replicates natively to all
+    // clients. This deliberately does NOT go through the client's own outgoing
+    // replication serializer (which throws on un-encodable value types and tears
+    // down the connection) - the value is rebuilt from a Lua literal on the server.
+    static std::mutex               s_txMtx;
+    static std::deque<std::string>  s_txQueue;     // pending Lua statements
+    static HANDLE                   s_txEvent = nullptr;
+    static const size_t             kTxQueueCap = 4096;   // drop oldest past this (burst safety)
+    static const size_t             kV10MaxLua  = 7000;   // keep a datagram under kMaxPacket
+
+    // Build a v10 magic datagram: magic(4) | ver(1)=10 | luaLen(2 BE) | Lua bytes.
+    static int BuildPropPacket(char* out, size_t outCap, const std::string& lua)
+    {
+        if (lua.size() > kV10MaxLua) return 0;
+        size_t total = 7 + lua.size();
+        if (total > outCap) return 0;
+        uint32_t mNbo = htonl(kMagic);
+        std::memcpy(out, &mNbo, 4);
+        out[4] = static_cast<char>(10);
+        out[5] = static_cast<char>((lua.size() >> 8) & 0xFF);
+        out[6] = static_cast<char>(lua.size() & 0xFF);
+        std::memcpy(out + 7, lua.data(), lua.size());
+        return static_cast<int>(total);
+    }
+
+    static DWORD WINAPI OffBloxSenderThread(LPVOID)
+    {
+        WSADATA wsa; WSAStartup(MAKEWORD(2, 2), &wsa);
+        // One stable socket for the whole session (a fresh source port per send is
+        // fine here - v10 packets never touch the anti-impersonation key logic).
+        SOCKET s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+        if (s == INVALID_SOCKET) { LogF(L"[udp_relay] prop-sender: socket() failed\n"); return 0; }
+        LogF(L"[udp_relay] property-replication sender started\n");
+        for (;;)
+        {
+            if (s_txEvent) WaitForSingleObject(s_txEvent, 100);
+            // Coalesce: pack as many binary blobs as fit, each length-prefixed [len(2 BE)][blob],
+            // so arbitrary binary payloads (guid + variant) pack safely into one datagram.
+            for (;;)
+            {
+                std::string batch;
+                {
+                    std::lock_guard<std::mutex> lk(s_txMtx);
+                    while (!s_txQueue.empty())
+                    {
+                        const std::string& next = s_txQueue.front();
+                        if (next.size() > kV10MaxLua - 2) { s_txQueue.pop_front(); continue; } // too big
+                        if (batch.size() + 2 + next.size() > kV10MaxLua) break;
+                        batch.push_back((char)((next.size() >> 8) & 0xFF));
+                        batch.push_back((char)(next.size() & 0xFF));
+                        batch += next;
+                        s_txQueue.pop_front();
+                    }
+                }
+                if (batch.empty()) break;
+
+                std::string ip; int port = 0;
+                if (!GetServerEndpoint(ip, port))
+                {
+                    // Endpoint not resolved yet (pre-join). Re-queue and wait.
+                    std::lock_guard<std::mutex> lk(s_txMtx);
+                    s_txQueue.push_front(batch);
+                    break;
+                }
+                char pkt[kMaxPacket];
+                int  pktLen = BuildPropPacket(pkt, sizeof(pkt), batch);
+                if (pktLen > 0)
+                {
+                    sockaddr_in dst; std::memset(&dst, 0, sizeof(dst));
+                    dst.sin_family = AF_INET;
+                    dst.sin_port = htons((unsigned short)port);
+                    InetPtonA(AF_INET, ip.c_str(), &dst.sin_addr);
+                    int r = s_orig_sendto
+                        ? s_orig_sendto(s, pkt, pktLen, 0, reinterpret_cast<sockaddr*>(&dst), sizeof(dst))
+                        : sendto(s, pkt, pktLen, 0, reinterpret_cast<sockaddr*>(&dst), sizeof(dst));
+                    LogF(L"[udp_relay] prop -> %hs:%d len=%d r=%d\n", ip.c_str(), port, pktLen, r);
+                }
+            }
+        }
+    }
+
+    // Enqueue one ready-to-run Lua statement for delivery to the server VM. Called
+    // (via the exported C shim below) by the OffBloxExec client DLL. Cheap + lock-brief
+    // so it is safe to call from the Luau resume thread. Drops oldest on overflow.
+    void RelayQueueServerLua_Impl(const char* utf8)
+    {
+        if (!utf8 || !*utf8) return;
+        {
+            std::lock_guard<std::mutex> lk(s_txMtx);
+            if (s_txQueue.size() >= kTxQueueCap) s_txQueue.pop_front();
+            s_txQueue.emplace_back(utf8);
+        }
+        if (s_txEvent) SetEvent(s_txEvent);
+    }
+
+    // Enqueue a binary property-change blob [guid64][propLen][prop][varLen][variant].
+    void RelayQueueServerBin_Impl(const void* data, int len)
+    {
+        if (!data || len <= 0) return;
+        {
+            std::lock_guard<std::mutex> lk(s_txMtx);
+            if (s_txQueue.size() >= kTxQueueCap) s_txQueue.pop_front();
+            s_txQueue.emplace_back(reinterpret_cast<const char*>(data), (size_t)len);
+        }
+        if (s_txEvent) SetEvent(s_txEvent);
+    }
+
     // ---------- Public entry ----------------------------------------------
     extern bool IsStartClientTask_Pub();
     extern bool IsStartServerTask_Pub();
@@ -1221,6 +1369,13 @@ namespace RobloxStudioPatcher
             HANDLE h = CreateThread(nullptr, 0, &MagicAnnouncerThread, nullptr, 0, nullptr);
             if (h) { CloseHandle(h); LogF(L"[udp_relay] client magic announcer started\n"); }
             else { LogF(L"[udp_relay] FAILED to start magic announcer\n"); }
+
+            // Property-replication sender: ships OffBloxExec's captured Lua assignment
+            // statements to the host as v10 packets. Its own thread + wake event.
+            s_txEvent = CreateEventW(nullptr, FALSE /*auto-reset*/, FALSE, nullptr);
+            HANDLE ph = CreateThread(nullptr, 0, &OffBloxSenderThread, nullptr, 0, nullptr);
+            if (ph) { CloseHandle(ph); LogF(L"[udp_relay] property-replication sender armed\n"); }
+            else    { LogF(L"[udp_relay] FAILED to start property-replication sender\n"); }
         }
         if (!any)
         {
@@ -1229,4 +1384,19 @@ namespace RobloxStudioPatcher
         }
         return true;
     }
+}
+
+// Exported C entry point the OffBloxExec client DLL resolves (by scanning loaded
+// modules for this symbol) and calls with each captured Lua assignment statement.
+// C linkage + dllexport => stable, unmangled name in the export table.
+extern "C" __declspec(dllexport) void OffBloxRelayServerLua(const char* utf8)
+{
+    RobloxStudioPatcher::RelayQueueServerLua_Impl(utf8);
+}
+
+// Binary property-change entry the OffBloxExec client DLL resolves + calls with each
+// {guid64, prop, variant} blob.
+extern "C" __declspec(dllexport) void OffBloxRelayServerBin(const void* data, int len)
+{
+    RobloxStudioPatcher::RelayQueueServerBin_Impl(data, len);
 }

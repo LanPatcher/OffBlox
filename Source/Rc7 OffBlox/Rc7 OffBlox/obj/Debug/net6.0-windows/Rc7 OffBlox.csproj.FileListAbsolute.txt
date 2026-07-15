@@ -1,0 +1,17 @@
+C:\Users\catoa\source\repos\Rc7 OffBlox\Rc7 OffBlox\bin\Debug\net6.0-windows\Rc7 OffBlox.exe
+C:\Users\catoa\source\repos\Rc7 OffBlox\Rc7 OffBlox\bin\Debug\net6.0-windows\Rc7 OffBlox.deps.json
+C:\Users\catoa\source\repos\Rc7 OffBlox\Rc7 OffBlox\bin\Debug\net6.0-windows\Rc7 OffBlox.runtimeconfig.json
+C:\Users\catoa\source\repos\Rc7 OffBlox\Rc7 OffBlox\bin\Debug\net6.0-windows\Rc7 OffBlox.dll
+C:\Users\catoa\source\repos\Rc7 OffBlox\Rc7 OffBlox\bin\Debug\net6.0-windows\Rc7 OffBlox.pdb
+C:\Users\catoa\source\repos\Rc7 OffBlox\Rc7 OffBlox\obj\Debug\net6.0-windows\Rc7_OffBlox.Form1.resources
+C:\Users\catoa\source\repos\Rc7 OffBlox\Rc7 OffBlox\obj\Debug\net6.0-windows\Rc7_OffBlox.Properties.Resources.resources
+C:\Users\catoa\source\repos\Rc7 OffBlox\Rc7 OffBlox\obj\Debug\net6.0-windows\Rc7 OffBlox.csproj.GenerateResource.cache
+C:\Users\catoa\source\repos\Rc7 OffBlox\Rc7 OffBlox\obj\Debug\net6.0-windows\Rc7 OffBlox.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\catoa\source\repos\Rc7 OffBlox\Rc7 OffBlox\obj\Debug\net6.0-windows\Rc7 OffBlox.AssemblyInfoInputs.cache
+C:\Users\catoa\source\repos\Rc7 OffBlox\Rc7 OffBlox\obj\Debug\net6.0-windows\Rc7 OffBlox.AssemblyInfo.cs
+C:\Users\catoa\source\repos\Rc7 OffBlox\Rc7 OffBlox\obj\Debug\net6.0-windows\Rc7 OffBlox.csproj.CoreCompileInputs.cache
+C:\Users\catoa\source\repos\Rc7 OffBlox\Rc7 OffBlox\obj\Debug\net6.0-windows\Rc7 OffBlox.dll
+C:\Users\catoa\source\repos\Rc7 OffBlox\Rc7 OffBlox\obj\Debug\net6.0-windows\refint\Rc7 OffBlox.dll
+C:\Users\catoa\source\repos\Rc7 OffBlox\Rc7 OffBlox\obj\Debug\net6.0-windows\Rc7 OffBlox.pdb
+C:\Users\catoa\source\repos\Rc7 OffBlox\Rc7 OffBlox\obj\Debug\net6.0-windows\Rc7 OffBlox.genruntimeconfig.cache
+C:\Users\catoa\source\repos\Rc7 OffBlox\Rc7 OffBlox\obj\Debug\net6.0-windows\ref\Rc7 OffBlox.dll

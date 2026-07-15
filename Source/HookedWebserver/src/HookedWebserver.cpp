@@ -34,6 +34,7 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <windows.h>
+#include <shellapi.h>
 #include <shlwapi.h>
 #include <shlobj.h>
 #include <wincrypt.h>
@@ -239,6 +240,33 @@ static std::string GunzipIfNeeded(const std::string& s)
     if (!IsGzip(s)) return s;
     std::string dec = GzipDecompress(s);
     return dec.empty() ? s : dec;
+}
+
+/* Inflate a `Content-Encoding: deflate` body. Servers send either zlib-wrapped
+ * (RFC 1950) or raw (RFC 1951) deflate, so try a zlib header first, then raw.
+ * Returns "" on failure. gzip uses GzipDecompress/GunzipIfNeeded instead. */
+static std::string InflateDeflate(const std::string& input)
+{
+    for (int wbits : { MAX_WBITS, -MAX_WBITS })   // zlib-wrapped, then raw
+    {
+        z_stream zs = {};
+        if (inflateInit2(&zs, wbits) != Z_OK) continue;
+        zs.next_in  = (Bytef*)input.data();
+        zs.avail_in = (uInt)input.size();
+        std::string out;
+        char buffer[16384];
+        int ret;
+        do {
+            zs.next_out  = (Bytef*)buffer;
+            zs.avail_out = sizeof(buffer);
+            ret = inflate(&zs, 0);
+            if (out.size() < zs.total_out)
+                out.append(buffer, zs.total_out - out.size());
+        } while (ret == Z_OK);
+        inflateEnd(&zs);
+        if (ret == Z_STREAM_END) return out;
+    }
+    return std::string();
 }
 
 /* ============================================================================
@@ -2457,6 +2485,153 @@ static std::string PromptForCookie(bool retry)
     return g_cookieInput;
 }
 
+/* ---- Headless / command-line cookie entry -----------------------------------
+ * On a cmd-line server (e.g. `wine OffBlox.exe -task StartServer`, often under
+ * Xvfb) the GUI PromptForCookie() window is invisible and its message loop
+ * blocks forever, so the server hangs with no explanation. When running headless
+ * we replace that popup with terminal-based entry: a launch arg, an env var, the
+ * plaintext file, or an interactive paste on the console. The desktop GUI popup
+ * is unchanged for normal Studio launches. Either way this is skipped entirely
+ * when the stored (.dat/.txt) cookie already validates. */
+
+static bool CookieRunningUnderWine()
+{
+    HMODULE nt = GetModuleHandleW(L"ntdll.dll");
+    return nt != NULL && GetProcAddress(nt, "wine_get_version") != NULL;
+}
+
+/* Use the terminal cookie flow instead of the GUI popup?  Auto-on under Wine
+ * (typical headless host); overridable via env either way. */
+static bool HeadlessCookieMode()
+{
+    char b[8] = {0};
+    if (GetEnvironmentVariableA("OFFBLOX_COOKIE_GUI", b, sizeof(b)) && b[0] == '1')
+        return false;                       /* force the desktop popup */
+    if (GetEnvironmentVariableA("OFFBLOX_COOKIE_CMDLINE", b, sizeof(b)) && b[0] == '1')
+        return true;                        /* force the terminal flow */
+    return CookieRunningUnderWine();
+}
+
+/* A cookie supplied non-interactively: `-cookie <value>` launch arg, then the
+ * ROBLOSECURITY / OFFBLOX_COOKIE env vars, then the plaintext file (so a fresh
+ * robloxcookie.txt is honoured even when a stale encrypted .dat exists). */
+static std::string CookieFromNonInteractive()
+{
+    std::string out;
+    int argc = 0; LPWSTR* argv = CommandLineToArgvW(GetCommandLineW(), &argc);
+    if (argv) {
+        for (int i = 1; i + 1 < argc; ++i) {
+            if (_wcsicmp(argv[i], L"-cookie") == 0) {
+                int u = WideCharToMultiByte(CP_UTF8, 0, argv[i+1], -1, NULL, 0, NULL, NULL);
+                if (u > 1) { out.resize(u - 1);
+                    WideCharToMultiByte(CP_UTF8, 0, argv[i+1], -1, &out[0], u, NULL, NULL); }
+                break;
+            }
+        }
+        LocalFree(argv);
+    }
+    if (out.empty()) {
+        char v[16384] = {0};
+        DWORD n = GetEnvironmentVariableA("ROBLOSECURITY", v, sizeof(v));
+        if (!n) n = GetEnvironmentVariableA("OFFBLOX_COOKIE", v, sizeof(v));
+        if (n && n < sizeof(v)) out.assign(v, n);
+    }
+    if (out.empty()) out = ReadFile(CookieTxtPath());   /* plaintext file */
+    return out;
+}
+
+/* Attach to the launching terminal (idempotent) and print a line there + to log. */
+static void CookieConWrite(const std::string& line)
+{
+    static bool tried = false;
+    if (!tried) { AttachConsole(ATTACH_PARENT_PROCESS); tried = true; }
+    HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (!h || h == INVALID_HANDLE_VALUE)
+        h = CreateFileW(L"CONOUT$", GENERIC_WRITE, FILE_SHARE_WRITE | FILE_SHARE_READ,
+                        NULL, OPEN_EXISTING, 0, NULL);
+    if (h && h != INVALID_HANDLE_VALUE) {
+        std::string s = line; s += "\r\n"; DWORD w = 0;
+        WriteFile(h, s.data(), (DWORD)s.size(), &w, NULL);
+    }
+    Log("%s", line.c_str());
+}
+
+/* Read one line (the pasted cookie) from the terminal. "" on EOF / no stdin, so
+ * a non-interactive run (stdin closed) skips instead of blocking forever.
+ * Echo is disabled for the read so the sensitive .ROBLOSECURITY token is not
+ * printed to the screen (restored afterwards); a no-op on non-console stdin. */
+static std::string CookieConReadLine()
+{
+    HANDLE h = GetStdHandle(STD_INPUT_HANDLE);
+    if (!h || h == INVALID_HANDLE_VALUE)
+        h = CreateFileW(L"CONIN$", GENERIC_READ | GENERIC_WRITE,
+                        FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+    if (!h || h == INVALID_HANDLE_VALUE) return "";
+
+    /* Suppress echo if this is a real console (GetConsoleMode fails on pipes). */
+    DWORD prevMode = 0;
+    const bool isConsole = GetConsoleMode(h, &prevMode) != 0;
+    if (isConsole)
+        SetConsoleMode(h, prevMode & ~(DWORD)ENABLE_ECHO_INPUT);
+
+    std::string line; char c; DWORD r = 0;
+    for (;;) {
+        if (!ReadFile(h, &c, 1, &r, NULL) || r == 0) break;   /* EOF */
+        if (c == '\n') break;
+        if (c != '\r') line.push_back(c);
+    }
+
+    if (isConsole) {
+        SetConsoleMode(h, prevMode);   /* restore original echo state */
+        /* echoing was off, so the user's Enter left no newline on screen */
+        HANDLE o = GetStdHandle(STD_OUTPUT_HANDLE);
+        if (o && o != INVALID_HANDLE_VALUE) { DWORD w = 0; WriteFile(o, "\r\n", 2, &w, NULL); }
+    }
+    return line;
+}
+
+/* Terminal cookie flow (no GUI). Assumes the stored cookie was already found
+ * invalid by the caller. Returns a validated+saved cookie, or "" if skipped. */
+static std::string EnsureRobloxCookieHeadless()
+{
+    CookieConWrite("");
+    CookieConWrite("=========================================================");
+    CookieConWrite(" Roblox login required: no valid .ROBLOSECURITY cookie.");
+    CookieConWrite(" Set one (any of):");
+    CookieConWrite("   -cookie <value>            (launch argument)");
+    CookieConWrite("   ROBLOSECURITY=<value>      (environment variable)");
+    CookieConWrite("   %USERPROFILE%\\Documents\\robloxcookie.txt   (plaintext file)");
+    CookieConWrite("   or paste it below when prompted.");
+    CookieConWrite("=========================================================");
+
+    std::string cand = CookieNormalize(CookieFromNonInteractive());
+    for (int i = 0; i < 8; ++i) {
+        if (cand.empty()) {
+            CookieConWrite(i == 0
+                ? "Paste .ROBLOSECURITY and press Enter (blank to skip):"
+                : "Cookie invalid. Paste again (blank to skip):");
+            cand = CookieNormalize(CookieConReadLine());
+            if (cand.empty()) {
+                CookieConWrite("[cookie] skipped - assets/auth features will be limited.");
+                break;
+            }
+        }
+        if (CookieIsValid(cand)) {
+            SaveCookieEncrypted(cand);
+            std::string rt = LoadStoredCookie();
+            if (!rt.empty() && CookieIsValid(rt)) {
+                CookieConWrite("[cookie] valid -> saved (encrypted) and verified. Continuing.");
+                return rt;
+            }
+            CookieConWrite("[cookie] saved copy failed re-verification - try again.");
+        } else {
+            CookieConWrite("[cookie] that cookie did NOT validate against Roblox.");
+        }
+        cand.clear();   /* force an interactive re-prompt next iteration */
+    }
+    return "";
+}
+
 /* Returns a validated .ROBLOSECURITY cookie (prompting if needed). Run once. */
 static std::string EnsureRobloxCookie()
 {
@@ -2467,6 +2642,16 @@ static std::string EnsureRobloxCookie()
         Log("Roblox cookie: loaded & valid");
         return cookie;
     }
+    /* 1b) Headless / command-line server: the GUI popup below is invisible under
+     *     Xvfb and its message loop blocks forever, so use the terminal flow
+     *     instead (launch arg / env / file / interactive paste). Skipped above
+     *     when the stored cookie is already valid, matching the desktop path. */
+    if (HeadlessCookieMode()) {
+        Log(cookie.empty() ? "Roblox cookie: none stored -> cmdline login"
+                           : "Roblox cookie: stored cookie INVALID -> cmdline login");
+        return EnsureRobloxCookieHeadless();
+    }
+
     Log(cookie.empty() ? "Roblox cookie: none stored -> showing login"
                        : "Roblox cookie: stored cookie INVALID -> showing login");
 
@@ -2560,11 +2745,16 @@ static bool FetchUrlEx(const std::string& url, std::string& out, DWORD* statusOu
     MultiByteToWideChar(CP_UTF8, 0, host.c_str(),      -1, &wHost[0], hlen);
     MultiByteToWideChar(CP_UTF8, 0, pathQuery.c_str(), -1, &wPath[0], plen);
 
-    /* ---------- Open WinHTTP session ---------- */
+    /* ---------- Open WinHTTP session ----------
+     * Use the Roblox client User-Agent, NOT a browser one. assetdelivery.roblox
+     * .com serves binary assets to "Roblox/WinInet" but returns HTTP 403 to
+     * browser UAs (anti-hotlink). With a browser UA our fetch 403s and we fall
+     * back to redirecting Studio at the real CDN; that direct fetch works on
+     * Windows but fails under Wine (engine TLS/HTTP to the real CDN), so avatar/
+     * catalog assets don't load. With the Roblox UA our fetch succeeds and we
+     * serve the bytes from localhost, which works on both. */
     HINTERNET hSession = WinHttpOpen(
-        L"Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        L"AppleWebKit/537.36 (KHTML, like Gecko) "
-        L"Chrome/135.0.0.0 Safari/537.36 OPR/120.0.0.0",
+        L"Roblox/WinInet",
         WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
         WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, 0);
     if (!hSession) {
@@ -2572,10 +2762,10 @@ static bool FetchUrlEx(const std::string& url, std::string& out, DWORD* statusOu
         return false;
     }
 
-    /* Auto-decompress gzip / deflate responses (Win 8.1+, option 118).
-     * If the OS is older and doesn't know the option, SetOption returns FALSE
-     * and we silently continue — responses may still arrive uncompressed
-     * because we don't advertise Accept-Encoding. */
+    /* Ask WinHTTP to auto-decompress gzip / deflate responses (Win 8.1+,
+     * option 118). This is a no-op on Wine (which does not implement option
+     * 118) and on older Windows, so the response-read path below ALSO inflates
+     * manually as a fallback — do not rely on this alone. */
     DWORD decompFlags = WINHTTP_DECOMPRESSION_FLAG_ALL;
     WinHttpSetOption(hSession, WINHTTP_OPTION_DECOMPRESSION,
                      &decompFlags, sizeof(decompFlags));
@@ -2666,9 +2856,37 @@ static bool FetchUrlEx(const std::string& url, std::string& out, DWORD* statusOu
     while (WinHttpReadData(hRequest, buf, sizeof(buf), &read) && read > 0)
         out.append(buf, read);
 
+    /* Note the server's declared Content-Encoding BEFORE closing the handle. On
+     * Windows option 118 already inflated the body and strips this header; on
+     * Wine (option 118 is a no-op) the header survives and the body is still
+     * compressed. */
+    wchar_t enc[64] = {};
+    DWORD encSize = sizeof(enc);
+    bool encGzip = false, encDeflate = false;
+    if (WinHttpQueryHeaders(hRequest, WINHTTP_QUERY_CONTENT_ENCODING,
+            WINHTTP_HEADER_NAME_BY_INDEX, enc, &encSize,
+            WINHTTP_NO_HEADER_INDEX)) {
+        if (wcsstr(enc, L"gzip"))    encGzip = true;
+        if (wcsstr(enc, L"deflate")) encDeflate = true;
+    }
+
     WinHttpCloseHandle(hRequest);
     WinHttpCloseHandle(hConnect);
     WinHttpCloseHandle(hSession);
+
+    /* Decompress if the body is still compressed. Wine does NOT implement
+     * WinHTTP auto-decompression (logs "winhttp:session_set_option
+     * unimplemented option 118"), so the CDN's gzip/deflate bytes arrive raw
+     * and asset parsing fails (textures, animations, character appearance).
+     * Inflate here on every platform: gzip detection is magic-byte gated, so an
+     * already-decompressed body (Windows, option 118) passes through untouched
+     * and can't be double-inflated. */
+    if (encGzip || IsGzip(out)) {
+        out = GunzipIfNeeded(out);
+    } else if (encDeflate) {
+        std::string d = InflateDeflate(out);
+        if (!d.empty()) out = d;
+    }
 
     if (out.empty()) {
         Log("FetchUrl: empty response for %s", url.c_str());
@@ -2688,10 +2906,8 @@ static bool FetchUrl(const std::string& url, std::string& out)
  * Handles the two CDN patterns:
  *   https?://(www.|assetdelivery.)?roblox.com/(v1/)?asset/?id=NNN...
  * Both are replaced with http://localhost/asset/?id=NNN
- *
- * Gzip-compressed content (magic bytes 1F 8B) is decompressed first using
- * Windows' cabinet decompressor so rewriting works on CDN-sourced assets too.
- */
+ * REQUIRED: without it, referenced assets point at roblox.com and don't load
+ * through our server. (Only the mesh DOWNCONVERTER was legacy/removed.) */
 static std::string RewriteAssetUrls(const std::string& in)
 {
     /* ---- Gzip decompression via RtlDecompressBuffer (XPRESS/LZNT1 only on XP)
@@ -2807,280 +3023,35 @@ static std::string RewriteAssetUrls(const std::string& in)
     return out;
 }
 
-/* ============================================================================
-   SECTION 11b — Roblox mesh format downconverter (realtime, in-memory)
-   ============================================================================
-   Converts any mesh version served through this proxy to binary v4.01,
-   which is what 2023 Studio (v0.578) expects.
-
-   Version routing:
-     version 1.x  / 2.00  (ASCII)         → pass-through (Studio reads natively)
-     version 3.x  (binary, rare)           → 4.01
-     version 4.00 (binary)                 → 4.01
-     version 4.01 (binary)                 → pass-through (already target)
-     version 4.1+ (extended header)        → 4.01 (strips extra header fields)
-     version 5.00 (extended + LOD table)   → 4.01 (strips LODs)
-     version 6.x  (extended + skin data)   → 4.01 (strips skin/LOD chunks)
-     non-mesh data                         → pass-through unchanged
-
-   Binary v4.01 layout:
-     "version 4.01\n"          13 bytes
-     MeshHeader (12 bytes):
-       uint16  sizeof_MeshHeader = 12
-       uint16  sizeof_Vertex     = 40
-       uint32  sizeof_Face       = 12
-     uint32  VertexCount
-     uint32  FaceCount
-     Vertices  (VertexCount * 40 bytes each):
-       float32[3]  position (x,y,z)
-       float32[3]  normal   (nx,ny,nz)
-       float32[3]  uv       (u,v,0)
-       int8[4]     tangent  (tx,ty,tz,tsign)
-       uint8[4]    color    (r,g,b,a)
-     Faces     (FaceCount * 12 bytes each):
-       uint32[3]   vertex indices (a,b,c)
-   ========================================================================== */
-
-#pragma pack(push, 1)
-struct MeshHeader401 {
-    uint16_t sizeof_MeshHeader;   /* = 12 */
-    uint16_t sizeof_Vertex;       /* = 40 */
-    uint32_t sizeof_Face;         /* = 12 */
-};
-struct MeshVertex401 {
-    float    px, py, pz;
-    float    nx, ny, nz;
-    float    tu, tv, tw;
-    int8_t   tx, ty, tz, tsgn;
-    uint8_t  cr, cg, cb, ca;
-};
-struct MeshFace401 {
-    uint32_t a, b, c;
-};
-#pragma pack(pop)
-
-
-
-/* ---- ASCII v1/v2 vertex parser ----------------------------------------- */
-static bool MeshParseVec3(const char*& p, float& x, float& y, float& z)
+static Resp AssetServe(const std::string& rawData)
 {
-    while (*p && *p != '[') p++;
-    if (!*p) return false;
-    p++;
-    x = (float)strtod(p, const_cast<char**>(&p));
-    while (*p == ',' || *p == ' ') p++;
-    y = (float)strtod(p, const_cast<char**>(&p));
-    while (*p == ',' || *p == ' ') p++;
-    z = (float)strtod(p, const_cast<char**>(&p));
-    while (*p && *p != ']') p++;
-    if (*p) p++;
-    return true;
-}
+    /* Safety net: inflate any still-gzipped asset before we serve it. On
+     * Windows WinHTTP option 118 decompresses CDN responses inside FetchUrlEx;
+     * under Wine that option is a no-op. FetchUrlEx also inflates manually, but
+     * ANY serve path that reaches here with compressed bytes (a gzipped cache
+     * file whose inflate failed, redirect-followed content, etc.) would emit raw
+     * gzip - which the engine rejects with "Failed to resolve texture format"
+     * for images and mesh "unknown version" (it reads the 1F 8B magic as the
+     * version field). GunzipIfNeeded is gated on the gzip magic bytes, so plain
+     * images/meshes/rbxl are passed through untouched and can't double-inflate.
+     * This is why avatar clothing/hair/face assets failed under Wine but not on
+     * Windows. */
+    std::string data = GunzipIfNeeded(rawData);
 
-/* Converts ASCII mesh (v1.x or v2.00-style) → binary 4.01 */
-static std::string AsciiMeshToBinary401(const std::string& src)
-{
-    std::vector<MeshVertex401> verts;
-    std::vector<MeshFace401>   faces;
-    verts.reserve(512);
-    faces.reserve(512);
-
-    const char* p = src.c_str();
-    /* skip version line */
-    while (*p && *p != '\n') p++;
-    if (*p) p++;
-    /* skip face-count line */
-    while (*p && *p != '\n') p++;
-    if (*p) p++;
-
-    while (*p) {
-        while (*p == '\r' || *p == '\n' || *p == ' ' || *p == '\t') p++;
-        if (!*p) break;
-
-        /* check this line has a '[' */
-        const char* q = p;
-        bool hasVec = false;
-        while (*q && *q != '\n') { if (*q == '[') { hasVec = true; break; } q++; }
-        if (!hasVec) { p = q; continue; }
-
-        uint32_t base = (uint32_t)verts.size();
-        bool ok = true;
-        for (int vi = 0; vi < 3 && ok; vi++) {
-            MeshVertex401 v = {};
-            v.ca = 255; v.cr = 255; v.cg = 255; v.cb = 255;
-            v.tsgn = 1;
-            float dummy;
-            ok  = MeshParseVec3(p, v.px, v.py, v.pz);
-            ok &= MeshParseVec3(p, v.nx, v.ny, v.nz);
-            ok &= MeshParseVec3(p, v.tu, v.tv, dummy);
-            if (ok) verts.push_back(v);
-        }
-        while (*p && *p != '\n') p++;
-        if (*p) p++;
-
-        if (ok) {
-            MeshFace401 f = { base, base+1, base+2 };
-            faces.push_back(f);
-        }
-    }
-
-    if (faces.empty()) return src;
-
-    std::string out;
-    out.reserve(13 + sizeof(MeshHeader401) + 8 +
-                verts.size() * sizeof(MeshVertex401) +
-                faces.size() * sizeof(MeshFace401));
-
-    out += "version 4.01\n";
-
-    MeshHeader401 mh;
-    mh.sizeof_MeshHeader = sizeof(MeshHeader401);
-    mh.sizeof_Vertex     = sizeof(MeshVertex401);
-    mh.sizeof_Face       = sizeof(MeshFace401);
-    out.append(reinterpret_cast<const char*>(&mh), sizeof(mh));
-
-    uint32_t vc = (uint32_t)verts.size();
-    uint32_t fc = (uint32_t)faces.size();
-    out.append(reinterpret_cast<const char*>(&vc), 4);
-    out.append(reinterpret_cast<const char*>(&fc), 4);
-    out.append(reinterpret_cast<const char*>(verts.data()), vc * sizeof(MeshVertex401));
-    out.append(reinterpret_cast<const char*>(faces.data()), fc * sizeof(MeshFace401));
-    return out;
-}
-
-/* Converts any binary mesh (v3.x / v4.00 / v4.1+ / v5.x / v6.x) → binary 4.01.
- * headerLineEnd = byte offset just past the trailing '\n' of "version X.YY\n". */
-static std::string BinaryMeshTo401(const std::string& src, size_t headerLineEnd)
-{
-    const uint8_t* raw = reinterpret_cast<const uint8_t*>(src.data());
-    const size_t   n   = src.size();
-
-    if (headerLineEnd + 2 > n) return src;
-
-    /* The first uint16 of the binary section = sizeof_MeshHeader.
-     * This tells us exactly where the header ends, regardless of version. */
-    uint16_t headerSz;
-    memcpy(&headerSz, raw + headerLineEnd, 2);
-
-    size_t afterHeader = headerLineEnd + headerSz;
-    if (afterHeader + 8 > n) return src;
-
-    /* For v5.00+ the header is 16 bytes and is followed by a LOD offset table.
-     * Bytes 12-13 = sizeof_LOD, bytes 14-15 = numLODs (both uint16).
-     * We must skip past the LOD table to reach VertexCount. */
-    size_t countOffset = afterHeader;
-    if (headerSz >= 16) {
-        if (headerLineEnd + 16 > n) return src;
-        uint16_t szLod, numLODs;
-        memcpy(&szLod,   raw + headerLineEnd + 12, 2);
-        memcpy(&numLODs, raw + headerLineEnd + 14, 2);
-        countOffset = afterHeader + (size_t)szLod * (size_t)numLODs;
-    }
-
-    if (countOffset + 8 > n) return src;
-
-    uint32_t vc, fc;
-    memcpy(&vc, raw + countOffset,     4);
-    memcpy(&fc, raw + countOffset + 4, 4);
-
-    /* Sanity bounds */
-    if (vc > 4000000 || fc > 4000000) return src;
-
-    size_t vertStart = countOffset + 8;
-    size_t vertBytes = (size_t)vc * sizeof(MeshVertex401);
-    size_t faceStart = vertStart + vertBytes;
-    size_t faceBytes = (size_t)fc * sizeof(MeshFace401);
-
-    if (faceStart + faceBytes > n) return src;
-
-    std::string out;
-    out.reserve(13 + sizeof(MeshHeader401) + 8 + vertBytes + faceBytes);
-
-    out += "version 4.01\n";
-
-    MeshHeader401 mh;
-    mh.sizeof_MeshHeader = sizeof(MeshHeader401);
-    mh.sizeof_Vertex     = sizeof(MeshVertex401);
-    mh.sizeof_Face       = sizeof(MeshFace401);
-    out.append(reinterpret_cast<const char*>(&mh), sizeof(mh));
-
-    out.append(reinterpret_cast<const char*>(&vc), 4);
-    out.append(reinterpret_cast<const char*>(&fc), 4);
-
-    /* Vertex and face layout is identical across all binary versions —
-     * copy the raw bytes verbatim (no precision loss). */
-    out.append(reinterpret_cast<const char*>(raw + vertStart), vertBytes);
-    out.append(reinterpret_cast<const char*>(raw + faceStart), faceBytes);
-
-    return out;
-}
-
-/* Top-level dispatcher — called for every asset before it is sent to Studio */
-static std::string DownconvertMeshIfNeeded(const std::string& data)
-{
-    if (data.size() < 13) return data;
-    if (data.compare(0, 8, "version ") != 0) return data;
-
-    size_t nl = data.find('\n');
-    if (nl == std::string::npos || nl < 8) return data;
-
-    /* Extract version string, e.g. "4.01", "5.00", "2.00" */
-    std::string verStr = data.substr(8, nl - 8);
-    while (!verStr.empty() && (verStr.back() == '\r' || verStr.back() == ' '))
-        verStr.pop_back();
-
-    float verNum = (float)atof(verStr.c_str());
-
-    /* v1.x and v2.x ASCII — Studio 2023 reads natively, no conversion */
-    if (verNum < 3.0f) return data;
-
-    /* Already the target format */
-    if (verStr == "4.01") return data;
-
-    /* Determine ASCII vs binary.
-     * The first byte after the version line in a binary mesh is the low byte
-     * of sizeof_MeshHeader (always a small integer like 12 or 16), so it will
-     * be a non-printable control byte.  ASCII meshes start with a digit. */
-    if (nl + 1 < data.size()) {
-        unsigned char firstByte = (unsigned char)data[nl + 1];
-        bool probablyAscii = (firstByte >= 0x20 && firstByte < 0x80);
-        if (probablyAscii)
-            return AsciiMeshToBinary401(data);
-    }
-
-    return BinaryMeshTo401(data, nl + 1);
-}
-
-/* ============================================================================
-   End of mesh downconverter
-   ========================================================================== */
-
-static Resp AssetServe(const std::string& data)
-{
-    /* Roblox place/model files start with "<roblox" (binary or XML).
-     * Skip all transforms — RewriteAssetUrls corrupts binary .rbxl data. */
+    /* Place/model files (<roblox...) are served verbatim - RewriteAssetUrls
+     * would corrupt binary .rbxl/.rbxm. Everything else gets its roblox.com
+     * asset URLs rewritten to localhost (REQUIRED so referenced assets load
+     * through our server). The legacy mesh DOWNCONVERTER is gone - the modern
+     * engine reads current mesh/texture formats natively, so serving them
+     * as-is fixes the "unknown version" failures under Wine. */
     bool isPlaceOrModel = (data.size() >= 7 &&
                            data.compare(0, 7, "<roblox") == 0);
-    if (isPlaceOrModel) {
-        Resp r;
-        r.status      = 200;
-        r.statusText  = "OK";
-        r.contentType = "application/octet-stream";
-        r.body        = data;
-        return r;
-    }
-
-    std::string processed = RewriteAssetUrls(data);
-    processed = DownconvertMeshIfNeeded(processed);
-
-    bool isMesh = (processed.size() >= 8 &&
-                   processed.compare(0, 8, "version ") == 0);
 
     Resp r;
     r.status      = 200;
     r.statusText  = "OK";
-    r.contentType = isMesh ? "application/octet-stream" : "text/plain";
-    r.body        = std::move(processed);
+    r.contentType = "application/octet-stream";
+    r.body        = isPlaceOrModel ? std::move(data) : RewriteAssetUrls(data);
     return r;
 }
 
@@ -3091,9 +3062,17 @@ static Resp HandleAssetDelivery(const Req& req)
     std::string ver = QS(req,"assetversionid");
     std::string hsh = QS(req,"hash");
 
-    /* CDN hash path - redirect directly */
-    if (!hsh.empty())
+    /* CDN hash path. Fetch it ourselves and serve from localhost (decompressed
+     * via AssetServe) instead of 302-redirecting Studio at the real CDN: under
+     * Wine the engine's own TLS/HTTP to rbxcdn is unreliable and it receives
+     * gzip it can't decode, which broke avatar meshes. Redirect only if our own
+     * fetch fails, preserving the previous behaviour as a fallback. */
+    if (!hsh.empty()) {
+        std::string cdn;
+        if (FetchUrl("https://t3.rbxcdn.com/" + hsh, cdn) && !cdn.empty())
+            return AssetServe(cdn);
         return AssetRedirect("https://t3.rbxcdn.com/" + hsh);
+    }
 
     std::string key = !id.empty() ? id : ver;
 
@@ -3567,6 +3546,13 @@ struct AssetInfo { int type; std::string name; };           /* economy details (
 static std::map<long long, AssetInfo>    g_assetCache;       /* assetId  -> {type,name}   */
 static std::map<std::string, std::string> g_userAppearance; /* userId   -> raw appearance */
 static std::map<std::string, std::string> g_avatarCache;    /* userId   -> compiled JSON  */
+
+/* Server-console -> Luau exec bridge. Lines the host types into the server
+ * console are POSTed to /offblox/exec and queued here; the in-engine startup
+ * poller GETs /offblox/exec, receives one script at a time, and loadstring()s
+ * it on the server with the elevated startup identity. */
+static std::vector<std::string> g_execQueue;
+static std::mutex               g_execMtx;
 
 /* Extract a JSON string value, returning the source bytes verbatim (they are
  * already JSON-escaped, so they can be re-emitted inside quotes as-is). */
@@ -4177,6 +4163,31 @@ static Resp Route(const Req& req)
             return RJson("{\"ok\":true}");
         }
         return RJson("{\"ok\":false,\"error\":\"need ?username and a body\"}", 400);
+    }
+    /* ---- /offblox/exec : server-console -> Luau execution bridge ----
+     * POST body = Luau source  -> queued for the server to run.
+     * GET (default)            -> returns + removes the next queued script
+     *                             (empty body when the queue is empty).
+     * The in-engine poller (injected into the global/studio startup Lua) GETs
+     * this and loadstring()s the result, so typing into the server console runs
+     * code on the server. Loopback only - the host console is the sole poster. */
+    if (STARTS(P,"/offblox/exec")) {
+        if (req.method == "POST") {
+            if (!req.body.empty()) {
+                std::lock_guard<std::mutex> lk(g_execMtx);
+                g_execQueue.push_back(req.body);
+            }
+            return RJson("{\"ok\":true}");
+        }
+        std::string code;
+        {
+            std::lock_guard<std::mutex> lk(g_execMtx);
+            if (!g_execQueue.empty()) {
+                code = g_execQueue.front();
+                g_execQueue.erase(g_execQueue.begin());
+            }
+        }
+        return RText(code);
     }
     if (P == "/info" || STARTS(P,"/info/"))
         return RJson("{\"role\":\"server\",\"dll\":\"HookedWebserver\","

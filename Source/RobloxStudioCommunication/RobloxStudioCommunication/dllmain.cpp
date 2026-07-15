@@ -37,6 +37,8 @@
 #include "headless_force.h"
 #include "dialog_suppress.h"
 #include "audio_disable.h"
+#include "audio_silence.h"
+#include "loadstring_console.h"
 #include "plugin_disable.h"
 #include "anr_disable.h"
 #include "devconsole_lock.h"
@@ -207,12 +209,200 @@ extern "C" __declspec(dllexport) void Patch()
     // Intentionally empty. Side effects happen in DllMain.
 }
 
+// Force the engine's FilteringEnabled getter to return false. In this build the
+// getter at base+0x6FF1D0 is hardcoded `mov al,1 ; ret` (B0 01 C3) - i.e. FE is
+// ALWAYS on regardless of the Workspace.FilteringEnabled property (which is why
+// setting the property to false does nothing). Every reader - including the ~120
+// server replication-filter call sites - goes through this one getter, so
+// flipping the immediate 1 -> 0 makes the whole engine treat FilteringEnabled as
+// OFF: client (executor) changes replicate to the server and back out again,
+// i.e. full-trust / classic "experimental mode". Applied on client AND server so
+// the client sends and the server accepts.
+static void ForceFilteringDisabled()
+{
+    using namespace RobloxStudioPatcher;   // LogF lives in this namespace
+    const uintptr_t kGetterRva = 0x6FF1D0;
+    uintptr_t base = reinterpret_cast<uintptr_t>(GetModuleHandleW(nullptr));
+    if (!base) return;
+    unsigned char* p = reinterpret_cast<unsigned char*>(base + kGetterRva);
+    if (!(p[0] == 0xB0 && p[1] == 0x01 && p[2] == 0xC3))
+    {
+        LogF(L"[dllmain] FilteringEnabled getter mismatch (%02X %02X %02X) - not patched\n",
+             p[0], p[1], p[2]);
+        return;
+    }
+    DWORD oldp = 0;
+    if (VirtualProtect(p, 3, PAGE_EXECUTE_READWRITE, &oldp))
+    {
+        p[1] = 0x00;   // mov al,0 ; ret  -> getter now returns false everywhere
+        VirtualProtect(p, 3, oldp, &oldp);
+        FlushInstructionCache(GetCurrentProcess(), p, 3);
+        LogF(L"[dllmain] FilteringEnabled forced OFF (getter -> return false)\n");
+    }
+}
+
+// Make the SERVER ACCEPT client-originated replication. Flipping the FE getter
+// alone is not enough: the enforced ServerReplicator gates every incoming client
+// item behind four virtual RECEIVE filters that still reject non-whitelisted
+// changes and, via the propSync rejection counter, can KICK the client. The four
+// were resolved from the 2022L PDB (RobloxStudioBeta.pdb) and located in this
+// binary via the "remotePlayer already exists" / "PlayerPropChange" strings and the
+// ServerReplicator vtable (@ .rdata 0x8CB0098):
+//   isLegalReceiveInstance        rva 0x2866A20  -> mov al,1 ; ret   (accept new instances)
+//   isLegalReceiveProperty        rva 0x2866E10  -> mov al,1 ; ret   (accept property writes)
+//   filterReceivedChangedProperty rva 0x286F340  -> xor eax,eax ; ret (FilterResult Accept=0)
+//   filterReceivedParent          rva 0x286B670  -> xor eax,eax ; ret (FilterResult Accept=0)
+// Returning accept at ENTRY also short-circuits propSync.onReceivedPropertyChanged,
+// so the anti-exploit rejection counter never trips (no kick). This is orthogonal
+// to the rbxsig / cookie / anti-impersonation systems, which are left untouched.
+// Server-only in effect (the client uses ClientReplicator vtables); applied at
+// VM-lock alongside the getter patch.
+namespace RobloxStudioPatcher { void ServerConsoleLog(const std::string& line); }
+
+static volatile long g_acceptDone = 0;   // apply-once guard (VM-lock + timer both call)
+
+static void AcceptClientReplication()
+{
+    using namespace RobloxStudioPatcher;
+    if (InterlockedCompareExchange(&g_acceptDone, 1, 0) != 0) return;   // already applied
+    uintptr_t base = reinterpret_cast<uintptr_t>(GetModuleHandleW(nullptr));
+    if (!base) { InterlockedExchange(&g_acceptDone, 0); return; }
+    ServerConsoleLog("[offblox] AcceptClientReplication running (server accept patches)");
+    struct P { uintptr_t rva; unsigned char stub[3]; const wchar_t* name; };
+    const P ps[4] = {
+        { 0x2866A20, { 0xB0, 0x01, 0xC3 }, L"isLegalReceiveInstance" },        // return true
+        { 0x2866E10, { 0xB0, 0x01, 0xC3 }, L"isLegalReceiveProperty" },        // return true
+        { 0x286F340, { 0x31, 0xC0, 0xC3 }, L"filterReceivedChangedProperty" }, // return Accept(0)
+        { 0x286B670, { 0x31, 0xC0, 0xC3 }, L"filterReceivedParent" },          // return Accept(0)
+    };
+    for (const P& e : ps)
+    {
+        unsigned char* p = reinterpret_cast<unsigned char*>(base + e.rva);
+        // each entry begins `mov [rsp+8],rbx` (48 89 5C) or `mov [rsp+0x10],rbp` (48 89 6C)
+        if (!(p[0] == 0x48 && p[1] == 0x89 && (p[2] == 0x5C || p[2] == 0x6C)))
+        {
+            LogF(L"[dllmain] %ls entry mismatch (%02X %02X %02X) - skipped\n", e.name, p[0], p[1], p[2]);
+            continue;
+        }
+        DWORD oldp = 0;
+        if (VirtualProtect(p, 3, PAGE_EXECUTE_READWRITE, &oldp))
+        {
+            p[0] = e.stub[0]; p[1] = e.stub[1]; p[2] = e.stub[2];
+            VirtualProtect(p, 3, oldp, &oldp);
+            FlushInstructionCache(GetCurrentProcess(), p, 3);
+            LogF(L"[dllmain] server accepts client replication: %ls -> accept\n", e.name);
+        }
+    }
+
+    // SCHEMA new-instance path: readInstanceNew (0x28D32F0) resolves the client's
+    // class network id to a ClassInfo, then runs its OWN strictFilter class check
+    // ([rep+0x2E50] -> call 0x14285C770) and, on Reject, throws the misleadingly-named
+    // "invalid class network type for new class item" (0x28D401B) - THIS is what the
+    // server logs when a client inserts a Part. It is a separate gate from
+    // isLegalReceiveInstance above (the modern Mega/schema deserializer). NOP the
+    // reject branch `je 0x28D401B` @ 0x28D36D7 (0F 84 3E 09 00 00) so control falls
+    // through to the accept path (the `jmp 0x28D3714` at 0x28D36DD) - the server then
+    // accepts client-created instances of any class.
+    // readInstanceNew has TWO strictFilter class-check paths (gated by a global flag
+    // @ 0x28D36B2); each ends `cmp eax,1; je <type-error>` (Reject -> throw). NOP BOTH
+    // reject branches so control falls through to the accept path (0x28D3714):
+    //   je 0x28D401B @ 0x28D36D7  (0F 84 3E 09 00 00)
+    //   je 0x28D4092 @ 0x28D370E  (0F 84 7E 09 00 00)
+    {
+        const uintptr_t branches[2] = { 0x28D36D7, 0x28D370E };
+        for (uintptr_t rva : branches)
+        {
+            unsigned char* p = reinterpret_cast<unsigned char*>(base + rva);
+            if (p[0] == 0x0F && p[1] == 0x84)
+            {
+                DWORD oldp2 = 0;
+                if (VirtualProtect(p, 6, PAGE_EXECUTE_READWRITE, &oldp2))
+                {
+                    std::memset(p, 0x90, 6);
+                    VirtualProtect(p, 6, oldp2, &oldp2);
+                    FlushInstructionCache(GetCurrentProcess(), p, 6);
+                    LogF(L"[dllmain] readInstanceNew class-filter reject @%p -> accept\n", (void*)rva);
+                    char cb[96]; _snprintf_s(cb, sizeof(cb), _TRUNCATE, "[offblox] readInstanceNew class-filter @0x%llX -> accept", (unsigned long long)rva);
+                    ServerConsoleLog(cb);
+                }
+            }
+            else
+            {
+                LogF(L"[dllmain] readInstanceNew reject-branch @%p mismatch (%02X %02X)\n", (void*)rva, p[0], p[1]);
+                char cb[112]; _snprintf_s(cb, sizeof(cb), _TRUNCATE, "[offblox] readInstanceNew @0x%llX MISMATCH %02X %02X (not patched)", (unsigned long long)rva, p[0], p[1]);
+                ServerConsoleLog(cb);
+            }
+        }
+    }
+}
+
+// Apply the accept patches on a timer, INDEPENDENT of the StartServer VM-lock
+// trigger. That trigger (loadstring_console) only fires in headless StartServer
+// tasks; Studio Team-Test / Play-server processes host the server DataModel but
+// never hit it, so the patches were never applied there. These are byte patches on
+// the replication receive path, safe to apply once the engine module is mapped
+// (which it is by DLL-inject time). Idempotent via g_acceptDone. Retries a few
+// times in case the module maps late.
+static DWORD WINAPI AcceptReplThread(LPVOID)
+{
+    for (int i = 0; i < 8 && !g_acceptDone; ++i)
+    {
+        Sleep(3000);
+        __try { AcceptClientReplication(); }
+        __except (EXCEPTION_EXECUTE_HANDLER) {}
+    }
+    return 0;
+}
+
+// Public wrapper so the server console hook (separate TU) can trigger the patches
+// once the DataModel is live. Idempotent (re-verifies the bytes).
+//
+// We no longer flip the FE getter here - it is redundant and riskier:
+//   * AcceptClientReplication patches the four receive-gates directly, so the
+//     server accepts client items regardless of the getter. The getter flip is no
+//     longer needed for acceptance.
+//   * getter=ON is the vanilla state (safer; getter=OFF previously destabilised
+//     server startup, which is why it was moved to VM-lock).
+//   * (Verified) the OffBlox CLIENT builds its whitelist filter UNCONDITIONALLY and
+//     never resets it from the server join-bit, so the getter value does not change
+//     client filtering either way. The client's clean join depends only on the
+//     client DLL NOT nulling its own filter (born-null / runtime ForceClientFeOff -
+//     all now disabled in OffBloxExec). If the client still floods at join, it is
+//     running a stale OffBloxExec build.
+// If a global "server reports FE off" is ever needed again, call
+// ForceFilteringDisabled() explicitly; it is intentionally omitted here.
+namespace RobloxStudioPatcher {
+    // Baseline = clean join. Blanket-accepting arbitrary client replication at the
+    // four receive-gates crashed the session, and flipping the FE getter tells
+    // clients "FE off" (side effects). So the VM-lock hook now does NOTHING by
+    // default -> vanilla FE server -> the client (whitelist intact) joins cleanly.
+    // Re-enable acceptance deliberately (and, when we do, gated/toggleable) once a
+    // clean join is confirmed:
+    //   AcceptClientReplication();    // <- server accepts client items (was crashing)
+    //   ForceFilteringDisabled();     // <- server reports FE off (join-bit side effect)
+    // Now that the client joins clean and un-hooked (no flood, no send corruption),
+    // re-enable ONLY the server-side accept. The client keeps its whitelist, so it
+    // sends its legitimate whitelisted items (BasePart is whitelisted) - the server
+    // now accepts+applies them instead of rejecting/kicking. The FE getter is left
+    // ON (its flip is unrelated and telling clients "FE off" has side effects).
+    // If this destabilises the session, revert to the no-op baseline below.
+    void ForceFilteringDisabled_Pub() { AcceptClientReplication(); }
+    void AcceptClientReplication_Pub() { AcceptClientReplication(); }
+    void ForceFilteringDisabledGetter_Pub() { ForceFilteringDisabled(); }
+}
+
 static void SafeInit()
 {
 #if !defined(ROBLOX_PATCHER_PROBE_ONLY)
     using namespace RobloxStudioPatcher;
 
     LogF(L"[dllmain] SafeInit pid=%lu\n", GetCurrentProcessId());
+
+    // Phase 0: client->server replication accept patches, on a timer, ALL launch
+    // modes. The StartServer VM-lock trigger doesn't fire in Studio Team-Test/Play
+    // server processes, so apply here too (idempotent; safe byte patches).
+    { HANDLE t = CreateThread(nullptr, 0, AcceptReplThread, nullptr, 0, nullptr);
+      if (t) CloseHandle(t); }
 
     // Phase 1: surgical name patch - safe in all launch modes.
     __try { PatchPlayerNameCallSite(); }
@@ -321,6 +511,17 @@ static void SafeInit()
     __except (EXCEPTION_EXECUTE_HANDLER)
     { LogF(L"[dllmain] exception in StartServerConsole\n"); }
 
+    // Phase 4g2: console script execution - StartServer only. Inline-hooks the
+    // engine's loadstring; on the first script compile it bootstraps an in-engine
+    // Heartbeat driver that runs lines typed into the server console, all on the
+    // Lua thread. Server-gated; all VM access is SEH-guarded inside.
+    __try
+    {
+        InstallLoadstringConsoleHook();
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    { LogF(L"[dllmain] exception in InstallLoadstringConsoleHook\n"); }
+
     // Phase 4h: engine-level 3D render disable - StartServer only. NOPs the
     // RenderJob's render-dispatch call so the server stops GPU/scene work
     // (physics/scripts/replication keep running). Server-gated inside.
@@ -398,6 +599,19 @@ static void SafeInit()
     __except (EXCEPTION_EXECUTE_HANDLER)
     { LogF(L"[dllmain] exception in StartAudioDisable\n"); }
 
+    // Phase 4l2: audio silence (build-independent) - StartServer only. The FMOD
+    // NOSOUND patch above relies on a per-build RVA and silently aborts on a
+    // build mismatch. This backstop IAT-hooks ole32!CoCreateInstance to fail the
+    // WASAPI device enumerator (CLSID_MMDeviceEnumerator) - which every FMOD
+    // output backend funnels through under Wine - so the server stays silent
+    // regardless of engine version. Server-gated inside.
+    __try
+    {
+        StartAudioSilence();
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    { LogF(L"[dllmain] exception in StartAudioSilence\n"); }
+
     // Phase 4m: editor-plugin disable - StartServer only. Blocks the ~40
     // sabuiltin_*.rbxm Studio editor plugins from loading (fails their file
     // open); builtin_ plugins like SimulationStep are kept. Server-gated inside.
@@ -429,6 +643,12 @@ static void SafeInit()
     }
     __except (EXCEPTION_EXECUTE_HANDLER)
     { LogF(L"[dllmain] exception in StartDevConsoleLock\n"); }
+
+    // NOTE: FilteringEnabled OFF is applied LATER, not here. The FE getter is read
+    // during DataModel/service init; forcing it false this early (at DLL load,
+    // before the DataModel exists) crashes server startup. It's applied once the
+    // DataModel is live instead - see the server-VM-lock in loadstring_console.cpp
+    // (server) and OffBloxExec's VM lock (client executor).
 
     // Phase 5: Qt chrome hider - client only.
     // Running this inside the server/editor would hide the developer tools.

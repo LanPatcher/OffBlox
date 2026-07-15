@@ -10,3 +10,5 @@
 LIBRARY RobloxStudioPatcher
 EXPORTS
     Patch @1
+    OffBloxRelayServerLua @2
+    OffBloxRelayServerBin @3

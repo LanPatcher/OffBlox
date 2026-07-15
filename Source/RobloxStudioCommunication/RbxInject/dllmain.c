@@ -76,6 +76,25 @@ static void LoadOne(const wchar_t* name, const char* tag)
     Dbg(buf);
 }
 
+/* True if the host was launched with "-task StartServer" (headless game server).
+ * We only inject the pipe executor (OffBloxExec.dll) in the OTHER case - normal
+ * client/Studio - since the StartServer build uses the in-process console. */
+static int IsStartServerTask(void)
+{
+    const wchar_t* cl = GetCommandLineW();
+    static const wchar_t needle[] = L"StartServer";
+    const wchar_t* p;
+    if (!cl) return 0;
+    for (p = cl; *p; ++p)
+    {
+        const wchar_t* a = p;
+        const wchar_t* b = needle;
+        while (*a && *b && *a == *b) { ++a; ++b; }
+        if (*b == 0) return 1;   /* matched the whole needle */
+    }
+    return 0;
+}
+
 static void LoadBoth(void)
 {
     /* Load HookedWebserver FIRST. The engine fetches its FastFlags from
@@ -89,6 +108,14 @@ static void LoadBoth(void)
      * launch; webserver-first removes that race. */
     LoadOne(L"HookedWebserver.dll", "webserver");
     LoadOne(L"RobloxStudioCommunication.dll", "comm");
+
+    /* Pipe executor: only for NON-StartServer hosts (normal client/Studio). The
+     * StartServer build drives execution from its in-process console instead, and
+     * loading both would double-hook the engine's resume. */
+    if (!IsStartServerTask())
+        LoadOne(L"OffBloxExec.dll", "pipe");
+    else
+        Dbg("  (StartServer task - skipping OffBloxExec pipe DLL)\n");
 }
 
 static DWORD WINAPI LoaderThread(LPVOID unused)

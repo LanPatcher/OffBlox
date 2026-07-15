@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35303.130
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rc7 OffBlox", "Rc7 OffBlox\Rc7 OffBlox.csproj", "{684000AA-6CC0-46A8-AF88-E28371F68347}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{684000AA-6CC0-46A8-AF88-E28371F68347}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{684000AA-6CC0-46A8-AF88-E28371F68347}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{684000AA-6CC0-46A8-AF88-E28371F68347}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{684000AA-6CC0-46A8-AF88-E28371F68347}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C3D07925-6F45-45E4-8A1E-9DFB18F87F0F}
+	EndGlobalSection
+EndGlobal
